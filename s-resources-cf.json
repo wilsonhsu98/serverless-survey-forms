@@ -2,6 +2,39 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application's resources outside of Lambdas and Api Gateway",
   "Resources": {
+
+    "SurveysModelDDB": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-${stage}-surveys",
+        "AttributeDefinitions": [
+          {"AttributeName": "accountid", "AttributeType": "S"},
+          {"AttributeName": "surveyid",  "AttributeType": "S"},
+          {"AttributeName": "datetime",  "AttributeType": "N"} 
+        ],
+        "KeySchema": [
+          {"AttributeName": "accountid", "KeyType": "HASH"},
+          {"AttributeName": "surveyid",  "KeyType": "RANGE"}
+        ],
+        "LocalSecondaryIndexes": [
+          {
+            "IndexName": "datetime-ix",
+            "KeySchema": [
+              {"AttributeName": "accountid", "KeyType": "HASH"},
+              {"AttributeName": "datetime",  "KeyType": "RANGE"}
+            ],
+            "Projection": {
+              "ProjectionType": "KEYS_ONLY"
+            }
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
+    },
+
     "IamRoleLambda": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -31,6 +64,17 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
+
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:*"
+              ],
+              "Resource": [
+                { "Fn::Join" : ["", ["arn:aws:dynamodb:${region}:*:table/", {"Ref": "SurveysModelDDB"}]]}
+              ]
+            },
+
             {
               "Effect": "Allow",
               "Action": [
@@ -51,6 +95,16 @@
     }
   },
   "Outputs": {
+
+    "DynamoDBTableArnSurveysModel": {
+      "Description": "ARN of the dynamodb table",
+      "Value": {
+        "Fn::Join" : [
+          "", ["arn:aws:dynamodb:${region}:*:table/", {"Ref": "SurveysModelDDB"}]
+        ]
+      }
+    },
+
     "IamRoleArnLambda": {
       "Description": "ARN of the lambda IAM role",
       "Value": {

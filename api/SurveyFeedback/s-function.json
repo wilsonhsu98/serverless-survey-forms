@@ -1,0 +1,42 @@
+{
+  "name": "SurveyFeedback",
+  "runtime": "nodejs4.3",
+  "description": "${project} - ${stage}: ${name}",
+  "customName": "$${functionName}",
+  "customRole": false,
+  "handler": "SurveyFeedback/handler.handler",
+  "timeout": 60,
+  "memorySize": 512,
+  "authorizer": {},
+  "custom": {
+    "excludePatterns": []
+  },
+  "endpoints": [
+    {
+      "path": "api/v1/surveys/{accountid}/{surveyid}",
+      "method": "GET",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": {
+          "accountid": "$input.params('accountid')",
+          "surveyid": "$input.params('surveyid')"
+        }
+      },
+      "responses": "$${apiResponseTemplate}"
+    }
+  ],
+  "events": [],
+  "environment": {
+    "SERVERLESS_PROJECT": "${project}",
+    "SERVERLESS_STAGE": "${stage}",
+    "SERVERLESS_REGION": "${region}"
+  },
+  "vpc": {
+    "securityGroupIds": [],
+    "subnetIds": []
+  }
+}
