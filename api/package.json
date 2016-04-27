@@ -15,14 +15,3 @@
   }
 }
 
-{
-  "author": "me",
-  "license": "MIT",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/"
-  },
-  "dependencies": {}
-}
-

@@ -1,5 +1,11 @@
 {
   "functionName": "${project}-${stage}-${name}",
+  "apiRequestTemplate": {
+    "httpMethod": "$context.httpMethod",
+    "queryParams": "$input.params().querystring",
+    "pathParams" : "$input.params().path",
+    "principalId": "$context.authorizer.principalId"
+  },
   "apiResponseTemplate": {
     "204 No Content:.*": {
       "statusCode": "204"
