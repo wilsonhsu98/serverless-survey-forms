@@ -1,4 +1,4 @@
-# serverless-survey-forms
+# serverless-survey-forms (still under construction)
 
 [![](https://camo.githubusercontent.com/547c6da94c16fedb1aa60c9efda858282e22834f/687474703a2f2f7075626c69632e7365727665726c6573732e636f6d2f6261646765732f76332e737667)](http://www.serverless.com/)
 
@@ -26,4 +26,6 @@ Deploy your functions and endpoints:
 
 ```serverless dash deploy```
 
-## Includes
+## License
+
+Licensed under the [MIT License](https://github.com/i18next/i18next-scanner/blob/master/LICENSE).
