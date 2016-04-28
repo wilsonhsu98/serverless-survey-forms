@@ -15,9 +15,9 @@ module.exports = function(aws) {
 
       if (err.statusCode === 400) {
         switch (err.code) {
-          case "AccessDeniedException":
-          case "UnrecognizedClientException":
-            error = new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
+        case "AccessDeniedException":
+        case "UnrecognizedClientException":
+          error = new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
           break;
         default:
           error = new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
@@ -30,8 +30,62 @@ module.exports = function(aws) {
       return error;
     },
 
+    /*
+     * Parameters:
+     * Key        Description
+     * accountid  Who created the survey
+     * surveyid   The uuid of the survey
+     *
+     * Response:
+     * Key        Description
+     * accountid  Who created the survey
+     * surveyid   The uuid of the survey
+     * subject    The subject of the survey
+     * datetime   The latest modified date time of the survey
+     * survey     The details of the survey model in JSON format
+     */
     getOneSurvey : function(event, callback) {
+      var error = null;
+      var response = 'getOneSurvey not implement yet.';
 
+      // validate parameters
+      if (event.accountid && event.surveyid && 
+        process.env.SERVERLESS_SURVEYTABLE) {
+        var docClient = new this._aws.DynamoDB.DocumentClient();
+        var params = {
+          TableName: process.env.SERVERLESS_SURVEYTABLE,
+          Key: {
+            accountid: event.accountid,
+            surveyid: event.surveyid
+          }
+        };
+        console.log("Getting an item: ", JSON.stringify(params));
+
+        docClient.get(params, function(err, data) {
+          if (err) {
+            console.error("Unable to get an item with error: ", JSON.stringify(err));
+            // compose error response
+            error = this.getDynamoDBError(err);
+            return callback(error, null);
+          } else {
+            console.log("Got an item with return data: ", JSON.stringify(data));
+            // compose response
+            response = {
+              accountid: data.Item.accountid,
+              surveyid: data.Item.surveyid,
+              subject: data.Item.subject,
+              datetime: data.Item.datetime,
+              survey: data.Item.survey
+            };
+            return callback(null, response);
+          }
+        });      
+      }
+      // incomplete parameters
+      else {
+        error = new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event));
+        return callback(error, null);
+      }
     },
 
     listSurveys : function(event, callback) {
@@ -41,7 +95,7 @@ module.exports = function(aws) {
     /*
      * Parameters:
      * Key          Description
-     * requester    The requester accountid.
+     * accountid    Who created the survey
      * subject      The subject of the survey
      * survey       The details of the survey model in JSON format
      *
@@ -56,7 +110,7 @@ module.exports = function(aws) {
       var response = 'addOneSurvey not implement yet.';
 
       // validate parameters
-      if (event.requester && event.subject && event.survey && 
+      if (event.accountid && event.subject && event.survey && 
         process.env.SERVERLESS_SURVEYTABLE) {
         var docClient = new this._aws.DynamoDB.DocumentClient();
         var surveyid = this.getUUID();
@@ -64,7 +118,7 @@ module.exports = function(aws) {
         var params = {
           TableName: process.env.SERVERLESS_SURVEYTABLE,
           Item: {
-            accountid: event.requester,
+            accountid: event.accountid,
             surveyid: surveyid,
             subject: event.subject,
             datetime: datetime,
