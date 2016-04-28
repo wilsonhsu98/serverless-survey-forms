@@ -1,10 +1,19 @@
 'use strict';
 
+let aws = require('aws-sdk');
+let survey = require( './survey' );
+
 function dispatcher(event, context, callback) {
   let response = 'Go Serverless! Your Lambda function executed successfully!';
 
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
+
+  // AWS set region
+  if (process.env.SERVERLESS_REGION) {
+    console.log("set region to", process.env.SERVERLESS_REGION);
+    aws.config.update({region: process.env.SERVERLESS_REGION});
+  }
 
   // GET
   if (event.apigw.httpMethod === "GET") {
@@ -24,6 +33,8 @@ function dispatcher(event, context, callback) {
   // Authenticated: Yes
   else if (event.apigw.httpMethod === "POST") {
     response = 'POST /api/v1/mgnt/surveys/ not implement yet.';
+    let obj = new survey(aws);
+    return obj.addOneSurvey(event, callback);
   }
   // PUT /api/v1/mgnt/surveys/
   else if (event.apigw.httpMethod === "PUT") {

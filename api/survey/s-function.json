@@ -58,6 +58,7 @@
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
+          "requester": "context.authorizer.principalId",
           "subject": "$input.json('$.subject')",
           "survey": "$input.json('$.survey')"
         }
@@ -102,7 +103,8 @@
   "environment": {
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
-    "SERVERLESS_REGION": "${region}"
+    "SERVERLESS_REGION": "${region}",
+    "SERVERLESS_SURVEYTABLE": "${project}-${stage}-surveys"
   },
   "vpc": {
     "securityGroupIds": [],
