@@ -23,6 +23,14 @@ Initialize the project:
 
 ```serverless project init```
 
+Install npm dependency modules in serverless-survey-form and serverless-survey-form/api
+
+```
+npm install
+cd api
+npm install
+```
+
 Deploy your functions and endpoints:
 
 ```serverless dash deploy```
