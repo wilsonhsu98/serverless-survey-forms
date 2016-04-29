@@ -1,7 +1,7 @@
 'use strict';
 
 let aws = require('aws-sdk');
-let survey = require( './survey' );
+let survey = require('./survey');
 
 function dispatcher(event, context, callback) {
   let response = 'Go Serverless! Your Lambda function executed successfully!';
@@ -12,7 +12,9 @@ function dispatcher(event, context, callback) {
   // AWS set region
   if (process.env.SERVERLESS_REGION) {
     console.log("set region to", process.env.SERVERLESS_REGION);
-    aws.config.update({region: process.env.SERVERLESS_REGION});
+    aws.config.update({
+      region: process.env.SERVERLESS_REGION
+    });
   }
 
   // GET
@@ -20,14 +22,14 @@ function dispatcher(event, context, callback) {
     // GET /api/v1/surveys/<accountid>/<surveyid>/
     // Authenticated: Not necessary 
     if (event.accountid && event.surveyid &&
-      event.accountid.length>0 && event.surveyid.length>0) {
+      event.accountid.length > 0 && event.surveyid.length > 0) {
       response = 'GET /api/v1/surveys/<accountid>/<surveyid>/ not implement yet.';
       let obj = new survey(aws);
       return obj.getOneSurvey(event, callback);
     }
     // GET /api/v1/mgnt/surveys/[?startKey=<startKey>]
     // Authenticated: Yes
-    else if (event.requester && event.requester.length>0) {
+    else if (event.requester && event.requester.length > 0) {
       response = 'GET /api/v1/mgnt/surveys/[?startKey=<startKey>] not implement yet.';
     }
   }
@@ -48,8 +50,7 @@ function dispatcher(event, context, callback) {
   // DELETE /api/v1/mgnt/surveys/<surveyid>
   else if (event.apigw.httpMethod === "DELETE") {
     response = 'DELETE /api/v1/mgnt/surveys/<surveyid> not implement yet.';
-  }
-  else {
+  } else {
     let error = new Error("400 Bad Request: " + JSON.stringify(event));
     return callback(error, null);
   }

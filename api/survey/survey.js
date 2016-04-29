@@ -3,7 +3,7 @@ function survey(aws) {
   function getUUID() {
     var uuid = require('node-uuid');
     return uuid.v1();
-  }
+  };
 
   // Convert DynamoDB error code into Error object
   function getDynamoDBError(err) {
@@ -23,7 +23,7 @@ function survey(aws) {
       error = new Error("500 Internal Server Error: Unable to access an item with error: " + JSON.stringify(err));
     }
     return error;
-  }
+  };
 
   /*
    * Parameters:
@@ -81,11 +81,11 @@ function survey(aws) {
       error = new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event));
       return callback(error, null);
     }
-  }
+  };
 
   this.listSurveys = function(event, callback) {
 
-  }
+  };
 
   /*
    * Parameters:
@@ -145,15 +145,15 @@ function survey(aws) {
       error = new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event));
       return callback(error, null);
     }
-  }
+  };
 
   this.updateOneSurvey = function(event, callback) {
 
-  }
+  };
 
   this.deleteOneSurvey = function(event, callback) {
 
-  }
-}
+  };
+};
 
 module.exports = survey;
