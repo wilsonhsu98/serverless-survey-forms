@@ -1,5 +1,8 @@
 {
   "apigw": {
     "httpMethod": "POST"
-  }
+  },
+  "requester": "context.authorizer.principalId",
+  "subject": "This is subject from event.json",
+  "survey": "This is survey model"
 }
