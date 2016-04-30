@@ -9,5 +9,12 @@
     "type": "git",
     "url": "git://github.com/"
   },
-  "dependencies": {}
+  "scripts": {
+    "test": "mocha tests/survey-test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
 }
