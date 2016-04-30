@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "4"
+install:
+script: npm test
+notifications:
+  email:
+    recipients:
+      - jonas.cheng@gmail.com
+    on_success: always
+    on_failure: always
