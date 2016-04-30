@@ -10,10 +10,11 @@
     "url": "git://github.com/"
   },
   "scripts": {
-    "test": "mocha tests/survey-test.js"
+    "test": "mocha --reporter spec"
   },
   "dependencies": {},
   "devDependencies": {
+    "aws-sdk": "^2.3.7",
     "chai": "^3.5.0",
     "mocha": "^2.4.5"
   }
