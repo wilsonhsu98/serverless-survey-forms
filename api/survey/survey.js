@@ -1,3 +1,5 @@
+'use strict';
+
 function survey(aws) {
 
   function getUUID() {
@@ -132,7 +134,7 @@ function survey(aws) {
           console.log("Added a new item with return data: ", JSON.stringify(data));
           // compose response
           response = {
-            accountid: event.requester,
+            accountid: event.accountid,
             datetime: datetime,
             surveyid: surveyid
           };
