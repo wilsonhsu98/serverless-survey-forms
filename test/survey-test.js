@@ -1,6 +1,8 @@
 'use strict';
 
-var assert = require('chai').assert;
+let assert = require('chai').assert;
+let expect = require('chai').expect;
+let should = require('chai').should();
 
 // require testing target and set up necessary information
 var aws = require('aws-sdk');
@@ -60,20 +62,11 @@ dynamodb.createTable(params, function(err, data) {
 });
 //
 
-dynamodb.listTables(console.log.bind(console));
-
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal(-1, [1, 2, 3].indexOf(5));
-      assert.equal(-1, [1, 2, 3].indexOf(0));
-    });
-  });
-});
+//dynamodb.listTables(console.log.bind(console));
 
 describe("Given a survey module", function() {
-  describe("Add one new survey model in to data store", function() {
-    it("add with complete and normal parameters", function() {
+  context("Add one new survey model in to data store", function() {
+    specify("add with complete and normal parameters", function(done) {
       let obj = new survey(aws);
       let event = {
         accountid: "this is fake account",
@@ -81,28 +74,63 @@ describe("Given a survey module", function() {
         survey: "this is fake survey model"
       };
       obj.addOneSurvey(event, function(error, response) {
-        console.log(error);
-        console.log(response);
-        obj.getOneSurvey(response, function(error, response) {
-          console.log(error);
-          console.log(response);
-          done();
-        })
+        expect(error).to.be.null;
+        expect(response).to.not.be.null;
+        done();
       });
     });
   });
-  describe("Get one survey model from data store", function() {
-    it("get with non-exist account id and survey id", function() {
+
+  context("Get one survey model from data store", function() {
+    specify("get with non-exist account id and survey id", function(done) {
       let obj = new survey(aws);
       let event = {
         accountid: "this is fake account",
         surveyid: "non-exist survey id"
       };
+      console.log(event);
       obj.getOneSurvey(event, function(error, response) {
-        console.log(error);
-        console.log(response);
+        expect(error).to.not.be.null;
+        expect(response).to.be.null;
+        done();
+      });
+    });
+  });
+
+});
+
+describe("Given a survey module", function() {
+  context("Get one survey model from data store", function() {
+    specify("get with non-exist account id and survey id", function(done) {
+      let obj = new survey(aws);
+      let event = {
+        accountid: "this is fake account",
+        surveyid: "non-exist survey id"
+      };
+      console.log(event);
+      obj.getOneSurvey(event, function(error, response) {
+        expect(error).to.not.be.null;
+        expect(response).to.be.null;
         done();
       });
     });
   });
 });
+/*
+describe('Array', function() {
+  context('#indexOf()', function() {
+    specify('should return -1 when the value is not present', function() {
+      assert.equal(-1, [1, 2, 3].indexOf(5));
+      assert.equal(-1, [1, 2, 3].indexOf(0));
+      ([1, 2, 3].indexOf(0)).should.equal(0);
+    });
+
+    it('should do something', function(done) {
+      setTimeout(function() {
+        expect(true).to.equal(false);
+        done();
+      }, 100);
+    });
+  });
+});
+*/

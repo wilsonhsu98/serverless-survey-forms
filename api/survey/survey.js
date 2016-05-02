@@ -65,16 +65,22 @@ function survey(aws) {
           error = getDynamoDBError(err);
           return callback(error, null);
         } else {
-          console.log("Got an item with return data: ", JSON.stringify(data));
-          // compose response
-          response = {
-            accountid: data.Item.accountid,
-            surveyid: data.Item.surveyid,
-            subject: data.Item.subject,
-            datetime: data.Item.datetime,
-            survey: data.Item.survey
-          };
-          return callback(null, response);
+          if (data.accountid) { // got response
+            console.log("Got an item with return data: ", JSON.stringify(data));
+            // compose response
+            response = {
+              accountid: data.Item.accountid,
+              surveyid: data.Item.surveyid,
+              subject: data.Item.subject,
+              datetime: data.Item.datetime,
+              survey: data.Item.survey
+            };
+            return callback(null, response);
+          } else {
+            console.error("Unable to get an item with the request: ", JSON.stringify(data));
+            error = new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(event));
+            return callback(error, null);
+          }
         }
       });
     }
