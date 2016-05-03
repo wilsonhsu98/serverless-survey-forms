@@ -5,68 +5,70 @@ let expect = require('chai').expect;
 let should = require('chai').should();
 
 // require testing target and set up necessary information
-var aws = require('aws-sdk');
-var survey = require('../api/survey/survey.js');
-process.env['SERVERLESS_SURVEYTABLE'] = 'surveytable';
-/////////////////////////////////////////////////////////////////////
+let aws = require('aws-sdk');
+let survey = require('../api/survey/survey.js');
 
-// Returns a standard Node.js HTTP server
-var dynalite = require('dynalite'),
-  dynaliteServer = dynalite({
-    createTableMs: 0
-  });
+before('Initial local DynamoDB', function(done) {
+  // set up necessary information
+  process.env['SERVERLESS_SURVEYTABLE'] = 'surveytable';
+  /////////////////////////////////////////////////////////////////////
 
-// Listen on port 4567
-dynaliteServer.listen(4567, function(err) {
-  if (err) throw err
-  console.log('Dynalite started on port 4567')
-})
-/////////////////////////////////////////////////////////////////////
+  // Returns a standard Node.js HTTP server
+  let dynalitePort = 4567;
+  let dynalite = require('dynalite'),
+    dynaliteServer = dynalite({
+      createTableMs: 0
+    });
 
-aws.config.update({
-  accessKeyId: "accessKeyId",
-  secretAccessKey: "secretAccessKey",
-  region: 'us-east-1',
-  endpoint: 'http://localhost:4567'
+  // Listen on port dynalitePort
+  dynaliteServer.listen(dynalitePort, function(err) {
+    if (err) throw err;
+    //console.log('Dynalite started on port ' + dynalitePort)
+
+    // create survey table
+    aws.config.update({
+      accessKeyId: "accessKeyId",
+      secretAccessKey: "secretAccessKey",
+      region: 'us-east-1',
+      endpoint: 'http://localhost:' + dynalitePort
+    });
+    let dynamodb = new aws.DynamoDB({
+      apiVersion: '2012-08-10'
+    });
+
+    let params = {
+      TableName: process.env.SERVERLESS_SURVEYTABLE,
+      AttributeDefinitions: [{
+        AttributeName: "accountid",
+        AttributeType: "S"
+      }, {
+        AttributeName: "surveyid",
+        AttributeType: "S"
+      }],
+      KeySchema: [{
+        AttributeName: "accountid",
+        KeyType: "HASH"
+      }, {
+        AttributeName: "surveyid",
+        KeyType: "RANGE"
+      }],
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 5,
+        WriteCapacityUnits: 5
+      }
+    };
+    dynamodb.createTable(params, function(err, data) {
+      if (err) throw err
+    });
+
+    done();
+  })
+  /////////////////////////////////////////////////////////////////////
 });
-var dynamodb = new aws.DynamoDB({
-  apiVersion: '2012-08-10'
-});
 
-//
-var params = {
-  TableName: process.env.SERVERLESS_SURVEYTABLE,
-  AttributeDefinitions: [{
-    AttributeName: "accountid",
-    AttributeType: "S"
-  }, {
-    AttributeName: "surveyid",
-    AttributeType: "S"
-  }],
-  KeySchema: [{
-    AttributeName: "accountid",
-    KeyType: "HASH"
-  }, {
-    AttributeName: "surveyid",
-    KeyType: "RANGE"
-  }],
-  ProvisionedThroughput: { /* required */
-    ReadCapacityUnits: 5,
-    /* required */
-    WriteCapacityUnits: 5 /* required */
-  }
-};
-dynamodb.createTable(params, function(err, data) {
-  if (err) console.log(err, err.stack); // an error occurred
-  else console.log(data); // successful response
-});
-//
-
-//dynamodb.listTables(console.log.bind(console));
-
-describe("Given a survey module", function() {
-  context("Add one new survey model in to data store", function() {
-    specify("add with complete and normal parameters", function(done) {
+describe("Given a survey module, ", function() {
+  context("add one new survey model in to data store", function() {
+    specify("with complete and normal parameters", function(done) {
       let obj = new survey(aws);
       let event = {
         accountid: "this is fake account",
@@ -79,24 +81,65 @@ describe("Given a survey module", function() {
         done();
       });
     });
-  });
 
-  context("Get one survey model from data store", function() {
-    specify("get with non-exist account id and survey id", function(done) {
-      let obj = new survey(aws);
-      let event = {
-        accountid: "this is fake account",
-        surveyid: "non-exist survey id"
-      };
-      console.log(event);
-      obj.getOneSurvey(event, function(error, response) {
-        expect(error).to.not.be.null;
-        expect(response).to.be.null;
-        done();
+    // missing parameter(s)
+    let missingParams = [
+      // one parameter
+      {
+        desc: "with missing event.survey",
+        event: {
+          accountid: "this is fake account",
+          subject: "this is fake subject"
+        }
+      }, {
+        desc: "with missing event.subject",
+        event: {
+          accountid: "this is fake account",
+          survey: "this is fake survey model"
+        }
+      }, {
+        desc: "with missing event.accountid",
+        event: {
+          subject: "this is fake subject",
+          survey: "this is fake survey model"
+        }
+      },
+      // two parameters
+      {
+        desc: "with missing event.subject and event.survey",
+        event: {
+          accountid: "this is fake account"
+        }
+      }, {
+        desc: "with missing event.accountid and event.survey",
+        event: {
+          subject: "this is fake subject"
+        }
+      }, {
+        desc: "with missing event.accountid and event.subject",
+        event: {
+          survey: "this is fake survey model"
+        }
+      },
+      // all parameters
+      {
+        desc: "with missing all parameters",
+        event: {}
+      }
+    ];
+
+    missingParams.forEach(function(test) {
+      specify(test.desc, function(done) {
+        let obj = new survey(aws);
+        obj.addOneSurvey(test.event, function(error, response) {
+          expect(error).to.not.be.null;
+          expect(response).to.be.null;
+          error.should.match(/Error: 400 Bad Request/)
+          done();
+        });
       });
     });
   });
-
 });
 
 describe("Given a survey module", function() {
@@ -116,21 +159,3 @@ describe("Given a survey module", function() {
     });
   });
 });
-/*
-describe('Array', function() {
-  context('#indexOf()', function() {
-    specify('should return -1 when the value is not present', function() {
-      assert.equal(-1, [1, 2, 3].indexOf(5));
-      assert.equal(-1, [1, 2, 3].indexOf(0));
-      ([1, 2, 3].indexOf(0)).should.equal(0);
-    });
-
-    it('should do something', function(done) {
-      setTimeout(function() {
-        expect(true).to.equal(false);
-        done();
-      }, 100);
-    });
-  });
-});
-*/

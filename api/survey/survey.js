@@ -137,7 +137,6 @@ function survey(aws) {
           error = getDynamoDBError(err);
           return callback(error, null);
         } else {
-          console.log("Added a new item with return data: ", JSON.stringify(data));
           // compose response
           response = {
             accountid: event.accountid,
