@@ -3,13 +3,13 @@
 function survey(aws) {
 
   function getUUID() {
-    var uuid = require('node-uuid');
+    let uuid = require('node-uuid');
     return uuid.v1();
   };
 
   // Convert DynamoDB error code into Error object
   function getDynamoDBError(err) {
-    var error = null;
+    let error = null;
 
     if (err.statusCode === 400) {
       switch (err.code) {
@@ -42,14 +42,14 @@ function survey(aws) {
    * survey     The details of the survey model in JSON format
    */
   this.getOneSurvey = function(event, callback) {
-    var error = null;
-    var response = 'getOneSurvey not implement yet.';
+    let error = null;
+    let response = 'getOneSurvey not implement yet.';
 
     // validate parameters
     if (event.accountid && event.surveyid &&
       process.env.SERVERLESS_SURVEYTABLE) {
-      var docClient = new aws.DynamoDB.DocumentClient();
-      var params = {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         Key: {
           accountid: event.accountid,
@@ -109,16 +109,16 @@ function survey(aws) {
    * surveyid     The uuid of the survey
    */
   this.addOneSurvey = function(event, callback) {
-    var error = null;
-    var response = 'addOneSurvey not implement yet.';
+    let error = null;
+    let response = 'addOneSurvey not implement yet.';
 
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
       process.env.SERVERLESS_SURVEYTABLE) {
-      var docClient = new aws.DynamoDB.DocumentClient();
-      var surveyid = getUUID();
-      var datetime = Date.now();
-      var params = {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let surveyid = getUUID();
+      let datetime = Date.now();
+      let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         Item: {
           accountid: event.accountid,
