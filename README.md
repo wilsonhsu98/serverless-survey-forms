@@ -9,7 +9,8 @@ To create a google-style survey forms, authorized users could design surveys and
 
 This project depends on the following modules, please make sure they're ready locally.
 
-* NodeJS 4.x
+* NodeJS 3.7.3
+* serverless 0.5.5
 * aws-sdk 2.3.7
 * node-uuid 1.4.7
 * chai 3.5.0
