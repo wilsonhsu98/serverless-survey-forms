@@ -2,32 +2,98 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application's resources outside of Lambdas and Api Gateway",
   "Resources": {
-
+    "UsersModelDDB": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-${stage}-users",
+        "AttributeDefinitions": [{
+          "AttributeName": "accountid",
+          "AttributeType": "S"
+        }],
+        "KeySchema": [{
+          "AttributeName": "accountid",
+          "KeyType": "HASH"
+        }],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
+    },
     "SurveysModelDDB": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "TableName": "${project}-${stage}-surveys",
-        "AttributeDefinitions": [
-          {"AttributeName": "accountid", "AttributeType": "S"},
-          {"AttributeName": "surveyid",  "AttributeType": "S"},
-          {"AttributeName": "datetime",  "AttributeType": "N"} 
-        ],
-        "KeySchema": [
-          {"AttributeName": "accountid", "KeyType": "HASH"},
-          {"AttributeName": "surveyid",  "KeyType": "RANGE"}
-        ],
-        "LocalSecondaryIndexes": [
-          {
-            "IndexName": "datetime-ix",
-            "KeySchema": [
-              {"AttributeName": "accountid", "KeyType": "HASH"},
-              {"AttributeName": "datetime",  "KeyType": "RANGE"}
-            ],
-            "Projection": {
-              "ProjectionType": "KEYS_ONLY"
-            }
+        "AttributeDefinitions": [{
+          "AttributeName": "accountid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "surveyid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "datetime",
+          "AttributeType": "N"
+        }],
+        "KeySchema": [{
+          "AttributeName": "accountid",
+          "KeyType": "HASH"
+        }, {
+          "AttributeName": "surveyid",
+          "KeyType": "RANGE"
+        }],
+        "LocalSecondaryIndexes": [{
+          "IndexName": "datetime-ix",
+          "KeySchema": [{
+            "AttributeName": "accountid",
+            "KeyType": "HASH"
+          }, {
+            "AttributeName": "datetime",
+            "KeyType": "RANGE"
+          }],
+          "Projection": {
+            "ProjectionType": "KEYS_ONLY"
           }
-        ],
+        }],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
+    },
+    "FeedbacksModelDDB": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-${stage}-feedbacks",
+        "AttributeDefinitions": [{
+          "AttributeName": "surveyid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "clientid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "datetime",
+          "AttributeType": "N"
+        }],
+        "KeySchema": [{
+          "AttributeName": "surveyid",
+          "KeyType": "HASH"
+        }, {
+          "AttributeName": "clientid",
+          "KeyType": "RANGE"
+        }],
+        "LocalSecondaryIndexes": [{
+          "IndexName": "datetime-ix",
+          "KeySchema": [{
+            "AttributeName": "surveyid",
+            "KeyType": "HASH"
+          }, {
+            "AttributeName": "datetime",
+            "KeyType": "RANGE"
+          }],
+          "Projection": {
+            "ProjectionType": "KEYS_ONLY"
+          }
+        }],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
@@ -40,19 +106,17 @@
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "Service": [
+                "lambda.amazonaws.com"
               ]
-            }
-          ]
+            },
+            "Action": [
+              "sts:AssumeRole"
+            ]
+          }]
         },
         "Path": "/"
       }
@@ -70,9 +134,17 @@
               "Action": [
                 "dynamodb:*"
               ],
-              "Resource": [
-                { "Fn::Join" : ["", ["arn:aws:dynamodb:${region}:*:table/", {"Ref": "SurveysModelDDB"}]]}
-              ]
+              "Resource": [{
+                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+                  "Ref": "UsersModelDDB"
+                }]],
+                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+                  "Ref": "SurveysModelDDB"
+                }]],
+                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+                  "Ref": "FeedbacksModelDDB"
+                }]]
+              }]
             },
 
             {
@@ -86,25 +158,43 @@
             }
           ]
         },
-        "Roles": [
-          {
-            "Ref": "IamRoleLambda"
-          }
-        ]
+        "Roles": [{
+          "Ref": "IamRoleLambda"
+        }]
       }
     }
   },
   "Outputs": {
-
     "DynamoDBTableArnSurveysModel": {
-      "Description": "ARN of the dynamodb table",
+      "Description": "ARN of the dynamodb table - ${project}-${stage}-users",
       "Value": {
-        "Fn::Join" : [
-          "", ["arn:aws:dynamodb:${region}:*:table/", {"Ref": "SurveysModelDDB"}]
+        "Fn::Join": [
+          "", ["arn:aws:dynamodb:${region}:*:table/", {
+            "Ref": "UsersModelDDB"
+          }]
         ]
       }
     },
-
+    "DynamoDBTableArnSurveysModel": {
+      "Description": "ARN of the dynamodb table - ${project}-${stage}-surveys",
+      "Value": {
+        "Fn::Join": [
+          "", ["arn:aws:dynamodb:${region}:*:table/", {
+            "Ref": "SurveysModelDDB"
+          }]
+        ]
+      }
+    },
+    "DynamoDBTableArnFeedbacksModel": {
+      "Description": "ARN of the dynamodb table - ${project}-${stage}-feedbacks",
+      "Value": {
+        "Fn::Join": [
+          "", ["arn:aws:dynamodb:${region}:*:table/", {
+            "Ref": "FeedbacksModelDDB"
+          }]
+        ]
+      }
+    },
     "IamRoleArnLambda": {
       "Description": "ARN of the lambda IAM role",
       "Value": {
