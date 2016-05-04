@@ -5,6 +5,10 @@
 
 To create a google-style survey forms, authorized users could design surveys and collect anonymous feedbacks.
 
+## Architecture Overview
+
+![](http://i.imgur.com/gBDCCON.png)
+
 ## Environment
 
 This project depends on the following modules, please make sure they're ready locally.
