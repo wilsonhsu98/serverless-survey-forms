@@ -56,17 +56,16 @@ function survey(aws) {
           surveyid: event.surveyid
         }
       };
-      console.log("Getting an item: ", JSON.stringify(params));
 
       docClient.get(params, function(err, data) {
         if (err) {
           console.error("Unable to get an item with error: ", JSON.stringify(err));
+          console.error("Unable to get an item with the request: ", JSON.stringify(params));
           // compose error response
           error = getDynamoDBError(err);
           return callback(error, null);
         } else {
-          if (data.accountid) { // got response
-            console.log("Got an item with return data: ", JSON.stringify(data));
+          if (data.Item) { // got response
             // compose response
             response = {
               accountid: data.Item.accountid,
@@ -77,8 +76,8 @@ function survey(aws) {
             };
             return callback(null, response);
           } else {
-            console.error("Unable to get an item with the request: ", JSON.stringify(data));
-            error = new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(event));
+            console.error("Unable to get an item with the request: ", JSON.stringify(params));
+            error = new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params));
             return callback(error, null);
           }
         }
@@ -128,11 +127,11 @@ function survey(aws) {
           survey: event.survey
         }
       };
-      console.log("Adding a new item: ", JSON.stringify(params));
 
       docClient.put(params, function(err, data) {
         if (err) {
           console.error("Unable to add a new item with error: ", JSON.stringify(err));
+          console.error("Unable to add a new item with the request: ", JSON.stringify(params));
           // compose error response
           error = getDynamoDBError(err);
           return callback(error, null);
