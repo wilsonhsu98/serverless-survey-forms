@@ -5,6 +5,19 @@
 
 To create a google-style survey forms, authorized users could design surveys and collect anonymous feedbacks.
 
+## Environment
+
+This project depends on the following modules, please make sure they're ready locally.
+
+* NodeJS 4.x
+* aws-sdk 2.3.7
+* node-uuid 1.4.7
+* chai 3.5.0
+* dynalite 1.0.0
+* mocha 2.4.5
+
+The Vagrant file could save your time to prepare environemnt if you would like to leverage. 
+
 ## Install
 
 The steps below can be taken to install the project and initialize it.
@@ -34,6 +47,22 @@ npm install
 Deploy your functions and endpoints:
 
 ```serverless dash deploy```
+
+## Unit Test
+
+The steps below can be taken to verify the functionality.
+
+Enter the serverless-survey-form folder the project was cloned:
+
+```cd serverless-survey-form```
+
+Install npm dependency modules in serverless-survey-form
+
+```npm install```
+
+Verify the functionality before any code commit to Git.
+
+```npm test```
 
 ## License
 
