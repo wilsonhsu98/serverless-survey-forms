@@ -128,23 +128,22 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
-
             {
               "Effect": "Allow",
               "Action": [
                 "dynamodb:*"
               ],
-              "Resource": [{
-                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+              "Resource": [
+                {"Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
                   "Ref": "UsersModelDDB"
-                }]],
-                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+                }]]},
+                {"Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
                   "Ref": "SurveysModelDDB"
-                }]],
-                "Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
+                }]]},
+                {"Fn::Join": ["", ["arn:aws:dynamodb:${region}:*:table/", {
                   "Ref": "FeedbacksModelDDB"
-                }]]
-              }]
+                }]]}
+              ]
             },
 
             {
@@ -165,7 +164,7 @@
     }
   },
   "Outputs": {
-    "DynamoDBTableArnSurveysModel": {
+    "DynamoDBTableArnUsersModel": {
       "Description": "ARN of the dynamodb table - ${project}-${stage}-users",
       "Value": {
         "Fn::Join": [
