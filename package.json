@@ -10,7 +10,8 @@
     "url": "git://github.com/"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec",
+    "coveralls": "mocha -R mocha-lcov-reporter -r jscoverage | coveralls"
   },
   "dependencies": {},
   "devDependencies": {

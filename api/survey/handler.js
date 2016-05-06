@@ -25,7 +25,10 @@ function dispatcher(event, context, callback) {
       event.accountid.length > 0 && event.surveyid.length > 0) {
       response = 'GET /api/v1/surveys/<accountid>/<surveyid>/ not implement yet.';
       let obj = new survey(aws);
-      return obj.getOneSurvey(event, callback);
+      return obj.getOneSurvey({
+        accountid: event.accountid,
+        surveyid: event.surveyid
+      }, callback);
     }
     // GET /api/v1/mgnt/surveys/[?startKey=<startKey>]
     // Authenticated: Yes
@@ -37,11 +40,13 @@ function dispatcher(event, context, callback) {
   // Authenticated: Yes
   else if (event.apigw.httpMethod === "POST") {
     response = 'POST /api/v1/mgnt/surveys/ not implement yet.';
-    // TODO: validate requester role and assign to event.accountid
-    let validated = event;
-    validated.accountid = event.requester;
+    // TODO: validate requester role
     let obj = new survey(aws);
-    return obj.addOneSurvey(validated, callback);
+    return obj.addOneSurvey({
+      accountid: event.requester,
+      subject: event.subject,
+      survey: event.survey
+    }, callback);
   }
   // PUT /api/v1/mgnt/surveys/
   else if (event.apigw.httpMethod === "PUT") {
