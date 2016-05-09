@@ -9,22 +9,18 @@ function survey(aws) {
 
   // Convert DynamoDB error code into Error object
   function getDynamoDBError(err) {
-    let error = null;
-
     if (err.statusCode === 400) {
       switch (err.code) {
         case "AccessDeniedException":
         case "UnrecognizedClientException":
-          error = new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
+          return new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
           break;
         default:
-          error = new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
-          break;
+          return new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
       }
     } else { // 500, 503
-      error = new Error("500 Internal Server Error: Unable to access an item with error: " + JSON.stringify(err));
+      return new Error("500 Internal Server Error: Unable to access an item with error: " + JSON.stringify(err));
     }
-    return error;
   };
 
   /*
@@ -42,8 +38,8 @@ function survey(aws) {
    * survey     The details of the survey model in JSON format
    */
   this.getOneSurvey = function(event, callback) {
-    let error = null;
-    let response = 'getOneSurvey not implement yet.';
+    let error = null,
+      response = null;
 
     // validate parameters
     if (event.accountid && event.surveyid &&
@@ -59,11 +55,8 @@ function survey(aws) {
 
       docClient.get(params, function(err, data) {
         if (err) {
-          console.error("Unable to get an item with error: ", JSON.stringify(err));
-          console.error("Unable to get an item with the request: ", JSON.stringify(params));
-          // compose error response
-          error = getDynamoDBError(err);
-          return callback(error, null);
+          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
         } else {
           if (data.Item) { // got response
             // compose response
@@ -77,16 +70,14 @@ function survey(aws) {
             return callback(null, response);
           } else {
             console.error("Unable to get an item with the request: ", JSON.stringify(params));
-            error = new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params));
-            return callback(error, null);
+            return callback(new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params)), null);
           }
         }
       });
     }
     // incomplete parameters
     else {
-      error = new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event));
-      return callback(error, null);
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
     }
   };
 
@@ -125,8 +116,8 @@ function survey(aws) {
    * datetime     The creation date time of the survey
    */
   this.addOneSurvey = function(event, callback) {
-    let error = null;
-    let response = 'addOneSurvey not implement yet.';
+    let error = null,
+      response = null;
 
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
@@ -147,11 +138,8 @@ function survey(aws) {
 
       docClient.put(params, function(err, data) {
         if (err) {
-          console.error("Unable to add a new item with error: ", JSON.stringify(err));
-          console.error("Unable to add a new item with the request: ", JSON.stringify(params));
-          // compose error response
-          error = getDynamoDBError(err);
-          return callback(error, null);
+          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
         } else {
           // compose response
           response = {
@@ -165,8 +153,7 @@ function survey(aws) {
     }
     // incomplete parameters
     else {
-      error = new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event));
-      return callback(error, null);
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
     }
   };
 
