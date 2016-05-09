@@ -90,6 +90,23 @@ function survey(aws) {
     }
   };
 
+  /*
+   * Parameters:
+   * Key        Description
+   * startKey   If your query amount to more than 1 MB of data, you'll need to perform another query request for the next 1 MB of data.
+   *            To do this, take the lastEvaluatedKey value from the previous request, and use that value as the startKey in the next request.
+   *            This approach will let you progressively query for new data in 1 MB increments.
+   *
+   * Response:
+   * Key        Description
+   * surveys    An array of surveys objects (see below)
+   *
+   * Each object in the user array contains:
+   * accountid  Who created the survey
+   * surveyid   The uuid of the survey
+   * subject    The subject of the survey
+   * datetime   The latest modified date time of the survey
+   */
   this.listSurveys = function(event, callback) {
 
   };
@@ -104,8 +121,8 @@ function survey(aws) {
    * Response:
    * Key          Description
    * accountid    Who created the survey
-   * datetime     The creation date time of the survey
    * surveyid     The uuid of the survey
+   * datetime     The creation date time of the survey
    */
   this.addOneSurvey = function(event, callback) {
     let error = null;
@@ -153,10 +170,33 @@ function survey(aws) {
     }
   };
 
+  /*
+   * Parameters:
+   * Key          Description
+   * accountid    Who created the survey
+   * surveyid     The uuid of the survey
+   * subject      The subject of the survey
+   * survey       The details of the survey model in JSON format
+   *
+   * Response:
+   * Key          Description
+   * accountid    Who created the survey
+   * surveyid     The uuid of the survey
+   * datetime     The creation date time of the survey
+   */
   this.updateOneSurvey = function(event, callback) {
 
   };
 
+  /*
+   * Parameters:
+   * Key          Description
+   * accountid    Who created the survey
+   * surveyid     The uuid of the survey
+   *
+   * Response:
+   * None
+   */
   this.deleteOneSurvey = function(event, callback) {
 
   };
