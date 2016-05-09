@@ -66,6 +66,6 @@ function dispatcher(event, context, callback) {
   });
 };
 
-module.exports.handler = (event, context, callback) => {
+module.exports.handler = function(event, context, callback) {
   dispatcher(event, context, callback);
 };
