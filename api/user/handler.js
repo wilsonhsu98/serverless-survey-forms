@@ -28,6 +28,14 @@ function dispatcher(event, context, callback) {
   // PUT /api/v1/mgnt/users/
   else if (event.apigw.httpMethod === "PUT") {
     response = 'PUT /api/v1/mgnt/users/ not implement yet.';
+    // TODO: invoke updateOneUser once authentication is implemented and enabled
+    let obj = new user(aws);
+    return obj.addOneUser({
+      accountid: event.accountid,
+      username: event.username,
+      email: event.email
+    }, callback);
+
   }
   // DELETE /api/v1/mgnt/surveys/<surveyid>
   else if (event.apigw.httpMethod === "DELETE") {
