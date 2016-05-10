@@ -2,31 +2,22 @@
 
 function user(aws) {
 
-  function getUUID() {
-    let uuid = require('node-uuid');
-    return uuid.v1();
-  };
-  /*
   // Convert DynamoDB error code into Error object
   function getDynamoDBError(err) {
-    let error = null;
-
     if (err.statusCode === 400) {
       switch (err.code) {
         case "AccessDeniedException":
         case "UnrecognizedClientException":
-          error = new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
+          return new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
           break;
         default:
-          error = new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
-          break;
+          return new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
       }
     } else { // 500, 503
-      error = new Error("500 Internal Server Error: Unable to access an item with error: " + JSON.stringify(err));
+      return new Error("500 Internal Server Error: Unable to access an item with error: " + JSON.stringify(err));
     }
-    return error;
   };
-*/
+
   /*
    * Parameters:
    * Key        Description
@@ -75,7 +66,32 @@ function user(aws) {
    * None
    */
   this.addOneUser = function(event, callback) {
+    // validate parameters
+    if (event.accountid && event.username && event.email &&
+      process.env.SERVERLESS_USERTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let params = {
+        TableName: process.env.SERVERLESS_USERTABLE,
+        Item: {
+          accountid: event.accountid,
+          username: event.username,
+          email: event.email
+        }
+      };
 
+      docClient.put(params, function(err, data) {
+        if (err) {
+          console.error("Unable to add a new user with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
+        } else {
+          return callback(null, {});
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
 
   /*

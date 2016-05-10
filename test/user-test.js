@@ -60,7 +60,19 @@ after('Uninitial local DynamoDB', function(done) {
 describe("Interface to add one new user model into data store successfully", function() {
   describe("#addOneUser", function() {
     describe("When adding one new user model with complete and normal parameters", function() {
-      it("should response successfully");
+      it("should response successfully", function(done) {
+        let obj = new user(aws);
+        let event = {
+          accountid: "this is fake account",
+          username: "this is fake user name",
+          email: "this is fake email"
+        };
+        obj.addOneUser(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          done();
+        });
+      });
     });
   });
 });
@@ -72,44 +84,44 @@ describe("Interface to add one new user model into data store with error", funct
     let missingParams = [
       // one parameter
       {
-        desc: "with missing event.user",
+        desc: "with missing event.email",
         event: {
           accountid: "this is fake account",
-          subject: "this is fake subject"
+          username: "this is fake user name"
         },
         expect: /Error: 400 Bad Request/
       }, {
-        desc: "with missing event.subject",
+        desc: "with missing event.username",
         event: {
           accountid: "this is fake account",
-          user: "this is fake user model"
+          email: "this is fake email"
         },
         expect: /Error: 400 Bad Request/
       }, {
         desc: "with missing event.accountid",
         event: {
-          subject: "this is fake subject",
-          user: "this is fake user model"
+          username: "this is fake user name",
+          email: "this is fake email"
         },
         expect: /Error: 400 Bad Request/
       },
       // two parameters
       {
-        desc: "with missing event.subject and event.user",
+        desc: "with missing event.username and event.email",
         event: {
           accountid: "this is fake account"
         },
         expect: /Error: 400 Bad Request/
       }, {
-        desc: "with missing event.accountid and event.user",
+        desc: "with missing event.accountid and event.username",
         event: {
-          subject: "this is fake subject"
+          email: "this is fake email"
         },
         expect: /Error: 400 Bad Request/
       }, {
-        desc: "with missing event.accountid and event.subject",
+        desc: "with missing event.accountid and event.email",
         event: {
-          user: "this is fake user model"
+          username: "this is fake user name"
         },
         expect: /Error: 400 Bad Request/
       },
@@ -123,7 +135,15 @@ describe("Interface to add one new user model into data store with error", funct
 
     missingParams.forEach(function(test) {
       describe("When adding one new user model " + test.desc, function() {
-        it("should response error");
+        it("should response error", function(done) {
+          let obj = new user(aws);
+          obj.addOneUser(test.event, function(error, response) {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
       });
     });
   });

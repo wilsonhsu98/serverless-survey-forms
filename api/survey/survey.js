@@ -116,8 +116,7 @@ function survey(aws) {
    * datetime     The creation date time of the survey
    */
   this.addOneSurvey = function(event, callback) {
-    let error = null,
-      response = null;
+    let response = null;
 
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
@@ -138,7 +137,7 @@ function survey(aws) {
 
       docClient.put(params, function(err, data) {
         if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          console.error("Unable to add a new item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           // compose response
