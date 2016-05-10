@@ -1,7 +1,7 @@
 'use strict';
 
 let aws = require('aws-sdk');
-let survey = require('./user');
+let user = require('./user');
 
 function dispatcher(event, context, callback) {
   let response = 'Go Serverless! Your Lambda function executed successfully!';

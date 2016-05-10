@@ -6,23 +6,18 @@ let should = require('chai').should();
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
 let user = require('../api/user/user.js');
-/*
+let dynadblib = require('./dynadb');
+let dynadb = new dynadblib();
+
 before('Initial local DynamoDB', function(done) {
   // set up necessary information
   process.env['SERVERLESS_USERTABLE'] = 'usertable';
+  let dynalitePort = 4567;
   /////////////////////////////////////////////////////////////////////
 
   // Returns a standard Node.js HTTP server
-  let dynalitePort = 4567;
-  let dynalite = require('dynalite'),
-    dynaliteServer = dynalite({
-      createTableMs: 0
-    });
-
-  // Listen on port dynalitePort
-  dynaliteServer.listen(dynalitePort, function(err) {
+  dynadb.listen(dynalitePort, function(err) {
     if (err) throw err;
-    //console.log('Dynalite started on port ' + dynalitePort)
 
     // create user table
     aws.config.update({
@@ -40,16 +35,10 @@ before('Initial local DynamoDB', function(done) {
       AttributeDefinitions: [{
         AttributeName: "accountid",
         AttributeType: "S"
-      }, {
-        AttributeName: "userid",
-        AttributeType: "S"
       }],
       KeySchema: [{
         AttributeName: "accountid",
         KeyType: "HASH"
-      }, {
-        AttributeName: "userid",
-        KeyType: "RANGE"
       }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 5,
@@ -60,10 +49,14 @@ before('Initial local DynamoDB', function(done) {
       if (err) throw err;
       done();
     });
-  })
+  });
   /////////////////////////////////////////////////////////////////////
 });
-*/
+
+after('Uninitial local DynamoDB', function(done) {
+  dynadb.close(done);
+});
+
 describe("Interface to add one new user model into data store successfully", function() {
   describe("#addOneUser", function() {
     describe("When adding one new user model with complete and normal parameters", function() {

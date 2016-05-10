@@ -6,25 +6,20 @@ let should = require('chai').should();
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
 let survey = require('../api/survey/survey.js');
+let dynadblib = require('./dynadb');
+let dynadb = new dynadblib();
 
 before('Initial local DynamoDB', function(done) {
   // set up necessary information
   process.env['SERVERLESS_SURVEYTABLE'] = 'surveytable';
+  let dynalitePort = 1234;
   /////////////////////////////////////////////////////////////////////
 
   // Returns a standard Node.js HTTP server
-  let dynalitePort = 4567;
-  let dynalite = require('dynalite'),
-    dynaliteServer = dynalite({
-      createTableMs: 0
-    });
-
-  // Listen on port dynalitePort
-  dynaliteServer.listen(dynalitePort, function(err) {
+  dynadb.listen(dynalitePort, function(err) {
     if (err) throw err;
-    //console.log('Dynalite started on port ' + dynalitePort)
 
-    // create survey table
+    // create user table
     aws.config.update({
       accessKeyId: "accessKeyId",
       secretAccessKey: "secretAccessKey",
@@ -60,8 +55,12 @@ before('Initial local DynamoDB', function(done) {
       if (err) throw err;
       done();
     });
-  })
+  });
   /////////////////////////////////////////////////////////////////////
+});
+
+after('Uninitial local DynamoDB', function(done) {
+  dynadb.close(done);
 });
 
 describe("Interface to add one new survey model into data store successfully", function() {
