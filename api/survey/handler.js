@@ -6,6 +6,7 @@ let survey = require('./survey');
 function dispatcher(event, context, callback) {
   let response = 'Go Serverless! Your Lambda function executed successfully!';
 
+  //console.log(event.op);
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 

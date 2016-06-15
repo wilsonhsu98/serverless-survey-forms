@@ -57,7 +57,8 @@
         "apigw": "$${apiRequestTemplate}",
         "requester": "context.authorizer.principalId",
         "subject": "$input.json('$.subject')",
-        "survey": "$input.json('$.survey')"
+        "survey": "$input.json('$.survey')",
+        "op": "getOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
