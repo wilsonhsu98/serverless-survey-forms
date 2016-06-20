@@ -1,0 +1,14 @@
+/*
+ * Style for components/Feedback/index.js
+ */
+
+.wrap {
+    height: 100%;
+    margin: 0 auto;
+    background: #F0F0F0;
+}
+
+.container {
+    width: 650px;
+    margin: 0 auto;
+}

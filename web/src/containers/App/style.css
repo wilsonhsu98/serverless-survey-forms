@@ -1,0 +1,8 @@
+/*
+ * Style for containers/App/index.js
+ */
+
+.loading {
+	color: #0086b3;
+	font-size: 20px;
+}

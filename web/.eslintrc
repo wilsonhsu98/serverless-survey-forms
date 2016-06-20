@@ -1,0 +1,21 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "comma-dangle": [2, "never"],
+        "object-shorthand": 0,
+        "indent": [2, 4],
+        "array-callback-return": 0,
+        "consistent-return": 0,
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [2, 4],
+        "react/prop-types": 0,
+        "react/sort-comp": 0,
+        "react/jsx-first-prop-new-line": [2, "multiline"],
+        "global-require": 0,
+        "no-underscore-dangle": 0,
+        "import/no-unresolved": [0, {commonjs: true, amd: true}]
+    },
+     "globals": {
+        "ga": true
+    }
+}

@@ -1,0 +1,84 @@
+/*
+ * Style for components/Select/index.js
+ */
+
+.selectGrp {
+    min-width: 160px;
+    max-width: 280px;
+    position: relative;
+
+    .placeholder {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 15px;
+        padding: 8px 35px 8px 20px;
+        border: 1px solid #bbb;
+        background: #fff;
+        color: #222;
+        &:after {
+            content: ' ';
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            border-top: 8px solid #777777;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            position: absolute;
+        }
+        &:hover {
+            background: #eee;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.8);
+        }
+        &:active {
+            background: #ddd;
+            border: 1px solid rgba(34, 34, 34, 0.5);
+        }
+    }
+    .options {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        max-height: 181px;
+        overflow-y: scroll;
+        border: 1px solid rgba(34,34,34,0.3);
+        border-width: 0px 1px 1px 1px;
+        ul {
+            list-style: none;
+            margin: 0;
+            background: #fff;
+            padding: 5px 0;
+
+            li {
+                font-size: 13px;
+                padding: 8px 20px;
+                cursor: pointer;
+                color: #222;
+                &:hover {
+                    background: #f5f5f5;
+                }
+                &.selected {
+                    color: #e4424e;
+                }
+            }
+        }
+    }
+    /* State: open */
+    &.open {
+        .placeholder {
+            background: #eee;
+            color: #444;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.8);
+            &:after {
+                border-top: none;
+                border-bottom: 8px solid #777777;
+            }
+        }
+        .options {
+            display: block;
+        }
+    }
+}
