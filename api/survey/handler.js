@@ -1,6 +1,6 @@
 'use strict';
 
-let aws = require('aws-sdk');
+//let aws = require('aws-sdk');
 let survey = require('./survey');
 
 function dispatcher(event, context, callback) {
@@ -67,6 +67,47 @@ function dispatcher(event, context, callback) {
   });
 };
 
-module.exports.handler = function(event, context, callback) {
-  dispatcher(event, context, callback);
+module.exports.handler = (event, context, callback) => {
+  //let obj = new survey(aws);
+  switch(event.op) {
+    case "getOneSurvey":
+      // GET /api/v1/surveys/<accountid>/<surveyid>/
+      // Authenticated: Not necessary
+      return survey.getOneSurvey({
+        accountid: event.accountid,
+        surveyid: event.surveyid
+      }, callback);
+      break;
+
+    case "listSurveys":
+      // GET /api/v1/mgnt/surveys/[?startKey=<startKey>]
+      // Authenticated: Yes
+      break;
+
+    case "updateOneSurvey":
+      // PUT /api/v1/mgnt/surveys/
+      break;
+
+    case "addOneSurvey":
+      // POST /api/v1/mgnt/surveys/
+      // Authenticated: Yes
+      return survey.addOneSurvey({
+        accountid: event.requester,
+        subject: event.subject,
+        survey: event.survey
+      }, callback);
+      break;
+
+    case "deleteOneSurvey":
+      // DELETE /api/v1/mgnt/surveys/<surveyid>
+      break;
+
+    default:
+      let error = new Error("400 Bad Request: " + JSON.stringify(event));
+      return callback(error, null);
+  }
+
+
+
+  //dispatcher(event, context, callback);
 };

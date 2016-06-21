@@ -67,13 +67,13 @@ describe("Interface to add one new survey model into data store successfully", f
   describe("#addOneSurvey", function() {
     describe("When adding one new survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        let obj = new survey(aws);
+        //let obj = new survey(aws);
         let event = {
           accountid: "this is fake account",
           subject: "this is fake subject",
           survey: "this is fake survey model"
         };
-        obj.addOneSurvey(event, function(error, response) {
+        survey.addOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           response.should.have.all.keys(['accountid', 'surveyid', 'datetime']);
@@ -146,8 +146,8 @@ describe("Interface to add one new survey model into data store with error", fun
     missingParams.forEach(function(test) {
       describe("When adding one new survey model " + test.desc, function() {
         it("should response error", function(done) {
-          let obj = new survey(aws);
-          obj.addOneSurvey(test.event, function(error, response) {
+          //let obj = new survey(aws);
+          survey.addOneSurvey(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
@@ -166,13 +166,13 @@ describe("Interface to get one survey model from data store successfully", funct
   let surveyid = null;
 
   before("Insert one dummy record", function(done) {
-    let obj = new survey(aws);
+    //let obj = new survey(aws);
     let event = {
       accountid: accountid,
       subject: subject,
       survey: surveymodel
     };
-    obj.addOneSurvey(event, function(err, data) {
+    survey.addOneSurvey(event, function(err, data) {
       if (err) throw err;
       surveyid = data.surveyid;
       done();
@@ -182,12 +182,12 @@ describe("Interface to get one survey model from data store successfully", funct
   describe("#getOneSurvey", function() {
     describe("When getting exist survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        let obj = new survey(aws);
+        //let obj = new survey(aws);
         let event = {
           accountid: accountid,
           surveyid: surveyid
         };
-        obj.getOneSurvey(event, function(error, response) {
+        survey.getOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'datetime', 'survey']);
@@ -234,8 +234,8 @@ describe("Interface to get one survey model from data store with error", functio
     missingParams.forEach(function(test) {
       describe("When getting one survey model " + test.desc, function() {
         it("should response error", function(done) {
-          let obj = new survey(aws);
-          obj.getOneSurvey(test.event, function(error, response) {
+          //let obj = new survey(aws);
+          survey.getOneSurvey(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));

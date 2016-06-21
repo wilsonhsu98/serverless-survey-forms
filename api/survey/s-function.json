@@ -23,7 +23,8 @@
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
         "accountid": "$input.params('accountid')",
-        "surveyid": "$input.params('surveyid')"
+        "surveyid": "$input.params('surveyid')",
+        "op": "getOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -40,7 +41,8 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "startKey": "$input.params('startKey')"
+        "startKey": "$input.params('startKey')",
+        "op": "listSurveys"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -58,7 +60,7 @@
         "requester": "context.authorizer.principalId",
         "subject": "$input.json('$.subject')",
         "survey": "$input.json('$.survey')",
-        "op": "getOneSurvey"
+        "op": "addOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -75,7 +77,8 @@
         "apigw": "$${apiRequestTemplate}",
         "surveyid": "$input.json('$.surveyid')",
         "subject": "$input.json('$.subject')",
-        "survey": "$input.json('$.survey')"
+        "survey": "$input.json('$.survey')",
+        "op": "updateOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -89,7 +92,10 @@
     "requestParameters": {},
     "requestTemplates": {
       "application/json": {
-        "apigw": "$${apiRequestTemplate}"
+        "apigw": "$${apiRequestTemplate}",
+        "accountid": "$input.params('accountid')",
+        "surveyid": "$input.json('$.survey')",
+        "op": "deleteOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
