@@ -1,7 +1,4 @@
 
-// CSS
-import styles from './style.css';
-
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
@@ -12,6 +9,7 @@ import $ from 'jquery';
 import * as SurveyActions from '../../actions/survey';
 
 import Feedback from '../../components/Feedback';
+import Loading from '../../components/Loading';
 
 class App extends PureComponent {
 
@@ -28,7 +26,7 @@ class App extends PureComponent {
         return (
             <div>
                 {loading
-                    ? <div className={styles.loading}>Loading</div>
+                    ? <Loading />
                     : <Feedback {...requiredProps} />}
             </div>
         );

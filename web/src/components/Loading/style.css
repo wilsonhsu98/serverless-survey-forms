@@ -1,0 +1,47 @@
+/*
+ * Style for containers/App/index.js
+ */
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+.loading_wrap {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 0 0 0;
+
+    p {
+        color: #0086b3;
+        font-size: 16px;
+    }
+    .loading_line:nth-last-child(1) {
+        animation: loading_animation .6s .1s linear infinite;
+    }
+    .loading_line:nth-last-child(2) {
+        animation: loading_animation .6s .2s linear infinite;
+    }
+    .loading_line:nth-last-child(3) {
+        animation: loading_animation .6s .3s linear infinite;
+    }
+}
+
+.loading_line {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: #4b9cdb;
+    margin: 0 3px;
+}
+
+@keyframes loading_animation {
+    0 {transform: translate(0,0);}
+    50% {transform: translate(0,15px);}
+    100% {transform: translate(0,0);}
+}
