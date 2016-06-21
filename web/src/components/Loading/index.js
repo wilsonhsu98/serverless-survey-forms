@@ -10,10 +10,10 @@ class Loading extends PureComponent {
     render() {
         return (
             <div className={styles.loading}>
-                <div className={styles.loading_wrap}>
-                    <div className={styles.loading_line}></div>
-                    <div className={styles.loading_line}></div>
-                    <div className={styles.loading_line}></div>
+                <div className={styles.wrap}>
+                    <div className={styles.line}></div>
+                    <div className={styles.line}></div>
+                    <div className={styles.line}></div>
                 </div>
             </div>
         );
