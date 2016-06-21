@@ -7,17 +7,7 @@ var postcssImport = require('postcss-import');
 var postcssNested = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
 
-// ENV
-var __PROD__ = process.env.NODE_ENV === 'production';
-var __DEV__ = process.env.NODE_ENV === 'development';
-
 var webpackConfig = {
-    entry: [path.resolve(__dirname, 'feedback/src/entry.js'), 'webpack-hot-middleware/client?reload=true'],
-    output: {
-        filename: "index.js",
-        path: path.resolve(__dirname, 'feedback/build/'),
-        publicPath: 'http://localhost:8080/build/'
-    },
     module: {
         preLoaders: [
             {
@@ -68,19 +58,7 @@ var webpackConfig = {
 };
 
 // Plugins for different environment
-if (__DEV__) {
-    webpackConfig.plugins = [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new ExtractTextPlugin("styles.css", { allChunks: true }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': '"development"'
-            }
-        })
-    ];
-} else if (__PROD__) {
+if (process.env.NODE_ENV === 'production') {
     webpackConfig.plugins = [
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -96,6 +74,18 @@ if (__DEV__) {
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': '"production"'
+            }
+        })
+    ];
+} else {
+    webpackConfig.plugins = [
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin("styles.css", { allChunks: true }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': '"development"'
             }
         })
     ];

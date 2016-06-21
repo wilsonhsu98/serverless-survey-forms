@@ -4,9 +4,8 @@
   "description": "React questionnaire package",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development node feedback/server.js",
-    "example": "NODE_ENV=development webpack --progress --config webpack.config.example.js",
-    "devjs": "NODE_ENV=development webpack --progress --colors",
+    "start": "node feedback/server.js",
+    "feedback": "webpack --progress  --colors --config webpack.config.feedback.js",
     "deploy": "NODE_ENV=production webpack --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

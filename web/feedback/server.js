@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var express = require('express');
-var config = require('../webpack.config.example');
+var config = require('../webpack.config.feedback');
 
 var app = express();
 var port = 8080;
