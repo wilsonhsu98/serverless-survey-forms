@@ -78,6 +78,7 @@ if (process.env.NODE_ENV === 'production') {
         })
     ];
 } else {
+    webpackConfig.devtool = "source-map";
     webpackConfig.plugins = [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
