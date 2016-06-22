@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node feedback/server.js",
-    "feedback": "webpack --progress  --colors --config webpack.config.feedback.js",
+    "feedback": "NODE_ENV=production webpack --progress --config webpack.config.feedback.js",
     "deploy": "NODE_ENV=production webpack --progress",
     "test": "mocha test --recursive --compilers js:babel-register"
   },
