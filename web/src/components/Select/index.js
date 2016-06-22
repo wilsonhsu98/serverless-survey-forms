@@ -51,14 +51,14 @@ class Select extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, item, className } = this.props;
         const selectClass = {
             [styles.selectGrp]: true,
             [styles.open]: this.state.isOpen
         };
         const selectedItem = item.data.find((obj) => obj.value === this.state.selectedValue);
         return (
-            <div ref="root">
+            <div ref="root" className={className}>
                 <Question
                     id={id}
                     text={item.label}
@@ -134,7 +134,8 @@ class Select extends PureComponent {
 Select.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
-    onChangeHandle: PropTypes.func.isRequired
+    onChangeHandle: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 Select.defaultProps = {};

@@ -32,9 +32,9 @@ class Radio extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, item, className } = this.props;
         return (
-            <div ref="root">
+            <div ref="root" className={className}>
                 <Question
                     id={id}
                     text={item.label}
@@ -79,7 +79,8 @@ class Radio extends PureComponent {
 Radio.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
-    onChangeHandle: PropTypes.func.isRequired
+    onChangeHandle: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 Radio.defaultProps = {};

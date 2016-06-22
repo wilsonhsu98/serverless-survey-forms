@@ -46,7 +46,8 @@ class Feedback extends PureComponent {
             id: idx + 1,
             key: idx,
             item: item,
-            onChangeHandle: this._onChangeHandle
+            onChangeHandle: this._onChangeHandle,
+            className: styles.question
         };
         switch (item.type) {
         case 'radio':

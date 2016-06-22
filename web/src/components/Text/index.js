@@ -26,9 +26,9 @@ class Text extends PureComponent {
     }
 
     render() {
-        const { id, item, onChangeHandle } = this.props;
+        const { id, item, onChangeHandle, className } = this.props;
         return (
-            <div ref="root">
+            <div ref="root" className={className}>
                 <Question
                     id={id}
                     text={item.label}
@@ -50,7 +50,8 @@ class Text extends PureComponent {
 Text.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
-    onChangeHandle: PropTypes.func.isRequired
+    onChangeHandle: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 Text.defaultProps = {};
