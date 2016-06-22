@@ -12,8 +12,8 @@
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 15px;
-        padding: 8px 35px 8px 20px;
+        font-size: 14px;
+        padding: 6px 35px 6px 20px;
         border: 1px solid #bbb;
         background: #fff;
         color: #222;
@@ -53,8 +53,8 @@
             padding: 5px 0;
 
             li {
-                font-size: 13px;
-                padding: 8px 20px;
+                font-size: 14px;
+                padding: 6px 20px;
                 cursor: pointer;
                 color: #222;
                 &:hover {

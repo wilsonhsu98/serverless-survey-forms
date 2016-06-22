@@ -1,5 +1,6 @@
 {
     "title": "Survey Form",
+    "descript": "I am description",
     "survey": [
         {
             "page": 1,
@@ -12,7 +13,8 @@
                 {"value": "3", "label": "option label 3"},
                 {"value": "4", "label": "option label 4"},
                 {"value": "5", "label": "option label 5"}
-            ]
+            ],
+            "required": true
         },
         {
             "page": 1,
@@ -23,7 +25,8 @@
                 {"value": "1", "label": "radio label 1"},
                 {"value": "2", "label": "radio label 2"},
                 {"value": "3", "label": "radio label 3"}
-            ]
+            ],
+            "required": false
         },
         {
             "page": 1,
@@ -36,7 +39,8 @@
                 {"value": "3", "label": "checkbox label 3"},
                 {"value": "4", "label": "checkbox label 4"},
                 {"value": "5", "label": "checkbox label 5"}
-            ]
+            ],
+            "required": true
         },
         {
             "page": 2,
@@ -54,20 +58,23 @@
                 {"value": "8", "label": "option label 8"},
                 {"value": "9", "label": "option label 9"},
                 {"value": "10", "label": "option label 10"}
-            ]
+            ],
+            "required": false
         },
         {
             "page": 2,
             "order": 2,
             "type": "text",
-            "label": "I am single line text"
+            "label": "I am single line text",
+            "required": false
         },
         {
             "page": 2,
             "order": 3,
             "type": "textarea",
             "label": "I am multiple line text",
-            "rows": 5
+            "rows": 5,
+            "required": false
         }
     ]
 }

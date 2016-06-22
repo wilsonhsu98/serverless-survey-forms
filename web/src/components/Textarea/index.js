@@ -11,27 +11,29 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 import Question from '../Question/index';
 
 class Textarea extends PureComponent {
 
     componentDidMount() {
-        // TODO: i18n
+        $(this.refs.root).localize();
     }
 
     componentDidUpdate() {
-        // TODO: i18n
+        $(this.refs.root).localize();
     }
 
     render() {
         const { id, item, onChangeHandle } = this.props;
         const rows = item.rows ? item.rows : 3;
         return (
-            <div>
+            <div ref="root">
                 <Question
                     id={id}
                     text={item.label}
+                    required={item.required}
                 />
                 <div>
                     <textarea

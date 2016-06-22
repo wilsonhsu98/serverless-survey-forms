@@ -19,6 +19,7 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
+import $ from 'jquery';
 
 import Question from '../Question/index';
 
@@ -37,12 +38,12 @@ class Select extends PureComponent {
     }
 
     componentDidMount() {
-        // TODO: i18n
+        $(this.refs.root).localize();
         window.addEventListener('click', this._handleDocumentClick);
     }
 
     componentDidUpdate() {
-        // TODO: i18n
+        $(this.refs.root).localize();
     }
 
     componentWillUnmount() {
@@ -57,10 +58,11 @@ class Select extends PureComponent {
         };
         const selectedItem = item.data.find((obj) => obj.value === this.state.selectedValue);
         return (
-            <div>
+            <div ref="root">
                 <Question
                     id={id}
                     text={item.label}
+                    required={item.required}
                 />
                 <div
                     className={classNames(selectClass)}

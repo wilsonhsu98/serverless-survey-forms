@@ -24,16 +24,17 @@ class Feedback extends PureComponent {
 
     render() {
         const survey = this.props.survey;
+        const title = survey.data.title;
+        const descript = survey.data.descript;
         const list = survey.data.survey.map(
             (itm, idx) => this._renderQuestion(itm, idx));
 
         return (
             <div ref="root" className={styles.wrap}>
-                Hello App!
-                <div data-i18n="title"></div>
-                <div data-i18n="basic.key1"></div>
-                <div data-i18n="basic.key2"></div>
                 <div className={styles.container}>
+                    <div className={styles.title}>{title}</div>
+                    <div className={styles.description}>{descript}</div>
+
                     <div>{list}</div>
                 </div>
             </div>
@@ -42,7 +43,7 @@ class Feedback extends PureComponent {
 
     _renderQuestion(item, idx) {
         const requiredProps = {
-            id: idx,
+            id: idx + 1,
             key: idx,
             item: item,
             onChangeHandle: this._onChangeHandle
@@ -59,7 +60,7 @@ class Feedback extends PureComponent {
         case 'select':
             return (<Select {...requiredProps} />);
         default:
-            return (<div key={idx}>Can't find the survey component: {item.type}</div>);
+            return (<div key={idx + 1}>Can't find the survey component: {item.type}</div>);
         }
     }
 

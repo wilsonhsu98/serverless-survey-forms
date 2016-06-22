@@ -11,27 +11,28 @@
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 import Question from '../Question/index';
-
 
 class Text extends PureComponent {
 
     componentDidMount() {
-        // TODO: i18n
+        $(this.refs.root).localize();
     }
 
     componentDidUpdate() {
-        // TODO: i18n
+        $(this.refs.root).localize();
     }
 
     render() {
         const { id, item, onChangeHandle } = this.props;
         return (
-            <div>
+            <div ref="root">
                 <Question
                     id={id}
                     text={item.label}
+                    required={item.required}
                 />
                 <div>
                     <input
