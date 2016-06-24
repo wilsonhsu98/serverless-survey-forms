@@ -26,6 +26,9 @@ before('Initial local DynamoDB', function(done) {
       region: 'us-east-1',
       endpoint: 'http://localhost:' + dynalitePort
     });
+
+    survey.initAWS(aws);
+
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
     });
@@ -67,13 +70,13 @@ describe("Interface to add one new survey model into data store successfully", f
   describe("#addOneSurvey", function() {
     describe("When adding one new survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        let obj = new survey(aws);
+        //let obj = new survey(aws);
         let event = {
           accountid: "this is fake account",
           subject: "this is fake subject",
           survey: "this is fake survey model"
         };
-        obj.addOneSurvey(event, function(error, response) {
+        survey.addOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           response.should.have.all.keys(['accountid', 'surveyid', 'datetime']);
@@ -146,8 +149,8 @@ describe("Interface to add one new survey model into data store with error", fun
     missingParams.forEach(function(test) {
       describe("When adding one new survey model " + test.desc, function() {
         it("should response error", function(done) {
-          let obj = new survey(aws);
-          obj.addOneSurvey(test.event, function(error, response) {
+          //let obj = new survey(aws);
+          survey.addOneSurvey(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
@@ -166,13 +169,13 @@ describe("Interface to get one survey model from data store successfully", funct
   let surveyid = null;
 
   before("Insert one dummy record", function(done) {
-    let obj = new survey(aws);
+    //let obj = new survey(aws);
     let event = {
       accountid: accountid,
       subject: subject,
       survey: surveymodel
     };
-    obj.addOneSurvey(event, function(err, data) {
+    survey.addOneSurvey(event, function(err, data) {
       if (err) throw err;
       surveyid = data.surveyid;
       done();
@@ -182,12 +185,12 @@ describe("Interface to get one survey model from data store successfully", funct
   describe("#getOneSurvey", function() {
     describe("When getting exist survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        let obj = new survey(aws);
+        //let obj = new survey(aws);
         let event = {
           accountid: accountid,
           surveyid: surveyid
         };
-        obj.getOneSurvey(event, function(error, response) {
+        survey.getOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'datetime', 'survey']);
@@ -210,6 +213,14 @@ describe("Interface to get one survey model from data store with error", functio
     let missingParams = [
       // one parameter
       {
+        desc: "with not match any event.accountid",
+        event: {
+          accountid: "Not match",
+          surveyid: "this is fake survey id"
+        },
+        expect: /Error: 404 Not Found/
+      },
+      {
         desc: "with missing event.surveyid",
         event: {
           accountid: "this is fake account"
@@ -230,11 +241,12 @@ describe("Interface to get one survey model from data store with error", functio
       }
     ];
 
+
     missingParams.forEach(function(test) {
       describe("When getting one survey model " + test.desc, function() {
         it("should response error", function(done) {
-          let obj = new survey(aws);
-          obj.getOneSurvey(test.event, function(error, response) {
+          //let obj = new survey(aws);
+          survey.getOneSurvey(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
@@ -245,3 +257,234 @@ describe("Interface to get one survey model from data store with error", functio
     });
   });
 });
+
+describe("Interface to get list survey model from data store successfully", function() {
+  let accountid = "this is fake account";
+  let subject = "this is fake subject";
+  let surveyid = null;
+
+  describe("#listSurveys", function() {
+    describe("When getting exist survey model with complete and normal parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: accountid,
+        };
+        survey.listSurveys(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.keys('surveys');
+          response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+          response.surveys[0].accountid.should.have.string(accountid);
+          //response.surveys[0].surveyid.should.have.string(surveyid);
+          response.surveys[0].subject.should.have.string(subject);
+          response.surveys[0].datetime.should.be.above(0);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("#listSurveys", function() {
+    describe("When getting exist survey model with startKey parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: accountid,
+          authAccountid: "this is fake authAccountid",
+          limitTesting: true,
+        };
+        const limitTestCase = (event) => {
+          survey.listSurveys(event, function(error, response) {
+            //console.log(response);
+            if(typeof response.LastEvaluatedKey != "undefined"){
+              expect(error).to.be.null;
+              expect(response).to.not.be.null;
+              response.should.have.keys(['surveys', 'LastEvaluatedKey']);
+              response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+              response.surveys[0].accountid.should.have.string(accountid);
+              response.surveys[0].subject.should.have.string(subject);
+              response.surveys[0].datetime.should.be.above(0);
+
+              // recursive
+              event.startKey = response.LastEvaluatedKey;
+              limitTestCase(event);
+            }else{
+              done();
+            }
+          });
+        };
+        limitTestCase(event);
+      });
+    });
+  });
+
+});
+
+describe("Interface to get list survey model from data store with error", function() {
+  describe("#listSurveys", function() {
+
+    // missing parameter(s)
+    let missingParams = [
+      {
+        desc: "with missing event.accountid",
+        event: {
+          authAccountid: "this is fake authAccountid"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // all parameters
+      {
+        desc: "with missing all parameters",
+        event: {},
+        expect: /Error: 400 Bad Request/
+      }
+    ];
+
+
+    missingParams.forEach(function(test) {
+      describe("When getting list survey model " + test.desc, function() {
+        it("should response error", function(done) {
+          survey.listSurveys(test.event, function(error, response) {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
+      });
+    });
+  });
+});
+
+
+describe("Interface to update one survey model in data store", function() {
+  let accountid = "this is fake account";
+  let subject = "this is fake subject";
+  let surveymodel = "this is fake survey model";
+  let surveyid = null;
+
+  before("Insert one dummy record", function(done) {
+    //let obj = new survey(aws);
+    let event = {
+      accountid: accountid,
+      subject: subject,
+      survey: surveymodel
+    };
+    survey.addOneSurvey(event, function(err, data) {
+      if (err) throw err;
+      surveyid = data.surveyid;
+      done();
+    });
+  });
+
+  describe("#updateOneSurvey", function() {
+    describe("When updating one exist survey model with complete and normal parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: "this is fake account",
+          subject: "this is a modified subject",
+          survey: "this is modified fake survey model",
+          surveyid: surveyid
+        };
+        survey.updateOneSurvey(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys(['datetime']);
+          response.datetime.should.be.above(0);
+          done();
+        });
+      });
+    });
+
+    describe("When updating one not exist survey model", function() {
+      it("should response error", function(done) {
+        let failParams = {
+          event: {
+            accountid: "not found",
+            subject: "this is a modified subject",
+            survey: "this is modified fake survey model",
+            surveyid: "not found"
+          },
+          expect: /Error: 404 Not Found/
+        };
+        survey.updateOneSurvey(failParams.event, function(error, response) {
+          expect(error).to.not.be.null;
+          expect(response).to.be.null;
+          error.should.match(RegExp(failParams.expect));
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe("Interface to update one exist survey model in data store with error", function() {
+  describe("#updateOneSurvey", function() {
+
+    // missing parameter(s)
+    let missingParams = [
+      // one parameter
+      {
+        desc: "with missing event.survey",
+        event: {
+          accountid: "this is fake account",
+          subject: "this is fake subject"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.subject",
+        event: {
+          accountid: "this is fake account",
+          survey: "this is fake survey model"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid",
+        event: {
+          subject: "this is fake subject",
+          survey: "this is fake survey model"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // two parameters
+      {
+        desc: "with missing event.subject and event.survey",
+        event: {
+          accountid: "this is fake account"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid and event.survey",
+        event: {
+          subject: "this is fake subject"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid and event.subject",
+        event: {
+          survey: "this is fake survey model"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // all parameters
+      {
+        desc: "with missing all parameters",
+        event: {},
+        expect: /Error: 400 Bad Request/
+      }
+    ];
+
+    missingParams.forEach(function(test) {
+      describe("When updating one exist survey model " + test.desc, function() {
+        it("should response error", function(done) {
+          survey.updateOneSurvey(test.event, function(error, response) {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
+      });
+    });
+  });
+});
+
