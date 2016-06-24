@@ -29,7 +29,7 @@
     },
     "responses": "$${apiResponseTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys",
+    "path": "api/v1/mgnt/listsurveys/{accountid}",
     "method": "GET",
     "type": "AWS",
     "authorizationType": "none",
@@ -41,7 +41,9 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
+        "authAccountid": "test",
         "startKey": "$input.params('startKey')",
+        "accountid": "$input.params('accountid')",
         "op": "listSurveys"
       }
     },

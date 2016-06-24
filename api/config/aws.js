@@ -5,6 +5,7 @@
  */
 let aws = require('aws-sdk');
 
+// AWS set region
 if (process.env.SERVERLESS_REGION) {
   console.log("set region to", process.env.SERVERLESS_REGION);
   aws.config.update({

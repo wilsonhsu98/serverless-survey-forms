@@ -26,6 +26,9 @@ before('Initial local DynamoDB', function(done) {
       region: 'us-east-1',
       endpoint: 'http://localhost:' + dynalitePort
     });
+
+    survey.initAWS(aws);
+
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
     });
@@ -210,6 +213,14 @@ describe("Interface to get one survey model from data store with error", functio
     let missingParams = [
       // one parameter
       {
+        desc: "with not match any event.accountid",
+        event: {
+          accountid: "Not match",
+          surveyid: "this is fake survey id"
+        },
+        expect: /Error: 404 Not Found/
+      },
+      {
         desc: "with missing event.surveyid",
         event: {
           accountid: "this is fake account"
@@ -236,6 +247,104 @@ describe("Interface to get one survey model from data store with error", functio
         it("should response error", function(done) {
           //let obj = new survey(aws);
           survey.getOneSurvey(test.event, function(error, response) {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
+      });
+    });
+  });
+});
+
+describe("Interface to get list survey model from data store successfully", function() {
+  let accountid = "this is fake account";
+  let subject = "this is fake subject";
+  let surveyid = null;
+
+  describe("#listSurveys", function() {
+    describe("When getting exist survey model with complete and normal parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: accountid,
+          authAccountid: "this is fake authAccountid",
+        };
+        survey.listSurveys(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.keys('surveys');
+          response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+          response.surveys[0].accountid.should.have.string(accountid);
+          //response.surveys[0].surveyid.should.have.string(surveyid);
+          response.surveys[0].subject.should.have.string(subject);
+          response.surveys[0].datetime.should.be.above(0);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("#listSurveys", function() {
+    describe("When getting exist survey model with startKey parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: accountid,
+          authAccountid: "this is fake authAccountid",
+          limitTesting: true,
+        };
+        const limitTestCase = (event) => {
+          survey.listSurveys(event, function(error, response) {
+            console.log(response);
+            if(typeof response.LastEvaluatedKey != "undefined"){
+              expect(error).to.be.null;
+              expect(response).to.not.be.null;
+              response.should.have.keys(['surveys', 'LastEvaluatedKey']);
+              response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+              response.surveys[0].accountid.should.have.string(accountid);
+              response.surveys[0].subject.should.have.string(subject);
+              response.surveys[0].datetime.should.be.above(0);
+
+              // recursive
+              event.startKey = response.LastEvaluatedKey;
+              limitTestCase(event);
+            }else{
+              done();
+            }
+          });
+        };
+        limitTestCase(event);
+      });
+    });
+  });
+
+});
+
+describe("Interface to get list survey model from data store with error", function() {
+  describe("#listSurveys", function() {
+
+    // missing parameter(s)
+    let missingParams = [
+      {
+        desc: "with missing event.accountid",
+        event: {
+          authAccountid: "this is fake authAccountid"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // all parameters
+      {
+        desc: "with missing all parameters",
+        event: {},
+        expect: /Error: 400 Bad Request/
+      }
+    ];
+
+
+    missingParams.forEach(function(test) {
+      describe("When getting list survey model " + test.desc, function() {
+        it("should response error", function(done) {
+          survey.listSurveys(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
