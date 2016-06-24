@@ -107,8 +107,8 @@ module.exports = (() => {
    */
   const listSurveys = (event, callback) => {
     let response = null;
-
-    if (event.accountid && event.authAccountid && process.env.SERVERLESS_SURVEYTABLE) {
+    // validate parameters
+    if (event.accountid  && process.env.SERVERLESS_SURVEYTABLE) {
       let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
@@ -169,7 +169,6 @@ module.exports = (() => {
    */
   const addOneSurvey = (event, callback) => {
     let response = null;
-
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
       process.env.SERVERLESS_SURVEYTABLE) {
@@ -223,7 +222,52 @@ module.exports = (() => {
    * datetime     The creation date time of the survey
    */
   const updateOneSurvey = (event, callback) => {
-
+    let response = null;
+    // validate parameters
+    if (event.accountid  && event.surveyid && event.subject && event.survey &&
+      process.env.SERVERLESS_SURVEYTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let datetime = Date.now();
+      let params = {
+        TableName: process.env.SERVERLESS_SURVEYTABLE,
+        Key:{
+          accountid: event.accountid,
+          surveyid: event.surveyid
+        },
+        UpdateExpression: "set subject = :subject, survey=:survey, #dt=:datetime",
+        ExpressionAttributeValues:{
+          ":subject": event.subject,
+          ":survey": event.survey,
+          ":datetime": datetime,
+        },
+        ExpressionAttributeNames: {
+          "#dt": "datetime",
+        },
+        "ConditionExpression": "(attribute_exists(surveyid)) AND (attribute_exists(accountid)) ",
+        ReturnValues:"UPDATED_NEW"
+      };
+      docClient.update(params, function(err, data) {
+        if (err) {
+          if(err.code === "ConditionalCheckFailedException"){
+            console.error("Unable to update an item with the request: ", JSON.stringify(params));
+            return callback(new Error("404 Not Found: Unable to update an not exist item with the request: " + JSON.stringify(params)), null);
+          }else{
+            console.error("Unable to update a new item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            return callback(getDynamoDBError(err), null);
+          }
+        } else {
+          // compose response
+          response = {
+            datetime: data.Attributes.datetime,
+          };
+          return callback(null, response);
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
 
 

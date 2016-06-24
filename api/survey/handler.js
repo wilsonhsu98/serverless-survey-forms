@@ -21,26 +21,36 @@ module.exports.handler = (event, context, callback) => {
     case "listSurveys":
       // GET /api/v1/mgnt/surveys/[?startKey=<startKey>]
       // Authenticated: Yes
-      // TODO: validate requester role
+      // TODO: validate requester role Check if authAccountid is authorized to create a new survey
+      //        authAccountid: event.authAccountid,
       return survey.listSurveys({
         accountid: event.accountid,
-        authAccountid: event.authAccountid,
         startKey: event.startKey,
       }, callback );
-      break;
-
-    case "updateOneSurvey":
-      // PUT /api/v1/mgnt/surveys/
       break;
 
     case "addOneSurvey":
       // POST /api/v1/mgnt/surveys/
       // Authenticated: Yes
-      // TODO: validate requester role
+      // TODO: validate requester role Check if authAccountid is authorized to create a new survey
+      //        authAccountid: event.authAccountid,
       return survey.addOneSurvey({
         accountid: event.requester,
         subject: event.subject,
         survey: event.survey
+      }, callback);
+      break;
+
+    case "updateOneSurvey":
+      // PUT /api/v1/mgnt/surveys/
+      // Authenticated: Yes
+      // TODO: validate requester role Check if authAccountid is authorized to create a new survey
+      //        authAccountid: event.authAccountid,
+      return survey.updateOneSurvey({
+        accountid: event.accountid,
+        subject: event.subject,
+        survey: event.survey,
+        surveyid: event.surveyid
       }, callback);
       break;
 
