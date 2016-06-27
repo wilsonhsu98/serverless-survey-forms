@@ -69,7 +69,7 @@ function i18nSetting(resolve, reject, locale, path) {
         handleName: 'localize',
         selectorAttr: 'data-i18n',
         targetAttr: 'i18n-target',
-        optionsAttr: 'data-i18n-options',
+        optionsAttr: 'i18n-options',
         useOptionsAttr: true,
         parseDefaultValueFromContent: false
     });
