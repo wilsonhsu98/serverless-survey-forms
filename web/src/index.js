@@ -1,7 +1,7 @@
 
 // bootstrap css
 // import styles from './css/main.css';
-require('./css/main.css');
+require('../css/main.css');
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
@@ -24,7 +24,7 @@ import I18Next from 'i18next/index';
 import XHR from 'i18next-xhr-backend/index';
 import I18nextJquery from 'jquery-i18next';
 
-import App from './containers/App/';
+import Survey from './containers/Survey/';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -75,7 +75,7 @@ function i18nSetting(resolve, reject, locale, path) {
     });
 }
 
-class Survey extends PureComponent {
+class App extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -96,11 +96,11 @@ class Survey extends PureComponent {
         return (
             <Provider store={store}>
                 <Router history={history}>
-                    <Route path="*" component={App} {...this.state} />
+                    <Route path="*" component={Survey} {...this.state} />
                 </Router>
             </Provider>
         );
     }
 }
 
-export default Survey;
+export default App;

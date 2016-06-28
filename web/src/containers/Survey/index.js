@@ -11,7 +11,7 @@ import * as SurveyActions from '../../actions/survey';
 import Feedback from '../../components/Feedback';
 import Loading from '../../components/Loading';
 
-class App extends PureComponent {
+class Survey extends PureComponent {
 
     componentDidMount() {
         $(this.refs.root).localize();
@@ -49,4 +49,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(App);
+)(Survey);
