@@ -1,4 +1,8 @@
 {
     "required"				: "*required",
-    "optional"				: "optional"
+    "optional"				: "optional",
+
+    "__________PORTAL__________":"",
+    "fblogin_title"	            : "Welcome to Survey Form",
+    "fblogin_desc"	            : "If you want to create questionnaire, click button to sign in/sign up"
 }
