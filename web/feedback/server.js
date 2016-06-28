@@ -1,3 +1,4 @@
+var path = require('path');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
@@ -16,6 +17,7 @@ app.use(webpackDevMiddleware(compiler, {
    	}
 }));
 app.use(webpackHotMiddleware(compiler));
+app.use(express.static(path.join(__dirname, '..')));
 app.get('*', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });

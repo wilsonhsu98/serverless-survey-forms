@@ -24,7 +24,7 @@ class Feedback extends PureComponent {
 
     render() {
         const survey = this.props.survey;
-        // const title = survey.data.title;
+        const title = survey.data.title;
         const descript = survey.data.descript;
         const list = survey.data.survey.map(
             (itm, idx) => this._renderQuestion(itm, idx));
@@ -32,8 +32,8 @@ class Feedback extends PureComponent {
         return (
             <div ref="root" className={styles.wrap}>
                 <div className={styles.container}>
-                    <div className={styles.title} data-i18n="title"></div>
-                    <div className={styles.description}>{descript}</div>
+                    <div className={styles.title} data-i18n={title}></div>
+                    <div className={styles.description} data-i18n={descript}></div>
 
                     <div>{list}</div>
                 </div>
