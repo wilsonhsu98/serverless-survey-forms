@@ -7,6 +7,7 @@ import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
 class FBLogin extends PureComponent {
+
     componentDidMount() {
         $(this.refs.root).localize();
     }
@@ -20,8 +21,17 @@ class FBLogin extends PureComponent {
             <div ref="root">
                 <h1 data-i18n="fblogin_title"></h1>
                 <div data-i18n="fblogin_desc"></div>
+
+                <button
+                    onClick={this._onClickFBBtn}
+                    data-i18n="fblogin_btn"
+                />
             </div>
         );
+    }
+
+    _onClickFBBtn() {
+        // TODOS: Call FB Login page and grant permission
     }
 }
 

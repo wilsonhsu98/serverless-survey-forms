@@ -21,6 +21,8 @@ import I18Next from 'i18next/index';
 import XHR from 'i18next-xhr-backend/index';
 import I18nextJquery from 'jquery-i18next';
 
+import * as LoadingActions from './actions/loading';
+
 import Portal from './containers/Portal/';
 
 const store = configureStore();
@@ -38,8 +40,9 @@ function i18nSetting(resolve, reject, locale) {
     .init({
         lng: locale,
         fallbackLng: 'en-US',
-        debug: false,
+        debug: true,
         ns: 'basic',
+        defaultNS: 'basic',
         backend: {
             loadPath: '/assets/L10N_basic/__lng__/__ns__.json'
         },
@@ -72,15 +75,14 @@ class App extends PureComponent {
 
         // TODOS: change locale, maybe pass by props
         const locale = 'en-US';
-        const settings = Object.assign({}, props, { locale: locale });
+        // const settings = Object.assign({}, props, { locale: locale });
 
         // store.dispatch(SettingsActions.settings(settings));
         // Localization init settings
-        getPromise(i18nSetting, locale);
-        // .then(() =>
-        //     // fetch survey from API
-        //     store.dispatch(SurveyActions.fetchSurvey(settings.surveyid))
-        // );
+        getPromise(i18nSetting, locale)
+        .then(() => {
+            store.dispatch(LoadingActions.setLoading(false));
+        });
     }
 
     render() {

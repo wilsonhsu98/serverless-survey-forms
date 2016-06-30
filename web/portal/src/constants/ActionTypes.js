@@ -3,6 +3,9 @@
  * Action constants
  **/
 
+// loading
+export const SET_LOADING = 'SET_LOADING';
+
 // settings
 export const SET_SETTINGS = 'SET_SETTINGS';
 
