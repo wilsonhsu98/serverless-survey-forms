@@ -8,6 +8,11 @@ import $ from 'jquery';
 
 class FBLogin extends PureComponent {
 
+    constructor() {
+        super();
+        this._onClickFBBtn = this._onClickFBBtn.bind(this);
+    }
+
     componentDidMount() {
         $(this.refs.root).localize();
     }
@@ -31,7 +36,7 @@ class FBLogin extends PureComponent {
     }
 
     _onClickFBBtn() {
-        // TODOS: Call FB Login page and grant permission
+        this.props.fbIDActions.getFBToAccount('i am log in xxxxxxxx');
     }
 }
 

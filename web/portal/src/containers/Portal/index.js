@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 // Actions
-// import * as SurveyActions from '../../actions/survey';
+import * as AccountActions from '../../actions/account';
+import * as FBIDActions from '../../actions/fbID';
 
+import Design from '../../components/Design';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
@@ -24,28 +26,47 @@ class Portal extends PureComponent {
     render() {
         const { loading } = this.props;
 
-        // TODOS: decide show FB Login/Portal List/Create Survey
         return (
             <div ref="root">
                 {loading
                     ? <Loading />
-                    : <FBLogin />}
+                    : this._doUserLogin()}
             </div>
         );
+    }
+
+    _doUserLogin() {
+        const { fbID, account } = this.props;
+        if (fbID === '') {
+            // if user didn't grant FB permission
+            const requiredFBProps = {
+                fbIDActions: this.props.fbIDActions
+            };
+            return <FBLogin {...requiredFBProps} />;
+        }
+        if (account && account.role && (account.role === 'Designer' || account.role === 'Admin')) {
+            // if user had account and account role is Designer or Admin
+            const requiredAccProps = {
+                account: account
+            };
+            return <Design {...requiredAccProps} />;
+        }
+        return <div>You cannot pass!</div>;
     }
 }
 
 function mapStateToProps(state) {
     return {
-        loading: state.loading
-        // ,
-        // survey: state.survey
+        loading: state.loading,
+        fbID: state.fbID,
+        account: state.account,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // surveyActions: bindActionCreators(SurveyActions, dispatch)
+        accountActions: bindActionCreators(AccountActions, dispatch),
+        fbIDActions: bindActionCreators(FBIDActions, dispatch)
     };
 }
 

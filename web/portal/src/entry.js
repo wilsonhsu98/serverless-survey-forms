@@ -22,6 +22,8 @@ import XHR from 'i18next-xhr-backend/index';
 import I18nextJquery from 'jquery-i18next';
 
 import * as LoadingActions from './actions/loading';
+import * as FBIDActions from './actions/fbID';
+import * as AccountActions from './actions/account';
 
 import Portal from './containers/Portal/';
 
@@ -40,7 +42,7 @@ function i18nSetting(resolve, reject, locale) {
     .init({
         lng: locale,
         fallbackLng: 'en-US',
-        debug: true,
+        debug: false,
         ns: 'basic',
         defaultNS: 'basic',
         backend: {
@@ -70,16 +72,23 @@ function i18nSetting(resolve, reject, locale) {
 }
 
 class App extends PureComponent {
+
     constructor(props) {
         super(props);
 
         // TODOS: change locale, maybe pass by props
         const locale = 'en-US';
-        // const settings = Object.assign({}, props, { locale: locale });
 
-        // store.dispatch(SettingsActions.settings(settings));
         // Localization init settings
         getPromise(i18nSetting, locale)
+        .then(() =>
+            store.dispatch(FBIDActions.fetchFBID())
+        )
+        .then(() => {
+            if (store.getState().fbID) {
+                return store.dispatch(AccountActions.fetchAccount());
+            }
+        })
         .then(() => {
             store.dispatch(LoadingActions.setLoading(false));
         });
