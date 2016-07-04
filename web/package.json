@@ -4,8 +4,8 @@
   "description": "React questionnaire package",
   "main": "index.js",
   "scripts": {
-    "start": "node feedback/server.js",
-    "portal": "node portal/server.js",
+    "start": "NODE_ENV=development node feedback/server.js",
+    "portal": "NODE_ENV=development node portal/server.js",
     "feedback": "NODE_ENV=production webpack --progress --config webpack.config.feedback.js",
     "deploy": "NODE_ENV=production webpack --progress",
     "test": "mocha test --recursive --compilers js:babel-register"

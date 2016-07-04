@@ -1,4 +1,7 @@
 
+// CSS
+import styles from './style.css';
+
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
@@ -6,10 +9,9 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 // Actions
-import * as AccountActions from '../../actions/account';
 import * as FBIDActions from '../../actions/fbID';
 
-import Design from '../../components/Design';
+import Menu from '../../components/Menu';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
@@ -30,12 +32,12 @@ class Portal extends PureComponent {
             <div ref="root">
                 {loading
                     ? <Loading />
-                    : this._doUserLogin()}
+                    : this._checkUserLogin()}
             </div>
         );
     }
 
-    _doUserLogin() {
+    _checkUserLogin() {
         const { fbID, account } = this.props;
         if (fbID === '') {
             // if user didn't grant FB permission
@@ -46,10 +48,14 @@ class Portal extends PureComponent {
         }
         if (account && account.role && (account.role === 'Designer' || account.role === 'Admin')) {
             // if user had account and account role is Designer or Admin
-            const requiredAccProps = {
-                account: account
-            };
-            return <Design {...requiredAccProps} />;
+            return (
+                <div>
+                    <Menu />
+                    <div className={styles.wrap}>
+                        {this.props.children}
+                    </div>
+                </div>
+            );
         }
         return <div>You cannot pass!</div>;
     }
@@ -65,7 +71,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        accountActions: bindActionCreators(AccountActions, dispatch),
         fbIDActions: bindActionCreators(FBIDActions, dispatch)
     };
 }

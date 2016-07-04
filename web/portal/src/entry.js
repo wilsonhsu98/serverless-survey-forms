@@ -25,7 +25,7 @@ import * as LoadingActions from './actions/loading';
 import * as FBIDActions from './actions/fbID';
 import * as AccountActions from './actions/account';
 
-import Portal from './containers/Portal/';
+import MainRouter from './routers';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -97,9 +97,7 @@ class App extends PureComponent {
     render() {
         return (
             <Provider store={store}>
-                <Router history={history}>
-                    <Route path="*" component={Portal} {...this.state} />
-                </Router>
+                <MainRouter history={history} />
             </Provider>
         );
     }

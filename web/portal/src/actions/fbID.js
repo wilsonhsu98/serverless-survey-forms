@@ -3,6 +3,7 @@ import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import { fetchAccount } from './account';
 import { setLoading } from './loading';
+import { push } from 'react-router-redux';
 
 function receiveFBIDSuccess(data) {
     return {
@@ -47,6 +48,7 @@ export function getFBToAccount(data) {
     return (dispatch) => {
         dispatch(setFBID(data));
         return dispatch(fetchAccount()).then(() => {
+            dispatch(push('/list'));
             dispatch(setLoading(false));
         });
     };
