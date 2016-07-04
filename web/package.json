@@ -8,6 +8,8 @@
     "portal": "NODE_ENV=development node portal/server.js",
     "feedback": "NODE_ENV=production webpack --progress --config webpack.config.feedback.js",
     "deploy": "NODE_ENV=production webpack --progress",
+    "lint:portal": "eslint portal/src; exit 0",
+    "lint:src": "eslint src; exit 0",
     "test": "mocha test --recursive --compilers js:babel-register"
   },
   "author": "",

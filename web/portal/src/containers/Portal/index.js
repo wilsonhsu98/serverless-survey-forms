@@ -65,7 +65,7 @@ function mapStateToProps(state) {
     return {
         loading: state.loading,
         fbID: state.fbID,
-        account: state.account,
+        account: state.account
     };
 }
 

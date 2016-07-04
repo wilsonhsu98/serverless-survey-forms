@@ -1,6 +1,7 @@
 
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
+import Config from '../config';
 
 function requestAccount() {
     return {
@@ -25,7 +26,7 @@ function receiveAccountFailure(err) {
 export function fetchAccount() {
     return (dispatch) => {
         dispatch(requestAccount());
-        return fetch('https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim', {
+        return fetch(`${Config.baseURL}/mgnt/users`, {
             credentials: 'same-origin'
         })
         .then(response => response.json())

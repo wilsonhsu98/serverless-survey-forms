@@ -9,16 +9,16 @@ import List from '../containers/List/';
 
 class MainRouter extends PureComponent {
     render() {
-    	// TODOS: add route to
+        // TODOS: add route to
         // /create
         // /edit?surveyid=xxx
         // /report
         return (
-        	<Router history={this.props.history}>
-        		<Route path="/" component={Portal}>
-        			<Route path="create" component={Create} />
-                	<Route path="list" component={List} />
-            	</Route>
+            <Router history={this.props.history}>
+                <Route path="/" component={Portal}>
+                    <Route path="create" component={Create} />
+                    <Route path="list" component={List} />
+                </Route>
             </Router>
         );
     }

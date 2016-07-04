@@ -3,6 +3,7 @@ import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import { fetchAccount } from './account';
 import { setLoading } from './loading';
+import Config from '../config';
 import { push } from 'react-router-redux';
 
 function receiveFBIDSuccess(data) {
@@ -21,7 +22,7 @@ function receiveFBIDFailure(err) {
 
 export function fetchFBID() {
     return (dispatch) =>
-        fetch('https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim', {
+        fetch(`${Config.baseURL}/mgnt/users`, {
             credentials: 'same-origin'
         })
         .then(response => response.json())

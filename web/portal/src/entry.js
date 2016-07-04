@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 // Router
-import { browserHistory, Router, Route } from 'react-router';
+import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 // Redux
