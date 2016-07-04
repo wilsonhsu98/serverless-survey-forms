@@ -521,6 +521,19 @@ describe("Interface to delete one survey model from data store successfully", fu
         });
       });
     });
+    describe("When deleting non-exist survey model with complete and normal parameters", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          accountid: 'non-exist accountid',
+          surveyid: 'non-exist surveyid'
+        };
+        survey.deleteOneSurvey(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.be.null;
+          done();
+        });
+      });
+    });
   });
 });
 

@@ -294,7 +294,7 @@ module.exports = (() => {
       };
       docClient.delete(params, function(err, data) {
         if (err) {
-          console.error("Unable to delete a new item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          console.error("Unable to delete an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           return callback(null, response); // Response will be an HTTP 200 with no content.
