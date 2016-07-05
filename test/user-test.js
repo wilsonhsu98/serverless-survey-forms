@@ -26,6 +26,9 @@ before('Initial local DynamoDB', function(done) {
       region: 'us-east-1',
       endpoint: 'http://localhost:' + dynalitePort
     });
+
+    user.initAWS(aws);
+
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
     });
@@ -61,13 +64,13 @@ describe("Interface to add one new user model into data store successfully", fun
   describe("#addOneUser", function() {
     describe("When adding one new user model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        let obj = new user(aws);
         let event = {
           accountid: "this is fake account",
           username: "this is fake user name",
-          email: "this is fake email"
+          email: "this is fake email",
+          role: "User",
         };
-        obj.addOneUser(event, function(error, response) {
+        user.addOneUser(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           done();
@@ -136,8 +139,7 @@ describe("Interface to add one new user model into data store with error", funct
     missingParams.forEach(function(test) {
       describe("When adding one new user model " + test.desc, function() {
         it("should response error", function(done) {
-          let obj = new user(aws);
-          obj.addOneUser(test.event, function(error, response) {
+          user.addOneUser(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
@@ -150,43 +152,67 @@ describe("Interface to add one new user model into data store with error", funct
 });
 
 describe("Interface to get one user model from data store successfully", function() {
+  let accountid = "this is fake account",
+    username = "this is fake user name",
+    email = "this is fake email",
+    role = "User";
+
+  before("Insert one dummy record", function(done) {
+    let event = {
+      accountid: accountid,
+      username: username,
+      email: email,
+      role: role
+    };
+    user.addOneUser(event, function(err, data) {
+      if (err) throw err;
+      done();
+    });
+  });
+
   describe("#getOneUser", function() {
     describe("When getting exist user model with complete and normal parameters", function() {
-      it("should response successfully");
+      let event = {
+        accountid: accountid,
+      };
+      it("should response successfully", (done) => {
+        user.getOneUser(event, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
+          response.accountid.should.have.string(accountid);
+          response.username.should.have.string(username);
+          response.email.should.have.string(email);
+          response.role.should.have.string(role);
+          done();
+        });
+      });
     });
   });
 });
 
 describe("Interface to get one user model from data store with error", function() {
   describe("#getOneUser", function() {
-
     // missing parameter(s)
     let missingParams = [
       // one parameter
-      {
-        desc: "with missing event.userid",
-        event: {
-          accountid: "this is fake account"
-        },
-        expect: /Error: 400 Bad Request/
-      }, {
+     {
         desc: "with missing event.accountid",
-        event: {
-          userid: "this is fake user id"
-        },
-        expect: /Error: 400 Bad Request/
-      },
-      // all parameters
-      {
-        desc: "with missing all parameters",
         event: {},
         expect: /Error: 400 Bad Request/
-      }
+      },
     ];
 
     missingParams.forEach(function(test) {
       describe("When getting one user model " + test.desc, function() {
-        it("should response error");
+        it("should response error", (done) => {
+          user.getOneUser(test.event, (error, response) => {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
       });
     });
   });
