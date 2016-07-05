@@ -281,7 +281,7 @@ module.exports = (() => {
    * None
    */
   const deleteOneSurvey = (event, callback) => {
-    let response = null;
+    let response = {};
     // validate parameters
     if (event.accountid  && event.surveyid && process.env.SERVERLESS_SURVEYTABLE) {
       let docClient = new aws.DynamoDB.DocumentClient();

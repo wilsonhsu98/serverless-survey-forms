@@ -70,7 +70,6 @@ describe("Interface to add one new survey model into data store successfully", f
   describe("#addOneSurvey", function() {
     describe("When adding one new survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        //let obj = new survey(aws);
         let event = {
           accountid: "this is fake account",
           subject: "this is fake subject",
@@ -149,7 +148,6 @@ describe("Interface to add one new survey model into data store with error", fun
     missingParams.forEach(function(test) {
       describe("When adding one new survey model " + test.desc, function() {
         it("should response error", function(done) {
-          //let obj = new survey(aws);
           survey.addOneSurvey(test.event, function(error, response) {
             expect(error).to.not.be.null;
             expect(response).to.be.null;
@@ -169,7 +167,6 @@ describe("Interface to get one survey model from data store successfully", funct
   let surveyid = null;
 
   before("Insert one dummy record", function(done) {
-    //let obj = new survey(aws);
     let event = {
       accountid: accountid,
       subject: subject,
@@ -185,7 +182,6 @@ describe("Interface to get one survey model from data store successfully", funct
   describe("#getOneSurvey", function() {
     describe("When getting exist survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
-        //let obj = new survey(aws);
         let event = {
           accountid: accountid,
           surveyid: surveyid
@@ -273,18 +269,19 @@ describe("Interface to get list survey model from data store successfully", func
           expect(error).to.be.null;
           expect(response).to.not.be.null;
           response.should.have.keys('surveys');
-          response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
-          response.surveys[0].accountid.should.have.string(accountid);
-          //response.surveys[0].surveyid.should.have.string(surveyid);
-          response.surveys[0].subject.should.have.string(subject);
-          response.surveys[0].datetime.should.be.above(0);
+          response.surveys.length.should.equal(2); // There are two survey model in above test case.
+          response.surveys.map((obj) => {
+            obj.should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+            obj.accountid.should.exist;
+            obj.surveyid.should.exist;
+            obj.subject.should.exist;
+            obj.datetime.should.exist;
+          });
           done();
         });
       });
     });
-  });
 
-  describe("#listSurveys", function() {
     describe("When getting exist survey model with startKey parameters", function() {
       it("should response successfully", function(done) {
         let event = {
@@ -294,15 +291,18 @@ describe("Interface to get list survey model from data store successfully", func
         };
         const limitTestCase = (event) => {
           survey.listSurveys(event, function(error, response) {
-            //console.log(response);
             if(typeof response.LastEvaluatedKey != "undefined"){
               expect(error).to.be.null;
               expect(response).to.not.be.null;
               response.should.have.keys(['surveys', 'LastEvaluatedKey']);
-              response.surveys[0].should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
-              response.surveys[0].accountid.should.have.string(accountid);
-              response.surveys[0].subject.should.have.string(subject);
-              response.surveys[0].datetime.should.be.above(0);
+              response.surveys.length.should.equal(1); // There is one survey model because setting limit is 1.
+              response.surveys.map((obj) => {
+                obj.should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+                obj.surveyid.should.exist;
+                obj.accountid.should.exist;
+                obj.subject.should.exist;
+                obj.datetime.should.exist;
+              });
 
               // recursive
               event.startKey = response.LastEvaluatedKey;
@@ -316,7 +316,6 @@ describe("Interface to get list survey model from data store successfully", func
       });
     });
   });
-
 });
 
 describe("Interface to get list survey model from data store with error", function() {
@@ -362,7 +361,6 @@ describe("Interface to update one survey model in data store", function() {
   let surveyid = null;
 
   before("Insert one dummy record", function(done) {
-    //let obj = new survey(aws);
     let event = {
       accountid: accountid,
       subject: subject,
@@ -494,7 +492,6 @@ describe("Interface to delete one survey model from data store successfully", fu
   let surveyid = null;
 
   before("Insert one dummy record", function(done) {
-    //let obj = new survey(aws);
     let event = {
       accountid: accountid,
       subject: subject,
@@ -516,7 +513,7 @@ describe("Interface to delete one survey model from data store successfully", fu
         };
         survey.deleteOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
-          expect(response).to.be.null;
+          expect(response).to.not.be.null;
           done();
         });
       });
@@ -529,7 +526,7 @@ describe("Interface to delete one survey model from data store successfully", fu
         };
         survey.deleteOneSurvey(event, function(error, response) {
           expect(error).to.be.null;
-          expect(response).to.be.null;
+          expect(response).to.not.be.null;
           done();
         });
       });
