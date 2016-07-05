@@ -99,10 +99,9 @@ module.exports = (() => {
       let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
-        ProjectionExpression: "accountid, username, email, role",
-        KeyConditionExpression: "accountid = :accountId",
-        ExpressionAttributeValues: {
-          ":accountId": event.accountid,
+        ProjectionExpression: "accountid, username, email, #role",
+        ExpressionAttributeNames: {
+          "#role": "role",
         },
       };
 
@@ -115,7 +114,7 @@ module.exports = (() => {
         params.Limit = 1;
       }
 
-      docClient.query(params, function(err, data) {
+      docClient.scan(params, function(err, data) {
         if (err) {
           console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);

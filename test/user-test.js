@@ -68,7 +68,7 @@ describe("Interface to add one new user model into data store successfully", fun
           accountid: "this is fake account",
           username: "this is fake user name",
           email: "this is fake email",
-          role: "User",
+          role: "this is fake User",
         };
         user.addOneUser(event, function(error, response) {
           expect(error).to.be.null;
@@ -90,19 +90,30 @@ describe("Interface to add one new user model into data store with error", funct
         desc: "with missing event.email",
         event: {
           accountid: "this is fake account",
-          username: "this is fake user name"
+          username: "this is fake user name",
+          role: "this is fake User"
         },
         expect: /Error: 400 Bad Request/
       }, {
         desc: "with missing event.username",
         event: {
           accountid: "this is fake account",
-          email: "this is fake email"
+          email: "this is fake email",
+          role: "this is fake User"
         },
         expect: /Error: 400 Bad Request/
       }, {
         desc: "with missing event.accountid",
         event: {
+          username: "this is fake user name",
+          email: "this is fake email",
+          role: "this is fake User"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.role",
+        event: {
+          accountid: "this is fake account",
           username: "this is fake user name",
           email: "this is fake email"
         },
@@ -112,19 +123,43 @@ describe("Interface to add one new user model into data store with error", funct
       {
         desc: "with missing event.username and event.email",
         event: {
-          accountid: "this is fake account"
+          accountid: "this is fake account",
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.username and event.role",
+        event: {
+          accountid: "this is fake account",
+          email: "this is fake email",
         },
         expect: /Error: 400 Bad Request/
       }, {
         desc: "with missing event.accountid and event.username",
         event: {
-          email: "this is fake email"
+          email: "this is fake email",
+          role: "this is fake role"
         },
         expect: /Error: 400 Bad Request/
       }, {
         desc: "with missing event.accountid and event.email",
         event: {
-          username: "this is fake user name"
+          username: "this is fake user name",
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      },{
+        desc: "with missing event.accountid and event.role",
+        event: {
+          username: "this is fake user name",
+          email: "this is fake email"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.role and event.email",
+        event: {
+          accountid: "this is fake account",
+          username: "this is fake user name",
         },
         expect: /Error: 400 Bad Request/
       },
@@ -152,10 +187,10 @@ describe("Interface to add one new user model into data store with error", funct
 });
 
 describe("Interface to get one user model from data store successfully", function() {
-  let accountid = "this is fake account",
-    username = "this is fake user name",
-    email = "this is fake email",
-    role = "User";
+  let accountid = "this is dummy account",
+    username = "this is dummy user name",
+    email = "this is dummy email",
+    role = "this is dummy User";
 
   before("Insert one dummy record", function(done) {
     let event = {
@@ -214,6 +249,94 @@ describe("Interface to get one user model from data store with error", function(
           });
         });
       });
+    });
+  });
+});
+
+describe("Interface to get list users model from data store successfully", () => {
+  describe("#listUsers", () => {
+    describe("When getting exist users model with complete and normal parameters", () => {
+      let event = {};
+      it("should response successfully", (done) => {
+        user.listUsers(event, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.keys('users');
+          response.users.length.should.equal(2); // There are two users data in above test case
+          response.users.map((obj) => {
+            obj.should.have.keys(['accountid', 'username', 'email', 'role']);
+            obj.accountid.should.exist;
+            obj.username.should.exist;
+            obj.email.should.exist;
+            obj.role.should.exist;
+          });
+          done();
+        });
+      });
+    });
+
+    describe("When getting exist users model with startKey parameters", () => {
+      let event = {
+        limitTesting: true,
+      };
+      it("should response successfully", (done) => {
+        const limitTestCase = (event) => {
+          user.listUsers(event, (error, response) => {
+            if (typeof response.LastEvaluatedKey != "undefined") {
+              expect(error).to.be.null;
+              expect(response).to.not.be.null;
+              response.should.have.keys(['users', 'LastEvaluatedKey']);
+              response.users.length.should.equal(1); // There is one user data because setting limit is 1.
+              response.users.map((obj) => {
+                obj.should.have.keys(['accountid', 'username', 'email', 'role']);
+                obj.accountid.should.exist;
+                obj.username.should.exist;
+                obj.email.should.exist;
+                obj.role.should.exist;
+              });
+              // recursive
+              event.startKey = response.LastEvaluatedKey;
+              limitTestCase(event);
+            } else {
+              done();
+            }
+          });
+        };
+        limitTestCase(event);
+      });
+    });
+  });
+});
+
+// TODO ask how to missingParams in #listUsers return 400 Bad request.
+describe("Interface to get list users model from data store with error" , () => {
+  describe("#listUsers", () => {
+    let params =
+      {
+        desc: "with wrong setting",
+        event: {},
+        expect: /Error: 400 Bad Request/
+      };
+
+    before("For 400, set SERVERLESS_USERTABLE null", (done) => {
+      process.env['SERVERLESS_USERTABLE'] = null;
+      done();
+    });
+
+    describe("When getting list users mode " + params.desc, () => {
+      it("should response error", () => {
+        user.listUsers(params.event, (error, response) => {
+          expect(error).to.not.be.null;
+          expect(response).to.be.null;
+          error.should.match(RegExp(test.expect));
+          done();
+        });
+      });
+    });
+
+    after("Set SERVERLESS_USERTABLE usertable", (done) => {
+      process.env['SERVERLESS_USERTABLE'] = 'usertable';
+      done();
     });
   });
 });
