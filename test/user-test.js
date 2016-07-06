@@ -159,7 +159,36 @@ describe("Interface to add one new user model into data store with error", funct
         desc: "with missing event.role and event.email",
         event: {
           accountid: "this is fake account",
-          username: "this is fake user name",
+          username: "this is fake user name"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // three parameters
+      {
+        desc: "with missing event.role, event.accountid and event.email",
+        event: {
+          username: "this is fake user name"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.role, event.username and event.email",
+        event: {
+          accountid: "this is fake account"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.username, event.accountid and event.email",
+        event: {
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.username, event.accountid and event.role",
+        event: {
+          email: "this is fake email"
         },
         expect: /Error: 400 Bad Request/
       },
@@ -324,11 +353,11 @@ describe("Interface to get list users model from data store with error" , () => 
     });
 
     describe("When getting list users mode " + params.desc, () => {
-      it("should response error", () => {
+      it("should response error", (done) => {
         user.listUsers(params.event, (error, response) => {
           expect(error).to.not.be.null;
           expect(response).to.be.null;
-          error.should.match(RegExp(test.expect));
+          error.should.match(RegExp(params.expect));
           done();
         });
       });
@@ -337,6 +366,192 @@ describe("Interface to get list users model from data store with error" , () => 
     after("Set SERVERLESS_USERTABLE usertable", (done) => {
       process.env['SERVERLESS_USERTABLE'] = 'usertable';
       done();
+    });
+  });
+});
+
+describe("Interface to update one user model in data store", function() {
+  describe("#updateOneUser", function() {
+    describe("When updating one exist user model with complete and normal parameters", function() {
+      it("should response successfully", function() {
+        let event = {
+          accountid: "this is fake account",
+          username: "this is true user name",
+          email: "this is true email",
+          role: "this is true User",
+        };
+        // chai with Promise
+        return new Promise((resolve, reject) => {
+            user.updateOneUser(event, (error, response) => {
+              expect(error).to.be.null;
+              expect(response).to.not.be.null;
+              resolve(event);
+            });
+        }).then( (event) => {
+          return user.getOneUser(event, (error, response) => {
+            response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
+            response.accountid.should.have.string(event.accountid);
+            response.username.should.have.string(event.username);
+            response.email.should.have.string(event.email);
+            response.role.should.have.string(event.role);
+          });
+        });
+      });
+    });
+
+    describe("When updating one not exist user model", function() {
+      it("should response error", function(done) {
+        let failParams = {
+          event: {
+            accountid: "not found",
+            username: "this is true user name",
+            email: "this is true email",
+            role: "this is true User",
+          },
+          expect: /Error: 404 Not Found/
+        };
+        user.updateOneUser(failParams.event, function(error, response) {
+          expect(error).to.not.be.null;
+          expect(response).to.be.null;
+          error.should.match(RegExp(failParams.expect));
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe("Interface to update one user model in data store with error", function() {
+  describe("#updateOneUser", function() {
+
+    // missing parameter(s)
+    let missingParams = [
+      // one parameter
+      {
+        desc: "with missing event.email",
+        event: {
+          accountid: "this is fake account",
+          username: "this is fake user name",
+          role: "this is fake User"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.username",
+        event: {
+          accountid: "this is fake account",
+          email: "this is fake email",
+          role: "this is fake User"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid",
+        event: {
+          username: "this is fake user name",
+          email: "this is fake email",
+          role: "this is fake User"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.role",
+        event: {
+          accountid: "this is fake account",
+          username: "this is fake user name",
+          email: "this is fake email"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // two parameters
+      {
+        desc: "with missing event.username and event.email",
+        event: {
+          accountid: "this is fake account",
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.username and event.role",
+        event: {
+          accountid: "this is fake account",
+          email: "this is fake email",
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid and event.username",
+        event: {
+          email: "this is fake email",
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.accountid and event.email",
+        event: {
+          username: "this is fake user name",
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      },{
+        desc: "with missing event.accountid and event.role",
+        event: {
+          username: "this is fake user name",
+          email: "this is fake email"
+        },
+        expect: /Error: 400 Bad Request/
+      }, {
+        desc: "with missing event.role and event.email",
+        event: {
+          accountid: "this is fake account",
+          username: "this is fake user name"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // three parameters
+      {
+        desc: "with missing event.role, event.accountid and event.email",
+        event: {
+          username: "this is fake user name"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.role, event.username and event.email",
+        event: {
+          accountid: "this is fake account"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.username, event.accountid and event.email",
+        event: {
+          role: "this is fake role"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      {
+        desc: "with missing event.username, event.accountid and event.role",
+        event: {
+          email: "this is fake email"
+        },
+        expect: /Error: 400 Bad Request/
+      },
+      // all parameters
+      {
+        desc: "with missing all parameters",
+        event: {},
+        expect: /Error: 400 Bad Request/
+      }
+    ];
+
+    missingParams.forEach(function(test) {
+      describe("When updating one exist user model " + test.desc, function() {
+        it("should response error", function(done) {
+          user.updateOneUser(test.event, function(error, response) {
+            expect(error).to.not.be.null;
+            expect(response).to.be.null;
+            error.should.match(RegExp(test.expect));
+            done();
+          });
+        });
+      });
     });
   });
 });

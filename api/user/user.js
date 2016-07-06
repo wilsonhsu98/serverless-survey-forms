@@ -50,7 +50,7 @@ module.exports = (() => {
 
       docClient.get(params, function(err, data) {
         if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          // console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           if (data.Item) { // got response
@@ -63,7 +63,7 @@ module.exports = (() => {
             };
             return callback(null, response);
           } else {
-            console.error("Unable to get an item with the request: ", JSON.stringify(params));
+            // console.error("Unable to get an item with the request: ", JSON.stringify(params));
             return callback(new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params)), null);
           }
         }
@@ -116,7 +116,7 @@ module.exports = (() => {
 
       docClient.scan(params, function(err, data) {
         if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          // console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           // got response
@@ -164,7 +164,7 @@ module.exports = (() => {
 
       docClient.put(params, function(err, data) {
         if (err) {
-          console.error("Unable to add a new user with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          //console.error("Unable to add a new user with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           return callback(null, {});
@@ -183,12 +183,52 @@ module.exports = (() => {
    * accountid  accountid with authentication provider as prefix or default system ${project}-${stage}-admin
    * username   User name from authentication provider or "admin" for ${project}-${stage}-admin
    * email      Email from authentication provider or sha2 of password for ${project}-${stage}-admin
-   *
+   * role       Role
    * Response:
    * None
    */
   const updateOneUser = (event, callback) => {
+    let response = {};
+    // validate parameters
+    if (event.accountid && process.env.SERVERLESS_SURVEYTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let params = {
+        TableName: process.env.SERVERLESS_USERTABLE,
+        Key: {
+          accountid: event.accountid,
+        },
+        UpdateExpression: "set username = :username, email=:email, #role=:role",
+        ExpressionAttributeValues:{
+          ":username": event.username,
+          ":email": event.email,
+          ":role": event.role
+        },
+        ExpressionAttributeNames: {
+          "#role": "role"
+        },
+        "ConditionExpression": "attribute_exists(accountid)",
+        ReturnValues:"UPDATED_NEW"
+      };
 
+      docClient.update(params, function(err, data) {
+        if (err) {
+          if(err.code === "ConditionalCheckFailedException"){
+            //console.error("Unable to update an user with the request: ", JSON.stringify(params));
+            return callback(new Error("404 Not Found: Unable to update an not exist item with the request: " + JSON.stringify(params)), null);
+          }else{
+            //console.error("Unable to update an user with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            return callback(getDynamoDBError(err), null);
+          }
+        } else {
+          // got response
+          return callback(null, response);
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
 
   /*
