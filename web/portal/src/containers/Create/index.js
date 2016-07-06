@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 // Actions
-// import * as AccountActions from '../../actions/account';
-// import * as FBIDActions from '../../actions/fbID';
+import * as QuestionsActions from '../../actions/questions';
 
 import Design from '../../components/Design';
+import Control from '../../components/Control';
 
 class Create extends PureComponent {
 
@@ -22,14 +22,22 @@ class Create extends PureComponent {
     }
 
     render() {
-        const { account } = this.props;
-        const requiredAccProps = {
-            account: account
+        const { questions, questionsActions } = this.props;
+        const ctrlProps = {
+            questionsActions: questionsActions
         };
+        // TODOS: define components
+        const list = [];
+        questions.forEach(function (item) {
+            list.push(JSON.stringify(item));
+        });
+
         return (
             <div ref="root">
                 Create
-                <Design {...requiredAccProps} />
+                <Design />
+                <Control {...ctrlProps} />
+                {list}
             </div>
         );
     }
@@ -38,14 +46,14 @@ class Create extends PureComponent {
 function mapStateToProps(state) {
     return {
         fbID: state.fbID,
-        account: state.account
+        account: state.account,
+        questions: state.questions
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // accountActions: bindActionCreators(AccountActions, dispatch),
-        // fbIDActions: bindActionCreators(FBIDActions, dispatch)
+        questionsActions: bindActionCreators(QuestionsActions, dispatch)
     };
 }
 

@@ -11,7 +11,8 @@
 		  "username": "jonas cheng",
 		  "email": "jonas_cheng@trend.com.tw",
 		  "role": "User"
-		}
+		},
+    questions: [{},{},...]
  }
 **/
 
@@ -20,11 +21,13 @@ import { routerReducer } from 'react-router-redux';
 import loading from './loading';
 import fbID from './fbID';
 import account from './account';
+import questions from './questions';
 
 const rootReducer = combineReducers({
     loading,
     fbID,
     account,
+    questions,
     routing: routerReducer
 });
 
