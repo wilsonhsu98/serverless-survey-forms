@@ -60,8 +60,8 @@ after('Uninitial local DynamoDB', function(done) {
   dynadb.close(done);
 });
 
-describe("Interface to add one new user model into data store successfully", function() {
-  describe("#addOneUser", function() {
+describe("Interface to add one new user model into data store", function() {
+  describe("#addOneUser successfully", function() {
     describe("When adding one new user model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
         let event = {
@@ -78,11 +78,7 @@ describe("Interface to add one new user model into data store successfully", fun
       });
     });
   });
-});
-
-describe("Interface to add one new user model into data store with error", function() {
-  describe("#addOneUser", function() {
-
+  describe("#addOneUser with error", function() {
     // missing parameter(s)
     let missingParams = [
       // one parameter
@@ -215,7 +211,7 @@ describe("Interface to add one new user model into data store with error", funct
   });
 });
 
-describe("Interface to get one user model from data store successfully", function() {
+describe("Interface to get one user model from data store", function() {
   let accountid = "this is dummy account",
     username = "this is dummy user name",
     email = "this is dummy email",
@@ -234,7 +230,7 @@ describe("Interface to get one user model from data store successfully", functio
     });
   });
 
-  describe("#getOneUser", function() {
+  describe("#getOneUser successfully", function() {
     describe("When getting exist user model with complete and normal parameters", function() {
       let event = {
         accountid: accountid,
@@ -253,14 +249,11 @@ describe("Interface to get one user model from data store successfully", functio
       });
     });
   });
-});
-
-describe("Interface to get one user model from data store with error", function() {
-  describe("#getOneUser", function() {
+  describe("#getOneUser with error", function() {
     // missing parameter(s)
     let missingParams = [
       // one parameter
-     {
+      {
         desc: "with missing event.accountid",
         event: {},
         expect: /Error: 400 Bad Request/
@@ -282,8 +275,8 @@ describe("Interface to get one user model from data store with error", function(
   });
 });
 
-describe("Interface to get list users model from data store successfully", () => {
-  describe("#listUsers", () => {
+describe("Interface to get list users model from data store", () => {
+  describe("#listUsers successfully", () => {
     describe("When getting exist users model with complete and normal parameters", () => {
       let event = {};
       it("should response successfully", (done) => {
@@ -335,17 +328,14 @@ describe("Interface to get list users model from data store successfully", () =>
       });
     });
   });
-});
-
-// TODO ask how to missingParams in #listUsers return 400 Bad request.
-describe("Interface to get list users model from data store with error" , () => {
-  describe("#listUsers", () => {
+  // TODO ask how to missingParams in #listUsers return 400 Bad request.
+  describe("#listUsers with error", () => {
     let params =
-      {
-        desc: "with wrong setting",
-        event: {},
-        expect: /Error: 400 Bad Request/
-      };
+    {
+      desc: "with wrong setting",
+      event: {},
+      expect: /Error: 400 Bad Request/
+    };
 
     before("For 400, set SERVERLESS_USERTABLE null", (done) => {
       process.env['SERVERLESS_USERTABLE'] = null;
@@ -370,8 +360,10 @@ describe("Interface to get list users model from data store with error" , () => 
   });
 });
 
+
+
 describe("Interface to update one user model in data store", function() {
-  describe("#updateOneUser", function() {
+  describe("#updateOneUser successfully", function() {
     describe("When updating one exist user model with complete and normal parameters", function() {
       it("should response successfully", function() {
         let event = {
@@ -398,34 +390,20 @@ describe("Interface to update one user model in data store", function() {
         });
       });
     });
-
-    describe("When updating one not exist user model", function() {
-      it("should response error", function(done) {
-        let failParams = {
-          event: {
-            accountid: "not found",
-            username: "this is true user name",
-            email: "this is true email",
-            role: "this is true User",
-          },
-          expect: /Error: 404 Not Found/
-        };
-        user.updateOneUser(failParams.event, function(error, response) {
-          expect(error).to.not.be.null;
-          expect(response).to.be.null;
-          error.should.match(RegExp(failParams.expect));
-          done();
-        });
-      });
-    });
   });
-});
-
-describe("Interface to update one user model in data store with error", function() {
-  describe("#updateOneUser", function() {
-
-    // missing parameter(s)
+  describe("#updateOneUser with error", function() {
     let missingParams = [
+      {
+        desc: "with not exist user model in data store",
+        event: {
+          accountid: "not found",
+          username: "this is true user name",
+          email: "this is true email",
+          role: "this is true User",
+        },
+        expect: /Error: 404 Not Found/
+      },
+      // missing parameter(s)
       // one parameter
       {
         desc: "with missing event.email",
@@ -542,7 +520,7 @@ describe("Interface to update one user model in data store with error", function
     ];
 
     missingParams.forEach(function(test) {
-      describe("When updating one exist user model " + test.desc, function() {
+      describe("When updating one user model " + test.desc, function() {
         it("should response error", function(done) {
           user.updateOneUser(test.event, function(error, response) {
             expect(error).to.not.be.null;
