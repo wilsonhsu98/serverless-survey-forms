@@ -32,9 +32,9 @@ class Checkbox extends PureComponent {
     }
 
     render() {
-        const { id, item, className } = this.props;
+        const { id, item } = this.props;
         return (
-            <div ref="root" className={className}>
+            <div ref="root" className="question">
                 <Question
                     id={id}
                     text={item.label}

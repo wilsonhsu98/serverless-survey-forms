@@ -23,7 +23,7 @@
 	margin: 0 0 20px;
 }
 
-.question {
+:global .question {
 	margin: 10px 0;
 }
 

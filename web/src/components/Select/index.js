@@ -51,14 +51,14 @@ class Select extends PureComponent {
     }
 
     render() {
-        const { id, item, className } = this.props;
+        const { id, item } = this.props;
         const selectClass = {
             [styles.selectGrp]: true,
             [styles.open]: this.state.isOpen
         };
         const selectedItem = item.data.find((obj) => obj.value === this.state.selectedValue);
         return (
-            <div ref="root" className={className}>
+            <div ref="root" className="question">
                 <Question
                     id={id}
                     text={item.label}
