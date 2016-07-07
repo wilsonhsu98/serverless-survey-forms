@@ -21,10 +21,15 @@ This project depends on the following modules, please make sure they're ready lo
 * chai 3.5.0
 * dynalite 1.0.0
 * mocha 2.4.5
+* istanbul 0.4.3
+* serverless-authentication 0.4.4
+* serverless-authentication-facebook 0.3.2
+* serverless-cors-plugin 0.4.1
+* serverless-client-s3 2.0.0
 
 The Vagrant file could save your time to prepare environemnt if you would like to leverage. 
 
-## Install
+## Installation
 
 The steps below can be taken to install the project and initialize it.
 
@@ -50,9 +55,35 @@ cd api
 npm install
 ```
 
-Deploy your functions and endpoints:
+## Authentication Provider Settings
 
-```serverless dash deploy```
+Open _meta/variables/s-variables-STAGE.json where STAGE is the stage you are using e.g. s-variables-dev.json in "dev" stage.
+
+If you are using stage "dev", then contents of the s-variables-dev.json should be
+
+```
+{
+  "stage": "dev",
+  "redirectClientURI": "http://url-to-frontend-webapp/",
+  "tokenSecret": "secret-for-json-web-token",
+  "providerFacebookId": "facebook-app-id",
+  "providerFacebookSecret": "facebook-app-secret"
+}
+```
+
+Environmental variables are mapped in s-function.json files, for example in the signin/s-function.json.
+
+## Deployment
+Deploy your functions, endpoints, and web client:
+
+```
+# deploy APIGW and Lambda
+serverless dash deploy
+# enable CORS
+serverless endpoint deploy -a
+# deploy static web resources
+serverless client deploy -s STAGE
+```
 
 ## Unit Test
 
