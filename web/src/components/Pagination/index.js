@@ -14,16 +14,27 @@ class Pagination extends PureComponent {
     constructor() {
         super();
         this._goToPage = this._goToPage.bind(this);
+        this._prev = this._prev.bind(this);
+        this._next = this._next.bind(this);
+    }
+
+    componentDidMount() {
+        $(this.refs.root).localize();
+    }
+
+    componentDidUpdate() {
+        $(this.refs.root).localize();
     }
 
     render() {
-        const pages = [];
-        for (let i = 1; i < this.props.pages + 1; i++) {
-            pages.push((
+        const { currentPage, pages } = this.props;
+        const pageItems = [];
+        for (let i = 1; i < pages + 1; i++) {
+            pageItems.push((
                 <li
                     key={`paging${i}`}
                     className={
-                        this.props.currentPage === i ?
+                        currentPage === i ?
                         styles.pagingItemActive :
                         styles.pagingItem
                     }
@@ -36,8 +47,24 @@ class Pagination extends PureComponent {
         }
         return (
             <div>
+                {
+                    currentPage > 1 ?
+                        <div
+                            className={styles.prev}
+                            data-i18n="prev"
+                            onClick={this._prev}
+                        /> : ''
+                }
+                {
+                    currentPage < pages ?
+                        <div
+                            className={styles.next}
+                            data-i18n="next"
+                            onClick={this._next}
+                        /> : ''
+                }
                 <ul className={styles.paging}>
-                    {pages}
+                    {pageItems}
                 </ul>
             </div>
         );
@@ -45,6 +72,14 @@ class Pagination extends PureComponent {
 
     _goToPage(e) {
         this.props.surveyActions.goToPage($(e.target).data('index'));
+    }
+
+    _prev() {
+        this.props.surveyActions.goToPage(this.props.currentPage - 1);
+    }
+
+    _next() {
+        this.props.surveyActions.goToPage(this.props.currentPage + 1);
     }
 }
 

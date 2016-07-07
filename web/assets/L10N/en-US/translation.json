@@ -1,4 +1,6 @@
 {
     "title"						: "Survey form title",
-    "description"				: "Survey form description"
+    "description"				: "Survey form description",
+    "prev"                      : "Prev",
+    "next"                      : "Next"
 }
