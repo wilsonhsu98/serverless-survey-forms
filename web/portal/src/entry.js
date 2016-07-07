@@ -1,7 +1,6 @@
 
 // bootstrap css
-// import styles from './css/main.css';
-require('../../css/main.css');
+import '../../css/main.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
