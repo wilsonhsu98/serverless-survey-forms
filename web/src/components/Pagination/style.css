@@ -1,0 +1,28 @@
+.paging {
+	list-style: none;
+	margin: 20px 0;
+	padding: 0;
+	overflow: hidden;
+    position: absolute;
+    bottom: 0;
+}
+
+.pagingItem {
+	color: #fff;
+	background: #aaa;
+	border-radius: 100%;
+	padding: 1px 8px;
+	margin-right: 10px;
+	float: left;
+	cursor: pointer;
+}
+
+.pagingItemActive {
+	color: #fff;
+	background: #0086b3;
+	border-radius: 100%;
+	padding: 1px 8px;
+	margin-right: 10px;
+	float: left;
+	cursor: pointer;
+}

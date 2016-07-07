@@ -1,7 +1,7 @@
 {
     "title": "title",
-    "descript": "description",
-    "survey": [
+    "description": "description",
+    "content": [
         {
             "page": 1,
             "description": "Page1 We are sorry for your leaving, share your opinion with us to make this service better.",
