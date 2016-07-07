@@ -39,7 +39,7 @@ class Control extends PureComponent {
     }
 
     _onAddQueClick(e) {
-        const { questions, questionsActions } = this.props;
+        const { questionsActions } = this.props;
         const data = {
             id: this._generateQuestionID(),
             order: 1,
@@ -54,7 +54,7 @@ class Control extends PureComponent {
     }
 
     _onAddPageClick(e) {
-        const { questions, questionsActions } = this.props;
+        const { questionsActions } = this.props;
         const data = {
             id: this._generateQuestionID(),
             order: 1,

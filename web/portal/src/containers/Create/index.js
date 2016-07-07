@@ -12,6 +12,7 @@ import * as EditQuestionIDActions from '../../actions/editQuestionID';
 import Design from '../../components/Design';
 import Control from '../../components/Control';
 import Page from '../../components/Form/Page';
+import EditPanel from '../../components/EditPanel';
 
 class Create extends PureComponent {
 
@@ -24,29 +25,37 @@ class Create extends PureComponent {
     }
 
     render() {
-        const { questions, questionsActions, editQuestionIDActions } = this.props;
+        const { editQuestionID, editQuestionIDActions, questionsActions } = this.props;
         const ctrlProps = {
-            questions,
             questionsActions
         };
-        const list = [];
+        const editProps = {
+            editQuestionID,
+            editQuestionIDActions
+        };
+
+        return (
+            <div ref="root">
+                <Design />
+                <Control {...ctrlProps} />
+                {editQuestionID !== '' ? <EditPanel {...editProps} /> : ''}
+                {this._renderPage()}
+            </div>
+        );
+    }
+
+    _renderPage() {
+        const { questions, editQuestionIDActions } = this.props;
+        const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
                 key: idx,
                 data: page,
                 editQuestionIDActions
             };
-            list.push(<Page {...pros} />);
+            pageList.push(<Page {...pros} />);
         });
-
-        return (
-            <div ref="root">
-                Create
-                <Design />
-                <Control {...ctrlProps} />
-                {list}
-            </div>
-        );
+        return pageList;
     }
 }
 
@@ -54,7 +63,8 @@ function mapStateToProps(state) {
     return {
         fbID: state.fbID,
         account: state.account,
-        questions: state.questions
+        questions: state.questions,
+        editQuestionID: state.editQuestionID
     };
 }
 

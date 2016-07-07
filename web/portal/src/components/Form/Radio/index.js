@@ -57,7 +57,8 @@ class Radio extends PureComponent {
         return items;
     }
 
-    _onClickQuestion() {
+    _onClickQuestion(e) {
+        e.stopPropagation();
         const { data, editQuestionIDActions } = this.props;
         editQuestionIDActions.setEditQuestionID(data.id);
     }
