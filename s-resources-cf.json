@@ -2,22 +2,66 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application's resources outside of Lambdas and Api Gateway",
   "Resources": {
+    "WebClientS3": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "${project}-${stage}-webclient",
+        "AccessControl": "PublicRead",
+        "LoggingConfiguration": {
+          "DestinationBucketName": {
+            "Ref": "WebClientLoggingS3"
+          },
+          "LogFilePrefix": "webclient"
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html"
+        }
+      }
+    },
+    "WebClientS3Policy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "WebClientS3"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [{
+            "Sid": "Allow Public Access to All Objects",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": [{
+              "Fn::Join": ["", ["arn:aws:s3:::", {
+                "Ref": "WebClientS3"
+              }, "/*"]]
+            }]
+          }]
+        }
+      }
+    },
+    "WebClientLoggingS3": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "${project}-${stage}-webclientlogging",
+        "AccessControl": "LogDeliveryWrite"
+      }
+    },
     "UsersModelDDB": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "TableName": "${project}-${stage}-users",
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "accountid",
-            "AttributeType": "S"
-          }
-        ],
-        "KeySchema": [
-          {
-            "AttributeName": "accountid",
-            "KeyType": "HASH"
-          }
-        ],
+        "AttributeDefinitions": [{
+          "AttributeName": "accountid",
+          "AttributeType": "S"
+        }],
+        "KeySchema": [{
+          "AttributeName": "accountid",
+          "KeyType": "HASH"
+        }],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
@@ -28,48 +72,36 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "TableName": "${project}-${stage}-surveys",
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "accountid",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "surveyid",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "datetime",
-            "AttributeType": "N"
-          }
-        ],
-        "KeySchema": [
-          {
+        "AttributeDefinitions": [{
+          "AttributeName": "accountid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "surveyid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "datetime",
+          "AttributeType": "N"
+        }],
+        "KeySchema": [{
+          "AttributeName": "accountid",
+          "KeyType": "HASH"
+        }, {
+          "AttributeName": "surveyid",
+          "KeyType": "RANGE"
+        }],
+        "LocalSecondaryIndexes": [{
+          "IndexName": "datetime-ix",
+          "KeySchema": [{
             "AttributeName": "accountid",
             "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "surveyid",
+          }, {
+            "AttributeName": "datetime",
             "KeyType": "RANGE"
+          }],
+          "Projection": {
+            "ProjectionType": "KEYS_ONLY"
           }
-        ],
-        "LocalSecondaryIndexes": [
-          {
-            "IndexName": "datetime-ix",
-            "KeySchema": [
-              {
-                "AttributeName": "accountid",
-                "KeyType": "HASH"
-              },
-              {
-                "AttributeName": "datetime",
-                "KeyType": "RANGE"
-              }
-            ],
-            "Projection": {
-              "ProjectionType": "KEYS_ONLY"
-            }
-          }
-        ],
+        }],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
@@ -80,48 +112,36 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "TableName": "${project}-${stage}-feedbacks",
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "surveyid",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "clientid",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "datetime",
-            "AttributeType": "N"
-          }
-        ],
-        "KeySchema": [
-          {
+        "AttributeDefinitions": [{
+          "AttributeName": "surveyid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "clientid",
+          "AttributeType": "S"
+        }, {
+          "AttributeName": "datetime",
+          "AttributeType": "N"
+        }],
+        "KeySchema": [{
+          "AttributeName": "surveyid",
+          "KeyType": "HASH"
+        }, {
+          "AttributeName": "clientid",
+          "KeyType": "RANGE"
+        }],
+        "LocalSecondaryIndexes": [{
+          "IndexName": "datetime-ix",
+          "KeySchema": [{
             "AttributeName": "surveyid",
             "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "clientid",
+          }, {
+            "AttributeName": "datetime",
             "KeyType": "RANGE"
+          }],
+          "Projection": {
+            "ProjectionType": "KEYS_ONLY"
           }
-        ],
-        "LocalSecondaryIndexes": [
-          {
-            "IndexName": "datetime-ix",
-            "KeySchema": [
-              {
-                "AttributeName": "surveyid",
-                "KeyType": "HASH"
-              },
-              {
-                "AttributeName": "datetime",
-                "KeyType": "RANGE"
-              }
-            ],
-            "Projection": {
-              "ProjectionType": "KEYS_ONLY"
-            }
-          }
-        ],
+        }],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
@@ -133,19 +153,17 @@
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "Service": [
+                "lambda.amazonaws.com"
               ]
-            }
-          ]
+            },
+            "Action": [
+              "sts:AssumeRole"
+            ]
+          }]
         },
         "Path": "/"
       }
@@ -156,76 +174,70 @@
         "PolicyName": "${stage}-${project}-lambda",
         "PolicyDocument": {
           "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:*"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:${region}:*:table/",
-                      {
-                        "Ref": "UsersModelDDB"
-                      }
-                    ]
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:${region}:*:table/",
-                      {
-                        "Ref": "SurveysModelDDB"
-                      }
-                    ]
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:${region}:*:table/",
-                      {
-                        "Ref": "FeedbacksModelDDB"
-                      }
-                    ]
-                  ]
-                }
+          "Statement": [{
+            "Effect": "Allow",
+            "Action": [
+              "dynamodb:*"
+            ],
+            "Resource": [{
+              "Fn::Join": [
+                "", [
+                  "arn:aws:dynamodb:${region}:*:table/", {
+                    "Ref": "UsersModelDDB"
+                  }
+                ]
               ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-              ],
-              "Resource": "arn:aws:logs:${region}:*:*"
-            }
-          ]
+            }, {
+              "Fn::Join": [
+                "", [
+                  "arn:aws:dynamodb:${region}:*:table/", {
+                    "Ref": "SurveysModelDDB"
+                  }
+                ]
+              ]
+            }, {
+              "Fn::Join": [
+                "", [
+                  "arn:aws:dynamodb:${region}:*:table/", {
+                    "Ref": "FeedbacksModelDDB"
+                  }
+                ]
+              ]
+            }]
+          }, {
+            "Effect": "Allow",
+            "Action": [
+              "logs:CreateLogGroup",
+              "logs:CreateLogStream",
+              "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:${region}:*:*"
+          }]
         },
-        "Roles": [
-          {
-            "Ref": "IamRoleLambda"
-          }
-        ]
+        "Roles": [{
+          "Ref": "IamRoleLambda"
+        }]
       }
     }
   },
   "Outputs": {
+    "WebClientURI": {
+      "Description": "URI of WebClient - ${project}-${stage}-webclient",
+      "Value": {
+        "Fn::Join": [
+          "", ["https://", {
+            "Fn::GetAtt": ["WebClientS3", "DomainName"]
+          }]
+        ]
+      }
+    },
+
     "DynamoDBTableArnUsersModel": {
       "Description": "ARN of the dynamodb table - ${project}-${stage}-users",
       "Value": {
         "Fn::Join": [
-          "",
-          [
-            "arn:aws:dynamodb:${region}:*:table/",
-            {
+          "", [
+            "arn:aws:dynamodb:${region}:*:table/", {
               "Ref": "UsersModelDDB"
             }
           ]
@@ -236,10 +248,8 @@
       "Description": "ARN of the dynamodb table - ${project}-${stage}-surveys",
       "Value": {
         "Fn::Join": [
-          "",
-          [
-            "arn:aws:dynamodb:${region}:*:table/",
-            {
+          "", [
+            "arn:aws:dynamodb:${region}:*:table/", {
               "Ref": "SurveysModelDDB"
             }
           ]
@@ -250,10 +260,8 @@
       "Description": "ARN of the dynamodb table - ${project}-${stage}-feedbacks",
       "Value": {
         "Fn::Join": [
-          "",
-          [
-            "arn:aws:dynamodb:${region}:*:table/",
-            {
+          "", [
+            "arn:aws:dynamodb:${region}:*:table/", {
               "Ref": "FeedbacksModelDDB"
             }
           ]

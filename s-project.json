@@ -1,5 +1,12 @@
 {
   "name": "serverless-survey-forms",
-  "custom": {},
-  "plugins": []
+  "custom": {
+    "client": {
+      "bucketName": "${project}-${stage}-webclient"
+    }
+  },
+  "plugins": [
+    "serverless-cors-plugin",
+    "serverless-client-s3"
+  ]
 }

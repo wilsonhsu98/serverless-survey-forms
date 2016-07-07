@@ -57,6 +57,8 @@ npm install
 
 ## Authentication Provider Settings
 
+### Facebook Login
+
 Open _meta/variables/s-variables-STAGE.json where STAGE is the stage you are using e.g. s-variables-dev.json in "dev" stage.
 
 If you are using stage "dev", then contents of the s-variables-dev.json should be

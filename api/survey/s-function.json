@@ -8,9 +8,7 @@
   "timeout": 60,
   "memorySize": 512,
   "authorizer": {},
-  "custom": {
-    "excludePatterns": []
-  },
+  "custom": "$${customTemplate}",
   "endpoints": [{
     "path": "api/v1/surveys/{accountid}/{surveyid}",
     "method": "GET",
