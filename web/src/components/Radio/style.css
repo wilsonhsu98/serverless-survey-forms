@@ -6,3 +6,8 @@
 	margin-right: 10px;
 }
 
+.radioItem input[type="text"] {
+	margin-left: 10px;
+	padding: 0 10px;
+}
+

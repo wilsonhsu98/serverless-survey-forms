@@ -53,6 +53,7 @@ class Radio extends PureComponent {
             const inputID = `radio_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
+            const input = itm.input;
             return (
                 <div
                     className={styles.radioItem}
@@ -68,6 +69,11 @@ class Radio extends PureComponent {
                     <label htmlFor={inputID}>
                         {label}
                     </label>
+                    {
+                        input ?
+                            <input type="text" placeholder={input} /> :
+                            ''
+                    }
                 </div>
             );
         });

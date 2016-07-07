@@ -24,7 +24,7 @@
             "data": [
                 {"value": "1", "label": "radio label 1"},
                 {"value": "2", "label": "radio label 2"},
-                {"value": "3", "label": "radio label 3"}
+                {"value": "3", "label": "radio label 3 with input", "input": "Please input some text."}
             ],
             "required": false
         },
@@ -38,7 +38,7 @@
                 {"value": "2", "label": "checkbox label 2"},
                 {"value": "3", "label": "checkbox label 3"},
                 {"value": "4", "label": "checkbox label 4"},
-                {"value": "5", "label": "checkbox label 5"}
+                {"value": "5", "label": "checkbox label 5 with input", "input": "Please input some text."}
             ],
             "required": true
         },

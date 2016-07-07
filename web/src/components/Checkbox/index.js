@@ -53,6 +53,7 @@ class Checkbox extends PureComponent {
             const inputID = `checkbox_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
+            const input = itm.input;
             return (
                 <div
                     className={styles.checkboxItem}
@@ -68,6 +69,11 @@ class Checkbox extends PureComponent {
                     <label htmlFor={inputID}>
                         {label}
                     </label>
+                    {
+                        input ?
+                            <input type="text" placeholder={input} /> :
+                            ''
+                    }
                 </div>
             );
         });
