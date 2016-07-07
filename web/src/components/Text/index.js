@@ -50,8 +50,7 @@ class Text extends PureComponent {
 Text.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
-    onChangeHandle: PropTypes.func.isRequired,
-    className: PropTypes.string
+    onChangeHandle: PropTypes.func.isRequired
 };
 
 Text.defaultProps = {};

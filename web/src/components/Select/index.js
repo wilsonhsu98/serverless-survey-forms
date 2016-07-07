@@ -134,8 +134,7 @@ class Select extends PureComponent {
 Select.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
-    onChangeHandle: PropTypes.func.isRequired,
-    className: PropTypes.string
+    onChangeHandle: PropTypes.func.isRequired
 };
 
 Select.defaultProps = {};
