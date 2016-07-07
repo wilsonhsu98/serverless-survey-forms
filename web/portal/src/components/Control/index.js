@@ -11,6 +11,7 @@ class Control extends PureComponent {
     constructor() {
         super();
         this._onAddQueClick = this._onAddQueClick.bind(this);
+        this._onAddPageClick = this._onAddPageClick.bind(this);
     }
 
     componentDidMount() {
@@ -24,13 +25,13 @@ class Control extends PureComponent {
     render() {
         return (
             <div ref="root" className={styles.control}>
-                <button data-type="question" onClick={this._onAddQueClick}>
+                <button onClick={this._onAddQueClick}>
                     Add Question
                 </button>
-                <button data-type="description" onClick={this._onAddQueClick}>
+                <button onClick={this._onAddQueClick}>
                     Add Text
                 </button>
-                <button data-type="page" onClick={this._onAddQueClick}>
+                <button onClick={this._onAddPageClick}>
                     Add Page
                 </button>
             </div>
@@ -38,19 +39,31 @@ class Control extends PureComponent {
     }
 
     _onAddQueClick(e) {
-        const { questionsActions } = this.props;
-        const addType = $(e.target).data('type');
+        const { questions, questionsActions } = this.props;
         const data = {
-            page: 1,
             order: 1,
-            type: addType,
+            type: 'radio',
             label: 'default question',
             data: [
                 {"value": "1", "label": "default option"}
             ],
             "required": true
         };
-        questionsActions.addQuestion(data);
+        questionsActions.addQuestion(1, data);
+    }
+
+    _onAddPageClick(e) {
+        const { questions, questionsActions } = this.props;
+        const data = {
+            order: 1,
+            type: 'radio',
+            label: 'Untitle Question',
+            data: [
+                {"value": "1", "label": "default option"}
+            ],
+            "required": true
+        };
+        questionsActions.addQuestion(2, data);
     }
 }
 
