@@ -81,6 +81,20 @@
                     "required": false
                 }
             ]
+        },
+        {
+            "page": 3,
+            "description": "Thanks for sharing your feedback with Trend Micro.",
+            "question": [
+                {
+                    "order": 7,
+                    "type": "privacy",
+                    "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
+                    "terms": "Yes, Trend Micro can reach me at this address: ",
+                    "input": "Please enter your email address.",
+                    "required": false
+                }
+            ]
         }
     ]
 }
