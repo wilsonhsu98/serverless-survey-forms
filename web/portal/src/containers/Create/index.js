@@ -10,7 +10,7 @@ import * as QuestionsActions from '../../actions/questions';
 
 import Design from '../../components/Design';
 import Control from '../../components/Control';
-import Description from '../../components/Form/Description';
+import Page from '../../components/Form/Page';
 
 class Create extends PureComponent {
 
@@ -25,16 +25,12 @@ class Create extends PureComponent {
     render() {
         const { questions, questionsActions } = this.props;
         const ctrlProps = {
-            questionsActions: questionsActions
+            questions,
+            questionsActions
         };
-        // TODOS: define components
         const list = [];
-        questions.forEach(function (item) {
-            if (item.type === 'description') {
-                list.push(<Description />);
-            } else {
-                list.push(JSON.stringify(item));
-            }
+        questions.forEach((page, idx) => {
+            list.push(<Page key={idx} data={page} />);
         });
 
         return (
@@ -46,6 +42,16 @@ class Create extends PureComponent {
             </div>
         );
     }
+
+    // _arrayGroupBy(_array, _key) {
+    //     const map = {};
+    //     _array.map(e => ({k: _key(e), d: e}))
+    //         .forEach(e => {
+    //             map[e.k] = map[e.k] || [];
+    //             map[e.k].push(e.d);
+    //         });
+    //     return Object.keys(map).map(k => ({key: k, data: map[k]}));
+    // }
 }
 
 function mapStateToProps(state) {
