@@ -9,10 +9,18 @@ import Question from '../Question';
 
 class Radio extends PureComponent {
 
+    constructor() {
+        super();
+        this._onClickQuestion = this._onClickQuestion.bind(this);
+    }
+
     render() {
         const { data } = this.props;
         return (
-            <div>
+            <div
+                className="question"
+                onClick={this._onClickQuestion}
+            >
                 <Question
                     text={data.label}
                 />
@@ -47,6 +55,11 @@ class Radio extends PureComponent {
             );
         });
         return items;
+    }
+
+    _onClickQuestion() {
+        const { data, editQuestionIDActions } = this.props;
+        editQuestionIDActions.setEditQuestionID(data.id);
     }
 }
 

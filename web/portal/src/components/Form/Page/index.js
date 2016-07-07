@@ -23,16 +23,7 @@ class Page extends Component {
         // TODOS: define components
         const list = [];
         data.question.forEach((question, idx) => {
-            switch (question.type) {
-            case 'radio':
-                list.push(<Radio key={idx} data={question} />);
-                break;
-            case 'description':
-                list.push(<Description key={idx} data={question} />);
-                break;
-            default:
-                list.push(JSON.stringify(question));
-            }
+            list.push(this._renderQuestion(question, idx));
         });
 
         return (
@@ -41,6 +32,22 @@ class Page extends Component {
                 {list}
             </div>
         );
+    }
+
+    _renderQuestion(question, idx) {
+        const requiredProps = {
+            key: idx,
+            data: question,
+            editQuestionIDActions: this.props.editQuestionIDActions
+        };
+        switch (question.type) {
+        case 'radio':
+            return (<Radio {...requiredProps} />);
+        case 'description':
+            return (<Description {...requiredProps} />);
+        default:
+            return (<div>{JSON.stringify(question)}</div>);
+        }
     }
 }
 

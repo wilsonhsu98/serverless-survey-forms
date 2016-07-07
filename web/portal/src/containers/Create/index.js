@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 // Actions
 import * as QuestionsActions from '../../actions/questions';
+import * as EditQuestionIDActions from '../../actions/editQuestionID';
 
 import Design from '../../components/Design';
 import Control from '../../components/Control';
@@ -23,14 +24,19 @@ class Create extends PureComponent {
     }
 
     render() {
-        const { questions, questionsActions } = this.props;
+        const { questions, questionsActions, editQuestionIDActions } = this.props;
         const ctrlProps = {
             questions,
             questionsActions
         };
         const list = [];
         questions.forEach((page, idx) => {
-            list.push(<Page key={idx} data={page} />);
+            const pros = {
+                key: idx,
+                data: page,
+                editQuestionIDActions
+            };
+            list.push(<Page {...pros} />);
         });
 
         return (
@@ -42,16 +48,6 @@ class Create extends PureComponent {
             </div>
         );
     }
-
-    // _arrayGroupBy(_array, _key) {
-    //     const map = {};
-    //     _array.map(e => ({k: _key(e), d: e}))
-    //         .forEach(e => {
-    //             map[e.k] = map[e.k] || [];
-    //             map[e.k].push(e.d);
-    //         });
-    //     return Object.keys(map).map(k => ({key: k, data: map[k]}));
-    // }
 }
 
 function mapStateToProps(state) {
@@ -64,7 +60,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        questionsActions: bindActionCreators(QuestionsActions, dispatch)
+        questionsActions: bindActionCreators(QuestionsActions, dispatch),
+        editQuestionIDActions: bindActionCreators(EditQuestionIDActions, dispatch)
     };
 }
 
