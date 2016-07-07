@@ -38,7 +38,7 @@ class Control extends PureComponent {
         );
     }
 
-    _onAddQueClick(e) {
+    _onAddQueClick() {
         const { questionsActions } = this.props;
         const data = {
             id: this._generateQuestionID(),
@@ -46,14 +46,14 @@ class Control extends PureComponent {
             type: 'radio',
             label: 'Untitle Question',
             data: [
-                {"value": "1", "label": "default option"}
+                { value: '1', label: 'default option' }
             ],
-            "required": true
+            required: true
         };
         questionsActions.addQuestion(1, data);
     }
 
-    _onAddPageClick(e) {
+    _onAddPageClick() {
         const { questionsActions } = this.props;
         const data = {
             id: this._generateQuestionID(),
@@ -61,9 +61,9 @@ class Control extends PureComponent {
             type: 'radio',
             label: 'Untitle Question',
             data: [
-                {"value": "1", "label": "default option"}
+                { value: '1', label: 'default option' }
             ],
-            "required": true
+            required: true
         };
         questionsActions.addQuestion(2, data);
     }

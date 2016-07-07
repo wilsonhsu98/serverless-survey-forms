@@ -2,7 +2,7 @@
 // CSS
 import styles from './style.css';
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import $ from 'jquery';
 
 import Description from '../Description';

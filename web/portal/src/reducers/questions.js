@@ -18,7 +18,7 @@ export default function questions(state = [], action) {
             return [
                 ...state.slice(0, idx),
                 survey,
-                ...state.slice(idx+1)
+                ...state.slice(idx + 1)
             ];
         }
         // if this page didn't exist

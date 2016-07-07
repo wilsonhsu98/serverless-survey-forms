@@ -34,7 +34,6 @@ class Radio extends PureComponent {
     _renderRadioItem() {
         const { data } = this.props;
         const items = data.data.map((itm, idx) => {
-            const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
             const input = itm.input;
             return (
