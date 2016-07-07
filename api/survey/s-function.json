@@ -23,12 +23,13 @@
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
         "accountid": "$input.params('accountid')",
-        "surveyid": "$input.params('surveyid')"
+        "surveyid": "$input.params('surveyid')",
+        "op": "getOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys",
+    "path": "api/v1/mgnt/surveys/{accountid}",
     "method": "GET",
     "type": "AWS",
     "authorizationType": "none",
@@ -40,7 +41,10 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "startKey": "$input.params('startKey')"
+        "authAccountid": "context.authorizer.principalId",
+        "startKey": "$input.params('startKey')",
+        "accountid": "$input.params('accountid')",
+        "op": "listSurveys"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -55,14 +59,15 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "requester": "context.authorizer.principalId",
+        "authAccountid": "context.authorizer.principalId",
         "subject": "$input.json('$.subject')",
-        "survey": "$input.json('$.survey')"
+        "survey": "$input.json('$.survey')",
+        "op": "addOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys",
+    "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "PUT",
     "type": "AWS",
     "authorizationType": "none",
@@ -72,14 +77,17 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "surveyid": "$input.json('$.surveyid')",
+        "accountid": "$input.params('accountid')",
+        "surveyid": "$input.params('surveyid')",
         "subject": "$input.json('$.subject')",
-        "survey": "$input.json('$.survey')"
+        "survey": "$input.json('$.survey')",
+        "authAccountid": "context.authorizer.principalId",
+        "op": "updateOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys/{surveyid}",
+    "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "DELETE",
     "type": "AWS",
     "authorizationType": "none",
@@ -88,7 +96,11 @@
     "requestParameters": {},
     "requestTemplates": {
       "application/json": {
-        "apigw": "$${apiRequestTemplate}"
+        "apigw": "$${apiRequestTemplate}",
+        "accountid": "$input.params('accountid')",
+        "surveyid": "$input.params('surveyid')",
+        "authAccountid": "context.authorizer.principalId" ,
+        "op": "deleteOneSurvey"
       }
     },
     "responses": "$${apiResponseTemplate}"

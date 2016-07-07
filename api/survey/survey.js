@@ -1,14 +1,20 @@
 'use strict';
 
-function survey(aws) {
+module.exports = (() => {
+  let aws = null;
 
-  function getUUID() {
+  const initAWS = (AWS) => {
+    aws = AWS;
+  };
+
+  const getUUID = () => {
     let uuid = require('node-uuid');
     return uuid.v1();
   };
 
+
   // Convert DynamoDB error code into Error object
-  function getDynamoDBError(err) {
+  const getDynamoDBError = (err) => {
     if (err.statusCode === 400) {
       switch (err.code) {
         case "AccessDeniedException":
@@ -37,9 +43,8 @@ function survey(aws) {
    * datetime   The latest modified date time of the survey
    * survey     The details of the survey model in JSON format
    */
-  this.getOneSurvey = function(event, callback) {
-    let error = null,
-      response = null;
+  const getOneSurvey = (event, callback) =>{
+    let response = null;
 
     // validate parameters
     if (event.accountid && event.surveyid &&
@@ -55,7 +60,7 @@ function survey(aws) {
 
       docClient.get(params, function(err, data) {
         if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          // console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           if (data.Item) { // got response
@@ -69,7 +74,7 @@ function survey(aws) {
             };
             return callback(null, response);
           } else {
-            console.error("Unable to get an item with the request: ", JSON.stringify(params));
+            // console.error("Unable to get an item with the request: ", JSON.stringify(params));
             return callback(new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params)), null);
           }
         }
@@ -80,6 +85,7 @@ function survey(aws) {
       return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
     }
   };
+
 
   /*
    * Parameters:
@@ -98,8 +104,53 @@ function survey(aws) {
    * subject    The subject of the survey
    * datetime   The latest modified date time of the survey
    */
-  this.listSurveys = function(event, callback) {
+  const listSurveys = (event, callback) => {
+    let response = null;
+    // validate parameters
+    if (event.accountid  && process.env.SERVERLESS_SURVEYTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let params = {
+        TableName: process.env.SERVERLESS_SURVEYTABLE,
+        ProjectionExpression: "accountid, #dt, subject, surveyid",
+        KeyConditionExpression: "accountid = :accountId",
+        ExpressionAttributeNames: {
+          "#dt": "datetime",
+        },
+        ExpressionAttributeValues: {
+          ":accountId": event.accountid,
+        },
+      };
 
+      // continue querying if we have more data
+      if (event.startKey){
+        params.ExclusiveStartKey = event.startKey;
+      }
+      // turn on the limit in testing mode
+      if (event.limitTesting){
+        params.Limit = 1;
+      }
+
+      docClient.query(params, function(err, data) {
+        if (err) {
+          // console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
+        } else {
+          // got response
+          // compose response
+          response = {};
+          response['surveys'] = data.Items;
+
+          // LastEvaluatedKey
+          if(typeof data.LastEvaluatedKey != "undefined"){
+            response['LastEvaluatedKey'] = data.LastEvaluatedKey;
+          }
+          return callback(null, response);
+        }
+      });
+    }
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
 
   /*
@@ -115,9 +166,8 @@ function survey(aws) {
    * surveyid     The uuid of the survey
    * datetime     The creation date time of the survey
    */
-  this.addOneSurvey = function(event, callback) {
+  const addOneSurvey = (event, callback) => {
     let response = null;
-
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
       process.env.SERVERLESS_SURVEYTABLE) {
@@ -134,10 +184,10 @@ function survey(aws) {
           survey: event.survey
         }
       };
-
+      // todo 404 Not Found: The account id {event.accountid} does not exist.
       docClient.put(params, function(err, data) {
         if (err) {
-          console.error("Unable to add a new item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          // console.error("Unable to add a new item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
           return callback(getDynamoDBError(err), null);
         } else {
           // compose response
@@ -170,9 +220,55 @@ function survey(aws) {
    * surveyid     The uuid of the survey
    * datetime     The creation date time of the survey
    */
-  this.updateOneSurvey = function(event, callback) {
-
+  const updateOneSurvey = (event, callback) => {
+    let response = null;
+    // validate parameters
+    if (event.accountid  && event.surveyid && event.subject && event.survey &&
+      process.env.SERVERLESS_SURVEYTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let datetime = Date.now();
+      let params = {
+        TableName: process.env.SERVERLESS_SURVEYTABLE,
+        Key:{
+          accountid: event.accountid,
+          surveyid: event.surveyid
+        },
+        UpdateExpression: "set subject = :subject, survey=:survey, #dt=:datetime",
+        ExpressionAttributeValues:{
+          ":subject": event.subject,
+          ":survey": event.survey,
+          ":datetime": datetime,
+        },
+        ExpressionAttributeNames: {
+          "#dt": "datetime",
+        },
+        "ConditionExpression": "(attribute_exists(surveyid)) AND (attribute_exists(accountid)) ",
+        ReturnValues:"UPDATED_NEW"
+      };
+      docClient.update(params, function(err, data) {
+        if (err) {
+          if(err.code === "ConditionalCheckFailedException"){
+            // console.error("Unable to update an item with the request: ", JSON.stringify(params));
+            return callback(new Error("404 Not Found: Unable to update an not exist item with the request: " + JSON.stringify(params)), null);
+          }else{
+            // console.error("Unable to update an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            return callback(getDynamoDBError(err), null);
+          }
+        } else {
+          // compose response
+          response = {
+            datetime: data.Attributes.datetime,
+          };
+          return callback(null, response);
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
+
 
   /*
    * Parameters:
@@ -183,9 +279,41 @@ function survey(aws) {
    * Response:
    * None
    */
-  this.deleteOneSurvey = function(event, callback) {
-
+  const deleteOneSurvey = (event, callback) => {
+    let response = {};
+    // validate parameters
+    if (event.accountid  && event.surveyid && process.env.SERVERLESS_SURVEYTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
+      let params = {
+        TableName: process.env.SERVERLESS_SURVEYTABLE,
+        Key:{
+          accountid: event.accountid,
+          surveyid: event.surveyid
+        },
+      };
+      docClient.delete(params, function(err, data) {
+        if (err) {
+          // console.error("Unable to delete an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
+        } else {
+          return callback(null, response); // Response will be an HTTP 200 with no content.
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
   };
-};
 
-module.exports = survey;
+  return {
+    initAWS : initAWS,
+
+    getOneSurvey : getOneSurvey,
+    listSurveys: listSurveys,
+
+    addOneSurvey : addOneSurvey,
+    updateOneSurvey : updateOneSurvey,
+    deleteOneSurvey : deleteOneSurvey,
+  }
+})();

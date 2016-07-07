@@ -3,7 +3,7 @@
   "apiRequestTemplate": {
     "httpMethod": "$context.httpMethod",
     "queryParams": "$input.params().querystring",
-    "pathParams" : "$input.params().path",
+    "pathParams": "$input.params().path",
     "principalId": "$context.authorizer.principalId"
   },
   "apiResponseTemplate": {
@@ -20,7 +20,7 @@
       "statusCode": "403"
     },
     "404 Not Found:.*": {
-      "statusCode": "404"  
+      "statusCode": "404"
     },
     "500 Internal Server Error:.*": {
       "statusCode": "500"

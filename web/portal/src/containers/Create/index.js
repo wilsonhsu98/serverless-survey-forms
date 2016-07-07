@@ -10,6 +10,7 @@ import * as QuestionsActions from '../../actions/questions';
 
 import Design from '../../components/Design';
 import Control from '../../components/Control';
+import Description from '../../components/Form/Description';
 
 class Create extends PureComponent {
 
@@ -29,7 +30,11 @@ class Create extends PureComponent {
         // TODOS: define components
         const list = [];
         questions.forEach(function (item) {
-            list.push(JSON.stringify(item));
+            if (item.type === 'description') {
+                list.push(<Description />);
+            } else {
+                list.push(JSON.stringify(item));
+            }
         });
 
         return (

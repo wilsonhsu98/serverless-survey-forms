@@ -27,7 +27,7 @@ class Control extends PureComponent {
                 <button data-type="question" onClick={this._onAddQueClick}>
                     Add Question
                 </button>
-                <button data-type="text" onClick={this._onAddQueClick}>
+                <button data-type="description" onClick={this._onAddQueClick}>
                     Add Text
                 </button>
                 <button data-type="page" onClick={this._onAddQueClick}>
