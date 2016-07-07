@@ -41,9 +41,10 @@ class Control extends PureComponent {
     _onAddQueClick(e) {
         const { questions, questionsActions } = this.props;
         const data = {
+            id: this._generateQuestionID(),
             order: 1,
             type: 'radio',
-            label: 'default question',
+            label: 'Untitle Question',
             data: [
                 {"value": "1", "label": "default option"}
             ],
@@ -55,6 +56,7 @@ class Control extends PureComponent {
     _onAddPageClick(e) {
         const { questions, questionsActions } = this.props;
         const data = {
+            id: this._generateQuestionID(),
             order: 1,
             type: 'radio',
             label: 'Untitle Question',
@@ -64,6 +66,10 @@ class Control extends PureComponent {
             "required": true
         };
         questionsActions.addQuestion(2, data);
+    }
+
+    _generateQuestionID() {
+        return (Date.now().toString(32) + Math.random().toString(36).substr(2, 5)).toUpperCase();
     }
 }
 

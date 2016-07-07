@@ -7,6 +7,7 @@
             "description": "Page1 We are sorry for your leaving, share your opinion with us to make this service better.",
             "question": [
                 {
+                    "id": "1AN2AL0F9BNA7R",
                     "order": 1,
                     "type": "select",
                     "label": "I am select question",
@@ -20,6 +21,7 @@
                     "required": true
                 },
                 {
+                    "id": "1AN2AL0F9BNA7A",
                     "order": 2,
                     "type": "radio",
                     "label": "I am radio question text",
@@ -31,6 +33,7 @@
                     "required": false
                 },
                 {
+                    "id": "1AN2AL0F9BNACD",
                     "order": 3,
                     "type": "checkbox",
                     "label": "I am checkbox question text",
@@ -50,6 +53,7 @@
             "description": "Page2 Tell us your opinion to make Trend Micor email scan better.",
             "question": [
                 {
+                    "id": "1AN2AL0F9BNAQ3",
                     "order": 4,
                     "type": "select",
                     "label": "Select everything",
@@ -68,12 +72,14 @@
                     "required": false
                 },
                 {
+                    "id": "1AN2AL0F9BNAR1",
                     "order": 5,
                     "type": "text",
                     "label": "I am single line text",
                     "required": false
                 },
                 {
+                    "id": "1AN2AL0F9BNA99",
                     "order": 6,
                     "type": "textarea",
                     "label": "I am multiple line text",
@@ -87,6 +93,7 @@
             "description": "Thanks for sharing your feedback with Trend Micro.",
             "question": [
                 {
+                    "id": "1AN2AL0F9B2ACD",
                     "order": 7,
                     "type": "privacy",
                     "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
