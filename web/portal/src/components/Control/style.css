@@ -1,0 +1,14 @@
+/*
+ * Style for components/Control/index.js
+ */
+.control {
+    position: absolute;
+    top: 0;
+    right: 150px;
+
+    button {
+        display: block;
+        width: 150px;
+        margin: 10px 0;
+    }
+}
