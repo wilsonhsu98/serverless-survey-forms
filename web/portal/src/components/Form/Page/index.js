@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 
 import Description from '../Description';
+import Radio from '../Radio';
 
 class Page extends Component {
 
@@ -21,10 +22,15 @@ class Page extends Component {
         const { data } = this.props;
         // TODOS: define components
         const list = [];
-        data.question.forEach((question) => {
-            if (question.type === 'description') {
-                list.push(<Description />);
-            } else {
+        data.question.forEach((question, idx) => {
+            switch (question.type) {
+            case 'radio':
+                list.push(<Radio key={idx} data={question} />);
+                break;
+            case 'description':
+                list.push(<Description key={idx} data={question} />);
+                break;
+            default:
                 list.push(JSON.stringify(question));
             }
         });

@@ -25,13 +25,13 @@ class Control extends PureComponent {
     render() {
         return (
             <div ref="root" className={styles.control}>
-                <button data-type="question" onClick={this._onAddQueClick}>
+                <button onClick={this._onAddQueClick}>
                     Add Question
                 </button>
-                <button data-type="description" onClick={this._onAddQueClick}>
+                <button onClick={this._onAddQueClick}>
                     Add Text
                 </button>
-                <button data-type="page" onClick={this._onAddPageClick}>
+                <button onClick={this._onAddPageClick}>
                     Add Page
                 </button>
             </div>
@@ -40,10 +40,9 @@ class Control extends PureComponent {
 
     _onAddQueClick(e) {
         const { questions, questionsActions } = this.props;
-        const addType = $(e.target).data('type');
         const data = {
             order: 1,
-            type: addType,
+            type: 'radio',
             label: 'default question',
             data: [
                 {"value": "1", "label": "default option"}
@@ -57,8 +56,8 @@ class Control extends PureComponent {
         const { questions, questionsActions } = this.props;
         const data = {
             order: 1,
-            type: 'question',
-            label: 'default question',
+            type: 'radio',
+            label: 'Untitle Question',
             data: [
                 {"value": "1", "label": "default option"}
             ],

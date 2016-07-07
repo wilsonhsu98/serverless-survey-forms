@@ -6,7 +6,7 @@ class Description extends PureComponent {
 
     render() {
         return (
-            <div>a<input type="text" value="" placeholder="I am description" /></div>
+            <div><input type="text" value="" placeholder="I am description" /></div>
         );
     }
 }
