@@ -23,6 +23,16 @@ import Question from '../Question/index';
 
 class Checkbox extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        const state = {};
+        props.item.data.forEach((itm, idx) => {
+            const inputID = `checkbox_${props.id}_${idx}`;
+            state[inputID] = false;
+        });
+        this.state = state;
+        this._onChangeHandle = this._onChangeHandle.bind(this);
+    }
     componentDidMount() {
         $(this.refs.root).localize();
     }
@@ -48,7 +58,7 @@ class Checkbox extends PureComponent {
     }
 
     _renderCheckboxItem() {
-        const { id, item, onChangeHandle } = this.props;
+        const { id, item } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `checkbox_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
@@ -64,13 +74,14 @@ class Checkbox extends PureComponent {
                         type="checkbox"
                         name={id}
                         value={val}
-                        onChange={onChangeHandle}
+                        checked={this.state[inputID]}
+                        onChange={this._onChangeHandle}
                     />
                     <label htmlFor={inputID}>
                         {label}
                     </label>
                     {
-                        input ?
+                        input && this.state[inputID] ?
                             <input type="text" placeholder={input} /> :
                             ''
                     }
@@ -78,6 +89,13 @@ class Checkbox extends PureComponent {
             );
         });
         return items;
+    }
+
+    _onChangeHandle(e) {
+        const state = {};
+        state[e.target.id] = !this.state[e.target.id];
+        this.setState(state);
+        // TODO onChangeHandle
     }
 
 }

@@ -23,6 +23,14 @@ import Question from '../Question/index';
 
 class Radio extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: false
+        };
+        this._onChangeHandle = this._onChangeHandle.bind(this);
+    }
+
     componentDidMount() {
         $(this.refs.root).localize();
     }
@@ -48,7 +56,7 @@ class Radio extends PureComponent {
     }
 
     _renderRadioItem() {
-        const { id, item, onChangeHandle } = this.props;
+        const { id, item } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `radio_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
@@ -64,13 +72,14 @@ class Radio extends PureComponent {
                         type="radio"
                         name={id}
                         value={val}
-                        onChange={onChangeHandle}
+                        checked={this.state.selected === inputID}
+                        onChange={this._onChangeHandle}
                     />
                     <label htmlFor={inputID}>
                         {label}
                     </label>
                     {
-                        input ?
+                        input && this.state.selected === inputID ?
                             <input type="text" placeholder={input} /> :
                             ''
                     }
@@ -80,6 +89,12 @@ class Radio extends PureComponent {
         return items;
     }
 
+    _onChangeHandle(e) {
+        this.setState({
+            selected: e.target.id
+        });
+        // TODO onChangeHandle
+    }
 }
 
 Radio.PropTypes = {
