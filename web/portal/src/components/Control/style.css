@@ -13,3 +13,8 @@
         margin: 10px 0;
     }
 }
+
+:global .question {
+    background-color: #ddd;
+    margin: 10px auto;
+}
