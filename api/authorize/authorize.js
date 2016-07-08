@@ -8,10 +8,14 @@ let utils = slsAuth.utils;
 // Authorize
 function authorize(event, callback) {
   let providerConfig = config(event);
-  // this example uses simple expiration time validation
   try {
     let data = utils.readToken(event.authorizationToken, providerConfig.token_secret);
-    callback(null, utils.generatePolicy(data.id, 'Allow', event.methodArn));
+    console.log("Decrypted data: " + data);
+    // TODO: handle expiration time validation
+    callback(null, utils.generatePolicy(
+      data.id, // which is $context.authorizer.principalId
+      'Allow',
+      event.methodArn));
   } catch (err) {
     callback('Unauthorized');
   }

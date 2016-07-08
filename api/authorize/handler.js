@@ -1,6 +1,6 @@
 'use strict';
 
-let signin = require('./authorize');
+let authorize = require('./authorize');
 
 module.exports.handler = (event, context, callback) => {
   // request from API Gateway

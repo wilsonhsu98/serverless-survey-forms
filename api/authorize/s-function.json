@@ -19,7 +19,11 @@
   "environment": {
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
-    "SERVERLESS_REGION": "${region}"
+    "SERVERLESS_REGION": "${region}",
+    "TOKEN_SECRET": "${tokenSecret}",
+    "REDIRECT_CLIENT_URI": "${redirectClientURI}",
+    "PROVIDER_FACEBOOK_ID": "${providerFacebookId}",
+    "PROVIDER_FACEBOOK_SECRET": "${providerFacebookSecret}"
   },
   "vpc": {
     "securityGroupIds": [],

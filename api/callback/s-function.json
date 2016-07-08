@@ -41,6 +41,7 @@
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
+    "SERVERLESS_USERTABLE": "${project}-${stage}-users",
     "REDIRECT_CLIENT_URI": "${redirectClientURI}",
     "TOKEN_SECRET": "${tokenSecret}",
     "PROVIDER_FACEBOOK_ID": "${providerFacebookId}",

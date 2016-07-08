@@ -1,5 +1,9 @@
 'use strict';
 
+// User model
+let aws = require('../config/aws');
+let user = require('../user/user');
+
 // Config
 let slsAuth = require('serverless-authentication');
 let config = slsAuth.config;
@@ -16,7 +20,7 @@ function callback(event, _callback) {
     if (err) {
       utils.errorResponse({
         error: 'Unauthorized'
-      }, providerConfig, callback);
+      }, providerConfig, _callback);
     } else if (state !== 'state-' + profile.provider) {
       // here you should compare if the state returned from provider exist in dynamo db
       // and then expire it
@@ -25,25 +29,50 @@ function callback(event, _callback) {
       }, providerConfig, _callback);
     } else {
       let id = profile.provider + '-' + profile.id;
-
-      // here can be checked if user exist in db and update properties pr if not, create new etc.
-      // profile class: https://github.com/laardee/serverless-authentication/blob/master/src/profile.js
-      // sets 1 minute expiration time as an example
-
       let tokenData = {
         payload: {
           id: id,
           name: profile.name,
-          email: profile.email
+          email: profile.email,
+          picture: profile.picture
         },
         options: {
           expiresIn: 60
         }
       };
-      console.log("id:", id);
-      console.log("profile:", profile);
-      console.log("tokenData:", tokenData);
-      utils.tokenResponse(tokenData, providerConfig, _callback);
+
+      // here can be checked if user exist in db and update properties or if not, create new etc.
+      user.initAWS(aws);
+      user.getOneUser({
+        accountid: id
+      }, function(err, data) {
+        if (err) {
+          if (err.message.match(/404 Not Found:/gi)) {
+            // create new
+            user.addOneUser({
+              accountid: id,
+              username: profile.name,
+              email: profile.email,
+              role: "User"
+            }, function(err, data) {
+              if (err) {
+                utils.errorResponse({
+                  error: err
+                }, providerConfig, _callback);
+              } else {
+                utils.tokenResponse(tokenData, providerConfig, _callback);
+              }
+            })
+          } else {
+            utils.errorResponse({
+              error: err
+            }, providerConfig, _callback);
+          }
+        } else {
+          // update properties if needed
+          utils.tokenResponse(tokenData, providerConfig, _callback);
+        }
+      });
     }
   };
 
