@@ -77,6 +77,9 @@
           "CacheBehaviors": [{
             "PathPattern": "api/*",
             "AllowedMethods": ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"],
+            "ForwardedValues": {
+              "Headers": ["Authorization"]
+            },
             "Compress": "true",
             "TargetOriginId": "APIGW",
             "ForwardedValues": {
