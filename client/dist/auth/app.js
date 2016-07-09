@@ -1,6 +1,6 @@
 'use strict';
 
-var endpoint = 'https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjonas';
+//var endpoint = 'https://d229j8e9u4dil0.cloudfront.net/';
 
 function testToken() {
   $('#test-result').html('Loading...');
@@ -8,7 +8,7 @@ function testToken() {
   // set token to Authorization header
   $.ajax({
     method: 'GET',
-    url: endpoint + '/api/v1/mgnt/test-token',
+    url: location.hostname + '/api/v1/mgnt/test-token',
     headers: {
       Authorization: localStorage.getItem('token')
     }
@@ -42,7 +42,7 @@ $(function() {
     var provider = $(event.currentTarget).attr('id');
     $('#token').html('Loading...');
     $('#test-result').html('Loading...');
-    window.location.href = endpoint + '/authentication/signin/' + provider;
+    window.location.href = location.hostname + '/authentication/signin/' + provider;
   });
 
   $('#logout').on('click', function(event) {

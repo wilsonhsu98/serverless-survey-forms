@@ -22,8 +22,8 @@ This project depends on the following modules, please make sure they're ready lo
 * dynalite 1.0.0
 * mocha 2.4.5
 * istanbul 0.4.3
-* serverless-authentication 0.4.4
-* serverless-authentication-facebook 0.3.2
+* serverless-authentication 0.2.2
+* serverless-authentication-facebook 0.2.0
 * serverless-cors-plugin 0.4.1
 * serverless-client-s3 2.0.0
 
@@ -55,9 +55,19 @@ cd api
 npm install
 ```
 
+## CloudFront DomainName
+
+After project initialization, the CloudFormation also create a new CloudFront distribution with two origins, the one is S3 bucket for static website resources, and the another one is API Gateway endpoint.
+
+Please login to ```AWS console``` and get this CloudFront domain name from CloudFormation Output ```WebsiteDomainName``` or ```CloudFront Distributions```. The format should looks ```https://d230j9e0u5dil1.cloudfront.net```, for example.
+
 ## Authentication Provider Settings
 
-### Facebook Login
+### Facebook App Id Application
+
+Firstly, you have to apply a Facebook App Id for OAuth athentication, please follow steps in [facebook for developer](https://developers.facebook.com/docs/apps/register) to create a **Website** app. 
+
+Please leave **Valid OAuth redirect URIs** blank or invalid during thr process, since we can get back to this after deployment.
 
 Open _meta/variables/s-variables-STAGE.json where STAGE is the stage you are using e.g. s-variables-dev.json in "dev" stage.
 
@@ -75,7 +85,16 @@ If you are using stage "dev", then contents of the s-variables-dev.json should b
 
 Environmental variables are mapped in s-function.json files, for example in the signin/s-function.json.
 
+## Static Website Resources Settings
+
+Please revise ```client/dist/auth/app.js``` with your CloudFront domain name.
+
+```
+var endpoint = 'https://d230j9e0u5dil1.cloudfront.net/';
+```
+
 ## Deployment
+
 Deploy your functions, endpoints, and web client:
 
 ```
@@ -105,7 +124,9 @@ Verify the functionality before any code commit to Git.
 
 ## References
 
+* [Serverless Authentication](https://github.com/laardee/serverless-authentication-boilerplate)
 * [Introducing custom authorizers in Amazon API Gateway](https://aws.amazon.com/tw/blogs/compute/introducing-custom-authorizers-in-amazon-api-gateway/)
+* [Single CloudFront distribution with two origins](https://github.com/boushley/awsm-cloudfront)
 
 ## License
 

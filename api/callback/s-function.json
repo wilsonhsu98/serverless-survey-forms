@@ -42,6 +42,7 @@
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
     "SERVERLESS_USERTABLE": "${project}-${stage}-users",
+    "REDIRECT_URI": "${websiteDomainName}/authentication/callback/{provider}",
     "REDIRECT_CLIENT_URI": "${redirectClientURI}",
     "TOKEN_SECRET": "${tokenSecret}",
     "PROVIDER_FACEBOOK_ID": "${providerFacebookId}",
