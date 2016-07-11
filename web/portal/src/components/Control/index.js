@@ -28,9 +28,6 @@ class Control extends PureComponent {
                 <button onClick={this._onAddQueClick}>
                     Add Question
                 </button>
-                <button onClick={this._onAddQueClick}>
-                    Add Text
-                </button>
                 <button onClick={this._onAddPageClick}>
                     Add Page
                 </button>
