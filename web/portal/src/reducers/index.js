@@ -13,7 +13,7 @@
 		  "role": "User"
 		},
     questions: [{},{},...],
-    editQuestionID: ''
+    editQuestion: {}
  }
 **/
 
@@ -23,14 +23,14 @@ import loading from './loading';
 import fbID from './fbID';
 import account from './account';
 import questions from './questions';
-import editQuestionID from './editQuestionID';
+import editQuestion from './editQuestion';
 
 const rootReducer = combineReducers({
     loading,
     fbID,
     account,
     questions,
-    editQuestionID,
+    editQuestion,
     routing: routerReducer
 });
 

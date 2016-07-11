@@ -7,7 +7,7 @@ import $ from 'jquery';
 
 // Actions
 import * as QuestionsActions from '../../actions/questions';
-import * as EditQuestionIDActions from '../../actions/editQuestionID';
+import * as EditQuestionActions from '../../actions/editQuestion';
 
 import Design from '../../components/Design';
 import Control from '../../components/Control';
@@ -25,21 +25,20 @@ class Create extends PureComponent {
     }
 
     render() {
-        const { editQuestionID, editQuestionIDActions, questionsActions } = this.props;
+        const { editQuestion, editQuestionActions, questionsActions } = this.props;
         const ctrlProps = {
             questionsActions
         };
         const editProps = {
-            editQuestionID,
-            editQuestionIDActions,
+            editQuestion,
+            editQuestionActions,
             questionsActions
         };
-
         return (
             <div ref="root">
                 <Design />
                 <Control {...ctrlProps} />
-                {editQuestionID !== '' ?
+                {editQuestion.hasOwnProperty('id') && editQuestion.id !== '' ?
                     <EditPanel {...editProps} /> :
                     ''}
                 {this._renderPage()}
@@ -48,13 +47,13 @@ class Create extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, editQuestionIDActions } = this.props;
+        const { questions, editQuestionActions } = this.props;
         const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
                 key: idx,
                 data: page,
-                editQuestionIDActions
+                editQuestionActions
             };
             pageList.push(<Page {...pros} />);
         });
@@ -67,14 +66,14 @@ function mapStateToProps(state) {
         fbID: state.fbID,
         account: state.account,
         questions: state.questions,
-        editQuestionID: state.editQuestionID
+        editQuestion: state.editQuestion
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
-        editQuestionIDActions: bindActionCreators(EditQuestionIDActions, dispatch)
+        editQuestionActions: bindActionCreators(EditQuestionActions, dispatch)
     };
 }
 

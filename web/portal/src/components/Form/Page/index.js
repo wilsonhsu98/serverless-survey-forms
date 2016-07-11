@@ -38,7 +38,7 @@ class Page extends Component {
         const requiredProps = {
             key: idx,
             data: question,
-            editQuestionIDActions: this.props.editQuestionIDActions
+            editQuestionActions: this.props.editQuestionActions
         };
         switch (question.type) {
         case 'radio':
