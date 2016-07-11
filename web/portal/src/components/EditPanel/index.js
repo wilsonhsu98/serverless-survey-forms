@@ -8,28 +8,37 @@ import $ from 'jquery';
 
 class EditPanel extends PureComponent {
 
-    componentDidMount() {
+    constructor() {
+        super();
+
         this._mouseClickEvent = this._mouseClickEvent.bind(this);
         this._panelClickEvent = this._panelClickEvent.bind(this);
-        this._keyUpEvent = this._keyUpEvent.bind(this);
+        this._handleChangeEvent = this._handleChangeEvent.bind(this);
+    }
+
+    componentDidMount() {
         window.addEventListener('click', this._mouseClickEvent);
         $('#editPanel').on('click', this._panelClickEvent);
-        $('#editQuestion').on('keyup', this._keyUpEvent);
     }
 
     componentWillUnmount() {
         window.removeEventListener('click', this._mouseClickEvent);
         $('#editPanel').off('click', this._panelClickEvent);
-        $('#editQuestion').off('keyup', this._keyUpEvent);
     }
 
     render() {
         // TODOS: add options item with questions
+        const { editQuestion } = this.props;
         return (
             <div id="editPanel" className={styles.editpanel}>
-                <div>Question: {this.props.editQuestionID}</div>
+                <div>Question: {editQuestion.id}</div>
                 <div>Please fill your question:</div>
-                <div><input id="editQuestion" type="text" /></div>
+                <div><input
+                        id="editQuestion"
+                        type="text"
+                        value={editQuestion.label}
+                        onChange={this._handleChangeEvent}
+                    /></div>
                 <div>Please choose question type:</div>
                 <div>
                     <select name="questionOpt" id="questionOpt">
@@ -44,9 +53,9 @@ class EditPanel extends PureComponent {
     }
 
     _mouseClickEvent(e) {
-        const { editQuestionIDActions } = this.props;
+        const { editQuestionActions } = this.props;
         if (e.target.id !== 'editPanel') {
-            editQuestionIDActions.setEditQuestionID('');
+            editQuestionActions.stopEditQuestion();
         }
     }
 
@@ -54,10 +63,11 @@ class EditPanel extends PureComponent {
         e.stopPropagation();
     }
 
-    _keyUpEvent(e) {
-        const { editQuestionID, questionsActions } = this.props;
+    _handleChangeEvent(e) {
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
         const data = { label: e.target.value || 'Untitle Question' };
-        questionsActions.editQuestion(editQuestionID, data);
+        questionsActions.editQuestion(editQuestion.id, data);
+        editQuestionActions.setEditQuestion(data);
     }
 }
 
