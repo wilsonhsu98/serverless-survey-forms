@@ -31,14 +31,17 @@ class Create extends PureComponent {
         };
         const editProps = {
             editQuestionID,
-            editQuestionIDActions
+            editQuestionIDActions,
+            questionsActions
         };
 
         return (
             <div ref="root">
                 <Design />
                 <Control {...ctrlProps} />
-                {editQuestionID !== '' ? <EditPanel {...editProps} /> : ''}
+                {editQuestionID !== '' ?
+                    <EditPanel {...editProps} /> :
+                    ''}
                 {this._renderPage()}
             </div>
         );
