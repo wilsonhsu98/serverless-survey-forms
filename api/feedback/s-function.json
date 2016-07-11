@@ -43,6 +43,7 @@
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
+          "surveyid": "$input.params('surveyid')",
           "startKey": "$input.params('startKey')",
           "authAccountid": "context.authorizer.principalId",
           "op": "listFeedbacks"
