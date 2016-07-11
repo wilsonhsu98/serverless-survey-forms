@@ -20,6 +20,7 @@ export const RECIEVE_ACCOUNT_FAILURE = 'RECIEVE_ACCOUNT_FAILURE';
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const EDIT_QUESTION = 'EDIT_QUESTION';
 
-// edit question ID
-export const SET_EDITQUESTIONID = 'SET_EDITQUESTIONID';
+// edit question
+export const SET_EDITQUESTION = 'SET_EDITQUESTION';
+export const STOP_EDITQUESTION = 'STOP_EDITQUESTION';
 
