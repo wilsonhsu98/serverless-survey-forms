@@ -6,11 +6,10 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
-class Control extends PureComponent {
+class PageBtn extends PureComponent {
 
     constructor() {
         super();
-        this._onAddQueClick = this._onAddQueClick.bind(this);
         this._onAddPageClick = this._onAddPageClick.bind(this);
     }
 
@@ -25,9 +24,6 @@ class Control extends PureComponent {
     render() {
         return (
             <div ref="root" className={styles.control}>
-                <button onClick={this._onAddQueClick}>
-                    Add Question
-                </button>
                 <button onClick={this._onAddPageClick}>
                     Add Page
                 </button>
@@ -35,23 +31,9 @@ class Control extends PureComponent {
         );
     }
 
-    _onAddQueClick() {
-        const { questionsActions } = this.props;
-        const data = {
-            id: this._generateQuestionID(),
-            order: 1,
-            type: 'radio',
-            label: 'Untitle Question',
-            data: [
-                { value: '1', label: 'default option' }
-            ],
-            required: true
-        };
-        questionsActions.addQuestion(1, data);
-    }
-
     _onAddPageClick() {
-        const { questionsActions } = this.props;
+        const { questions, questionsActions } = this.props;
+        const page = questions.length + 1;
         const data = {
             id: this._generateQuestionID(),
             order: 1,
@@ -62,7 +44,7 @@ class Control extends PureComponent {
             ],
             required: true
         };
-        questionsActions.addQuestion(2, data);
+        questionsActions.addQuestion(page, data);
     }
 
     _generateQuestionID() {
@@ -70,4 +52,4 @@ class Control extends PureComponent {
     }
 }
 
-export default Control;
+export default PageBtn;
