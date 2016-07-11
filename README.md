@@ -21,10 +21,15 @@ This project depends on the following modules, please make sure they're ready lo
 * chai 3.5.0
 * dynalite 1.0.0
 * mocha 2.4.5
+* istanbul 0.4.3
+* serverless-authentication 0.2.2
+* serverless-authentication-facebook 0.2.0
+* serverless-cors-plugin 0.4.1
+* serverless-client-s3 2.0.0
 
 The Vagrant file could save your time to prepare environemnt if you would like to leverage. 
 
-## Install
+## Installation
 
 The steps below can be taken to install the project and initialize it.
 
@@ -50,9 +55,56 @@ cd api
 npm install
 ```
 
-Deploy your functions and endpoints:
+## CloudFront DomainName
 
-```serverless dash deploy```
+After project initialization, the CloudFormation also create a new CloudFront distribution with two origins, the one is S3 bucket for static website resources, and the another one is API Gateway endpoint.
+
+Please login to ```AWS console``` and get this CloudFront domain name from CloudFormation Output ```WebsiteDomainName``` or ```CloudFront Distributions```. The format should looks ```https://d230j9e0u5dil1.cloudfront.net```, for example.
+
+## Authentication Provider Settings
+
+### Facebook App Id Application
+
+Firstly, you have to apply a Facebook App Id for OAuth athentication, please follow steps in [facebook for developer](https://developers.facebook.com/docs/apps/register) to create a **Website** app. 
+
+Please leave **Valid OAuth redirect URIs** blank or invalid during thr process, since we can get back to this after deployment.
+
+Open _meta/variables/s-variables-STAGE.json where STAGE is the stage you are using e.g. s-variables-dev.json in "dev" stage.
+
+If you are using stage "dev", then contents of the s-variables-dev.json should be
+
+```
+{
+  "stage": "dev",
+  "redirectClientURI": "http://url-to-frontend-webapp/",
+  "tokenSecret": "secret-for-json-web-token",
+  "providerFacebookId": "facebook-app-id",
+  "providerFacebookSecret": "facebook-app-secret"
+}
+```
+
+Environmental variables are mapped in s-function.json files, for example in the signin/s-function.json.
+
+## Static Website Resources Settings
+
+Please revise ```client/dist/auth/app.js``` with your CloudFront domain name.
+
+```
+var endpoint = 'https://d230j9e0u5dil1.cloudfront.net/';
+```
+
+## Deployment
+
+Deploy your functions, endpoints, and web client:
+
+```
+# deploy APIGW and Lambda
+serverless dash deploy
+# enable CORS
+serverless endpoint deploy -a
+# deploy static web resources
+serverless client deploy -s STAGE
+```
 
 ## Unit Test
 
@@ -69,6 +121,12 @@ Install npm dependency modules in serverless-survey-form
 Verify the functionality before any code commit to Git.
 
 ```npm test```
+
+## References
+
+* [Serverless Authentication](https://github.com/laardee/serverless-authentication-boilerplate)
+* [Introducing custom authorizers in Amazon API Gateway](https://aws.amazon.com/tw/blogs/compute/introducing-custom-authorizers-in-amazon-api-gateway/)
+* [Single CloudFront distribution with two origins](https://github.com/boushley/awsm-cloudfront)
 
 ## License
 

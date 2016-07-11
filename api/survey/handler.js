@@ -8,7 +8,7 @@ module.exports.handler = (event, context, callback) => {
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 
   survey.initAWS(aws);
-  switch(event.op) {
+  switch (event.op) {
     case "getOneSurvey":
       // GET /api/v1/surveys/<accountid>/<surveyid>/
       // Authenticated: Not necessary
@@ -26,7 +26,7 @@ module.exports.handler = (event, context, callback) => {
       return survey.listSurveys({
         accountid: event.accountid,
         startKey: event.startKey,
-      }, callback );
+      }, callback);
       break;
 
     case "addOneSurvey":
@@ -35,7 +35,7 @@ module.exports.handler = (event, context, callback) => {
       // TODO: validate requester role Check if authAccountid is authorized to create a new survey
       //        authAccountid: event.authAccountid,
       return survey.addOneSurvey({
-        accountid: event.requester,
+        accountid: event.authAccountid,
         subject: event.subject,
         survey: event.survey
       }, callback);
