@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = (() => {
-  let aws = null;
+  let docClient = null;
 
   const initAWS = (AWS) => {
-    aws = AWS;
+    docClient = new AWS.DynamoDB.DocumentClient();
   };
 
   // Convert DynamoDB error code into Error object
@@ -39,7 +39,6 @@ module.exports = (() => {
     let response = null;
     // validate parameters
     if (event.accountid && process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Key: {
@@ -95,7 +94,6 @@ module.exports = (() => {
     let response = null;
     // validate parameters
     if (process.env.SERVERLESS_USERTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         ProjectionExpression: "accountid, username, email, #role",
@@ -150,7 +148,6 @@ module.exports = (() => {
     // validate parameters
     if (event.accountid && event.username && event.email && event.role &&
       process.env.SERVERLESS_USERTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Item: {
@@ -190,7 +187,6 @@ module.exports = (() => {
     let response = {};
     // validate parameters
     if (event.accountid && process.env.SERVERLESS_USERTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Key: {
@@ -242,7 +238,6 @@ module.exports = (() => {
     let response = {};
     // validate parameters
     if (event.accountid && process.env.SERVERLESS_USERTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Key:{

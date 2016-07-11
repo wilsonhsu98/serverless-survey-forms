@@ -2,12 +2,11 @@
 
 let aws = require('../config/aws');
 let survey = require('./survey');
-
+survey.initAWS(aws);
 module.exports.handler = (event, context, callback) => {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 
-  survey.initAWS(aws);
   switch(event.op) {
     case "getOneSurvey":
       // GET /api/v1/surveys/<accountid>/<surveyid>/

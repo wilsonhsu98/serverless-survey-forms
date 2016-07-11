@@ -10,8 +10,6 @@
     "url": "git://github.com/"
   },
   "dependencies": {
-    "aws-sdk": "^2.3.5",
     "node-uuid": "^1.4.7"
   }
 }
-

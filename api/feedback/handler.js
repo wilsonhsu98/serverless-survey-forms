@@ -1,11 +1,10 @@
 'use strict';
 let aws = require('../config/aws');
 let feedback = require('./feedback');
-
+feedback.initAWS(aws);
 module.exports.handler = function(event, context, callback) {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
-  feedback.initAWS(aws);
 
   switch (event.op){
     case "getOneFeedback":

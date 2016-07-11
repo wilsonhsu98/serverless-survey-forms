@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = (() => {
-  let aws = null;
+   let docClient = null;
 
   const initAWS = (AWS) => {
-    aws = AWS;
+    docClient = new AWS.DynamoDB.DocumentClient();
   };
 
   const getUUID = () => {
@@ -49,7 +49,6 @@ module.exports = (() => {
     // validate parameters
     if (event.accountid && event.surveyid &&
       process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         Key: {
@@ -108,7 +107,6 @@ module.exports = (() => {
     let response = null;
     // validate parameters
     if (event.accountid  && process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         ProjectionExpression: "accountid, #dt, subject, surveyid",
@@ -171,7 +169,6 @@ module.exports = (() => {
     // validate parameters
     if (event.accountid && event.subject && event.survey &&
       process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let surveyid = getUUID();
       let datetime = Date.now();
       let params = {
@@ -224,7 +221,6 @@ module.exports = (() => {
     // validate parameters
     if (event.accountid  && event.surveyid && event.subject && event.survey &&
       process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let datetime = Date.now();
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
@@ -282,7 +278,6 @@ module.exports = (() => {
     let response = {};
     // validate parameters
     if (event.accountid  && event.surveyid && process.env.SERVERLESS_SURVEYTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         Key:{
