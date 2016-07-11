@@ -8,6 +8,8 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
+import I18Next from 'i18next';
+import classNames from 'classnames';
 
 class Pagination extends PureComponent {
 
@@ -16,14 +18,6 @@ class Pagination extends PureComponent {
         this._goToPage = this._goToPage.bind(this);
         this._prev = this._prev.bind(this);
         this._next = this._next.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
     }
 
     render() {
@@ -46,27 +40,42 @@ class Pagination extends PureComponent {
             ));
         }
         return (
-            <div>
-                {
-                    currentPage > 1 ?
-                        <div
-                            className={styles.prev}
-                            data-i18n="prev"
-                            onClick={this._prev}
-                        /> : ''
-                }
-                {
-                    currentPage < pages ?
-                        <div
-                            className={styles.next}
-                            data-i18n="next"
-                            onClick={this._next}
-                        /> : ''
-                }
-                <ul className={styles.paging}>
-                    {pageItems}
-                </ul>
-            </div>
+            pages > 1 ?
+            (
+                <div className="ut-pagination">
+                    {
+                        currentPage > 1 ?
+                            <div
+                                className={classNames({
+                                    [`${styles.prev}`]: true,
+                                    'ut-prev': true
+                                })}
+                                onClick={this._prev}
+                            >
+                            {
+                                I18Next.t('prev')
+                            }
+                            </div> : ''
+                    }
+                    {
+                        currentPage < pages ?
+                            <div
+                                className={classNames({
+                                    [`${styles.next}`]: true,
+                                    'ut-next': true
+                                })}
+                                onClick={this._next}
+                            >
+                            {
+                                I18Next.t('next')
+                            }
+                            </div> : ''
+                    }
+                    <ul className={styles.paging}>
+                        {pageItems}
+                    </ul>
+                </div>
+            ) : <div />
         );
     }
 
