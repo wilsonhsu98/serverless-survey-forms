@@ -38,7 +38,8 @@ module.exports = (() => {
   const getOneUser = (event, callback) => {
     let response = null;
     // validate parameters
-    if (event.accountid && process.env.SERVERLESS_SURVEYTABLE) {
+    if (event.accountid && process.env.SERVERLESS_USERTABLE) {
+      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Key: {
@@ -103,11 +104,11 @@ module.exports = (() => {
       };
 
       // continue querying if we have more data
-      if (event.startKey){
+      if (event.startKey) {
         params.ExclusiveStartKey = event.startKey;
       }
       // turn on the limit in testing mode
-      if (event.limitTesting){
+      if (event.limitTesting) {
         params.Limit = 1;
       }
 
@@ -122,14 +123,13 @@ module.exports = (() => {
           response['users'] = data.Items;
 
           // LastEvaluatedKey
-          if(typeof data.LastEvaluatedKey != "undefined"){
+          if (typeof data.LastEvaluatedKey != "undefined") {
             response['LastEvaluatedKey'] = data.LastEvaluatedKey;
           }
           return callback(null, response);
         }
       });
-    }
-    else {
+    } else {
       return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
     }
   };
@@ -193,7 +193,7 @@ module.exports = (() => {
           accountid: event.accountid,
         },
         UpdateExpression: "set username = :username, email=:email, #role=:role",
-        ExpressionAttributeValues:{
+        ExpressionAttributeValues: {
           ":username": event.username,
           ":email": event.email,
           ":role": event.role
@@ -202,7 +202,7 @@ module.exports = (() => {
           "#role": "role"
         },
         "ConditionExpression": "attribute_exists(accountid)",
-        ReturnValues:"UPDATED_NEW"
+        ReturnValues: "UPDATED_NEW"
       };
 
       docClient.update(params, function(err, data) {
@@ -240,7 +240,7 @@ module.exports = (() => {
     if (event.accountid && process.env.SERVERLESS_USERTABLE) {
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
-        Key:{
+        Key: {
           accountid: event.accountid
         },
       };
@@ -264,11 +264,11 @@ module.exports = (() => {
   return {
     initAWS: initAWS,
 
-    getOneUser : getOneUser,
-    listUsers : listUsers,
+    getOneUser: getOneUser,
+    listUsers: listUsers,
 
-    addOneUser : addOneUser,
-    updateOneUser : updateOneUser,
+    addOneUser: addOneUser,
+    updateOneUser: updateOneUser,
 
     deleteOneUser: deleteOneUser,
   }
