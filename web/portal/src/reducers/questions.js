@@ -31,11 +31,17 @@ export default function questions(state = [], action) {
             ...state,
             survey
         ];
-    // case types.ADD_PAGE:
-    //     return [
-    //         ...state,
-    //         action.questions
-    //     ];
+    case types.EDIT_QUESTION:
+        findObject:
+        for (let obj of state) {
+            for (let que of obj.question) {
+                if (que.id === action.id) {
+                    Object.assign(que, action.questions);
+                    break findObject;
+                }
+            }
+        }
+        return [...state];
     default:
         return state;
     }

@@ -6,11 +6,10 @@
 // CSS
 import styles from './style.css';
 
-import React, { PropTypes } from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
 
-class Question extends PureComponent {
+class Question extends Component {
 
     componentDidMount() {
         $(this.refs.root).localize();
