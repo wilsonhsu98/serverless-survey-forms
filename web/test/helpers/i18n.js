@@ -15,7 +15,7 @@ i18n
     .init({
         lng: locale,
         fallbackLng: 'en-US',
-        debug: true,
+        debug: false,
         ns: 'translation',
         backend: {
             loadPath: 'assets/L10N/__lng__/__ns__.json'
