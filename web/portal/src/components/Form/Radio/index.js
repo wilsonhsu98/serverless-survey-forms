@@ -2,12 +2,11 @@
 // CSS
 import styles from './style.css';
 
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, { Component } from 'react';
 
 import Question from '../Question';
 
-class Radio extends PureComponent {
+class Radio extends Component {
 
     constructor() {
         super();

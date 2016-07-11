@@ -8,3 +8,11 @@ export function addQuestion(page, data) {
         questions: data
     };
 }
+
+export function editQuestion(id, data) {
+    return {
+        type: types.EDIT_QUESTION,
+        id: id,
+        questions: data
+    };
+}
