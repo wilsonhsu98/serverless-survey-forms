@@ -64,3 +64,4 @@ Verify the functionality before any code commit to Git.
 ## License
 
 Licensed under the [MIT License](https://github.com/trendmicro/serverless-survey-forms/blob/master/LICENSE).
+
