@@ -8,7 +8,12 @@ import $ from 'jquery';
 import Description from '../Description';
 import Radio from '../Radio';
 
-class Page extends Component {
+class Pagination extends Component {
+
+    constructor() {
+        super();
+        this._onAddQueClick = this._onAddQueClick.bind(this);
+    }
 
     componentDidMount() {
         $(this.refs.root).localize();
@@ -20,21 +25,24 @@ class Page extends Component {
 
     render() {
         const { data } = this.props;
-        // TODOS: define components
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
         });
-
         return (
             <div className={styles.wrap}>
-                <div>{data.description}</div>
+                <div>{data.page} {data.description}</div>
                 {list}
+
+                <button onClick={this._onAddQueClick}>
+                    Add Question
+                </button>
             </div>
         );
     }
 
     _renderQuestion(question, idx) {
+        // TODOS: define components
         const requiredProps = {
             key: idx,
             data: question,
@@ -49,6 +57,25 @@ class Page extends Component {
             return (<div>{JSON.stringify(question)}</div>);
         }
     }
+
+    _onAddQueClick() {
+        const { data, questionsActions } = this.props;
+        const question = {
+            id: this._generateQuestionID(),
+            order: 1,
+            type: 'radio',
+            label: 'Untitle Question',
+            data: [
+                { value: '1', label: 'default option' }
+            ],
+            required: true
+        };
+        questionsActions.addQuestion(data.page, question);
+    }
+
+    _generateQuestionID() {
+        return (Date.now().toString(32) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+    }
 }
 
-export default Page;
+export default Pagination;
