@@ -27,7 +27,9 @@ export function fetchFBID() {
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(receiveFBIDSuccess(data));
+            const temp = '10206181895733803';
+            dispatch(receiveFBIDSuccess(temp));
+            // dispatch(receiveFBIDSuccess(data));
         })
         // TODOS: fetch FBID
         .catch(data => {

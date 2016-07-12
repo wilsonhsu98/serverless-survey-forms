@@ -31,18 +31,20 @@ export function fetchAccount() {
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(receiveAccountSuccess(data));
+            dispatch(receiveAccountSuccess(data.users[0]));
+            // TODOS:
+            // dispatch(receiveAccountSuccess(data));
         })
         // TODOS: fetch http
-        .catch(data => {
-            const temp = {
-                accountid: 'facebook-10206181895733803',
-                username: 'jonas cheng',
-                email: 'jonas_cheng@trend.com.tw',
-                role: 'Admin'
-            };
-            dispatch(receiveAccountSuccess(temp));
-        });
-        // .catch(err => dispatch(receiveAccountFailure(err)));
+        // .catch(data => {
+        //     const temp = {
+        //         accountid: 'facebook-10206181895733803',
+        //         username: 'jonas cheng',
+        //         email: 'jonas_cheng@trend.com.tw',
+        //         role: 'Admin'
+        //     };
+        //     dispatch(receiveAccountSuccess(temp));
+        // });
+        .catch(err => dispatch(receiveAccountFailure(err)));
     };
 }
