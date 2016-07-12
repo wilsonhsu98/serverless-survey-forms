@@ -5,9 +5,9 @@ export default function questions(state = [], action) {
     switch (action.type) {
     case types.ADD_QUESTION:
         const len = state.length;
-        const idx = action.idx - 1;
+        const idx = action.page - 1;
         let survey = {};
-        if (len >= action.idx) {
+        if (len >= action.page) {
             // if this page already existed
             // edit this page content
             survey = state[idx];
@@ -23,7 +23,7 @@ export default function questions(state = [], action) {
         }
         // if this page didn't exist
         survey = {
-            page: action.idx,
+            page: action.page,
             description: 'Untitle Page',
             question: [action.questions]
         };
@@ -38,6 +38,25 @@ export default function questions(state = [], action) {
                 if (que.id === action.id) {
                     Object.assign(que, action.questions);
                     break findObject;
+                }
+            }
+        }
+        return [...state];
+    case types.EXCHANGE_QUESTION:
+        const { afPage, afIdx, bfPage, bfIdx, questions } = action;
+        if (bfPage !== afPage) {
+            for (let obj of state) {
+                if (obj.page === bfPage) {
+                    obj.question.splice(bfIdx, 1);
+                } else if (obj.page === afPage) {
+                    obj.question.splice(afIdx, 0, questions);
+                }
+            }
+        } else {
+            for (let obj of state) {
+                if (obj.page === afPage) {
+                    obj.question.splice(bfIdx, 1);
+                    obj.question.splice(afIdx, 0, questions);
                 }
             }
         }
