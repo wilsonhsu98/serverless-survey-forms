@@ -10,9 +10,6 @@ import * as QuestionsActions from '../../actions/questions';
 import * as EditQuestionActions from '../../actions/editQuestion';
 
 import Design from '../../components/Design';
-import PageBtn from '../../components/PageBtn';
-import Pagination from '../../components/Form/Pagination';
-import EditPanel from '../../components/EditPanel';
 
 class Create extends PureComponent {
 
@@ -25,41 +22,7 @@ class Create extends PureComponent {
     }
 
     render() {
-        const { questions, editQuestion, editQuestionActions, questionsActions } = this.props;
-        const ctrlProps = {
-            questions,
-            questionsActions
-        };
-        const editProps = {
-            editQuestion,
-            editQuestionActions,
-            questionsActions
-        };
-        return (
-            <div ref="root">
-                <Design />
-                <PageBtn {...ctrlProps} />
-                {editQuestion.hasOwnProperty('id') && editQuestion.id !== '' ?
-                    <EditPanel {...editProps} /> :
-                    ''}
-                {this._renderPage()}
-            </div>
-        );
-    }
-
-    _renderPage() {
-        const { questions, questionsActions, editQuestionActions } = this.props;
-        const pageList = [];
-        questions.forEach((page, idx) => {
-            const pros = {
-                key: idx,
-                data: page,
-                questionsActions,
-                editQuestionActions
-            };
-            pageList.push(<Pagination {...pros} />);
-        });
-        return pageList;
+        return (<Design ref="root" {...this.props} />);
     }
 }
 
