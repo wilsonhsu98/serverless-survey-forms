@@ -39,7 +39,6 @@ module.exports = (() => {
     let response = null;
     // validate parameters
     if (event.accountid && process.env.SERVERLESS_USERTABLE) {
-      let docClient = new aws.DynamoDB.DocumentClient();
       let params = {
         TableName: process.env.SERVERLESS_USERTABLE,
         Key: {
