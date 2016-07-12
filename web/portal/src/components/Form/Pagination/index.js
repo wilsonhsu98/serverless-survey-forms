@@ -3,24 +3,17 @@
 import styles from './style.css';
 
 import React, { Component } from 'react';
-import $ from 'jquery';
 
 import Description from '../Description';
+import Item from '../Item';
 import Radio from '../Radio';
+
 
 class Pagination extends Component {
 
     constructor() {
         super();
         this._onAddQueClick = this._onAddQueClick.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
     }
 
     render() {
@@ -42,20 +35,30 @@ class Pagination extends Component {
     }
 
     _renderQuestion(question, idx) {
+        const { data, editQuestionActions, moveQuestion, getQuestion } = this.props;
+        let obj;
         // TODOS: define components
         const requiredProps = {
             key: idx,
+            id: idx,
+            page: data.page,
             data: question,
-            editQuestionActions: this.props.editQuestionActions
+            editQuestionActions,
+            moveQuestion,
+            getQuestion
         };
         switch (question.type) {
         case 'radio':
-            return (<Radio {...requiredProps} />);
+            obj = (<Radio {...requiredProps} />);
+            break;
         case 'description':
-            return (<Description {...requiredProps} />);
+            obj = (<Description {...requiredProps} />);
+            break;
         default:
-            return (<div>{JSON.stringify(question)}</div>);
+            obj = (<div>{JSON.stringify(question)}</div>);
         }
+
+        return (<Item {...requiredProps}>{obj}</Item>);
     }
 
     _onAddQueClick() {
@@ -76,6 +79,7 @@ class Pagination extends Component {
     _generateQuestionID() {
         return (Date.now().toString(32) + Math.random().toString(36).substr(2, 5)).toUpperCase();
     }
+
 }
 
 export default Pagination;
