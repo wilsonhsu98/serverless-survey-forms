@@ -5,8 +5,7 @@
 
 // setup api url
 const Config = {
-    baseURL: 'http://www.google.com/'
-    // baseURL: `${apiRoot}/${siteprefix[sitename]}/api`
+    baseURL: 'https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim'
 };
 
 export default Config;

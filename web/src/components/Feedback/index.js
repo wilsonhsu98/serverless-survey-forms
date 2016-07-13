@@ -30,7 +30,7 @@ class Feedback extends PureComponent {
 
     render() {
         const { paging, surveyActions } = this.props;
-        const { content } = this.props.survey.data;
+        const { content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
         const { description, question } = currentPageContent;
@@ -40,7 +40,7 @@ class Feedback extends PureComponent {
         return (
             <div ref="root" className={styles.wrap}>
                 <div className={styles.container}>
-                    <div className={styles.title} data-i18n={this.props.survey.data.title}></div>
+                    <div className={styles.title} data-i18n={this.props.survey.title}></div>
                     {
                         description ?
                             <div className={styles.description}>{description}</div> :
