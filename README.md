@@ -8,14 +8,14 @@ To create a google-style survey forms, authorized users could design surveys and
 
 ## Architecture Overview
 
-![](http://i.imgur.com/gBDCCON.png)
+![](http://i.imgur.com/HXk0u6O.png)
 
 ## Environment
 
-This project depends on the following modules, please make sure they're ready locally.
+This project depends on the following modules, please make sure they're ready after [Installation].
 
 * NodeJS 3.7.3
-* serverless 0.5.5
+* serverless 0.5.6
 * aws-sdk 2.3.7
 * node-uuid 1.4.7
 * chai 3.5.0
@@ -27,9 +27,9 @@ This project depends on the following modules, please make sure they're ready lo
 * serverless-cors-plugin 0.4.1
 * serverless-client-s3 2.0.0
 
-The Vagrant file could save your time to prepare environemnt if you would like to leverage. 
+To prevent from poluting your local environment, you may leverage the Vagrant file to isolate your development environment.
 
-## Installation
+##Installation
 
 The steps below can be taken to install the project and initialize it.
 
@@ -43,14 +43,28 @@ Enter the serverless-survey-form folder that was just created:
 
 ```cd serverless-survey-form```
 
-Initialize the project:
-
-```serverless project init```
-
-Install npm dependency modules in serverless-survey-form and serverless-survey-form/api
+Install npm dependency modules in serverless-survey-form:
 
 ```
 npm install
+```
+
+Initialize the project and input your AWS access key and secret key:
+
+```serverless project init```
+
+Please ignore the following possible warning:
+
+> Serverless: \ Serverless: WARNING: This variable is not defined: tokenSecret  
+> Serverless: WARNING: This variable is not defined: redirectClientURI  
+> Serverless: WARNING: This variable is not defined: providerFacebookId  
+> Serverless: WARNING: This variable is not defined: providerFacebookSecret  
+> Serverless: WARNING: This variable is not defined: websiteDomainName  
+> Serverless: WARNING: This variable is not defined: tokenSecret  
+
+Install npm dependency modules in serverless-survey-form/api:
+
+```
 cd api
 npm install
 ```
