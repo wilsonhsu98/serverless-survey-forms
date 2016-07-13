@@ -87,6 +87,26 @@
                     "required": false
                 }
             ]
+        },
+        {
+            "page": 3,
+            "question": [
+                {
+                    "id": "1AN2AL0F9BNA8R",
+                    "order": 7,
+                    "type": "scale",
+                    "label": "Do you satisfy about Trend Micro Email Scan?",
+                    "data": [
+                        {"value": "1", "label": "Very dissatisfied"},
+                        {"value": "2", "label": "Dissatisfied"},
+                        {"value": "3", "label": "Fair"},
+                        {"value": "4", "label": "Satisfied"},
+                        {"value": "5", "label": "Very satisfied"}
+                    ],
+                    "input": "Tell us the reason why you choose this answer",
+                    "required": true
+                }
+            ]
         }
     ],
     "thankyou": {
