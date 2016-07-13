@@ -21,8 +21,11 @@ export const ADD_QUESTION = 'ADD_QUESTION';
 export const EDIT_QUESTION = 'EDIT_QUESTION';
 export const EXCHANGE_QUESTION = 'EXCHANGE_QUESTION';
 export const ADD_PAGE = 'ADD_PAGE';
+export const EXCHANGE_PAGE = 'EXCHANGE_PAGE';
 
 // edit question
 export const SET_EDITQUESTION = 'SET_EDITQUESTION';
 export const STOP_EDITQUESTION = 'STOP_EDITQUESTION';
 
+// edit page
+export const SET_EDITPAGE = 'SET_EDITPAGE';
