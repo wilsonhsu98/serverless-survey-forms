@@ -93,7 +93,6 @@ class Pagination extends Component {
     }
 
     _onOrderPageClick(e) {
-        e.stopPropagation();
         if (e.target.getAttribute('data-type') === 'order') {
             const { orderPageActions } = this.props;
             orderPageActions.setOrderPage(true);
