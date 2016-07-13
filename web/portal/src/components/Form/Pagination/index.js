@@ -23,13 +23,14 @@ class Pagination extends Component {
             list.push(this._renderQuestion(question, idx));
         });
         return (
-            <div className={styles.wrap}>
+            <div className={styles.page}>
                 <div>{data.page} {data.description}</div>
-                {list}
-
-                <button onClick={this._onAddQueClick}>
-                    Add Question
-                </button>
+                <div className={styles.wrap}>
+                    {list}
+                    <button className={styles.button} onClick={this._onAddQueClick}>
+                        + Add Question
+                    </button>
+                </div>
             </div>
         );
     }

@@ -61,6 +61,16 @@ export default function questions(state = [], action) {
             }
         }
         return [...state];
+    case types.ADD_PAGE:
+        const page = {
+            page: action.page,
+            description: 'Untitle Page',
+            question: []
+        };
+        return [
+            ...state,
+            page
+        ];
     default:
         return state;
     }

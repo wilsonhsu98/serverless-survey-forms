@@ -34,11 +34,13 @@ class Design extends PureComponent {
             <div ref="root">
                 <p>Gogo Design! Drag and click.</p>
 
-                <PageBtn {...ctrlProps} />
                 {editQuestion.hasOwnProperty('id') && editQuestion.id !== '' ?
                     <EditPanel {...editProps} /> :
                     ''}
                 {this._renderPage()}
+                <PageBtn {...ctrlProps} />
+
+                <div style={{width:'500px',margin:'10px auto',textAlign:'center'}}>Thank you page</div>
             </div>
         );
     }
