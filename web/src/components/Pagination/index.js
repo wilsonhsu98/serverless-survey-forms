@@ -22,30 +22,19 @@ class Pagination extends PureComponent {
 
     render() {
         const { currentPage, pages } = this.props;
-        const pageItems = [];
-        for (let i = 1; i < pages + 1; i++) {
-            pageItems.push((
-                <li
-                    key={`paging${i}`}
-                    className={
-                        currentPage === i ?
-                        styles.pagingItemActive :
-                        styles.pagingItem
-                    }
-                    data-index={i}
-                    onClick={this._goToPage}
-                >
-                    {i}
-                </li>
-            ));
-        }
         return (
             pages > 1 ?
             (
-                <div className="ut-pagination">
+                <div
+                    className={classNames({
+                        [`${styles.pagination}`]: true,
+                        'ut-pagination': true
+                    })}
+                >
+                    <div className={styles.btnWrapper}>
                     {
                         currentPage > 1 ?
-                            <div
+                            <button
                                 className={classNames({
                                     [`${styles.prev}`]: true,
                                     'ut-prev': true
@@ -55,11 +44,11 @@ class Pagination extends PureComponent {
                             {
                                 I18Next.t('prev')
                             }
-                            </div> : ''
+                            </button> : ''
                     }
                     {
                         currentPage < pages ?
-                            <div
+                            <button
                                 className={classNames({
                                     [`${styles.next}`]: true,
                                     'ut-next': true
@@ -69,11 +58,21 @@ class Pagination extends PureComponent {
                             {
                                 I18Next.t('next')
                             }
-                            </div> : ''
+                            </button> : ''
                     }
-                    <ul className={styles.paging}>
-                        {pageItems}
-                    </ul>
+                    </div>
+                    <div className={styles.progressWrapper}>
+                        <span className={styles.progressText}>{`${currentPage} / ${pages}`}</span>
+                        <div
+                            className={classNames({
+                                [`${styles.progress}`]: (currentPage / pages) !== 1,
+                                [`${styles.progressComplete}`]: (currentPage / pages) === 1
+                            })}
+                            style={{
+                                width: `${((currentPage / pages) * 100)}%`
+                            }}
+                        />
+                    </div>
                 </div>
             ) : <div />
         );
