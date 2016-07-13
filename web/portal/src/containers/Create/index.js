@@ -8,6 +8,7 @@ import $ from 'jquery';
 // Actions
 import * as QuestionsActions from '../../actions/questions';
 import * as EditQuestionActions from '../../actions/editQuestion';
+import * as EditPageActions from '../../actions/editPage';
 
 import Design from '../../components/Design';
 
@@ -31,14 +32,16 @@ function mapStateToProps(state) {
         fbID: state.fbID,
         account: state.account,
         questions: state.questions,
-        editQuestion: state.editQuestion
+        editQuestion: state.editQuestion,
+        editPage: state.editPage
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
-        editQuestionActions: bindActionCreators(EditQuestionActions, dispatch)
+        editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
+        editPageActions: bindActionCreators(EditPageActions, dispatch)
     };
 }
 

@@ -14,6 +14,7 @@ class Pagination extends Component {
     constructor() {
         super();
         this._onAddQueClick = this._onAddQueClick.bind(this);
+        this._onOrderPageClick = this._onOrderPageClick.bind(this);
     }
 
     render() {
@@ -25,9 +26,23 @@ class Pagination extends Component {
         return (
             <div className={styles.page}>
                 <div>{data.page} {data.description}</div>
+                <div className={styles.control}>
+                    <button
+                        data-type='text'
+                        className={`${styles.button} button`}
+                        onClick={this._onOrderPageClick}>
+                        Edit Page
+                    </button>
+                    <button
+                        data-type='order'
+                        className={`${styles.button} button`}
+                        onClick={this._onOrderPageClick}>
+                        Order Page
+                    </button>
+                </div>
                 <div className={styles.wrap}>
                     {list}
-                    <button className={styles.button} onClick={this._onAddQueClick}>
+                    <button className={`${styles.button} button`} onClick={this._onAddQueClick}>
                         + Add Question
                     </button>
                 </div>
@@ -75,6 +90,12 @@ class Pagination extends Component {
             required: true
         };
         questionsActions.addQuestion(data.page, question);
+    }
+
+    _onOrderPageClick(e) {
+        e.stopPropagation();
+        const { editPageActions } = this.props;
+        editPageActions.setEditPage(e.target.getAttribute('data-type'));
     }
 
     _generateQuestionID() {

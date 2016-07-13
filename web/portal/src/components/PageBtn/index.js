@@ -24,7 +24,7 @@ class PageBtn extends PureComponent {
     render() {
         return (
             <div ref="root" className={styles.control}>
-                <button onClick={this._onAddPageClick}>
+                <button className="button" onClick={this._onAddPageClick}>
                     + Add Page
                 </button>
             </div>
