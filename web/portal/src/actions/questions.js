@@ -34,3 +34,12 @@ export function addPage(page) {
         page
     };
 }
+
+export function exchangePage(bfIdx, afIdx) {
+    return {
+        type: types.EXCHANGE_PAGE,
+        bfIdx,
+        afIdx
+    };
+}
+
