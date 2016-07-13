@@ -22,22 +22,24 @@ class EditQuestion extends PureComponent {
             <div className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
                     <div>Question: {editQuestion.id}</div>
-                    <div>Please fill your question:</div>
+                    <div>Question Type</div>
+                    <div>
+                        <select name="questionOpt" id="questionOpt">
+                            <option>Radio Buttons</option>
+                            <option>Checkboxes</option>
+                            <option>Rating(Liert Scale)</option>
+                        </select>
+                    </div>
+
+                    <div>What question do you want to ask?</div>
                     <div><input
                             id="editQuestion"
                             type="text"
                             value={editQuestion.label}
                             onChange={this._handleChangeEvent}
                         /></div>
-                    <div>Please choose question type:</div>
-                    <div>
-                        <select name="questionOpt" id="questionOpt">
-                            <option>Radio</option>
-                            <option>Checkbox</option>
-                            <option>Radio with one input</option>
-                        </select>
-                    </div>
-                    <div>Please choose options:</div>
+
+                    <div>Multiple Choice Options</div>
 
                     <div className="bottom">
                         <button
