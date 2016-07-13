@@ -6,16 +6,14 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
-import Item from './Item';
-
-class OrderPage extends PureComponent {
+class EditPage extends PureComponent {
 
     constructor() {
         super();
 
         this._mouseClickEvent = this._mouseClickEvent.bind(this);
         this._panelClickEvent = this._panelClickEvent.bind(this);
-        this._moveItem = this._moveItem.bind(this);
+        this._handleChangeEvent = this._handleChangeEvent.bind(this);
     }
 
     componentDidMount() {
@@ -29,22 +27,20 @@ class OrderPage extends PureComponent {
     }
 
     render() {
-        const { questions } = this.props;
-        let queList = [];
-        questions.forEach((page, idx) => {
-            queList.push(
-                <Item
-                    key={idx}
-                    id={idx}
-                    page={page}
-                    moveItem={this._moveItem}
-                />
-            );
-        });
+        const { questions, editPage } = this.props;
+        const page = questions[editPage - 1];
+
         return (
             <div id="editPanel" className="editpanel">
-                <div>Move Pages</div>
-                {queList}
+                <div>Edit Page</div>
+                <div className={styles.item}>
+                    Page #{page.page}:&nbsp;
+                    <input
+                        type="text"
+                        value={page.description}
+                        onChange={this._handleChangeEvent}
+                    />
+                </div>
 
                 <div className="bottom">
                     <button
@@ -65,9 +61,9 @@ class OrderPage extends PureComponent {
     }
 
     _mouseClickEvent(e) {
-        const { orderPageActions } = this.props;
+        const { editPageActions } = this.props;
         if (e.target.id !== 'editPanel') {
-            orderPageActions.setOrderPage(false);
+            editPageActions.stopEditPage();
         }
     }
 
@@ -75,18 +71,16 @@ class OrderPage extends PureComponent {
         e.stopPropagation();
 
         if (e.target.getAttribute('data-type') === 'cancel') {
-            const { orderPageActions } = this.props;
-            orderPageActions.setOrderPage(false);
+            const { editPageActions } = this.props;
+            editPageActions.stopEditPage();
         }
     }
 
-    _moveItem(dragIndex, hoverIndex) {
-        console.log(dragIndex +', '+hoverIndex);
-        const { questionsActions } = this.props;
-        if (dragIndex !== hoverIndex) {
-            questionsActions.exchangePage(dragIndex, hoverIndex);
-        }
+    _handleChangeEvent(e) {
+        const { editPage, questionsActions } = this.props;
+        const data = { description: e.target.value || 'Untitle Page' };
+        questionsActions.editPageTitle(editPage, data);
     }
 }
 
-export default OrderPage;
+export default EditPage;
