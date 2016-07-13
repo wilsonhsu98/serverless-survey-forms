@@ -1,12 +1,12 @@
 /**
- * @module Scale
+ * @module Rating
  *
- *  {'type': 'scale',
- *   'label': 'I am scale question text',
+ *  {'type': 'rating',
+ *   'label': 'I am rating question text',
  *   'data': [
- *       {'value': '1', 'label': 'scale label 1'},
- *       {'value': '2', 'label': 'scale label 2'},
- *       {'value': '3', 'label': 'scale label 3'},
+ *       {'value': '1', 'label': 'rating label 1'},
+ *       {'value': '2', 'label': 'rating label 2'},
+ *       {'value': '3', 'label': 'rating label 3'},
  *       ...
  *   ]
  *  }
@@ -21,7 +21,7 @@ import classNames from 'classnames';
 
 import Question from '../Question/index';
 
-class Scale extends PureComponent {
+class Rating extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -41,10 +41,10 @@ class Scale extends PureComponent {
                     text={item.label}
                     required={item.required}
                 />
-                <div className={styles.scaleWrapper}>
-                    <ul className={styles.scaleGrp}>
+                <div className={styles.ratingWrapper}>
+                    <ul className={styles.ratingGrp}>
                         {this._renderLabel(item.data[0])}
-                        {this._renderScaleItem()}
+                        {this._renderRatingItem()}
                         {this._renderLabel(item.data[item.data.length - 1])}
                     </ul>
                     {
@@ -56,18 +56,18 @@ class Scale extends PureComponent {
         );
     }
 
-    _renderScaleItem() {
+    _renderRatingItem() {
         const { id, item } = this.props;
         const items = item.data.map((itm, idx) => {
-            const inputID = `scale_${id}_${idx}`;
+            const inputID = `rating_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
             return (
                 <li
                     id={inputID}
                     className={classNames({
-                        [`${styles.scaleItemSelected}`]: this.state.selected === inputID,
-                        [`${styles.scaleItem}`]: this.state.selected !== inputID
+                        [`${styles.ratingItemSelected}`]: this.state.selected === inputID,
+                        [`${styles.ratingItem}`]: this.state.selected !== inputID
                     })}
                     key={idx}
                     title={label}
@@ -94,12 +94,12 @@ class Scale extends PureComponent {
     }
 }
 
-Scale.PropTypes = {
+Rating.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired
 };
 
-Scale.defaultProps = {};
+Rating.defaultProps = {};
 
-export default Scale;
+export default Rating;
