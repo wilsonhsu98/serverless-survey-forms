@@ -30,8 +30,6 @@ class Design extends PureComponent {
 
         return (
             <div ref="root">
-                <p>Gogo Design! Drag and click.</p>
-
                 {this._renderEdit()}
                 {this._renderPage()}
                 <PageBtn {...ctrlProps} />
