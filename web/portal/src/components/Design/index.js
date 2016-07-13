@@ -10,6 +10,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import PageBtn from '../PageBtn';
 import EditQuestion from '../EditPanel/EditQuestion';
 import OrderPage from '../EditPanel/OrderPage';
+import EditPage from '../EditPanel/EditPage';
 import Pagination from '../Form/Pagination';
 
 class Design extends PureComponent {
@@ -41,7 +42,7 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, questionsActions, editQuestionActions, editPageActions } = this.props;
+        const { questions, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
         const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
@@ -50,6 +51,7 @@ class Design extends PureComponent {
                 questionsActions,
                 editQuestionActions,
                 editPageActions,
+                orderPageActions,
                 moveQuestion: this._moveQuestion,
                 getQuestion: this._getQuestion
             };
@@ -59,7 +61,14 @@ class Design extends PureComponent {
     }
 
     _renderEdit() {
-        const { questions, editQuestion, editPage, questionsActions, editQuestionActions, editPageActions } = this.props;
+        const { questions,
+                editQuestion,
+                editPage,
+                orderPage,
+                questionsActions,
+                editQuestionActions,
+                editPageActions,
+                orderPageActions } = this.props;
 
         if (editQuestion.hasOwnProperty('id') && editQuestion.id !== '') {
             const editProps = {
@@ -68,15 +77,21 @@ class Design extends PureComponent {
                 questionsActions
             };
             return (<EditQuestion {...editProps} />);
-        } else if (editPage === 'order') {
+        } else if (orderPage) {
             const editProps = {
                 questions,
-                editPageActions,
+                orderPageActions,
                 questionsActions
             };
             return (<OrderPage {...editProps} />);
-        } else if (editPage === 'text') {
-            return (<div>TODOS</div>);
+        } else if (editPage) {
+            const editProps = {
+                questions,
+                editPage,
+                editPageActions,
+                questionsActions
+            };
+            return (<EditPage {...editProps} />);
         }
         return '';
     }

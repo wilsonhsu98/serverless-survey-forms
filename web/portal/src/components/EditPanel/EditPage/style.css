@@ -1,0 +1,17 @@
+/*
+ * Style for components/EditPanel/EditPage/index.js
+ */
+
+.item {
+    margin: 5px;
+
+    .title {
+        display: inline-block;
+        width: 220px;
+        border: 1px solid #999;
+    }
+
+    button {
+        margin-left: 5px;
+    }
+}

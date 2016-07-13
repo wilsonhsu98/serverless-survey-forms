@@ -80,6 +80,10 @@ export default function questions(state = [], action) {
             page.page = idx + 1;
         });
         return [...state];
+    case types.EDIT_PAGE_TITLE:
+        const editPage = state[action.id - 1];
+        Object.assign(editPage, action.data);
+        return [...state];
     default:
         return state;
     }
