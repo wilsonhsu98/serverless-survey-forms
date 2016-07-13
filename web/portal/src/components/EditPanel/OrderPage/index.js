@@ -13,19 +13,8 @@ class OrderPage extends PureComponent {
     constructor() {
         super();
 
-        this._mouseClickEvent = this._mouseClickEvent.bind(this);
-        this._panelClickEvent = this._panelClickEvent.bind(this);
+        this._btnClickEvent = this._btnClickEvent.bind(this);
         this._moveItem = this._moveItem.bind(this);
-    }
-
-    componentDidMount() {
-        window.addEventListener('click', this._mouseClickEvent);
-        $('#editPanel').on('click', this._panelClickEvent);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('click', this._mouseClickEvent);
-        $('#editPanel').off('click', this._panelClickEvent);
     }
 
     render() {
@@ -42,38 +31,33 @@ class OrderPage extends PureComponent {
             );
         });
         return (
-            <div id="editPanel" className="editpanel">
-                <div>Move Pages</div>
-                {queList}
+            <div className="modalEditPanel">
+                <div id="editPanel" className="editpanel">
+                    <div>Move Pages</div>
+                    {queList}
 
-                <div className="bottom">
-                    <button
-                        data-type="save"
-                        className="actionBtn"
-                    >
-                        Save
-                    </button>
-                    <button
-                        data-type="cancel"
-                        className="actionBtn"
-                    >
-                        Cancel
-                    </button>
+                    <div className="bottom">
+                        <button
+                            data-type="save"
+                            className="actionBtn"
+                            onClick={this._btnClickEvent}
+                        >
+                            Save
+                        </button>
+                        <button
+                            data-type="cancel"
+                            className="actionBtn"
+                            onClick={this._btnClickEvent}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         );
     }
 
-    _mouseClickEvent(e) {
-        const { orderPageActions } = this.props;
-        if (e.target.id !== 'editPanel') {
-            orderPageActions.setOrderPage(false);
-        }
-    }
-
-    _panelClickEvent(e) {
-        e.stopPropagation();
-
+    _btnClickEvent(e) {
         if (e.target.getAttribute('data-type') === 'cancel') {
             const { orderPageActions } = this.props;
             orderPageActions.setOrderPage(false);
@@ -81,7 +65,6 @@ class OrderPage extends PureComponent {
     }
 
     _moveItem(dragIndex, hoverIndex) {
-        console.log(dragIndex +', '+hoverIndex);
         const { questionsActions } = this.props;
         if (dragIndex !== hoverIndex) {
             questionsActions.exchangePage(dragIndex, hoverIndex);

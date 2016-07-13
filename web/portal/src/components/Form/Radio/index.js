@@ -93,8 +93,7 @@ class Radio extends Component {
         return items;
     }
 
-    _onClickQuestion(e) {
-        e.stopPropagation();
+    _onClickQuestion() {
         const { data, editQuestionActions } = this.props;
         editQuestionActions.setEditQuestion(data);
     }
