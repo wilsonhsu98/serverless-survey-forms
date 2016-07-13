@@ -71,7 +71,7 @@
     color: #fff;
 }
 
-@media only screen and (max-width: 639px) and (min-width: 320px) {
+@media only screen and (max-width: 639px) {
     .progressWrapper {
         width: 75%;
     }
