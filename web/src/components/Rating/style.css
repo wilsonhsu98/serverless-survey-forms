@@ -1,18 +1,18 @@
-.scaleWrapper {
+.ratingWrapper {
     margin: 20px;
     overflow: hidden;
     width: 80%;
     position: relative;
 }
 
-.scaleGrp {
+.ratingGrp {
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
     width: 100%;
 }
 
-.scaleItem {
+.ratingItem {
     border: 3px solid #aaa;
     background: #fff;
     border-radius: 100%;
@@ -24,12 +24,12 @@
     cursor: pointer;
 }
 
-.scaleItem:last-child {
+.ratingItem:last-child {
     margin-right: 30px;
 }
 
-.scaleItemSelected {
-    composes: scaleItem;
+.ratingItemSelected {
+    composes: ratingItem;
     border-color: #BD2A2A;
 }
 
@@ -40,7 +40,7 @@
     margin-right: 30px;
 }
 
-.scaleWrapper input[type=text] {
+.ratingWrapper input[type=text] {
     padding: 0 10px;
     margin: 20px 0;
     width: 100%;

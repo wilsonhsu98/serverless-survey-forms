@@ -94,7 +94,7 @@
                 {
                     "id": "1AN2AL0F9BNA8R",
                     "order": 7,
-                    "type": "scale",
+                    "type": "rating",
                     "label": "Do you satisfy about Trend Micro Email Scan?",
                     "data": [
                         {"value": "1", "label": "Very dissatisfied"},

@@ -15,7 +15,7 @@ import Radio from '../Radio';
 import Select from '../Select';
 import Text from '../Text';
 import Textarea from '../Textarea';
-import Scale from '../Scale';
+import Rating from '../Rating';
 import Privacy from '../Privacy';
 import Pagination from '../Pagination';
 
@@ -91,7 +91,7 @@ class Feedback extends PureComponent {
         case 'select':
             return (<Select {...requiredProps} />);
         case 'scale':
-            return (<Scale {...requiredProps} />);
+            return (<Rating {...requiredProps} />);
         default:
             return (<div key={idx + 1}>Can't find the survey component: {item.type}</div>);
         }
