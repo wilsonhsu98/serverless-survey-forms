@@ -88,7 +88,7 @@ class App extends PureComponent {
         getPromise(i18nSetting, locale, props.localize_path)
         .then(() =>
             // fetch survey from API
-            store.dispatch(SurveyActions.fetchSurvey(settings.surveyid))
+            store.dispatch(SurveyActions.fetchSurvey(settings.accountid, settings.surveyid))
         );
     }
 
