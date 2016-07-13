@@ -33,6 +33,14 @@
     composes: btn;
 }
 
+.prevMobile {
+   display: none;
+}
+
+.nextMobile {
+    display: none;
+}
+
 .progressWrapper {
     width: 90%;
     height: 20px;
@@ -57,4 +65,39 @@
     position: absolute;
     left: 10px;
     color: #fff;
+}
+
+@media only screen and (max-width: 639px) and (min-width: 320px) {
+    .progressWrapper {
+        width: 75%;
+    }
+
+    .prev {
+        display: none;
+    }
+
+    .next {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        bottom: 19px;
+        cursor: pointer;
+    }
+
+    .prevMobile {
+        composes: mobile;
+        left: 15px;
+        background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
+
+    }
+    .nextMobile {
+        composes: mobile;
+        right: 15px;
+        background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
+    }
 }

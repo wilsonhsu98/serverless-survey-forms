@@ -49,11 +49,25 @@
 }
 
 .container {
-    width: 650px;
+    width: 950px;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
     height: 100%;
     background: #fff;
     padding: 20px;
+}
+
+/* Tablet and Mobile Styles */
+@media only screen and (max-width: 959px) {
+    .container {
+        width: auto;
+    }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 639px) and (min-width: 320px) {
+    .contentScroll {
+        bottom: 80px;
+    }
 }
