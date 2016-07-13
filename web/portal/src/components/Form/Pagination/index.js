@@ -25,7 +25,7 @@ class Pagination extends Component {
         });
         return (
             <div className={styles.page}>
-                <div>{data.page} {data.description}</div>
+                <div>Page {data.page}:{data.description}</div>
                 <div className={styles.control}>
                     <button
                         data-type='text'
@@ -94,8 +94,13 @@ class Pagination extends Component {
 
     _onOrderPageClick(e) {
         e.stopPropagation();
-        const { editPageActions } = this.props;
-        editPageActions.setEditPage(e.target.getAttribute('data-type'));
+        if (e.target.getAttribute('data-type') === 'order') {
+            const { orderPageActions } = this.props;
+            orderPageActions.setOrderPage(true);
+        } else if (e.target.getAttribute('data-type') === 'text') {
+            const { data, editPageActions } = this.props;
+            editPageActions.setEditPage(data.page);
+        }
     }
 
     _generateQuestionID() {

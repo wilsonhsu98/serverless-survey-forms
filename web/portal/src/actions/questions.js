@@ -43,3 +43,10 @@ export function exchangePage(bfIdx, afIdx) {
     };
 }
 
+export function editPageTitle(id, data) {
+    return {
+        type: types.EDIT_PAGE_TITLE,
+        id,
+        data: data
+    };
+}
