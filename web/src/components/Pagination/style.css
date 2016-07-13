@@ -33,6 +33,10 @@
     composes: btn;
 }
 
+.done {
+    composes: btn;
+}
+
 .prevMobile {
    display: none;
 }
@@ -80,6 +84,10 @@
         display: none;
     }
 
+    .done {
+        display: none;
+    }
+
     .mobile {
         display: block;
         width: 24px;
@@ -91,13 +99,20 @@
 
     .prevMobile {
         composes: mobile;
-        left: 15px;
+        left: 3%;
         background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
 
     }
+
     .nextMobile {
         composes: mobile;
-        right: 15px;
+        right: 3%;
         background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
+    }
+
+    .doneMobile {
+        composes: mobile;
+        right: 3%;
+        background: url(../../../assets/images/check.png) 0 0 no-repeat;
     }
 }

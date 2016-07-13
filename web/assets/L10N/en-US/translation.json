@@ -2,5 +2,7 @@
     "title"						: "Survey form title",
     "description"				: "Survey form description",
     "prev"                      : "Prev",
-    "next"                      : "Next"
+    "next"                      : "Next",
+    "submit"                    : "Submit",
+    "participate"               : "participate"
 }
