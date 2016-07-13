@@ -27,3 +27,10 @@ export function exchangeQuestion(afPage, afIdx, bfPage, bfIdx, data) {
         questions: data
     };
 }
+
+export function addPage(page) {
+    return {
+        type: types.ADD_PAGE,
+        page
+    };
+}
