@@ -25,7 +25,7 @@ class PageBtn extends PureComponent {
         return (
             <div ref="root" className={styles.control}>
                 <button onClick={this._onAddPageClick}>
-                    Add Page
+                    + Add Page
                 </button>
             </div>
         );
@@ -34,17 +34,7 @@ class PageBtn extends PureComponent {
     _onAddPageClick() {
         const { questions, questionsActions } = this.props;
         const page = questions.length + 1;
-        const data = {
-            id: this._generateQuestionID(),
-            order: 1,
-            type: 'radio',
-            label: 'Untitle Question',
-            data: [
-                { value: '1', label: 'default option' }
-            ],
-            required: true
-        };
-        questionsActions.addQuestion(page, data);
+        questionsActions.addPage(page);
     }
 
     _generateQuestionID() {

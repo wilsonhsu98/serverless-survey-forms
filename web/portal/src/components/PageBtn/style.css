@@ -2,19 +2,20 @@
  * Style for components/PageBtn/index.js
  */
 .control {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
+    width: 500px;
+    margin: 20px auto;
 
     button {
-        display: block;
-        width: 150px;
-        margin: 10px 0;
+        width: 500px;
+        border: 1px dashed #999;
+        background-color: #fff;
+        border-radius: 5px;
+        color: #3762b9;
+        padding: 10px 0;
     }
 }
 
 :global .question {
     background-color: #ddd;
-    margin: 10px auto;
+    border: 1px solid #000;
 }
