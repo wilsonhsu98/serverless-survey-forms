@@ -47,6 +47,16 @@ class Pagination extends PureComponent {
                             </button> : ''
                     }
                     {
+                        currentPage > 1 ?
+                            <div
+                                className={classNames({
+                                    [`${styles.prevMobile}`]: true,
+                                    'ut-prev': true
+                                })}
+                                onClick={this._prev}
+                            /> : ''
+                    }
+                    {
                         currentPage < pages ?
                             <button
                                 className={classNames({
@@ -59,6 +69,16 @@ class Pagination extends PureComponent {
                                 I18Next.t('next')
                             }
                             </button> : ''
+                    }
+                    {
+                        currentPage < pages ?
+                            <div
+                                className={classNames({
+                                    [`${styles.nextMobile}`]: true,
+                                    'ut-next': true
+                                })}
+                                onClick={this._next}
+                            /> : ''
                     }
                     </div>
                     <div className={styles.progressWrapper}>
