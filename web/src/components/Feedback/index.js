@@ -41,12 +41,16 @@ class Feedback extends PureComponent {
             <div ref="root" className={styles.wrap}>
                 <div className={styles.container}>
                     <div className={styles.title} data-i18n={this.props.survey.title}></div>
-                    {
-                        description ?
-                            <div className={styles.description}>{description}</div> :
-                            ''
-                    }
-                    <div>{list}</div>
+                    <div className={styles.contentScroll}>
+                        <div className={styles.content}>
+                        {
+                            description ?
+                                <div className={styles.description}>{description}</div> :
+                                ''
+                        }
+                            <div>{list}</div>
+                        </div>
+                    </div>
                     {
                         content.length > 1 ?
                             <Pagination
