@@ -11,56 +11,62 @@ class EditQuestion extends PureComponent {
     constructor() {
         super();
 
-        this._mouseClickEvent = this._mouseClickEvent.bind(this);
-        this._panelClickEvent = this._panelClickEvent.bind(this);
+        this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
-    }
-
-    componentDidMount() {
-        window.addEventListener('click', this._mouseClickEvent);
-        $('#editPanel').on('click', this._panelClickEvent);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('click', this._mouseClickEvent);
-        $('#editPanel').off('click', this._panelClickEvent);
     }
 
     render() {
         // TODOS: add options item with questions
         const { editQuestion } = this.props;
         return (
-            <div id="editPanel" className="editpanel">
-                <div>Question: {editQuestion.id}</div>
-                <div>Please fill your question:</div>
-                <div><input
-                        id="editQuestion"
-                        type="text"
-                        value={editQuestion.label}
-                        onChange={this._handleChangeEvent}
-                    /></div>
-                <div>Please choose question type:</div>
-                <div>
-                    <select name="questionOpt" id="questionOpt">
-                        <option>Radio</option>
-                        <option>Checkbox</option>
-                        <option>Radio with one input</option>
-                    </select>
+            <div className="modalEditPanel">
+                <div id="editPanel" className="editpanel">
+                    <div>Question: {editQuestion.id}</div>
+                    <div>Question Type</div>
+                    <div>
+                        <select name="questionOpt" id="questionOpt">
+                            <option>Radio Buttons</option>
+                            <option>Checkboxes</option>
+                            <option>Rating(Liert Scale)</option>
+                        </select>
+                    </div>
+
+                    <div>What question do you want to ask?</div>
+                    <div><input
+                            id="editQuestion"
+                            type="text"
+                            value={editQuestion.label}
+                            onChange={this._handleChangeEvent}
+                        /></div>
+
+                    <div>Multiple Choice Options</div>
+
+                    <div className="bottom">
+                        <button
+                            data-type="save"
+                            className="actionBtn"
+                            onClick={this._btnClickEvent}
+                        >
+                            Save
+                        </button>
+                        <button
+                            data-type="cancel"
+                            className="actionBtn"
+                            onClick={this._btnClickEvent}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
-                <div>Please choose options:</div>
             </div>
         );
     }
 
-    _mouseClickEvent(e) {
-        const { editQuestionActions } = this.props;
-        if (e.target.id !== 'editPanel') {
+    _btnClickEvent(e) {
+        if (e.target.getAttribute('data-type') === 'cancel') {
+            const { editQuestionActions } = this.props;
             editQuestionActions.stopEditQuestion();
         }
-    }
-
-    _panelClickEvent(e) {
-        e.stopPropagation();
     }
 
     _handleChangeEvent(e) {
