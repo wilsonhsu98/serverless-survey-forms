@@ -6,7 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
-class EditPanel extends PureComponent {
+class EditQuestion extends PureComponent {
 
     constructor() {
         super();
@@ -30,7 +30,7 @@ class EditPanel extends PureComponent {
         // TODOS: add options item with questions
         const { editQuestion } = this.props;
         return (
-            <div id="editPanel" className={styles.editpanel}>
+            <div id="editPanel" className="editpanel">
                 <div>Question: {editQuestion.id}</div>
                 <div>Please fill your question:</div>
                 <div><input
@@ -71,4 +71,4 @@ class EditPanel extends PureComponent {
     }
 }
 
-export default EditPanel;
+export default EditQuestion;

@@ -1,14 +1,15 @@
 
 // CSS
-// import styles from './style.css';
+import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import EditPanel from '../EditPanel';
 import PageBtn from '../PageBtn';
+import EditQuestion from '../EditPanel/EditQuestion';
+import OrderPage from '../EditPanel/OrderPage';
 import Pagination from '../Form/Pagination';
 
 class Design extends PureComponent {
@@ -20,23 +21,17 @@ class Design extends PureComponent {
     }
 
     render() {
-        const { questions, editQuestion, editQuestionActions, questionsActions } = this.props;
+        const { questions, questionsActions } = this.props;
         const ctrlProps = {
             questions,
             questionsActions
         };
-        const editProps = {
-            editQuestion,
-            editQuestionActions,
-            questionsActions
-        };
+
         return (
             <div ref="root">
                 <p>Gogo Design! Drag and click.</p>
 
-                {editQuestion.hasOwnProperty('id') && editQuestion.id !== '' ?
-                    <EditPanel {...editProps} /> :
-                    ''}
+                {this._renderEdit()}
                 {this._renderPage()}
                 <PageBtn {...ctrlProps} />
 
@@ -46,7 +41,7 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, questionsActions, editQuestionActions } = this.props;
+        const { questions, questionsActions, editQuestionActions, editPageActions } = this.props;
         const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
@@ -54,12 +49,36 @@ class Design extends PureComponent {
                 data: page,
                 questionsActions,
                 editQuestionActions,
+                editPageActions,
                 moveQuestion: this._moveQuestion,
                 getQuestion: this._getQuestion
             };
             pageList.push(<Pagination {...pros} />);
         });
         return pageList;
+    }
+
+    _renderEdit() {
+        const { questions, editQuestion, editPage, questionsActions, editQuestionActions, editPageActions } = this.props;
+
+        if (editQuestion.hasOwnProperty('id') && editQuestion.id !== '') {
+            const editProps = {
+                editQuestion,
+                editQuestionActions,
+                questionsActions
+            };
+            return (<EditQuestion {...editProps} />);
+        } else if (editPage === 'order') {
+            const editProps = {
+                questions,
+                editPageActions,
+                questionsActions
+            };
+            return (<OrderPage {...editProps} />);
+        } else if (editPage === 'text') {
+            return (<div>TODOS</div>);
+        }
+        return '';
     }
 
     _moveQuestion(id, atPage, atIndex) {

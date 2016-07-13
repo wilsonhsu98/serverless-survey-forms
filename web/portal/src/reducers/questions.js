@@ -71,6 +71,15 @@ export default function questions(state = [], action) {
             ...state,
             page
         ];
+    case types.EXCHANGE_PAGE:
+        const { bfIdx:bfPageIdx, afIdx:afPageIdx } = action;
+        const movePage = state[bfPageIdx];
+        state.splice(bfPageIdx, 1);
+        state.splice(afPageIdx, 0, movePage);
+        state.forEach((page, idx) => {
+            page.page = idx + 1;
+        });
+        return [...state];
     default:
         return state;
     }

@@ -7,15 +7,6 @@
 
     button {
         width: 500px;
-        border: 1px dashed #999;
-        background-color: #fff;
-        border-radius: 5px;
-        color: #3762b9;
         padding: 10px 0;
     }
-}
-
-:global .question {
-    background-color: #ddd;
-    border: 1px solid #000;
 }
