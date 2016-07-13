@@ -1,9 +1,15 @@
 
 import * as types from '../constants/ActionTypes';
 
-export function setEditPage(flag) {
+export function setEditPage(id) {
     return {
         type: types.SET_EDITPAGE,
-        editPage: flag
+        editPage: id
+    };
+}
+
+export function stopEditPage() {
+    return {
+        type: types.STOP_EDITPAGE
     };
 }

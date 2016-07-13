@@ -9,6 +9,7 @@ import $ from 'jquery';
 import * as QuestionsActions from '../../actions/questions';
 import * as EditQuestionActions from '../../actions/editQuestion';
 import * as EditPageActions from '../../actions/editPage';
+import * as OrderPageActions from '../../actions/orderPage';
 
 import Design from '../../components/Design';
 
@@ -33,7 +34,8 @@ function mapStateToProps(state) {
         account: state.account,
         questions: state.questions,
         editQuestion: state.editQuestion,
-        editPage: state.editPage
+        editPage: state.editPage,
+        orderPage: state.orderPage
     };
 }
 
@@ -41,7 +43,8 @@ function mapDispatchToProps(dispatch) {
     return {
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
-        editPageActions: bindActionCreators(EditPageActions, dispatch)
+        editPageActions: bindActionCreators(EditPageActions, dispatch),
+        orderPageActions: bindActionCreators(OrderPageActions, dispatch)
     };
 }
 
