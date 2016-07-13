@@ -18,17 +18,12 @@ class Survey extends PureComponent {
     }
 
     render() {
-        const { loading, survey, surveyActions, paging } = this.props;
-        const requiredProps = {
-            survey,
-            surveyActions,
-            paging
-        };
+        const { loading } = this.props;
         return (
             <div>
                 {loading
                     ? <Loading />
-                    : <Feedback {...requiredProps} />}
+                    : <Feedback {...this.props} />}
             </div>
         );
     }
@@ -38,6 +33,7 @@ function mapStateToProps(state) {
     return {
         loading: state.loading,
         survey: state.survey,
+        done: state.done,
         paging: state.paging
     };
 }

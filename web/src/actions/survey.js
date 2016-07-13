@@ -45,6 +45,12 @@ export function fetchSurvey(accountid, surveyid) {
     };
 }
 
+export function surveyDone() {
+    return {
+        type: types.SURVEY_DONE
+    };
+}
+
 export function goToPage(index) {
     return {
         type: types.GO_TO_PAGE,

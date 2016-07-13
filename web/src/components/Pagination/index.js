@@ -18,6 +18,7 @@ class Pagination extends PureComponent {
         this._goToPage = this._goToPage.bind(this);
         this._prev = this._prev.bind(this);
         this._next = this._next.bind(this);
+        this._done = this._done.bind(this);
     }
 
     render() {
@@ -80,6 +81,30 @@ class Pagination extends PureComponent {
                                 onClick={this._next}
                             /> : ''
                     }
+                    {
+                        currentPage === pages ?
+                            <button
+                                className={classNames({
+                                    [`${styles.done}`]: true,
+                                    'ut-done': true
+                                })}
+                                onClick={this._done}
+                            >
+                            {
+                                I18Next.t('submit')
+                            }
+                            </button> : ''
+                    }
+                    {
+                        currentPage === pages ?
+                            <div
+                                className={classNames({
+                                    [`${styles.doneMobile}`]: true,
+                                    'ut-done': true
+                                })}
+                                onClick={this._done}
+                            /> : ''
+                    }
                     </div>
                     <div className={styles.progressWrapper}>
                         <span className={styles.progressText}>{`${currentPage} / ${pages}`}</span>
@@ -108,6 +133,12 @@ class Pagination extends PureComponent {
 
     _next() {
         this.props.surveyActions.goToPage(this.props.currentPage + 1);
+        // TODO: call feedback API
+    }
+
+    _done() {
+        this.props.surveyActions.surveyDone();
+        // TODO: call feedback API
     }
 }
 
