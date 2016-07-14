@@ -57,8 +57,11 @@ class EditMultiOptions extends PureComponent {
     _onChangeHandle(e) {
         const { editQuestion, handleChangeEvent } = this.props;
         const idx = e.target.getAttribute('data-id');
+        const type = e.target.getAttribute('data-type');
         const newData = [...editQuestion.data];
-        const data = { label: e.target.value || 'New Option' };
+        const data = {
+            [type]: e.target.value || (type === 'label' ? 'New Option' : 'Placeholder')
+        };
         newData[idx] = Object.assign({}, newData[idx], data);
         handleChangeEvent({data: newData});
     }
