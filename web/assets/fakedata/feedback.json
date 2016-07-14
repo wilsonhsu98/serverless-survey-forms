@@ -1,0 +1,17 @@
+{
+    "Q1": 2,
+    "Q2": {
+        "3": "Input text in radio options"
+    },
+    "Q3": {
+        "1": "",
+        "5": "Input text in checkbox options"
+    },
+    "Q4": 4,
+    "Q5": "Single line input text",
+    "Q6": "Textarea input text",
+    "Q7": {
+        "rating": 3,
+        "reason": "Input of reason"
+    }
+}

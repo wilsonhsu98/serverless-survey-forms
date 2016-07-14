@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 // Actions
 import * as SurveyActions from '../../actions/survey';
+import * as FeedbackActions from '../../actions/feedback';
 
 import Feedback from '../../components/Feedback';
 import Loading from '../../components/Loading';
@@ -33,6 +34,7 @@ function mapStateToProps(state) {
     return {
         loading: state.loading,
         survey: state.survey,
+        feedback: state.feedback,
         done: state.done,
         paging: state.paging
     };
@@ -40,7 +42,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        surveyActions: bindActionCreators(SurveyActions, dispatch)
+        surveyActions: bindActionCreators(SurveyActions, dispatch),
+        feedbackActions: bindActionCreators(FeedbackActions, dispatch)
     };
 }
 
