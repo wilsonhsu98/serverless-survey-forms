@@ -13,6 +13,7 @@ class EditMultiOptions extends PureComponent {
         super();
 
         this._addOption = this._addOption.bind(this);
+        this._onDeleteHandle = this._onDeleteHandle.bind(this);
         this._onChangeHandle = this._onChangeHandle.bind(this);
     }
 
@@ -25,7 +26,8 @@ class EditMultiOptions extends PureComponent {
             const pros = {
                 key: idx,
                 data: opt,
-                onChangeHandle: this._onChangeHandle
+                onChangeHandle: this._onChangeHandle,
+                onDeleteHandle: this._onDeleteHandle
             };
             optList.push(
                 <EditItem
@@ -58,6 +60,13 @@ class EditMultiOptions extends PureComponent {
         const newData = [...editQuestion.data];
         const data = { label: e.target.value || 'New Option' };
         newData[idx] = Object.assign({}, newData[idx], data);
+        handleChangeEvent({data: newData});
+    }
+
+    _onDeleteHandle(idx) {
+        const { editQuestion, handleChangeEvent } = this.props;
+        const newData = [...editQuestion.data];
+        newData.splice(idx, 1);
         handleChangeEvent({data: newData});
     }
 
