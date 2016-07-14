@@ -22,6 +22,8 @@ class EditMultiOptions extends PureComponent {
         const { editQuestion } = this.props;
         const data = editQuestion.data;
         const optList = [];
+        let otherBtn;
+        let advance;
 
         data.forEach((opt, idx) => {
             const pros = {
@@ -39,6 +41,16 @@ class EditMultiOptions extends PureComponent {
             );
         });
 
+        if (editQuestion.type !== 'rating') {
+            // radio/checkbox have this button
+            otherBtn = (
+                <button
+                    className={`${styles.otherBtn} button`}
+                    onClick={this._addOption}
+                >Add "Other"</button>
+            );
+        }
+
         return (
             <div className={styles.item}>
                 {optList}
@@ -48,10 +60,9 @@ class EditMultiOptions extends PureComponent {
                     className={`${styles.addBtn} button`}
                     onClick={this._addOption}
                 >+ Add Option</button>
-                <button
-                    className={`${styles.otherBtn} button`}
-                    onClick={this._addOption}
-                >Add "Other"</button>
+
+                {otherBtn}
+                {advance}
             </div>
         );
     }

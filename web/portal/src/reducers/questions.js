@@ -90,6 +90,17 @@ export default function questions(state = [], action) {
             page.page = idx + 1;
         });
         return [...state];
+    case types.DELETE_RATING_INPUT:
+        findObject:
+        for (let obj of state) {
+            for (let que of obj.question) {
+                if (que.id === action.id) {
+                    delete que.input;
+                    break findObject;
+                }
+            }
+        }
+        return [...state];
     default:
         return state;
     }

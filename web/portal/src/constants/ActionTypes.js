@@ -25,6 +25,9 @@ export const EXCHANGE_PAGE = 'EXCHANGE_PAGE';
 export const EDIT_PAGE_TITLE = 'EDIT_PAGE_TITLE';
 export const DELETE_PAGE = 'DELETE_PAGE';
 
+// both questions and edit question used
+export const DELETE_RATING_INPUT = 'DELETE_RATING_INPUT';
+
 // edit question
 export const SET_EDITQUESTION = 'SET_EDITQUESTION';
 export const STOP_EDITQUESTION = 'STOP_EDITQUESTION';
