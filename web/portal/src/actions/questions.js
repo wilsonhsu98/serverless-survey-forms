@@ -57,3 +57,10 @@ export function deletePage(page) {
         page
     };
 }
+
+export function deleteRatingInput(id) {
+    return {
+        type: types.DELETE_RATING_INPUT,
+        id
+    };
+}

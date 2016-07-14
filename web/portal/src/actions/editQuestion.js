@@ -13,3 +13,9 @@ export function stopEditQuestion() {
         type: types.STOP_EDITQUESTION
     };
 }
+
+export function deleteRatingInput() {
+    return {
+        type: types.DELETE_RATING_INPUT
+    };
+}
