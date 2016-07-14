@@ -11,29 +11,29 @@ describe('Testing Privacy Component', () => {
     jsdom({ skipWindowCheck: true });
 
     it('should contain correct content', () => {
-        const item = {
+        const info = {
             label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
             terms: 'Yes, Trend Micro can reach me at this address: ',
             input: 'Please enter your email address.'
         };
         const content = TestUtils.renderIntoDocument(
-            <Privacy item={item} />
+            <Privacy info={info} />
         );
         const label = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-label');
         const terms = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-terms');
 
-        expect(label.textContent).toEqual(item.label);
-        expect(terms.textContent).toEqual(item.terms);
+        expect(label.textContent).toEqual(info.label);
+        expect(terms.textContent).toEqual(info.terms);
     });
 
     it('should contain two inputs', () => {
-        const item = {
+        const info = {
             label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
             terms: 'Yes, Trend Micro can reach me at this address: ',
             input: 'Please enter your email address.'
         };
         const content = TestUtils.renderIntoDocument(
-            <Privacy item={item} />
+            <Privacy info={info} />
         );
 
         const inputs = TestUtils.scryRenderedDOMComponentsWithTag(content, 'input');
