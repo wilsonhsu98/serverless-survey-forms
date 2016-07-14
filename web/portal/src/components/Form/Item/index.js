@@ -34,7 +34,7 @@ function collect(connect, monitor) {
 class Item extends Component {
     render() {
         const { connectDropTarget, isOver } = this.props;
-        return connectDropTarget(<div>{this.props.children}</div>);
+        return connectDropTarget(<div className="questionItem">{this.props.children}</div>);
     }
 }
 
