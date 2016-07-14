@@ -14,7 +14,7 @@ class Pagination extends Component {
     constructor() {
         super();
         this._onAddQueClick = this._onAddQueClick.bind(this);
-        this._onOrderPageClick = this._onOrderPageClick.bind(this);
+        this._onEditPageClick = this._onEditPageClick.bind(this);
     }
 
     render() {
@@ -30,14 +30,20 @@ class Pagination extends Component {
                     <button
                         data-type='text'
                         className={`${styles.button} button`}
-                        onClick={this._onOrderPageClick}>
+                        onClick={this._onEditPageClick}>
                         Edit Page
                     </button>
                     <button
                         data-type='order'
                         className={`${styles.button} button`}
-                        onClick={this._onOrderPageClick}>
+                        onClick={this._onEditPageClick}>
                         Order Page
+                    </button>
+                    <button
+                        data-type='delete'
+                        className={`${styles.button} button`}
+                        onClick={this._onEditPageClick}>
+                        Delete Page
                     </button>
                 </div>
                 <div className={styles.wrap}>
@@ -92,13 +98,16 @@ class Pagination extends Component {
         questionsActions.addQuestion(data.page, question);
     }
 
-    _onOrderPageClick(e) {
+    _onEditPageClick(e) {
         if (e.target.getAttribute('data-type') === 'order') {
             const { orderPageActions } = this.props;
             orderPageActions.setOrderPage(true);
         } else if (e.target.getAttribute('data-type') === 'text') {
             const { data, editPageActions } = this.props;
             editPageActions.setEditPage(data.page);
+        } else if (e.target.getAttribute('data-type') === 'delete') {
+            const { data, questionsActions } = this.props;
+            questionsActions.deletePage(data.page);
         }
     }
 
