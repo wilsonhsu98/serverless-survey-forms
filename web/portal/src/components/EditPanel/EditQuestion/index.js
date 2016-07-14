@@ -6,41 +6,31 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
+import Select from '../../Select';
+import EditMultiOptions from '../EditMultiOptions';
+
 class EditQuestion extends PureComponent {
 
     constructor() {
         super();
 
+        this._renderType = this._renderType.bind(this);
+        this._renderTitle = this._renderTitle.bind(this);
+        this._renderOptions = this._renderOptions.bind(this);
+        this._onTitleChange = this._onTitleChange.bind(this);
+        this._onTypeChange = this._onTypeChange.bind(this);
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
     }
 
     render() {
-        // TODOS: add options item with questions
         const { editQuestion } = this.props;
         return (
             <div className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
-                    <div>Question: {editQuestion.id}</div>
-                    <div>Question Type</div>
-                    <div>
-                        <select name="questionOpt" id="questionOpt">
-                            <option>Radio Buttons</option>
-                            <option>Checkboxes</option>
-                            <option>Rating(Liert Scale)</option>
-                        </select>
-                    </div>
-
-                    <div>What question do you want to ask?</div>
-                    <div><input
-                            id="editQuestion"
-                            type="text"
-                            value={editQuestion.label}
-                            onChange={this._handleChangeEvent}
-                        /></div>
-
-                    <div>Multiple Choice Options</div>
-
+                    {this._renderType()}
+                    {this._renderTitle()}
+                    {this._renderOptions()}
                     <div className="bottom">
                         <button
                             data-type="save"
@@ -62,6 +52,70 @@ class EditQuestion extends PureComponent {
         );
     }
 
+    _renderTitle() {
+        const { editQuestion } = this.props;
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>What question do you want to ask?</div>
+                <div>
+                    <textarea
+                        id="editQuestion"
+                        type="text"
+                        value={editQuestion.label}
+                        onChange={this._onTitleChange}
+                        rows="2"
+                    ></textarea>
+                </div>
+            </div>
+        );
+    }
+
+    _renderType() {
+        const item = [
+            {'value': 'radio', 'label': 'Radio Buttons'},
+            {'value': 'checkbox', 'label': 'Checkboxes'},
+            {'value': 'rating', 'label': 'Rating(Liert Scale)'}];
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>Question Type</div>
+                <div>
+                    <Select
+                        id="editSelect"
+                        item={item}
+                        selectedItem="radio"
+                        onChangeHandle={this._onTypeChange}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    _renderOptions() {
+        const { editQuestion } = this.props;
+        const props = {
+            editQuestion,
+            handleChangeEvent: this._handleChangeEvent
+        };
+        let editComponent;
+        switch(editQuestion.type) {
+            case 'radio':
+            case 'checkbox':
+                editComponent = <EditMultiOptions {...props} />;
+                break;
+            case 'rating':
+                editComponent = '';
+                break;
+            default:
+        }
+
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>Multiple Choice Options</div>
+                {editComponent}
+            </div>
+        );
+    }
+
     _btnClickEvent(e) {
         if (e.target.getAttribute('data-type') === 'cancel') {
             const { editQuestionActions } = this.props;
@@ -69,9 +123,18 @@ class EditQuestion extends PureComponent {
         }
     }
 
-    _handleChangeEvent(e) {
-        const { editQuestion, questionsActions, editQuestionActions } = this.props;
+    _onTitleChange(e) {
         const data = { label: e.target.value || 'Untitle Question' };
+        this._handleChangeEvent(data);
+    }
+
+    _onTypeChange(e) {
+        const data = { type: e.currentTarget.getAttribute('data-value') || 'radio' };
+        this._handleChangeEvent(data);
+    }
+
+    _handleChangeEvent(data) {
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
         questionsActions.editQuestion(editQuestion.id, data);
         editQuestionActions.setEditQuestion(data);
     }

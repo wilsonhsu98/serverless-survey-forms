@@ -13,6 +13,7 @@
             border: 1px solid #000;
             border-right: none;
             min-height: 120px;
+            padding: 10px;
         }
         &.control {
             width: 138px;
@@ -54,16 +55,13 @@
 
     .editpanel {
         position: absolute;
-        top: 50%;
+        bottom: 0;
         right: 0;
         width: 400px;
-        height: 400px;
-        margin-top: -200px;
+        height: 500px;
         background-color: #FFF;
         border: 1px solid #999;
-        border-radius: 5px;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-left-radius: 5px;
         padding: 10px;
 
         .bottom {
