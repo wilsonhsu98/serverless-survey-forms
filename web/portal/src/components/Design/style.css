@@ -1,12 +1,31 @@
 
 :global .questionItem {
-    &:first-child {
-        margin-top: 30px;
+    overflow: hidden;
+    width: 100%;
+    background-color: #eee;
+    box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4);
+    margin: 3px 0;
+    & > div {
+        float: left;
+        &.question {
+            width: 360px;
+            background-color: #FFF;
+            border: 1px solid #000;
+            border-right: none;
+            min-height: 120px;
+        }
+        &.control {
+            width: 138px;
+            text-align: center;
+            button {
+                margin: 5px 30px;
+            }
+        }
     }
-}
-:global .question {
-    background-color: #ddd;
-    border: 1px solid #000;
+    &:after {
+        content: '';
+        clear: both;
+    }
 }
 
 :global .button {

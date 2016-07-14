@@ -62,21 +62,25 @@ function dragCollect(connect, monitor) {
 }
 function dropCollect(connect, monitor) {
     return {
-        connectDropTarget: connect.dropTarget()
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
     }
 }
 
 class Item extends PureComponent {
     render() {
-        const { page, isDragging, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
-        const opacity = isDragging ? 0.5 : 1;
+        const { page, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+        const opacity = isOver ? 0.1 : 1;
 
         return connectDragPreview(connectDropTarget(
             <div className={styles.item} style={{ opacity }}>
                 Page #{page.page}:&nbsp;
                 <span className={styles.title}>{page.description}</span>
                 {connectDragSource(
-                    <button className="button">Drag</button>
+                    <button
+                        className="button"
+                        style={{cursor: 'move'}}
+                    >Drag</button>
                 )}
             </div>
         ));
