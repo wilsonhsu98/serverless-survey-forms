@@ -1,0 +1,16 @@
+/*
+ * Style for components/EditPanel/EditItem/index.js
+ */
+
+.item {
+    margin: 5px 0;
+    button {
+        margin-left: 5px;
+    }
+    input[type="text"].longText {
+        width: 274px;
+    }
+    input[type="text"].shortText {
+        width: 130px;
+    }
+}

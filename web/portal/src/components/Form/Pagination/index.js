@@ -4,10 +4,10 @@ import styles from './style.css';
 
 import React, { Component } from 'react';
 
-import Description from '../Description';
 import Item from '../Item';
 import Radio from '../Radio';
-
+import Checkbox from '../Checkbox';
+import Rating from '../Rating';
 
 class Pagination extends Component {
 
@@ -73,8 +73,11 @@ class Pagination extends Component {
         case 'radio':
             obj = (<Radio {...requiredProps} />);
             break;
-        case 'description':
-            obj = (<Description {...requiredProps} />);
+        case 'checkbox':
+            obj = (<Checkbox {...requiredProps} />);
+            break;
+        case 'rating':
+            obj = (<Rating {...requiredProps} />);
             break;
         default:
             obj = (<div>{JSON.stringify(question)}</div>);
@@ -91,7 +94,7 @@ class Pagination extends Component {
             type: 'radio',
             label: 'Untitle Question',
             data: [
-                { value: '1', label: 'default option' }
+                { value: '1', label: 'New Option' }
             ],
             required: true
         };
