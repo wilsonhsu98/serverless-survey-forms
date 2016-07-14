@@ -23,25 +23,24 @@ class Checkbox extends Component {
                 <Question
                     text={data.label}
                 />
-                <div className={styles.radioGrp}>
-                    checkboxes
-                    {this._renderRadioItem()}
+                <div className={styles.checkboxGrp}>
+                    {this._renderCheckboxItem()}
                 </div>
             </div>
         );
     }
 
-    _renderRadioItem() {
+    _renderCheckboxItem() {
         const { data } = this.props;
         const items = data.data.map((itm, idx) => {
             const label = itm.label;
             const input = itm.input;
             return (
                 <div
-                    className={styles.radioItem}
+                    className={styles.checkboxItem}
                     key={idx}
                 >
-                    <input type="radio" />
+                    <input type="checkbox" />
                     <label>
                         {label}
                     </label>
