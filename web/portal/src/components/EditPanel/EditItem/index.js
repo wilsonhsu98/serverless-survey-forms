@@ -15,13 +15,16 @@ class EditItem extends PureComponent {
     }
 
     render() {
-        const { data } = this.props;
+        const { id, data, onDeleteHandle } = this.props;
         return (
             <div className={styles.item}>
                 {data.hasOwnProperty('input') ?
                     this._renderOptionWithText() :
                     this._renderOption()}
-                <button className="button">Delet</button>
+                <button
+                    className="button"
+                    onClick={() => onDeleteHandle(id)}
+                >Del</button>
                 <button className="button">Drag</button>
             </div>
         );
