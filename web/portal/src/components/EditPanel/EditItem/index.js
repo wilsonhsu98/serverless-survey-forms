@@ -35,6 +35,7 @@ class EditItem extends PureComponent {
         return (
             <input
                 data-id={id}
+                data-type="label"
                 type="text"
                 className={styles.longText}
                 value={data.label}
@@ -50,6 +51,7 @@ class EditItem extends PureComponent {
             <span>
                 <input
                     data-id={id}
+                    data-type="label"
                     type="text"
                     className={styles.shortText}
                     value={data.label}
@@ -59,6 +61,7 @@ class EditItem extends PureComponent {
                 <span> - </span>
                 <input
                     data-id={id}
+                    data-type="input"
                     type="text"
                     className={styles.shortText}
                     value={data.input}
