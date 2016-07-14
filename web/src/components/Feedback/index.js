@@ -121,7 +121,7 @@ class Feedback extends PureComponent {
 
     _onChangeHandle(feedback) {
         // Add feedback to store
-        this.props.feedbackActions.saveFeedback(feedback);
+        this.props.feedbackActions.recordFeedback(feedback);
     }
 }
 

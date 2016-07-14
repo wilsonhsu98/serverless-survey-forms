@@ -2,7 +2,7 @@ import * as types from '../constants/ActionTypes';
 
 export default function survey(state = {}, action) {
     switch (action.type) {
-    case types.SAVE_FEEDBACK:
+    case types.RECORD_FEEDBACK:
         return Object.assign({}, state, action.feedback);
     default:
         return state;
