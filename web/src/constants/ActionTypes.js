@@ -13,7 +13,9 @@ export const RECEIVE_SURVEY_FAILURE = 'RECEIVE_SURVEY_FAILURE';
 export const SURVEY_DONE = 'SURVEY_DONE';
 
 // feedback
+export const RECORD_FEEDBACK = 'RECORD_FEEDBACK';
 export const SAVE_FEEDBACK = 'SAVE_FEEDBACK';
+export const UPDATE_FEEDBACK = 'UPDATE_FEEDBACK';
 
 // paging
 export const GO_TO_PAGE = 'GO_TO_PAGE';
