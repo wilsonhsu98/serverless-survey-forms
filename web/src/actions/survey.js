@@ -1,4 +1,3 @@
-
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import config from '../config';

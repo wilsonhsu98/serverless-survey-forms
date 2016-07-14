@@ -117,7 +117,10 @@ class Select extends PureComponent {
             isOpen: false,
             selectedValue: e.currentTarget.getAttribute('data-value')
         });
-        this.props.onChangeHandle(e);
+        const feedback = {
+            [`Q${this.props.id}`]: e.currentTarget.getAttribute('data-value')
+        };
+        this.props.onChangeHandle(feedback);
     }
 
     _handleDocumentClick(e) {

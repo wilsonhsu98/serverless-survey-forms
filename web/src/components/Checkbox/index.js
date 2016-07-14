@@ -31,7 +31,9 @@ class Checkbox extends PureComponent {
             state[inputID] = false;
         });
         this.state = state;
+        this.state.feedbackObj = {};
         this._onChangeHandle = this._onChangeHandle.bind(this);
+        this._onChangeInput = this._onChangeInput.bind(this);
     }
     componentDidMount() {
         $(this.refs.root).localize();
@@ -82,8 +84,12 @@ class Checkbox extends PureComponent {
                     </label>
                     {
                         input && this.state[inputID] ?
-                            <input type="text" placeholder={input} /> :
-                            ''
+                            <input
+                                type="text"
+                                placeholder={input}
+                                name={val}
+                                onChange={this._onChangeInput}
+                            /> : ''
                     }
                 </div>
             );
@@ -93,9 +99,30 @@ class Checkbox extends PureComponent {
 
     _onChangeHandle(e) {
         const state = {};
-        state[e.target.id] = !this.state[e.target.id];
-        this.setState(state);
-        // TODO onChangeHandle
+        const feedbackObj = this.state.feedbackObj;
+        state[e.currentTarget.id] = !this.state[e.currentTarget.id];
+        feedbackObj[e.currentTarget.getAttribute('value')] = '';
+        state.feedbackObj = feedbackObj;
+        this.setState(state, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: feedbackObj
+            };
+            this.props.onChangeHandle(feedback);
+        });
+    }
+
+    _onChangeInput(e) {
+        const state = {};
+        const feedbackObj = this.state.feedbackObj;
+        state[e.currentTarget.id] = !this.state[e.currentTarget.id];
+        feedbackObj[e.currentTarget.getAttribute('name')] = e.currentTarget.value;
+        state.feedbackObj = feedbackObj;
+        this.setState(state, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: feedbackObj
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 
 }
