@@ -12,6 +12,9 @@ export const RECEIVE_SURVEY_SUCCESS = 'RECEIVE_SURVEY_SUCCESS';
 export const RECEIVE_SURVEY_FAILURE = 'RECEIVE_SURVEY_FAILURE';
 export const SURVEY_DONE = 'SURVEY_DONE';
 
+// feedback
+export const SAVE_FEEDBACK = 'SAVE_FEEDBACK';
+
 // paging
 export const GO_TO_PAGE = 'GO_TO_PAGE';
 

@@ -17,7 +17,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import Question from '../Question/index';
 
@@ -29,14 +28,7 @@ class Radio extends PureComponent {
             selected: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+        this._onChangeInput = this._onChangeInput.bind(this);
     }
 
     render() {
@@ -80,8 +72,12 @@ class Radio extends PureComponent {
                     </label>
                     {
                         input && this.state.selected === inputID ?
-                            <input type="text" placeholder={input} /> :
-                            ''
+                            <input
+                                type="text"
+                                placeholder={input}
+                                name={val}
+                                onChange={this._onChangeInput}
+                            /> : ''
                     }
                 </div>
             );
@@ -93,7 +89,21 @@ class Radio extends PureComponent {
         this.setState({
             selected: e.target.id
         });
-        // TODO onChangeHandle
+        const feedbackObj = {};
+        feedbackObj[e.currentTarget.getAttribute('value')] = '';
+        const feedback = {
+            [`Q${this.props.id}`]: feedbackObj
+        };
+        this.props.onChangeHandle(feedback);
+    }
+
+    _onChangeInput(e) {
+        const feedbackObj = {};
+        feedbackObj[e.currentTarget.getAttribute('name')] = e.currentTarget.value;
+        const feedback = {
+            [`Q${this.props.id}`]: feedbackObj
+        };
+        this.props.onChangeHandle(feedback);
     }
 }
 

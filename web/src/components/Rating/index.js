@@ -26,10 +26,13 @@ class Rating extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selected: false
+            selected: false,
+            rating: undefined,
+            reason: ''
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
+        this._onChangeInput = this._onChangeInput.bind(this);
     }
 
     render() {
@@ -49,7 +52,11 @@ class Rating extends PureComponent {
                     </ul>
                     {
                         item.input ?
-                            <input type="text" placeholder={item.input} /> : ''
+                            <input
+                                type="text"
+                                placeholder={item.input}
+                                onChange={this._onChangeInput}
+                            /> : ''
                     }
                 </div>
             </div>
@@ -86,11 +93,34 @@ class Rating extends PureComponent {
     }
 
     _onChangeHandle(e) {
-        console.log(e.target.id);
         this.setState({
-            selected: e.target.id
+            selected: e.currentTarget.id,
+            rating: e.currentTarget.getAttribute('data-value')
+        }, () => {
+            const feedbackObj = {
+                rating: this.state.rating,
+                reason: ''
+            };
+            const feedback = {
+                [`Q${this.props.id}`]: feedbackObj
+            };
+            this.props.onChangeHandle(feedback);
         });
-        // TODO onChangeHandle
+    }
+
+    _onChangeInput(e) {
+        this.setState({
+            reason: e.currentTarget.value
+        }, () => {
+            const feedbackObj = {
+                rating: this.state.rating,
+                reason: this.state.reason
+            };
+            const feedback = {
+                [`Q${this.props.id}`]: feedbackObj
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 }
 

@@ -119,9 +119,9 @@ class Feedback extends PureComponent {
         );
     }
 
-    _onChangeHandle(e) {
-        // TODOS: record the answer, add to store
-        console.log(e.currentTarget);
+    _onChangeHandle(feedback) {
+        // Add feedback to store
+        this.props.feedbackActions.saveFeedback(feedback);
     }
 }
 
