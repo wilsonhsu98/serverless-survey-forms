@@ -1,4 +1,9 @@
 
+:global .questionItem {
+    &:first-child {
+        margin-top: 30px;
+    }
+}
 :global .question {
     background-color: #ddd;
     border: 1px solid #000;

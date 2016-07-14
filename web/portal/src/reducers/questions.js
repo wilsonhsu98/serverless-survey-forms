@@ -84,6 +84,12 @@ export default function questions(state = [], action) {
         const editPage = state[action.id - 1];
         Object.assign(editPage, action.data);
         return [...state];
+    case types.DELETE_PAGE:
+        state.splice(action.page - 1, 1);
+        state.forEach((page, idx) => {
+            page.page = idx + 1;
+        });
+        return [...state];
     default:
         return state;
     }

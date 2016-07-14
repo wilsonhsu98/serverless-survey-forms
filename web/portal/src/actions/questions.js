@@ -47,6 +47,13 @@ export function editPageTitle(id, data) {
     return {
         type: types.EDIT_PAGE_TITLE,
         id,
-        data: data
+        data
+    };
+}
+
+export function deletePage(page) {
+    return {
+        type: types.DELETE_PAGE,
+        page
     };
 }

@@ -15,10 +15,15 @@ import Pagination from '../Form/Pagination';
 
 class Design extends PureComponent {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this._moveQuestion = this._moveQuestion.bind(this);
         this._getQuestion = this._getQuestion.bind(this);
+
+        // init questionnaire
+        const { questions, questionsActions } = props;
+        const page = questions.length + 1;
+        questionsActions.addPage(page);
     }
 
     render() {
