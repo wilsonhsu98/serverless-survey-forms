@@ -8,6 +8,7 @@ import $ from 'jquery';
 
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
+import EditAdvance from '../EditAdvance';
 
 class EditQuestion extends PureComponent {
 
@@ -17,20 +18,25 @@ class EditQuestion extends PureComponent {
         this._renderType = this._renderType.bind(this);
         this._renderTitle = this._renderTitle.bind(this);
         this._renderOptions = this._renderOptions.bind(this);
+        this._renderAdvance = this._renderAdvance.bind(this);
         this._onTitleChange = this._onTitleChange.bind(this);
         this._onTypeChange = this._onTypeChange.bind(this);
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
+        this._handleDeleteInput = this._handleDeleteInput.bind(this);
     }
 
     render() {
         const { editQuestion } = this.props;
+
         return (
             <div className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
                     {this._renderType()}
                     {this._renderTitle()}
                     {this._renderOptions()}
+                    {editQuestion.type === 'rating' ? this._renderAdvance() : ''}
+
                     <div className="bottom">
                         <button
                             data-type="save"
@@ -74,7 +80,7 @@ class EditQuestion extends PureComponent {
         const item = [
             {'value': 'radio', 'label': 'Radio Buttons'},
             {'value': 'checkbox', 'label': 'Checkboxes'},
-            {'value': 'rating', 'label': 'Rating(Liert Scale)'}];
+            {'value': 'rating', 'label': 'Rating (Liert Scale)'}];
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>
@@ -96,22 +102,27 @@ class EditQuestion extends PureComponent {
             editQuestion,
             handleChangeEvent: this._handleChangeEvent
         };
-        let editComponent;
-        switch(editQuestion.type) {
-            case 'radio':
-            case 'checkbox':
-                editComponent = <EditMultiOptions {...props} />;
-                break;
-            case 'rating':
-                editComponent = '';
-                break;
-            default:
-        }
 
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Multiple Choice Options</div>
-                {editComponent}
+                {<EditMultiOptions {...props} />}
+            </div>
+        );
+    }
+
+    _renderAdvance() {
+        const { editQuestion } = this.props;
+        const props = {
+            editQuestion,
+            handleChangeEvent: this._handleChangeEvent,
+            handleDeleteInput: this._handleDeleteInput
+        };
+
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>Advanced Option Settings</div>
+                {<EditAdvance {...props} />}
             </div>
         );
     }
@@ -137,6 +148,12 @@ class EditQuestion extends PureComponent {
         const { editQuestion, questionsActions, editQuestionActions } = this.props;
         questionsActions.editQuestion(editQuestion.id, data);
         editQuestionActions.setEditQuestion(data);
+    }
+
+    _handleDeleteInput() {
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
+        questionsActions.deleteRatingInput(editQuestion.id);
+        editQuestionActions.deleteRatingInput();
     }
 }
 
