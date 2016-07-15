@@ -28,7 +28,7 @@ class Rating extends PureComponent {
         this.state = {
             selected: false,
             rating: undefined,
-            reason: ''
+            reason: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
@@ -99,7 +99,7 @@ class Rating extends PureComponent {
         }, () => {
             const feedbackObj = {
                 rating: this.state.rating,
-                reason: ''
+                reason: false
             };
             const feedback = {
                 [`Q${this.props.id}`]: feedbackObj
