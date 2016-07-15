@@ -9,10 +9,10 @@ export function addQuestion(page, data) {
     };
 }
 
-export function editQuestion(id, data) {
+export function editQuestion(que_id, data) {
     return {
         type: types.EDIT_QUESTION,
-        id,
+        que_id,
         questions: data
     };
 }
@@ -25,7 +25,7 @@ export function deleteQuestion(page, que_id) {
     };
 }
 
-export function exchangeQuestion(afPage, afIdx, bfPage, bfIdx, data) {
+export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
     return {
         type: types.EXCHANGE_QUESTION,
         afPage,
@@ -36,10 +36,32 @@ export function exchangeQuestion(afPage, afIdx, bfPage, bfIdx, data) {
     };
 }
 
+export function deleteRatingInput(que_id) {
+    return {
+        type: types.DELETE_RATING_INPUT,
+        que_id
+    };
+}
+
 export function addPage(page) {
     return {
         type: types.ADD_PAGE,
         page
+    };
+}
+
+export function editPageTitle(page_id, data) {
+    return {
+        type: types.EDIT_PAGE_TITLE,
+        page_id,
+        data
+    };
+}
+
+export function deletePage(page_id) {
+    return {
+        type: types.DELETE_PAGE,
+        page_id
     };
 }
 
@@ -48,27 +70,5 @@ export function exchangePage(bfIdx, afIdx) {
         type: types.EXCHANGE_PAGE,
         bfIdx,
         afIdx
-    };
-}
-
-export function editPageTitle(id, data) {
-    return {
-        type: types.EDIT_PAGE_TITLE,
-        id,
-        data
-    };
-}
-
-export function deletePage(page) {
-    return {
-        type: types.DELETE_PAGE,
-        page
-    };
-}
-
-export function deleteRatingInput(id) {
-    return {
-        type: types.DELETE_RATING_INPUT,
-        id
     };
 }
