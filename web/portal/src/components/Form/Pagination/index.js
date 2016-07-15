@@ -39,6 +39,12 @@ class Pagination extends Component {
                         Order Page
                     </button>
                     <button
+                        data-type='copy'
+                        className={`${styles.button} button`}
+                        onClick={this._onEditPageClick}>
+                        Copy Page
+                    </button>
+                    <button
                         data-type='delete'
                         className={`${styles.button} button`}
                         onClick={this._onEditPageClick}>
@@ -89,6 +95,9 @@ class Pagination extends Component {
         if (e.target.getAttribute('data-type') === 'order') {
             const { orderPageActions } = this.props;
             orderPageActions.setOrderPage(true);
+        } else if (e.target.getAttribute('data-type') === 'copy') {
+            const { data, questionsActions } = this.props;
+            questionsActions.copyPage(data.page);
         } else if (e.target.getAttribute('data-type') === 'text') {
             const { data, editPageActions } = this.props;
             editPageActions.setEditPage(data.page);
