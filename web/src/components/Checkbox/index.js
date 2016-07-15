@@ -101,7 +101,7 @@ class Checkbox extends PureComponent {
         const state = {};
         const feedbackObj = this.state.feedbackObj;
         state[e.currentTarget.id] = !this.state[e.currentTarget.id];
-        feedbackObj[e.currentTarget.getAttribute('value')] = '';
+        feedbackObj[e.currentTarget.getAttribute('value')] = false;
         state.feedbackObj = feedbackObj;
         this.setState(state, () => {
             const feedback = {

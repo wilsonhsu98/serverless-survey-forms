@@ -87,10 +87,10 @@ class Radio extends PureComponent {
 
     _onChangeHandle(e) {
         this.setState({
-            selected: e.target.id
+            selected: e.currentTarget.id
         });
         const feedbackObj = {};
-        feedbackObj[e.currentTarget.getAttribute('value')] = '';
+        feedbackObj[e.currentTarget.getAttribute('value')] = false;
         const feedback = {
             [`Q${this.props.id}`]: feedbackObj
         };

@@ -19,7 +19,7 @@ class Text extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            input: ''
+            input: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
     }
@@ -38,7 +38,7 @@ class Text extends PureComponent {
                         id={`text_${id}`}
                         type="text"
                         onChange={this._onChangeHandle}
-                        value={this.state.input}
+                        value={this.state.input ? this.state.input : ''}
                     />
                 </div>
             </div>
@@ -47,10 +47,10 @@ class Text extends PureComponent {
 
     _onChangeHandle(e) {
         this.setState({
-            input: e.target.value
+            input: e.currentTarget.value
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: this.state.input
+                [`Q${this.props.id}`]: this.state.input ? this.state.input : false
             };
             this.props.onChangeHandle(feedback);
         });
