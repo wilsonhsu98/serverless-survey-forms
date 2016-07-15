@@ -8,17 +8,12 @@ import Question from '../Question';
 
 class Rating extends Component {
 
-    constructor() {
-        super();
-        this._onClickQuestion = this._onClickQuestion.bind(this);
-    }
-
     render() {
-        const { data } = this.props;
+        const { data, onClick } = this.props;
         return (
             <div
                 className="question"
-                onClick={this._onClickQuestion}
+                onClick={onClick}
             >
                 <Question
                     text={data.label}
@@ -62,11 +57,6 @@ class Rating extends Component {
             );
         });
         return items;
-    }
-
-    _onClickQuestion() {
-        const { data, editQuestionActions } = this.props;
-        editQuestionActions.setEditQuestion(data);
     }
 }
 
