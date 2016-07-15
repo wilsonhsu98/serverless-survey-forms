@@ -77,9 +77,10 @@ class EditQuestion extends PureComponent {
     }
 
     _renderType() {
+        const { editQuestion } = this.props;
         const item = [
-            {'value': 'radio', 'label': 'Radio Buttons'},
-            {'value': 'checkbox', 'label': 'Checkboxes'},
+            {'value': 'radio', 'label': 'Radio Button'},
+            {'value': 'checkbox', 'label': 'Checkbox'},
             {'value': 'rating', 'label': 'Rating (Liert Scale)'}];
         return (
             <div className={styles.editSection}>
@@ -88,7 +89,7 @@ class EditQuestion extends PureComponent {
                     <Select
                         id="editSelect"
                         item={item}
-                        selectedItem="radio"
+                        selectedItem={editQuestion.type}
                         onChangeHandle={this._onTypeChange}
                     />
                 </div>
