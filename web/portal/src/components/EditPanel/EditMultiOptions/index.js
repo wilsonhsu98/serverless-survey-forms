@@ -5,6 +5,7 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 
+import * as values from '../../../constants/DefaultValues';
 import EditItem from '../EditItem';
 
 class EditMultiOptions extends PureComponent {
@@ -73,7 +74,7 @@ class EditMultiOptions extends PureComponent {
         const type = e.target.getAttribute('data-type');
         const newData = [...editQuestion.data];
         const data = {
-            [type]: e.target.value || (type === 'label' ? 'New Option' : 'Placeholder')
+            [type]: e.target.value || (type === 'label' ? values.OPTION_TITLE : values.PLACEHOLDER_TITLE)
         };
         newData[idx] = Object.assign({}, newData[idx], data);
         handleChangeEvent({data: newData});
@@ -92,13 +93,13 @@ class EditMultiOptions extends PureComponent {
         if (e.target.getAttribute('data-type') === 'other') {
             opt = {
                 value: editQuestion.data.length + 1,
-                label: 'New Option'
+                label: values.OPTION_TITLE
             };
         } else {
             opt = {
                 value: editQuestion.data.length + 1,
-                label: 'New Option',
-                input: 'Placeholder'
+                label: values.OPTION_TITLE,
+                input: values.PLACEHOLDER_TITLE
             };
         }
 

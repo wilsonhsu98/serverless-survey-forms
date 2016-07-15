@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React, { Component } from 'react';
 
+import * as values from '../../../constants/DefaultValues';
 import Item from '../Item';
 
 class Pagination extends Component {
@@ -74,9 +75,9 @@ class Pagination extends Component {
             id: this._generateQuestionID(),
             order: 1,
             type: 'radio',
-            label: 'Untitle Question',
+            label: values.QUESTION_TITLE,
             data: [
-                { value: '1', label: 'New Option' }
+                { value: '1', label: values.OPTION_TITLE }
             ],
             required: true
         };

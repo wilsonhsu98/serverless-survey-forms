@@ -1,5 +1,6 @@
 
 import * as types from '../constants/ActionTypes';
+import * as values from '../constants/DefaultValues';
 
 export default function questions(state = [], action) {
     switch (action.type) {
@@ -24,7 +25,7 @@ export default function questions(state = [], action) {
         // if this page didn't exist
         survey = {
             page: action.page,
-            description: 'Untitle Page',
+            description: values.PAGE_TITLE,
             question: [action.questions]
         };
         return [
@@ -67,7 +68,7 @@ export default function questions(state = [], action) {
     case types.ADD_PAGE:
         const page = {
             page: action.page,
-            description: 'Untitle Page',
+            description: values.PAGE_TITLE,
             question: []
         };
         return [
