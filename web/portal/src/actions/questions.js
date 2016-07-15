@@ -17,6 +17,14 @@ export function editQuestion(id, data) {
     };
 }
 
+export function deleteQuestion(page, que_id) {
+    return {
+        type: types.DELETE_QUESTION,
+        page,
+        que_id
+    };
+}
+
 export function exchangeQuestion(afPage, afIdx, bfPage, bfIdx, data) {
     return {
         type: types.EXCHANGE_QUESTION,
