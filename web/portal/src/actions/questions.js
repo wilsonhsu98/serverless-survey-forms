@@ -58,6 +58,13 @@ export function addPage(page) {
     };
 }
 
+export function copyPage(page_id) {
+    return {
+        type: types.COPY_PAGE,
+        page_id
+    };
+}
+
 export function editPageTitle(page_id, data) {
     return {
         type: types.EDIT_PAGE_TITLE,

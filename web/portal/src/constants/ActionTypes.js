@@ -23,6 +23,7 @@ export const COPY_QUESTION = 'COPY_QUESTION';
 export const DELETE_QUESTION = 'DELETE_QUESTION';
 export const EXCHANGE_QUESTION = 'EXCHANGE_QUESTION';
 export const ADD_PAGE = 'ADD_PAGE';
+export const COPY_PAGE = 'COPY_PAGE';
 export const EXCHANGE_PAGE = 'EXCHANGE_PAGE';
 export const EDIT_PAGE_TITLE = 'EDIT_PAGE_TITLE';
 export const DELETE_PAGE = 'DELETE_PAGE';
