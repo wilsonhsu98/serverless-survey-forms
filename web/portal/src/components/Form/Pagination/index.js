@@ -5,6 +5,7 @@ import styles from './style.css';
 import React, { Component } from 'react';
 
 import * as values from '../../../constants/DefaultValues';
+import Mixins from '../../../mixins/global';
 import Item from '../Item';
 
 class Pagination extends Component {
@@ -72,7 +73,7 @@ class Pagination extends Component {
     _onAddQueClick() {
         const { data, questionsActions } = this.props;
         const question = {
-            id: this._generateQuestionID(),
+            id: Mixins.generateQuestionID(),
             order: 1,
             type: 'radio',
             label: values.QUESTION_TITLE,
@@ -95,10 +96,6 @@ class Pagination extends Component {
             const { data, questionsActions } = this.props;
             questionsActions.deletePage(data.page);
         }
-    }
-
-    _generateQuestionID() {
-        return (Date.now().toString(32) + Math.random().toString(36).substr(2, 5)).toUpperCase();
     }
 
 }
