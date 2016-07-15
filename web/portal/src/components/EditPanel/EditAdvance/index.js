@@ -6,6 +6,8 @@ import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
+import * as values from '../../../constants/DefaultValues';
+
 class EditAdvance extends PureComponent {
 
     constructor() {
@@ -17,7 +19,7 @@ class EditAdvance extends PureComponent {
     render() {
         const { editQuestion, onChangeHandle } = this.props;
         const flag = editQuestion.hasOwnProperty('input');
-        const input = flag ? editQuestion.input : 'Placeholder';
+        const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
 
         return (
             <div className={styles.item}>
@@ -34,7 +36,7 @@ class EditAdvance extends PureComponent {
                     id="why"
                     type="text"
                     value={input}
-                    placeholder="Placeholder"
+                    placeholder={values.PLACEHOLDER_TITLE}
                     onChange={this._onChangeHandle}
                 />
             </div>
@@ -47,7 +49,7 @@ class EditAdvance extends PureComponent {
         const input = $('#why').val();
         const newData = {...editQuestion};
         if (flag) {
-            newData.input = input || 'Placeholder';
+            newData.input = input || values.PLACEHOLDER_TITLE;
             handleChangeEvent(newData);
         } else {
             delete newData.input;
