@@ -42,6 +42,9 @@ export default function questions(state = [], action) {
             }
         }
         return [...state];
+    case types.DELETE_QUESTION:
+        state[action.page - 1].question.splice(action.que_id, 1);
+        return [...state];
     case types.EXCHANGE_QUESTION:
         const { afPage, afIdx, bfPage, bfIdx, questions } = action;
         if (bfPage !== afPage) {
@@ -89,6 +92,17 @@ export default function questions(state = [], action) {
         state.forEach((page, idx) => {
             page.page = idx + 1;
         });
+        return [...state];
+    case types.DELETE_RATING_INPUT:
+        findObject:
+        for (let obj of state) {
+            for (let que of obj.question) {
+                if (que.id === action.id) {
+                    delete que.input;
+                    break findObject;
+                }
+            }
+        }
         return [...state];
     default:
         return state;

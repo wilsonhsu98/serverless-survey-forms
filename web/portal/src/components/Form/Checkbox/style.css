@@ -1,0 +1,13 @@
+/*
+ * Style for components/Checkbox/index.js
+ */
+
+.checkboxItem input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.checkboxItem input[type="text"] {
+    margin-left: 10px;
+    padding: 0 10px;
+}
+

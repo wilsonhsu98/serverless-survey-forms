@@ -4,10 +4,7 @@ import styles from './style.css';
 
 import React, { Component } from 'react';
 
-import Description from '../Description';
 import Item from '../Item';
-import Radio from '../Radio';
-
 
 class Pagination extends Component {
 
@@ -57,30 +54,18 @@ class Pagination extends Component {
     }
 
     _renderQuestion(question, idx) {
-        const { data, editQuestionActions, moveQuestion, getQuestion } = this.props;
-        let obj;
-        // TODOS: define components
+        const { data, questionsActions, editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
-            id: idx,
+            idx,
             page: data.page,
             data: question,
+            questionsActions,
             editQuestionActions,
             moveQuestion,
             getQuestion
         };
-        switch (question.type) {
-        case 'radio':
-            obj = (<Radio {...requiredProps} />);
-            break;
-        case 'description':
-            obj = (<Description {...requiredProps} />);
-            break;
-        default:
-            obj = (<div>{JSON.stringify(question)}</div>);
-        }
-
-        return (<Item {...requiredProps}>{obj}</Item>);
+        return (<Item {...requiredProps} />);
     }
 
     _onAddQueClick() {
@@ -91,7 +76,7 @@ class Pagination extends Component {
             type: 'radio',
             label: 'Untitle Question',
             data: [
-                { value: '1', label: 'default option' }
+                { value: '1', label: 'New Option' }
             ],
             required: true
         };

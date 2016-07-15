@@ -2,6 +2,10 @@
  * Style for components/Radio/index.js
  */
 
+.radioItem {
+    margin: 5px 0;
+}
+
 .radioItem input[type="radio"] {
 	margin-right: 10px;
 }

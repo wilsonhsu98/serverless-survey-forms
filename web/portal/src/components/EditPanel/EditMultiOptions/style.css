@@ -1,0 +1,13 @@
+/*
+ * Style for components/EditPanel/EditMultiOptions/index.js
+ */
+
+.addBtn {
+    width: 160px;
+    border: 1px solid #d4d4d4;
+    margin-right: 10px;
+}
+
+.otherBtn {
+    border-style: hidden;
+}

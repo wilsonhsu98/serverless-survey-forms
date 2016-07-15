@@ -102,7 +102,6 @@ class Design extends PureComponent {
     _moveQuestion(id, atPage, atIndex) {
         const { questionsActions } = this.props;
         const { question, page, index } = this._getQuestion(id);
-        console.log(id);
         if (index !== atIndex || page !== atPage) {
             questionsActions.exchangeQuestion(atPage, atIndex, page, index, question);
         }

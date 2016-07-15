@@ -1,11 +1,12 @@
 
-// CSS
-// import styles from './style.css';
-
 import React, { Component } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 
 import * as types from '../../../constants/DragTypes';
+
+import Radio from '../Radio';
+import Checkbox from '../Checkbox';
+import Rating from '../Rating';
 
 const dragSource = {
     beginDrag: function(props) {
@@ -65,8 +66,17 @@ function dropCollect(connect, monitor) {
 }
 
 class Item extends Component {
+
+    constructor() {
+        super();
+        this._renderQuestion = this._renderQuestion.bind(this);
+        this._onClickItem = this._onClickItem.bind(this);
+        this._onDeleteHandle = this._onDeleteHandle.bind(this);
+    }
+
     render() {
         const { isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+
         return connectDragPreview(connectDropTarget(
             <div
                 className="questionItem"
@@ -74,7 +84,7 @@ class Item extends Component {
                     opacity: isOver ? 0.1 : 1
                 }}
             >
-                {this.props.children}
+                {this._renderQuestion()}
                 <div className="control">
                     {connectDragSource(
                         <button
@@ -85,10 +95,42 @@ class Item extends Component {
                         </button>
                     )}
                     <button className="button">Copy</button>
-                    <button className="button">Remove</button>
+                    <button
+                        className="button"
+                        onClick={this._onDeleteHandle}
+                    >Remove</button>
                 </div>
             </div>
         ));
+    }
+
+    _renderQuestion() {
+        const { data } = this.props;
+        let obj;
+        switch (data.type) {
+        case 'radio':
+            obj = (<Radio data={data} onClick={this._onClickItem} />);
+            break;
+        case 'checkbox':
+            obj = (<Checkbox data={data} onClick={this._onClickItem} />);
+            break;
+        case 'rating':
+            obj = (<Rating data={data} onClick={this._onClickItem} />);
+            break;
+        default:
+            obj = (<div>{JSON.stringify(data)}</div>);
+        }
+        return obj;
+    }
+
+    _onClickItem() {
+        const { data, editQuestionActions } = this.props;
+        editQuestionActions.setEditQuestion(data);
+    }
+
+    _onDeleteHandle() {
+        const { idx, page, questionsActions } = this.props;
+        questionsActions.deleteQuestion(page, idx);
     }
 }
 

@@ -19,11 +19,15 @@ export const RECIEVE_ACCOUNT_FAILURE = 'RECIEVE_ACCOUNT_FAILURE';
 // questions
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const EDIT_QUESTION = 'EDIT_QUESTION';
+export const DELETE_QUESTION = 'DELETE_QUESTION';
 export const EXCHANGE_QUESTION = 'EXCHANGE_QUESTION';
 export const ADD_PAGE = 'ADD_PAGE';
 export const EXCHANGE_PAGE = 'EXCHANGE_PAGE';
 export const EDIT_PAGE_TITLE = 'EDIT_PAGE_TITLE';
 export const DELETE_PAGE = 'DELETE_PAGE';
+
+// both questions and edit question used
+export const DELETE_RATING_INPUT = 'DELETE_RATING_INPUT';
 
 // edit question
 export const SET_EDITQUESTION = 'SET_EDITQUESTION';
