@@ -29,6 +29,14 @@ class Rating extends Component {
                         {this._renderRatingItem()}
                         {this._renderLabel(data.data[data.data.length - 1])}
                     </ul>
+                    {
+                        data.input ?
+                            <input
+                                type="text"
+                                value={data.input}
+                                readonly
+                            /> : ''
+                    }
                 </div>
             </div>
         );
