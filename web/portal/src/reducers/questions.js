@@ -1,6 +1,7 @@
 
 import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
+import Mixins from '../mixins/global';
 
 export default function questions(state = [], action) {
     let originQue = [...state];
@@ -44,6 +45,11 @@ export default function questions(state = [], action) {
                 }
             }
         }
+        return [...originQue];
+
+    case types.COPY_QUESTION:
+        const duplicateQue = Object.assign({}, originQue[action.page - 1].question[action.que_id], { id: Mixins.generateQuestionID() });
+        originQue[action.page - 1].question.splice(action.que_id, 0, duplicateQue);
         return [...originQue];
 
     case types.DELETE_QUESTION:

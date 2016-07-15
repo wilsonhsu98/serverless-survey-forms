@@ -17,6 +17,14 @@ export function editQuestion(que_id, data) {
     };
 }
 
+export function copyQuestion(page, que_id) {
+    return {
+        type: types.COPY_QUESTION,
+        page,
+        que_id
+    };
+}
+
 export function deleteQuestion(page, que_id) {
     return {
         type: types.DELETE_QUESTION,
