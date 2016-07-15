@@ -19,7 +19,7 @@ class Textarea extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            input: ''
+            input: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
     }
@@ -40,6 +40,7 @@ class Textarea extends PureComponent {
                         rows={rows}
                         className={styles.textarea}
                         onChange={this._onChangeHandle}
+                        value={this.state.input ? this.state.input : ''}
                     />
                 </div>
             </div>
@@ -51,7 +52,7 @@ class Textarea extends PureComponent {
             input: e.currentTarget.value
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: this.state.input
+                [`Q${this.props.id}`]: this.state.input ? this.state.input : false
             };
             this.props.onChangeHandle(feedback);
         });
