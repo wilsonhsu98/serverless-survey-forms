@@ -5,9 +5,6 @@ import styles from './style.css';
 import React, { Component } from 'react';
 
 import Item from '../Item';
-import Radio from '../Radio';
-import Checkbox from '../Checkbox';
-import Rating from '../Rating';
 
 class Pagination extends Component {
 
@@ -58,8 +55,6 @@ class Pagination extends Component {
 
     _renderQuestion(question, idx) {
         const { data, editQuestionActions, moveQuestion, getQuestion } = this.props;
-        let obj;
-        // TODOS: define components
         const requiredProps = {
             key: idx,
             id: idx,
@@ -69,21 +64,7 @@ class Pagination extends Component {
             moveQuestion,
             getQuestion
         };
-        switch (question.type) {
-        case 'radio':
-            obj = (<Radio {...requiredProps} />);
-            break;
-        case 'checkbox':
-            obj = (<Checkbox {...requiredProps} />);
-            break;
-        case 'rating':
-            obj = (<Rating {...requiredProps} />);
-            break;
-        default:
-            obj = (<div>{JSON.stringify(question)}</div>);
-        }
-
-        return (<Item {...requiredProps}>{obj}</Item>);
+        return (<Item {...requiredProps} />);
     }
 
     _onAddQueClick() {
