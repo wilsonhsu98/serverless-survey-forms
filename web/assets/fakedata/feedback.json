@@ -4,7 +4,7 @@
         "3": "Input text in radio options"
     },
     "Q3": {
-        "1": "",
+        "1": false,
         "5": "Input text in checkbox options"
     },
     "Q4": 4,
