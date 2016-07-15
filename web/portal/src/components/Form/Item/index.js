@@ -71,6 +71,7 @@ class Item extends Component {
         super();
         this._renderQuestion = this._renderQuestion.bind(this);
         this._onClickItem = this._onClickItem.bind(this);
+        this._onCopyHandle = this._onCopyHandle.bind(this);
         this._onDeleteHandle = this._onDeleteHandle.bind(this);
     }
 
@@ -94,7 +95,10 @@ class Item extends Component {
                             Move
                         </button>
                     )}
-                    <button className="button">Copy</button>
+                    <button
+                        className="button"
+                        onClick={this._onCopyHandle}
+                    >Copy</button>
                     <button
                         className="button"
                         onClick={this._onDeleteHandle}
@@ -126,6 +130,11 @@ class Item extends Component {
     _onClickItem() {
         const { data, editQuestionActions } = this.props;
         editQuestionActions.setEditQuestion(data);
+    }
+
+    _onCopyHandle() {
+        const { idx, page, questionsActions } = this.props;
+        questionsActions.copyQuestion(page, idx);
     }
 
     _onDeleteHandle() {
