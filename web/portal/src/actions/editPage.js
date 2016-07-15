@@ -1,10 +1,10 @@
 
 import * as types from '../constants/ActionTypes';
 
-export function setEditPage(id) {
+export function setEditPage(page_id) {
     return {
         type: types.SET_EDITPAGE,
-        editPage: id
+        editPage: page_id
     };
 }
 

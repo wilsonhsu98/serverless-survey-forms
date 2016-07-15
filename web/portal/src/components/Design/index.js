@@ -103,7 +103,7 @@ class Design extends PureComponent {
         const { questionsActions } = this.props;
         const { question, page, index } = this._getQuestion(id);
         if (index !== atIndex || page !== atPage) {
-            questionsActions.exchangeQuestion(atPage, atIndex, page, index, question);
+            questionsActions.exchangeQuestion(page, index, atPage, atIndex, question);
         }
     }
 

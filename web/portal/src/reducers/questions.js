@@ -3,23 +3,24 @@ import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
 
 export default function questions(state = [], action) {
+    let originQue = [...state];
     switch (action.type) {
     case types.ADD_QUESTION:
-        const len = state.length;
+        const len = originQue.length;
         const idx = action.page - 1;
         let survey = {};
         if (len >= action.page) {
             // if this page already existed
             // edit this page content
-            survey = state[idx];
+            survey = originQue[idx];
             survey.question = [
                 ...survey.question,
                 action.questions
             ];
             return [
-                ...state.slice(0, idx),
+                ...originQue.slice(0, idx),
                 survey,
-                ...state.slice(idx + 1)
+                ...originQue.slice(idx + 1)
             ];
         }
         // if this page didn't exist
@@ -29,27 +30,30 @@ export default function questions(state = [], action) {
             question: [action.questions]
         };
         return [
-            ...state,
+            ...originQue,
             survey
         ];
+
     case types.EDIT_QUESTION:
         findObject:
-        for (let obj of state) {
+        for (let obj of originQue) {
             for (let que of obj.question) {
-                if (que.id === action.id) {
+                if (que.id === action.que_id) {
                     Object.assign(que, action.questions);
                     break findObject;
                 }
             }
         }
-        return [...state];
+        return [...originQue];
+
     case types.DELETE_QUESTION:
-        state[action.page - 1].question.splice(action.que_id, 1);
-        return [...state];
+        originQue[action.page - 1].question.splice(action.que_id, 1);
+        return [...originQue];
+
     case types.EXCHANGE_QUESTION:
-        const { afPage, afIdx, bfPage, bfIdx, questions } = action;
+        const { bfPage, bfIdx, afPage, afIdx, questions } = action;
         if (bfPage !== afPage) {
-            for (let obj of state) {
+            for (let obj of originQue) {
                 if (obj.page === bfPage) {
                     obj.question.splice(bfIdx, 1);
                 } else if (obj.page === afPage) {
@@ -57,54 +61,60 @@ export default function questions(state = [], action) {
                 }
             }
         } else {
-            for (let obj of state) {
+            for (let obj of originQue) {
                 if (obj.page === afPage) {
                     obj.question.splice(bfIdx, 1);
                     obj.question.splice(afIdx, 0, questions);
                 }
             }
         }
-        return [...state];
-    case types.ADD_PAGE:
-        const page = {
-            page: action.page,
-            description: values.PAGE_TITLE,
-            question: []
-        };
-        return [
-            ...state,
-            page
-        ];
-    case types.EXCHANGE_PAGE:
-        const { bfIdx:bfPageIdx, afIdx:afPageIdx } = action;
-        const movePage = state[bfPageIdx];
-        state.splice(bfPageIdx, 1);
-        state.splice(afPageIdx, 0, movePage);
-        state.forEach((page, idx) => {
-            page.page = idx + 1;
-        });
-        return [...state];
-    case types.EDIT_PAGE_TITLE:
-        const editPage = state[action.id - 1];
-        Object.assign(editPage, action.data);
-        return [...state];
-    case types.DELETE_PAGE:
-        state.splice(action.page - 1, 1);
-        state.forEach((page, idx) => {
-            page.page = idx + 1;
-        });
-        return [...state];
+        return [...originQue];
+
     case types.DELETE_RATING_INPUT:
         findObject:
-        for (let obj of state) {
+        for (let obj of originQue) {
             for (let que of obj.question) {
-                if (que.id === action.id) {
+                if (que.id === action.que_id) {
                     delete que.input;
                     break findObject;
                 }
             }
         }
-        return [...state];
+        return [...originQue];
+
+    case types.ADD_PAGE:
+        const newPage = {
+            page: action.page,
+            description: values.PAGE_TITLE,
+            question: []
+        };
+        return [
+            ...originQue,
+            newPage
+        ];
+
+    case types.EDIT_PAGE_TITLE:
+        const editPage = originQue[action.page_id - 1];
+        Object.assign(editPage, action.data);
+        return [...originQue];
+
+    case types.DELETE_PAGE:
+        originQue.splice(action.page_id - 1, 1);
+        originQue.forEach((page, idx) => {
+            page.page = idx + 1;
+        });
+        return [...originQue];
+
+    case types.EXCHANGE_PAGE:
+        const { bfIdx:bfPageIdx, afIdx:afPageIdx } = action;
+        const movePage = originQue[bfPageIdx];
+        originQue.splice(bfPageIdx, 1);
+        originQue.splice(afPageIdx, 0, movePage);
+        originQue.forEach((page, idx) => {
+            page.page = idx + 1;
+        });
+        return [...originQue];
+
     default:
         return state;
     }
