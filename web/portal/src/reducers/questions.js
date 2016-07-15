@@ -99,6 +99,21 @@ export default function questions(state = [], action) {
             newPage
         ];
 
+    case types.COPY_PAGE:
+        const originPage = originQue[action.page_id - 1];
+        let duplicateQues = [];
+        for (let que of originPage.question) {
+            // regenerate question id
+            duplicateQues.push(Object.assign({}, que, { id: Mixins.generateQuestionID() }));
+        }
+        const duplicatePage = Object.assign({}, originPage, { question: duplicateQues });
+
+        originQue.splice(action.page_id, 0, duplicatePage);
+        originQue.forEach((page, idx) => {
+            page.page = idx + 1;
+        });
+        return [...originQue];
+
     case types.EDIT_PAGE_TITLE:
         const editPage = originQue[action.page_id - 1];
         Object.assign(editPage, action.data);
