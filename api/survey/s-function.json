@@ -47,7 +47,7 @@
     },
     "responses": "$${apiResponseTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys",
+    "path": "api/v1/mgnt/surveys/{accountid}",
     "method": "POST",
     "type": "AWS",
     "authorizationType": "none",
@@ -57,6 +57,7 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
+        "accountid": "$input.params('accountid')",
         "authAccountid": "context.authorizer.principalId",
         "subject": "$input.json('$.subject')",
         "survey": "$input.json('$.survey')",

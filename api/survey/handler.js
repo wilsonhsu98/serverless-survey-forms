@@ -34,7 +34,7 @@ module.exports.handler = (event, context, callback) => {
       // TODO: validate requester role Check if authAccountid is authorized to create a new survey
       //        authAccountid: event.authAccountid,
       return survey.addOneSurvey({
-        accountid: event.authAccountid,
+        accountid: event.accountid,
         subject: event.subject,
         survey: event.survey
       }, callback);
