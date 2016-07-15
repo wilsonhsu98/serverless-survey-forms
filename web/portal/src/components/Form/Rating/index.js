@@ -23,34 +23,34 @@ class Rating extends Component {
                 <Question
                     text={data.label}
                 />
-                <div className={styles.radioGrp}>
-                    rating
-                    {this._renderRadioItem()}
+                <div className={styles.ratingWrapper}>
+                    <ul className={styles.ratingGrp}>
+                        {this._renderLabel(data.data[0])}
+                        {this._renderRatingItem()}
+                        {this._renderLabel(data.data[data.data.length - 1])}
+                    </ul>
                 </div>
             </div>
         );
     }
 
-    _renderRadioItem() {
-        const { data } = this.props;
-        const items = data.data.map((itm, idx) => {
+    _renderLabel(item) {
+        return (
+            <li className={styles.label}>{item.label}</li>
+        );
+    }
+
+    _renderRatingItem() {
+        const { data:item } = this.props;
+        const items = item.data.map((itm, idx) => {
+            const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
-            const input = itm.input;
             return (
-                <div
-                    className={styles.radioItem}
+                <li
                     key={idx}
-                >
-                    <input type="radio" />
-                    <label>
-                        {label}
-                    </label>
-                    {
-                        input ?
-                            <input type="text" placeholder={input} /> :
-                            ''
-                    }
-                </div>
+                    title={label}
+                    className={styles.ratingItem}
+                />
             );
         });
         return items;
