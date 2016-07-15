@@ -6,6 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
+import * as values from '../../../constants/DefaultValues';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
 import EditAdvance from '../EditAdvance';
@@ -136,7 +137,7 @@ class EditQuestion extends PureComponent {
     }
 
     _onTitleChange(e) {
-        const data = { label: e.target.value || 'Untitle Question' };
+        const data = { label: e.target.value || values.QUESTION_TITLE };
         this._handleChangeEvent(data);
     }
 

@@ -6,6 +6,8 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
+import * as values from '../../../constants/DefaultValues';
+
 class EditPage extends PureComponent {
 
     constructor() {
@@ -62,7 +64,7 @@ class EditPage extends PureComponent {
 
     _handleChangeEvent(e) {
         const { editPage, questionsActions } = this.props;
-        const data = { description: e.target.value || 'Untitle Page' };
+        const data = { description: e.target.value || values.PAGE_TITLE };
         questionsActions.editPageTitle(editPage, data);
     }
 }
