@@ -13,7 +13,7 @@ To create a google-style survey forms, authorized users could design surveys and
 ## Known Issues
 
 * [issue#1322](https://github.com/serverless/serverless/issues/1322): After executing ```sls project init```, a lot of files are modified.
-    * Work around: Rollback whatever changes are made by this step.
+    * Work around: None.
 * [issue#1589](https://github.com/serverless/serverless/issues/1589): After executing ```sls resources deploy```, **Forward Headers** in CloudFront is not set correctly.
     * Work around: Manually configure **Behaviors | Forward Headers** in **CloudFront Distributions** for **api/\***. Refer to detailed [instructions](issue1589.md).
 

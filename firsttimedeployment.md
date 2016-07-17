@@ -43,8 +43,6 @@ npm install
 cd ..
 ```
 
-**Note**: Please DO rollback whatever changes are made by ```sls project init``` prior to proceeding on the subsequent steps.
-
 ## CloudFront DomainName
 
 After project initialization, the CloudFormation also create a new CloudFront distribution with two origins, the one is S3 bucket for static website resources, and the another one is API Gateway endpoint.
@@ -57,7 +55,7 @@ You should be able to access this CloudFront distributions from ```_meta/variabl
 
 Firstly, you have to apply a Facebook App Id for OAuth athentication, please follow steps in [facebook for developer](https://developers.facebook.com/docs/apps/register) to create a **Website** app. 
 
-Please fill ```https://[cloudfront distributions]/authentication/callback``` in field **Facebook Login | Valid OAuth redirect URIs**.
+Please fill ```https://[cloudfront-distributions]``` in field **Facebook Login | Valid OAuth redirect URIs**.
 
 Configure Facebook App as authentication provider by executing serverless CLI below:
 
