@@ -29,7 +29,7 @@ This project depends on the following modules, please make sure they're ready af
 
 To prevent from poluting your local environment, you may leverage the Vagrant file to isolate your development environment.
 
-##Installation
+## Installation
 
 The steps below can be taken to install the project and initialize it.
 
@@ -51,29 +51,32 @@ npm install
 
 Initialize the project and input your AWS access key and secret key:
 
-```serverless project init```
+```sls project init```
 
 Please ignore the following possible warning:
 
+```
 > Serverless: \ Serverless: WARNING: This variable is not defined: tokenSecret  
 > Serverless: WARNING: This variable is not defined: redirectClientURI  
 > Serverless: WARNING: This variable is not defined: providerFacebookId  
 > Serverless: WARNING: This variable is not defined: providerFacebookSecret  
 > Serverless: WARNING: This variable is not defined: websiteDomainName  
 > Serverless: WARNING: This variable is not defined: tokenSecret  
+```
 
 Install npm dependency modules in serverless-survey-form/api:
 
 ```
 cd api
 npm install
+cd ..
 ```
 
 ## CloudFront DomainName
 
 After project initialization, the CloudFormation also create a new CloudFront distribution with two origins, the one is S3 bucket for static website resources, and the another one is API Gateway endpoint.
 
-Please login to ```AWS console``` and get this CloudFront domain name from CloudFormation Output ```WebsiteDomainName``` or ```CloudFront Distributions```. The format should looks ```https://d230j9e0u5dil1.cloudfront.net```, for example.
+You should be able to access this CloudFront distributions from ```_meta/variables/s-variables-[stage]-[region].json```. ```"websiteDomainName": "https://d230j9e0u5dil1.cloudfront.net"```, for example. 
 
 ## Authentication Provider Settings
 
@@ -81,44 +84,92 @@ Please login to ```AWS console``` and get this CloudFront domain name from Cloud
 
 Firstly, you have to apply a Facebook App Id for OAuth athentication, please follow steps in [facebook for developer](https://developers.facebook.com/docs/apps/register) to create a **Website** app. 
 
-Please leave **Valid OAuth redirect URIs** blank or invalid during thr process, since we can get back to this after deployment.
+Please fill ```https://[cloudfront distributions]/authentication/callback``` in field **Facebook Login | Valid OAuth redirect URIs**.
 
-Open _meta/variables/s-variables-STAGE.json where STAGE is the stage you are using e.g. s-variables-dev.json in "dev" stage.
-
-If you are using stage "dev", then contents of the s-variables-dev.json should be
+Configure Facebook App as authentication provider by executing serverless CLI below:
 
 ```
-{
-  "stage": "dev",
-  "redirectClientURI": "http://url-to-frontend-webapp/",
-  "tokenSecret": "secret-for-json-web-token",
-  "providerFacebookId": "facebook-app-id",
-  "providerFacebookSecret": "facebook-app-secret"
-}
+$ sls variables set 
+Serverless: Enter variable key to set a value to:  tokenSecret
+Serverless: Enter variable value to set a value to:  your-secret-for-json-web-token
+Serverless: Select variable type: 
+    1) Common
+    2) Stage
+  > 3) Region
+Serverless: Successfully set variable: tokenSecret  
+
+$ sls variables set 
+Serverless: Enter variable key to set a value to:  redirectClientURI
+Serverless: Enter variable value to set a value to:  https://[cloudfront distributions]/auth/test.html
+Serverless: Select variable type: 
+    1) Common
+    2) Stage
+  > 3) Region
+Serverless: Successfully set variable: redirectClientURI  
+
+$ sls variables set 
+Serverless: Enter variable key to set a value to:  providerFacebookId
+Serverless: Enter variable value to set a value to:  your-facebook-app-id
+Serverless: Select variable type: 
+    1) Common
+    2) Stage
+  > 3) Region
+Serverless: Successfully set variable: providerFacebookId  
+
+$ sls variables set 
+Serverless: Enter variable key to set a value to:  providerFacebookSecret
+Serverless: Enter variable value to set a value to:  your-facebook-app-secret
+Serverless: Select variable type: 
+    1) Common
+    2) Stage
+  > 3) Region
+Serverless: Successfully set variable: providerFacebookSecret  
+
 ```
 
 Environmental variables are mapped in s-function.json files, for example in the signin/s-function.json.
 
-## Static Website Resources Settings
+## Static Website Resources Compilation (TBA - Chiou)
 
-Please revise ```client/dist/auth/app.js``` with your CloudFront domain name.
-
-```
-var endpoint = 'https://d230j9e0u5dil1.cloudfront.net/';
-```
-
-## Deployment
+## Service Deployment
 
 Deploy your functions, endpoints, and web client:
 
 ```
 # deploy APIGW and Lambda
-serverless dash deploy
-# enable CORS
-serverless endpoint deploy -a
+sls dash deploy
+# enable CORS, and ignore any warning
+sls endpoint deploy -a
 # deploy static web resources
-serverless client deploy -s STAGE
+sls client deploy -s [stage]
 ```
+
+## CloudFormation Adjustment
+
+As aforementioned, the CloudFormation created a new CloudFront distribution with two origins, the one is S3 bucket for static website resources, and the another one is API Gateway endpoint. However there is no correct API Gateway endpoint ready at the moment, we have to adjust s-resources-cf.json and run cloud formation process again.
+
+Please replace ```r2c5wmub95``` with new deployed API Gateway Id, and you should be able to find this from **AWS Console | API Gateway | serverless-survey-form | Stages**.
+
+```
+{
+  "DomainName": "r2c5wmub95.execute-api.${region}.amazonaws.com",
+  "Id": "APIGW",
+  "OriginPath": "/${stage}",
+  "CustomOriginConfig": {
+  "HTTPPort": "80",
+  "HTTPSPort": "443",
+  "OriginProtocolPolicy": "match-viewer"
+  }
+}
+```
+
+After modification, run cloud formation process again:
+
+```
+sls resources deploy
+```
+
+For now, there is no good way to prevent this last step and it should be improved in the future.
 
 ## Unit Test
 
