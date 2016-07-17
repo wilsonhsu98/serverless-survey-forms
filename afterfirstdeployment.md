@@ -22,5 +22,10 @@ If you add any new resource.
 
 If you add any new API endpoint.
 
-* Execute ```sls endpoint
-## Modify to lambda functions
+* Execute ```sls endpoint deploy -a```.
+
+## Modify to Lambda functions
+
+If you add any new Lambda function.
+
+* Execute ```sls function deploy```.
