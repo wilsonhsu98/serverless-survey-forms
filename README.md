@@ -26,6 +26,7 @@ This project depends on the following modules, please make sure they're ready af
 * serverless-authentication-facebook 0.2.0
 * serverless-cors-plugin 0.4.1
 * serverless-client-s3 2.0.0
+* serverless-meta-sync 0.1.0
 
 To prevent from poluting your local environment, you may leverage the Vagrant file to isolate your development environment.
 
@@ -71,6 +72,10 @@ cd api
 npm install
 cd ..
 ```
+
+Due to serverless framework [issue#1322](https://github.com/serverless/serverless/issues/1322), you would realize a lot of files have been modified after ```sls project init```.
+
+Please **DO rollback** these modification before proceeding on the follow steps.
 
 ## CloudFront DomainName
 
