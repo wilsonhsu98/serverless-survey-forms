@@ -6,13 +6,10 @@
 // loading
 export const SET_LOADING = 'SET_LOADING';
 
-// fbID
-export const RECIEVE_FBID_SUCCESS = 'RECIEVE_FBID_SUCCESS';
-export const RECIEVE_FBID_FAILURE = 'RECIEVE_FBID_FAILURE';
-export const SET_FBID = 'SET_FBID';
+// token
+export const SET_TOKEN = 'SET_TOKEN';
 
 // account
-export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
 export const RECIEVE_ACCOUNT_SUCCESS = 'RECIEVE_ACCOUNT_SUCCESS';
 export const RECIEVE_ACCOUNT_FAILURE = 'RECIEVE_ACCOUNT_FAILURE';
 
