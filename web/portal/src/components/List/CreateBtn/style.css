@@ -1,0 +1,21 @@
+/*
+ * Style for components/List/CreateBtn/index.js
+ */
+.control {
+    width: 500px;
+    margin: 20px auto;
+
+    .createBtn {
+        font-size: 14px;
+        line-height: 20px;
+        cursor: pointer;
+
+        .icon {
+            background-color: #000;
+            color: #FFF;
+            border-radius: 9px;
+            padding: 0px 5px 2px;
+            margin-right: 5px;
+        }
+    }
+}

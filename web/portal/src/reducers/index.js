@@ -15,7 +15,8 @@
     questions: [{},{},...],
     editQuestion: {},
     editPage: int (page's id),
-    orderPage: true/false
+    orderPage: true/false,
+    surveys: [{},{},...]
  }
 **/
 
@@ -28,6 +29,7 @@ import questions from './questions';
 import editQuestion from './editQuestion';
 import editPage from './editPage';
 import orderPage from './orderPage';
+import surveys from './surveys';
 
 const rootReducer = combineReducers({
     loading,
@@ -37,6 +39,7 @@ const rootReducer = combineReducers({
     editQuestion,
     editPage,
     orderPage,
+    surveys,
     routing: routerReducer
 });
 
