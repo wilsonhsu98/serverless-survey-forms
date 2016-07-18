@@ -13,7 +13,7 @@ function setToken(data) {
 
 export function verifyToken(token) {
     return (dispatch) => {
-        return fetch(`${Config.baseURL}/api/v1/mgnt/users/verify`, {
+        return fetch(`${Config.baseURL}/mgnt/users/verify`, {
             headers: {
                 Authenticated: token
             },

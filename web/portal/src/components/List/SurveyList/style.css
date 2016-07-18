@@ -2,15 +2,56 @@
  * Style for components/List/SurveyList/index.js
  */
 .list {
-    min-height: 300px;
     margin: 20px auto;
     background-color: #e5e5e5;
     border: 1px solid #999;
     box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4);
+
+    &.nodata {
+        min-height: 300px;
+    }
 }
 
 .description {
     font-size: 18px;
     text-align: center;
     line-height: 300px;
+}
+
+.listTb {
+    width: 100%;
+    font-size: 13px;
+    text-align: left;
+
+    th {
+        color: #222;
+        font-weight: 400;
+        padding: 10px 12px;
+        cursor: pointer;
+        box-sizing: border-box;
+        background: #FFF;
+
+        &.subject {
+            width: 360px;
+        }
+        &.response {
+            width: 100px;
+        }
+        &.dt {
+            width: 320px;
+        }
+    }
+    tr {
+        background: #FFF;
+        &:nth-child(odd) {
+            background: #EEE;
+        }
+    }
+    td{
+        padding: 10px 12px;
+        vertical-align: top;
+        color: #555;
+        word-wrap: break-word;
+        box-sizing: border-box;
+    }
 }

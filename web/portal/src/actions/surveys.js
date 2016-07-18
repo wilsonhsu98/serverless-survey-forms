@@ -19,15 +19,15 @@ export function receiveSurveysSuccess(data) {
 
 export function getSurveys(account_id, token) {
     return (dispatch) => {
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account_id}/`, {
-            headers: {
-                Authenticated: token
-            },
+        return fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/`, {
+            // TODOS: wait back end
+            // headers: {
+            //     Authenticated: token
+            // },
             credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             dispatch(receiveSurveysSuccess(data.surveys));
         })
         .catch(err => {
