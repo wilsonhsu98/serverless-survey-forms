@@ -1,7 +1,7 @@
 
 .wrap {
-    width: 760px;
-    margin: 10px auto;
+    width: 800px;
+    margin: 30px auto 10px;
     border: 1px solid #d6d6d6;
     overflow: hidden;
     box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4);
@@ -14,8 +14,9 @@
 
 .wording {
     float: left;
-    width: 398px;
+    width: 438px;
     padding: 15px;
+    background-color: #FFF;
 
     .title {
         font-size: 26px;
@@ -38,6 +39,6 @@
 .photo {
     float: right;
     width: 360px;
-    height: 350px;
+    height: 328px;
     background-color: #777;
 }

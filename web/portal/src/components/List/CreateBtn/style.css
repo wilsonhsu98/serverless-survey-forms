@@ -2,8 +2,7 @@
  * Style for components/List/CreateBtn/index.js
  */
 .control {
-    width: 500px;
-    margin: 20px auto;
+    margin: 20px 0;
 
     .createBtn {
         font-size: 14px;

@@ -1,4 +1,14 @@
 
+body {
+    background-color: #eee;
+}
+
 .wrap {
 	position: relative;
+    min-width: 950px;
+}
+
+.content {
+    width: 800px;
+    margin: 10px auto;
 }
