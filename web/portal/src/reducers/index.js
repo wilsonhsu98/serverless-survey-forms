@@ -27,6 +27,7 @@ import { routerReducer } from 'react-router-redux';
 import loading from './loading';
 import token from './token';
 import account from './account';
+import surveyID from './surveyID';
 import subject from './subject';
 import questions from './questions';
 import editSubject from './editSubject';
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     loading,
     token,
     account,
+    surveyID,
     subject,
     questions,
     editSubject,
