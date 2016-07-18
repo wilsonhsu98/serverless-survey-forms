@@ -7,14 +7,19 @@ import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+// Actions
+import * as EditSubjectActions from '../../actions/editSubject';
+import * as SubjectActions from '../../actions/subject';
+
 import Header from '../../components/Header';
+import SubjectPop from '../../components/SubjectPop';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
 class Portal extends PureComponent {
 
     render() {
-        const { loading } = this.props;
+        const { loading, editSubject, editSubjectActions, subjectActions } = this.props;
 
         if (loading) {
             return (<Loading />);
@@ -23,6 +28,8 @@ class Portal extends PureComponent {
             <div ref="root" className={styles.wrap}>
                 <Header />
                 {this._checkUserLogin()}
+
+                {editSubject ? <SubjectPop editSubjectActions={editSubjectActions} subjectActions={subjectActions} /> : ''}
             </div>
         );
     }
@@ -48,12 +55,16 @@ class Portal extends PureComponent {
 function mapStateToProps(state) {
     return {
         loading: state.loading,
-        account: state.account
+        account: state.account,
+        editSubject: state.editSubject
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
+        subjectActions: bindActionCreators(SubjectActions, dispatch)
+    };
 }
 
 export default connect(

@@ -46,7 +46,7 @@ function getToken(resolve) {
     console.log(`token:${token}`);
 
     // TODOS: wait for backend API, temporarily
-    if (token === 'FAKE_TOKEN') {
+    // if (token === 'FAKE_TOKEN') {
         const data = {
             accountid: '123456',
             username: 'Chiou Chu',
@@ -56,7 +56,7 @@ function getToken(resolve) {
         resolve('Finish Verify Token');
         window.localStorage['QustomPortalTK'] = '';
         return;
-    }
+    // }
 
     if (token) {
         store.dispatch(TokenActions.verifyToken(token))
