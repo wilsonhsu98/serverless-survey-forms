@@ -24,9 +24,8 @@ class CreateBtn extends PureComponent {
     }
 
     _onAddSurveyClick() {
-        const { surveysActions } = this.props;
-        // TODOS:
-        console.log('Create survey');
+        const { editSubjectActions } = this.props;
+        editSubjectActions.openEdit(true);
     }
 }
 

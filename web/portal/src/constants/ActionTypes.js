@@ -42,3 +42,9 @@ export const SET_ORDERPAGE = 'SET_ORDERPAGE';
 // get survey list
 export const RECIEVE_SURVEYS_SUCCESS = 'RECIEVE_SURVEYS_SUCCESS';
 export const RECIEVE_SURVEYS_FAILURE = 'RECIEVE_SURVEYS_FAILURE';
+
+// edit subject
+export const EDIT_SUBJECT = 'EDIT_SUBJECT';
+
+// subject
+export const SET_SUBJECT = 'SET_SUBJECT';
