@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import { Router, Route } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 
 import Portal from '../containers/Portal/';
 import Create from '../containers/Create/';
@@ -16,8 +16,8 @@ class MainRouter extends PureComponent {
         return (
             <Router history={this.props.history}>
                 <Route path="/" component={Portal}>
+                    <IndexRoute component={List} />
                     <Route path="create" component={Create} />
-                    <Route path="list" component={List} />
                 </Route>
             </Router>
         );
