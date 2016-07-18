@@ -2,7 +2,6 @@
  * Style for components/List/SurveyList/index.js
  */
 .list {
-    width: 500px;
     min-height: 300px;
     margin: 20px auto;
     background-color: #e5e5e5;
