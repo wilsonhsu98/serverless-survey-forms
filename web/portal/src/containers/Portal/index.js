@@ -20,7 +20,7 @@ class Portal extends PureComponent {
             return (<Loading />);
         }
         return (
-            <div ref="root">
+            <div ref="root" className={styles.wrap}>
                 <Header />
                 {this._checkUserLogin()}
             </div>
@@ -38,10 +38,8 @@ class Portal extends PureComponent {
 
         // if user has a account and the account role is Designer or Admin
         return (
-            <div>
-                <div className={styles.wrap}>
-                    {this.props.children}
-                </div>
+            <div className={styles.content}>
+                {this.props.children}
             </div>
         );
     }
