@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 // Actions
 import * as SurveysActions from '../../actions/surveys';
+import * as EditSubjectActions from '../../actions/editSubject';
 
 import CreateBtn from '../../components/List/CreateBtn';
 import SurveyList from '../../components/List/SurveyList';
@@ -20,11 +21,11 @@ class List extends PureComponent {
     }
 
     render() {
-        const { surveys, surveysActions } = this.props;
+        const { surveys, editSubjectActions } = this.props;
 
         return (
             <div ref="root">
-                <CreateBtn surveysActions={surveysActions} />
+                <CreateBtn editSubjectActions={editSubjectActions} />
                 <SurveyList surveys={surveys} />
             </div>
         );
@@ -40,7 +41,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        surveysActions: bindActionCreators(SurveysActions, dispatch)
+        surveysActions: bindActionCreators(SurveysActions, dispatch),
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch)
     };
 }
 

@@ -1,0 +1,41 @@
+/*
+ * Style for components/SubjectPop/index.js
+ */
+
+.popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    background-color: rgba(0,0,0,.6);
+
+    .content {
+        position: fixed;
+        left: 50%;
+        top: 100px;
+        margin-left: -250px;
+        border-radius: 5px;
+        width: 500px;
+        height: 200px;
+        background-color: #FFF;
+        padding: 30px;
+    }
+
+    .title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .input {
+        width: 420px;
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .buttom {
+        text-align: center;
+        margin-top: 30px;
+    }
+}
