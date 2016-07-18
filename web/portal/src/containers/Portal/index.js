@@ -7,9 +7,6 @@ import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// Actions
-import * as TokenActions from '../../actions/token';
-
 import Menu from '../../components/Menu';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
@@ -31,12 +28,10 @@ class Portal extends PureComponent {
     _checkUserLogin() {
         const { account } = this.props;
 
-        if (!account || !account.hasOwnProperty('accountid') || (account.role !== 'Designer' && account.role !== 'Admin')) {
+        if (!account || !account.hasOwnProperty('accountid') ||
+            (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
-            const requiredProps = {
-                tokenActions: this.props.tokenActions
-            };
-            return <FBLogin {...requiredProps} />;
+            return <FBLogin />;
         }
 
         // if user has a account and the account role is Designer or Admin
@@ -59,9 +54,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        tokenActions: bindActionCreators(TokenActions, dispatch)
-    };
+    return {};
 }
 
 export default connect(

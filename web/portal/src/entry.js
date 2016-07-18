@@ -48,9 +48,8 @@ function getToken(resolve) {
     // TODOS: wait for backend API, temporarily
     if (token === 'FAKE_TOKEN') {
         const data = {
-            accountid: 'facebook-10206181895733803',
-            username: 'jonas cheng',
-            email: 'jonas_cheng@trend.com.tw',
+            accountid: '123456',
+            username: 'Chiou Chu',
             role: 'Designer'
         };
         store.dispatch(AccountActions.receiveAccountSuccess(data));
