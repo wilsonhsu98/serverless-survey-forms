@@ -4,21 +4,12 @@
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 class FBLogin extends PureComponent {
 
     constructor() {
         super();
         this._onClickFBBtn = this._onClickFBBtn.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
     }
 
     render() {

@@ -6,7 +6,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 // Actions
 import * as FBIDActions from '../../actions/fbID';
@@ -16,14 +15,6 @@ import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
 class Portal extends PureComponent {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
-    }
 
     render() {
         const { loading } = this.props;

@@ -7,17 +7,8 @@
 import styles from './style.css';
 
 import React, { Component, PropTypes } from 'react';
-import $ from 'jquery';
 
 class Question extends Component {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
-    }
 
     render() {
         const { text } = this.props;
