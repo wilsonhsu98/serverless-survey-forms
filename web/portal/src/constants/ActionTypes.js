@@ -48,3 +48,6 @@ export const EDIT_SUBJECT = 'EDIT_SUBJECT';
 
 // subject
 export const SET_SUBJECT = 'SET_SUBJECT';
+
+// survey ID
+export const SET_SURVEYID = 'SET_SURVEYID';
