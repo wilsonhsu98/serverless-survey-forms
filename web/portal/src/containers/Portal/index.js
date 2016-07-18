@@ -7,7 +7,7 @@ import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Menu from '../../components/Menu';
+import Header from '../../components/Header';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
@@ -16,11 +16,13 @@ class Portal extends PureComponent {
     render() {
         const { loading } = this.props;
 
+        if (loading) {
+            return (<Loading />);
+        }
         return (
             <div ref="root">
-                {loading
-                    ? <Loading />
-                    : this._checkUserLogin()}
+                <Header />
+                {this._checkUserLogin()}
             </div>
         );
     }
@@ -37,7 +39,6 @@ class Portal extends PureComponent {
         // if user has a account and the account role is Designer or Admin
         return (
             <div>
-                <Menu />
                 <div className={styles.wrap}>
                     {this.props.children}
                 </div>
