@@ -11,7 +11,7 @@ class Menu extends PureComponent {
     render() {
         return (
             <div className={styles.menu}>
-                <div className={styles.item}><Link to="/list">List</Link></div>
+                <div className={styles.item}><Link to="/">List</Link></div>
                 <div className={styles.item}><Link to="/create">Create</Link></div>
                 <div className={styles.item}><Link to="/report">Report</Link></div>
             </div>

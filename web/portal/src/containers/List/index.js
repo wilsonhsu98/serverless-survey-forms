@@ -17,7 +17,6 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        fbID: state.fbID,
         account: state.account
     };
 }
