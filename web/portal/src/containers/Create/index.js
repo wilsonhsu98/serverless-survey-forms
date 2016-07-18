@@ -21,7 +21,6 @@ class Create extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        fbID: state.fbID,
         account: state.account,
         questions: state.questions,
         editQuestion: state.editQuestion,

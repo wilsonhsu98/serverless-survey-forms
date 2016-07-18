@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
-import * as FBIDActions from '../../actions/fbID';
+import * as TokenActions from '../../actions/token';
 
 import Menu from '../../components/Menu';
 import FBLogin from '../../components/FBLogin';
@@ -29,40 +29,38 @@ class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { fbID, account } = this.props;
-        if (fbID === '') {
+        const { account } = this.props;
+
+        if (!account || !account.hasOwnProperty('accountid') || (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
-            const requiredFBProps = {
-                fbIDActions: this.props.fbIDActions
+            const requiredProps = {
+                tokenActions: this.props.tokenActions
             };
-            return <FBLogin {...requiredFBProps} />;
+            return <FBLogin {...requiredProps} />;
         }
-        if (account && account.role && (account.role === 'Designer' || account.role === 'Admin')) {
-            // if user had account and account role is Designer or Admin
-            return (
-                <div>
-                    <Menu />
-                    <div className={styles.wrap}>
-                        {this.props.children}
-                    </div>
+
+        // if user has a account and the account role is Designer or Admin
+        return (
+            <div>
+                <Menu />
+                <div className={styles.wrap}>
+                    {this.props.children}
                 </div>
-            );
-        }
-        return <div>You cannot pass!</div>;
+            </div>
+        );
     }
 }
 
 function mapStateToProps(state) {
     return {
         loading: state.loading,
-        fbID: state.fbID,
         account: state.account
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fbIDActions: bindActionCreators(FBIDActions, dispatch)
+        tokenActions: bindActionCreators(TokenActions, dispatch)
     };
 }
 

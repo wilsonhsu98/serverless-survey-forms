@@ -5,7 +5,7 @@
 /** Please update below state tree if new state is added
  {
     loading: true/false,
-    fbID: "10206181895733803",
+    token: "xxxxxxxxxx",
     account: {
 		  "accountid": "facebook-10206181895733803",
 		  "username": "jonas cheng",
@@ -22,7 +22,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import loading from './loading';
-import fbID from './fbID';
+import token from './token';
 import account from './account';
 import questions from './questions';
 import editQuestion from './editQuestion';
@@ -31,7 +31,7 @@ import orderPage from './orderPage';
 
 const rootReducer = combineReducers({
     loading,
-    fbID,
+    token,
     account,
     questions,
     editQuestion,
