@@ -3,7 +3,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 // Actions
 import * as QuestionsActions from '../../actions/questions';
@@ -14,14 +13,6 @@ import * as OrderPageActions from '../../actions/orderPage';
 import Design from '../../components/Design';
 
 class Create extends PureComponent {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
-    }
 
     render() {
         return (<Design ref="root" {...this.props} />);
