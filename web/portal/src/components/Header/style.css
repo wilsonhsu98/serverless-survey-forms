@@ -8,12 +8,15 @@
     position: relative;
     box-sizing: border-box;
 
+    &.edit {
+        padding: 0;
+    }
     &:before {
         content: '';
         display: block;
         width: 100%;
         height: 5px;
-        box-shadow: inset 0 -1px 0 rgba(0,0,0,.1);
+        /* box-shadow: inset 0 -1px 0 rgba(0,0,0,.1); */
         background-color: #e30919;
     }
 }
@@ -40,21 +43,45 @@
     position: relative;
     padding: 15px 0 0;
     vertical-align: top;
+
+    .logo {
+        width: 40px;
+        height: 40px;
+        background: url(../../../../assets/images/ic_logo_productsymbol.png) 0 0 no-repeat;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .title {
+        font-size: 32px;
+        line-height: 42px;
+        color: #585555;
+        margin: 0;
+    }
 }
 
-.logo {
-    width: 40px;
-    height: 40px;
-    background: url(../../../../assets/images/ic_logo_productsymbol.png) 0 0 no-repeat;
-    float: left;
-    margin-right: 10px;
-}
+.qustom {
+    position: relative;
+    padding: 0;
+    vertical-align: top;
 
-.title {
-    font-size: 32px;
-    line-height: 42px;
-    color: #585555;
-    margin: 0;
+    .logo {
+        float: left;
+        margin-right: 10px;
+        background-color: #e30919;
+        color: #FFF;
+        font-size: 30px;
+        line-height: 40px;
+        padding: 0 10px;
+    }
+
+    .title {
+        float: left;
+        font-size: 18px;
+        line-height: 40px;
+        cursor: pointer;
+        min-width: 100px;
+    }
 }
 
 @media only screen and (max-width: 949px) {

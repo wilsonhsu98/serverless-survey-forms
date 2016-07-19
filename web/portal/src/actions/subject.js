@@ -14,9 +14,9 @@ function setSubject(data) {
     };
 }
 
-export function saveSubject(data, account_id, token) {
+export function saveSubject(account_id, subject, token) {
     const postData = {
-        subject: data,
+        subject: subject,
         survey: []
     };
 
@@ -33,9 +33,37 @@ export function saveSubject(data, account_id, token) {
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(setSubject(data));
+            dispatch(setSubject(subject));
             dispatch(setSuveyID(data.surveyid));
             dispatch(push('/create'));
+            dispatch(openEdit(false));
+        })
+        .catch(err => {
+
+        });
+    };
+}
+
+export function editSubject(account_id, survey_id, subject, surveys, token) {
+    const postData = {
+        subject: subject,
+        survey: [...surveys]
+    };
+
+    return (dispatch) => {
+        fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/${survey_id}`, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                // Authenticated: token
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            dispatch(setSubject(subject));
             dispatch(openEdit(false));
         })
         .catch(err => {
