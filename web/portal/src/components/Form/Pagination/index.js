@@ -64,12 +64,13 @@ class Pagination extends Component {
     }
 
     _renderQuestion(question, idx) {
-        const { data, questionsActions, editQuestionActions, moveQuestion, getQuestion } = this.props;
+        const { data, editQuestion, questionsActions, editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
             idx,
             page: data.page,
             data: question,
+            editQuestion,
             questionsActions,
             editQuestionActions,
             moveQuestion,

@@ -24,8 +24,15 @@
             width: 15%;
             text-align: center;
             button {
-                margin: 5px 30px;
+                margin: 5px 20px;
             }
+        }
+    }
+    &.edit {
+        .question {
+            background-color: #c6e8ff;
+            border: 2px dashed #999;
+            border-right: none;
         }
     }
     &:after {
