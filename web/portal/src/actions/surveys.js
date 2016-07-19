@@ -21,10 +21,13 @@ export function getSurveys(account_id, token) {
     return (dispatch) => {
         return fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/`, {
             // TODOS: wait back end
-            // headers: {
-            //     Authenticated: token
-            // },
-            credentials: 'same-origin'
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                // Authenticated: token
+            }
         })
         .then(response => response.json())
         .then(data => {
