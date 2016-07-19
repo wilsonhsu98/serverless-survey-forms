@@ -12,6 +12,7 @@
 		  "email": "jonas_cheng@trend.com.tw",
 		  "role": "User"
 		},
+    surveyID: '',
     subject: '',
     questions: [{},{},...],
     editSubject: true/false,
