@@ -58,11 +58,11 @@ export function copyPage(page_id) {
     };
 }
 
-export function editPageTitle(page_id, data) {
+export function editPageTitle(page, description) {
     return {
         type: types.EDIT_PAGE_TITLE,
-        page_id,
-        data
+        page,
+        description
     };
 }
 
