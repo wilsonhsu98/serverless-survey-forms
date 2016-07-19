@@ -17,7 +17,7 @@ class Pagination extends Component {
     }
 
     render() {
-        const { data, editPage } = this.props;
+        const { id, data, editPage } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
@@ -27,7 +27,7 @@ class Pagination extends Component {
         return (
             <div className={styles.page}>
                 <div className={styles.header}>
-                    <div className={styles.title}>Page {data.page}:{description}</div>
+                    <div className={styles.title}>Page {id}:{description}</div>
                     <div className={styles.control}>
                         <button
                             data-type='text'
@@ -98,8 +98,12 @@ class Pagination extends Component {
 
     _onEditPageClick(e) {
         if (e.target.getAttribute('data-type') === 'order') {
-            const { orderPageActions } = this.props;
-            orderPageActions.setOrderPage(true);
+            const { questions, orderPageActions } = this.props;
+            let orderPage = [];
+            questions.forEach((page, idx) => {
+                orderPage.push(page.page);
+            });
+            orderPageActions.setOrderPage(orderPage);
         } else if (e.target.getAttribute('data-type') === 'copy') {
             const { data, questionsActions } = this.props;
             questionsActions.copyPage(data.page);

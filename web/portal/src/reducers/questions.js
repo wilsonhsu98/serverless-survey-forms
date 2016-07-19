@@ -118,14 +118,14 @@ export default function questions(state = [], action) {
         return [...originQue];
 
     case types.EXCHANGE_PAGE:
-        const { bfIdx:bfPageIdx, afIdx:afPageIdx } = action;
-        const movePage = originQue[bfPageIdx];
-        originQue.splice(bfPageIdx, 1);
-        originQue.splice(afPageIdx, 0, movePage);
-        originQue.forEach((page, idx) => {
+        const orderPage = action.order;
+        let newQue = [];
+        orderPage.forEach((pageNum, idx) => {
+            const page = originQue[pageNum - 1];
             page.page = idx + 1;
+            newQue.push(page);
         });
-        return [...originQue];
+        return [...newQue];
 
     default:
         return state;
