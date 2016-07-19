@@ -45,23 +45,41 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, editQuestion, editPage, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const { questions, editQuestion, editPage, orderPage, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const basicProps = {
+            questions,
+            editQuestion,
+            editPage,
+            questionsActions,
+            editQuestionActions,
+            editPageActions,
+            orderPageActions,
+            moveQuestion: this._moveQuestion,
+            getQuestion: this._getQuestion
+        };
         const pageList = [];
-        questions.forEach((page, idx) => {
-            const pros = {
-                key: idx,
-                data: page,
-                editQuestion,
-                editPage,
-                questionsActions,
-                editQuestionActions,
-                editPageActions,
-                orderPageActions,
-                moveQuestion: this._moveQuestion,
-                getQuestion: this._getQuestion
-            };
-            pageList.push(<Pagination {...pros} />);
-        });
+        if (orderPage.length > 0) {
+            orderPage.forEach((pageNum, idx) => {
+                const page = questions[pageNum - 1];
+                const pros = Object.assign({}, basicProps,
+                    {
+                        key: idx,
+                        id: idx + 1,
+                        data: page
+                    });
+                pageList.push(<Pagination {...pros} />);
+            });
+        } else {
+            questions.forEach((page, idx) => {
+                const pros = Object.assign({}, basicProps,
+                    {
+                        key: idx,
+                        id: idx + 1,
+                        data: page
+                    });
+                pageList.push(<Pagination {...pros} />);
+            });
+        }
         return pageList;
     }
 
@@ -82,9 +100,10 @@ class Design extends PureComponent {
                 questionsActions
             };
             return (<EditQuestion {...editProps} />);
-        } else if (orderPage) {
+        } else if (orderPage.length > 0) {
             const editProps = {
                 questions,
+                orderPage,
                 orderPageActions,
                 questionsActions
             };

@@ -18,7 +18,7 @@
     editSubject: true/false,
     editQuestion: {},
     editPage: {page:(the first is 1), description:''},
-    orderPage: true/false,
+    orderPage: [],
     surveys: [{},{},...]
  }
 **/

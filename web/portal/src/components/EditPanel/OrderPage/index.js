@@ -18,13 +18,15 @@ class OrderPage extends PureComponent {
     }
 
     render() {
-        const { questions } = this.props;
+        const { questions, orderPage } = this.props;
         let queList = [];
-        questions.forEach((page, idx) => {
+        orderPage.forEach((pageNum, idx) => {
+            const page = questions[pageNum - 1];
             queList.push(
                 <Item
                     key={idx}
                     id={idx}
+                    orderId={idx + 1}
                     page={page}
                     moveItem={this._moveItem}
                 />
@@ -62,16 +64,20 @@ class OrderPage extends PureComponent {
     }
 
     _btnClickEvent(e) {
+        const { orderPage, questionsActions, orderPageActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
-            const { orderPageActions } = this.props;
-            orderPageActions.setOrderPage(false);
+            orderPageActions.setOrderPage([]);
+        } else if (e.target.getAttribute('data-type') === 'save') {
+            // save orderPage to Question
+            questionsActions.exchangePage(orderPage);
+            orderPageActions.setOrderPage([]);
         }
     }
 
     _moveItem(dragIndex, hoverIndex) {
-        const { questionsActions } = this.props;
+        const { orderPageActions } = this.props;
         if (dragIndex !== hoverIndex) {
-            questionsActions.exchangePage(dragIndex, hoverIndex);
+            orderPageActions.exchangeOrderPage(dragIndex, hoverIndex);
         }
     }
 }
