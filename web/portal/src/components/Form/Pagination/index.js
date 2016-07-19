@@ -24,36 +24,38 @@ class Pagination extends Component {
         });
         return (
             <div className={styles.page}>
-                <div>Page {data.page}:{data.description}</div>
-                <div className={styles.control}>
-                    <button
-                        data-type='text'
-                        className={`${styles.button} button`}
-                        onClick={this._onEditPageClick}>
-                        Edit Page
-                    </button>
-                    <button
-                        data-type='order'
-                        className={`${styles.button} button`}
-                        onClick={this._onEditPageClick}>
-                        Order Page
-                    </button>
-                    <button
-                        data-type='copy'
-                        className={`${styles.button} button`}
-                        onClick={this._onEditPageClick}>
-                        Copy Page
-                    </button>
-                    <button
-                        data-type='delete'
-                        className={`${styles.button} button`}
-                        onClick={this._onEditPageClick}>
-                        Delete Page
-                    </button>
+                <div className={styles.header}>
+                    <div className={styles.title}>Page {data.page}:{data.description}</div>
+                    <div className={styles.control}>
+                        <button
+                            data-type='text'
+                            className={`${styles.button} button`}
+                            onClick={this._onEditPageClick}>
+                            Edit
+                        </button>
+                        <button
+                            data-type='order'
+                            className={`${styles.button} button`}
+                            onClick={this._onEditPageClick}>
+                            Order
+                        </button>
+                        <button
+                            data-type='copy'
+                            className={`${styles.button} button`}
+                            onClick={this._onEditPageClick}>
+                            Copy
+                        </button>
+                        <button
+                            data-type='delete'
+                            className={`${styles.button} button`}
+                            onClick={this._onEditPageClick}>
+                            Delete
+                        </button>
+                    </div>
                 </div>
                 <div className={styles.wrap}>
                     {list}
-                    <button className={`${styles.button} button`} onClick={this._onAddQueClick}>
+                    <button className={`${styles.addBtn} button`} onClick={this._onAddQueClick}>
                         + Add Question
                     </button>
                 </div>
