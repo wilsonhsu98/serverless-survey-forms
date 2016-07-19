@@ -1,13 +1,13 @@
 
 .page {
     position: relative;
-    width: 500px;
-    margin: 10px auto;
+    width: 100%;
+    margin: 10px 0;
     padding: 5px 0;
 }
 
 .wrap {
-    width: 500px;
+    width: 100%;
     border: 1px solid #999;
     border-radius: 8px;
     margin: 10px auto;

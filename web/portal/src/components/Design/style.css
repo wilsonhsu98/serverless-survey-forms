@@ -8,7 +8,7 @@
     & > div {
         float: left;
         &.question {
-            width: 360px;
+            width: 85%;
             background-color: #FFF;
             border: 1px solid #000;
             border-right: none;
@@ -20,7 +20,7 @@
             }
         }
         &.control {
-            width: 138px;
+            width: 15%;
             text-align: center;
             button {
                 margin: 5px 30px;
