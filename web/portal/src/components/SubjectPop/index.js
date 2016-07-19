@@ -18,7 +18,12 @@ class SubjectPop extends PureComponent {
             <div className={styles.popup}>
                 <div className={styles.content}>
                     <div className={styles.title}>What would you like to name this survey?</div>
-                    <input id="subject" className={styles.input} type="text" />
+                    <input
+                        id="subject"
+                        className={styles.input}
+                        type="text"
+                        placeholder="Subject Name"
+                    />
 
                     <div className={`bottom ${styles.buttom}`}>
                         <button
