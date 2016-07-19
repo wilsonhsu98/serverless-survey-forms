@@ -45,12 +45,13 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const { questions, editQuestion, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
         const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
                 key: idx,
                 data: page,
+                editQuestion,
                 questionsActions,
                 editQuestionActions,
                 editPageActions,
