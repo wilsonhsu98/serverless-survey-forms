@@ -24,16 +24,19 @@ class EditPage extends PureComponent {
         return (
             <div className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
-                    <div>Edit Page</div>
-                    <div className={styles.item}>
-                        Page #{page.page}:&nbsp;
-                        <input
-                            type="text"
-                            value={page.description}
-                            onChange={this._handleChangeEvent}
-                        />
+                    <div className="edit">
+                        <div className="editContent">
+                            <div>Edit Page</div>
+                            <div className={styles.item}>
+                                Page #{page.page}:&nbsp;
+                                <input
+                                    type="text"
+                                    value={page.description}
+                                    onChange={this._handleChangeEvent}
+                                />
+                            </div>
+                        </div>
                     </div>
-
                     <div className="bottom">
                         <button
                             data-type="save"
