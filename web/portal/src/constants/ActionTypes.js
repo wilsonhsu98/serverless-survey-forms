@@ -36,6 +36,7 @@ export const STOP_EDITPAGE = 'STOP_EDITPAGE';
 
 // order page
 export const SET_ORDERPAGE = 'SET_ORDERPAGE';
+export const EXCHANGE_ORDERPAGE = 'EXCHANGE_ORDERPAGE';
 
 // get survey list
 export const RECIEVE_SURVEYS_SUCCESS = 'RECIEVE_SURVEYS_SUCCESS';

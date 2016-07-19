@@ -73,10 +73,9 @@ export function deletePage(page_id) {
     };
 }
 
-export function exchangePage(bfIdx, afIdx) {
+export function exchangePage(order) {
     return {
         type: types.EXCHANGE_PAGE,
-        bfIdx,
-        afIdx
+        order
     };
 }

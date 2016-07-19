@@ -69,12 +69,12 @@ function dropCollect(connect, monitor) {
 
 class Item extends PureComponent {
     render() {
-        const { page, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+        const { orderId, page, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
         const opacity = isOver ? 0.1 : 1;
 
         return connectDragPreview(connectDropTarget(
             <div className={styles.item} style={{ opacity }}>
-                Page #{page.page}:&nbsp;
+                Page #{orderId}:&nbsp;
                 <span className={styles.title}>{page.description}</span>
                 {connectDragSource(
                     <button
