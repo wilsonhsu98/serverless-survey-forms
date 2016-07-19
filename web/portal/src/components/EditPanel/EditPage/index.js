@@ -18,8 +18,7 @@ class EditPage extends PureComponent {
     }
 
     render() {
-        const { questions, editPage } = this.props;
-        const page = questions[editPage - 1];
+        const { editPage } = this.props;
 
         return (
             <div className="modalEditPanel">
@@ -28,10 +27,10 @@ class EditPage extends PureComponent {
                         <div className="editContent">
                             <div>Edit Page</div>
                             <div className={styles.item}>
-                                Page #{page.page}:&nbsp;
+                                Page #{editPage.page}:&nbsp;
                                 <input
                                     type="text"
-                                    value={page.description}
+                                    value={editPage.description}
                                     onChange={this._handleChangeEvent}
                                 />
                             </div>
@@ -59,16 +58,20 @@ class EditPage extends PureComponent {
     }
 
     _btnClickEvent(e) {
+        const { editPage, editPageActions, questionsActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
-            const { editPageActions } = this.props;
+            editPageActions.stopEditPage();
+        } else if (e.target.getAttribute('data-type') === 'save') {
+            // save editPage to Question
+            questionsActions.editPageTitle(editPage.page, editPage.description);
             editPageActions.stopEditPage();
         }
     }
 
     _handleChangeEvent(e) {
-        const { editPage, questionsActions } = this.props;
+        const { editPage, editPageActions } = this.props;
         const data = { description: e.target.value || values.PAGE_TITLE };
-        questionsActions.editPageTitle(editPage, data);
+        editPageActions.setEditPage(data);
     }
 }
 

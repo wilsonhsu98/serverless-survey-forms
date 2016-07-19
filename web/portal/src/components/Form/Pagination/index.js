@@ -17,15 +17,17 @@ class Pagination extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, editPage } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
         });
+        const description = editPage.page === data.page ? editPage.description : data.description;
+
         return (
             <div className={styles.page}>
                 <div className={styles.header}>
-                    <div className={styles.title}>Page {data.page}:{data.description}</div>
+                    <div className={styles.title}>Page {data.page}:{description}</div>
                     <div className={styles.control}>
                         <button
                             data-type='text'
@@ -103,7 +105,7 @@ class Pagination extends Component {
             questionsActions.copyPage(data.page);
         } else if (e.target.getAttribute('data-type') === 'text') {
             const { data, editPageActions } = this.props;
-            editPageActions.setEditPage(data.page);
+            editPageActions.setEditPage({page: data.page, description: data.description});
         } else if (e.target.getAttribute('data-type') === 'delete') {
             const { data, questionsActions } = this.props;
             questionsActions.deletePage(data.page);

@@ -133,8 +133,12 @@ class EditQuestion extends PureComponent {
     }
 
     _btnClickEvent(e) {
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
-            const { editQuestionActions } = this.props;
+            editQuestionActions.stopEditQuestion();
+        } else if (e.target.getAttribute('data-type') === 'save') {
+            // save editQuestion to Question
+            questionsActions.editQuestion(editQuestion.id, editQuestion);
             editQuestionActions.stopEditQuestion();
         }
     }
@@ -150,14 +154,12 @@ class EditQuestion extends PureComponent {
     }
 
     _handleChangeEvent(data) {
-        const { editQuestion, questionsActions, editQuestionActions } = this.props;
-        questionsActions.editQuestion(editQuestion.id, data);
+        const { editQuestion, editQuestionActions } = this.props;
         editQuestionActions.setEditQuestion(data);
     }
 
     _handleDeleteInput() {
-        const { editQuestion, questionsActions, editQuestionActions } = this.props;
-        questionsActions.deleteRatingInput(editQuestion.id);
+        const { editQuestionActions } = this.props;
         editQuestionActions.deleteRatingInput();
     }
 }
