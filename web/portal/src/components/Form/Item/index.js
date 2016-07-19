@@ -76,11 +76,11 @@ class Item extends Component {
     }
 
     render() {
-        const { isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+        const { data, editQuestion, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
 
         return connectDragPreview(connectDropTarget(
             <div
-                className="questionItem"
+                className={`questionItem ${data.id === editQuestion.id ? 'edit' : '' }`}
                 style={{
                     opacity: isOver ? 0.1 : 1
                 }}
