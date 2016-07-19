@@ -39,7 +39,7 @@ class Design extends PureComponent {
                 {this._renderPage()}
                 <PageBtn {...ctrlProps} />
 
-                <div style={{width:'500px',margin:'10px auto',textAlign:'center'}}>Thank you page</div>
+                <div style={{width:'100%',margin:'10px 0',textAlign:'center'}}>Thank you page</div>
             </div>
         );
     }
