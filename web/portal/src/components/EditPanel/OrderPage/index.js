@@ -33,8 +33,12 @@ class OrderPage extends PureComponent {
         return (
             <div className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
-                    <div>Move Pages</div>
-                    {queList}
+                    <div className="edit">
+                        <div className="editContent">
+                            <div>Move Pages</div>
+                            {queList}
+                        </div>
+                    </div>
 
                     <div className="bottom">
                         <button
