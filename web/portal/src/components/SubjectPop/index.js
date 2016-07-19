@@ -14,6 +14,7 @@ class SubjectPop extends PureComponent {
     }
 
     render() {
+        const { subject } = this.props;
         return (
             <div className={styles.popup}>
                 <div className={styles.content}>
@@ -22,6 +23,7 @@ class SubjectPop extends PureComponent {
                         id="subject"
                         className={styles.input}
                         type="text"
+                        defaultValue={subject}
                         placeholder="Subject Name"
                     />
 
@@ -47,7 +49,7 @@ class SubjectPop extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { account, token, editSubjectActions, subjectActions } = this.props;
+        const { account, token, surveyID, questions, editSubjectActions, subjectActions } = this.props;
 
         if (e.target.getAttribute('data-type') === 'cancel') {
             editSubjectActions.openEdit(false);
@@ -56,7 +58,11 @@ class SubjectPop extends PureComponent {
             if (subject === '') {
                 alert('Please fill the subject');
             } else {
-                subjectActions.saveSubject(subject, account.accountid, token);
+                if (!surveyID) {
+                    subjectActions.saveSubject(account.accountid, subject, token);
+                } else {
+                    subjectActions.editSubject(account.accountid, surveyID, subject, questions, token);
+                }
             }
         }
     }
