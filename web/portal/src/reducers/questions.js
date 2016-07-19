@@ -41,6 +41,9 @@ export default function questions(state = [], action) {
             for (let que of obj.question) {
                 if (que.id === action.que_id) {
                     Object.assign(que, action.questions);
+                    if (!action.questions.hasOwnProperty('input')) {
+                        delete que.input;
+                    }
                     break findObject;
                 }
             }
@@ -71,18 +74,6 @@ export default function questions(state = [], action) {
                 if (obj.page === afPage) {
                     obj.question.splice(bfIdx, 1);
                     obj.question.splice(afIdx, 0, questions);
-                }
-            }
-        }
-        return [...originQue];
-
-    case types.DELETE_RATING_INPUT:
-        findObject:
-        for (let obj of originQue) {
-            for (let que of obj.question) {
-                if (que.id === action.que_id) {
-                    delete que.input;
-                    break findObject;
                 }
             }
         }

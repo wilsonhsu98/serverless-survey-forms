@@ -109,20 +109,21 @@ class Item extends Component {
     }
 
     _renderQuestion() {
-        const { data } = this.props;
+        const { data, editQuestion } = this.props;
+        const itemData = data.id === editQuestion.id ? editQuestion : data;
         let obj;
-        switch (data.type) {
+        switch (itemData.type) {
         case 'radio':
-            obj = (<Radio data={data} onClick={this._onClickItem} />);
+            obj = (<Radio data={itemData} onClick={this._onClickItem} />);
             break;
         case 'checkbox':
-            obj = (<Checkbox data={data} onClick={this._onClickItem} />);
+            obj = (<Checkbox data={itemData} onClick={this._onClickItem} />);
             break;
         case 'rating':
-            obj = (<Rating data={data} onClick={this._onClickItem} />);
+            obj = (<Rating data={itemData} onClick={this._onClickItem} />);
             break;
         default:
-            obj = (<div>{JSON.stringify(data)}</div>);
+            obj = (<div>{JSON.stringify(itemData)}</div>);
         }
         return obj;
     }

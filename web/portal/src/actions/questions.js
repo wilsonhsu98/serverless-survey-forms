@@ -44,13 +44,6 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
     };
 }
 
-export function deleteRatingInput(que_id) {
-    return {
-        type: types.DELETE_RATING_INPUT,
-        que_id
-    };
-}
-
 export function addPage(page) {
     return {
         type: types.ADD_PAGE,
