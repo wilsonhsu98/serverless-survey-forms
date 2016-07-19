@@ -19,10 +19,18 @@ import Loading from '../../components/Loading';
 class Portal extends PureComponent {
 
     render() {
-        const { loading, account, token, editSubject, editSubjectActions, subjectActions } = this.props;
-        const requiredProps = {
+        const { loading, account, subject, surveyID, questions, token, editSubject, editSubjectActions, subjectActions } = this.props;
+        const headProps = {
+            subject,
+            surveyID,
+            editSubjectActions
+        };
+        const subProps = {
             account,
             token,
+            subject,
+            surveyID,
+            questions,
             editSubjectActions,
             subjectActions
         };
@@ -32,10 +40,10 @@ class Portal extends PureComponent {
         }
         return (
             <div ref="root" className={styles.wrap}>
-                <Header />
+                <Header {...headProps} />
                 {this._checkUserLogin()}
 
-                {editSubject ? <SubjectPop {...requiredProps} /> : ''}
+                {editSubject ? <SubjectPop {...subProps} /> : ''}
             </div>
         );
     }
@@ -62,6 +70,9 @@ function mapStateToProps(state) {
     return {
         loading: state.loading,
         account: state.account,
+        subject: state.subject,
+        surveyID: state.surveyID,
+        questions: state.questions,
         editSubject: state.editSubject,
         token: state.token
     };
