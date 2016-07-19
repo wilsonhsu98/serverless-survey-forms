@@ -106,8 +106,8 @@ export default function questions(state = [], action) {
         return [...originQue];
 
     case types.EDIT_PAGE_TITLE:
-        const editPage = originQue[action.page_id - 1];
-        Object.assign(editPage, action.data);
+        const editPage = originQue[action.page - 1];
+        Object.assign(editPage, { description: action.description });
         return [...originQue];
 
     case types.DELETE_PAGE:

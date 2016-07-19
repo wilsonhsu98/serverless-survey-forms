@@ -45,13 +45,14 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, editQuestion, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const { questions, editQuestion, editPage, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
         const pageList = [];
         questions.forEach((page, idx) => {
             const pros = {
                 key: idx,
                 data: page,
                 editQuestion,
+                editPage,
                 questionsActions,
                 editQuestionActions,
                 editPageActions,
@@ -88,9 +89,8 @@ class Design extends PureComponent {
                 questionsActions
             };
             return (<OrderPage {...editProps} />);
-        } else if (editPage) {
+        } else if (editPage.hasOwnProperty('page') && editPage.page > 0) {
             const editProps = {
-                questions,
                 editPage,
                 editPageActions,
                 questionsActions
