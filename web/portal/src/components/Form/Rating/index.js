@@ -8,6 +8,12 @@ import Question from '../Question';
 
 class Rating extends Component {
 
+    constructor() {
+        super();
+
+        this._onChangeHandle = this._onChangeHandle.bind(this);
+    }
+
     render() {
         const { data, onClick } = this.props;
         return (
@@ -29,7 +35,7 @@ class Rating extends Component {
                             <input
                                 type="text"
                                 value={data.input}
-                                readonly
+                                onChange={this._onChangeHandle}
                             /> : ''
                     }
                 </div>
@@ -57,6 +63,9 @@ class Rating extends Component {
             );
         });
         return items;
+    }
+
+    _onChangeHandle() {
     }
 }
 
