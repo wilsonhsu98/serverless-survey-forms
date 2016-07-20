@@ -96,14 +96,15 @@ export function receiveQuestionsFailure(err) {
     };
 }
 
-export function saveQuestion(account_id, survey_id, subject, surveys, token) {
-    return (dispatch) => {
+export function saveQuestion() {
+    return (dispatch, getState) => {
+        const { account, surveyID, subject, questions, token } = getState();
         const postData = {
             subject: subject,
-            survey: [...surveys]
+            survey: [...questions]
         };
 
-        return fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/${survey_id}`, {
+        return fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}/${surveyID}`, {
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
