@@ -75,9 +75,9 @@ class OrderPage extends PureComponent {
     }
 
     _moveItem(dragIndex, hoverIndex) {
-        const { orderPageActions } = this.props;
+        const { orderPage, orderPageActions } = this.props;
         if (dragIndex !== hoverIndex) {
-            orderPageActions.exchangeOrderPage(dragIndex, hoverIndex);
+            orderPageActions.exchangeOrderPage(orderPage, dragIndex, hoverIndex);
         }
     }
 }
