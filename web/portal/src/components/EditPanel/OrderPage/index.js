@@ -64,12 +64,12 @@ class OrderPage extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { orderPage, questionsActions, orderPageActions } = this.props;
+        const { questionsActions, orderPageActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
             orderPageActions.setOrderPage([]);
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save orderPage to Question
-            questionsActions.exchangePage(orderPage);
+            questionsActions.exchangePage();
             questionsActions.saveQuestion();
             orderPageActions.setOrderPage([]);
         }

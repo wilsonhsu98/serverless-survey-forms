@@ -58,12 +58,12 @@ class EditPage extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { editPage, editPageActions, questionsActions } = this.props;
+        const { editPageActions, questionsActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
             editPageActions.stopEditPage();
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save editPage to Question
-            questionsActions.editPageTitle(editPage.page, editPage.description);
+            questionsActions.editPageTitle();
             questionsActions.saveQuestion();
             editPageActions.stopEditPage();
         }

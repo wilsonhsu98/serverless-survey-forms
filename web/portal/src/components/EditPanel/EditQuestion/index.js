@@ -133,12 +133,12 @@ class EditQuestion extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { editQuestion, questionsActions, editQuestionActions } = this.props;
+        const { questionsActions, editQuestionActions } = this.props;
         if (e.target.getAttribute('data-type') === 'cancel') {
             editQuestionActions.stopEditQuestion();
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save editQuestion to Question
-            questionsActions.editQuestion(editQuestion.id, editQuestion);
+            questionsActions.editQuestion();
             questionsActions.saveQuestion();
             editQuestionActions.stopEditQuestion();
         }
