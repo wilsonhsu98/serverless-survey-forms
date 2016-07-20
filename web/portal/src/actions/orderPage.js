@@ -9,9 +9,11 @@ export function setOrderPage(data) {
 }
 
 export function exchangeOrderPage(bfIdx, afIdx) {
-    return {
-        type: types.EXCHANGE_ORDERPAGE,
-        bfIdx,
-        afIdx
+    return (dispatch, getState) => {
+        // exchange order
+        let data = [...getState().orderPage];
+        data.splice(afIdx, 0, ...data.splice(bfIdx, 1));
+
+        dispatch(setOrderPage(data));
     };
 }
