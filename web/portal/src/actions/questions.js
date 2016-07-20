@@ -90,10 +90,7 @@ export function receiveQuestionsSuccess() {
 }
 
 export function receiveQuestionsFailure(err) {
-    return {
-        type: types.RECIEVE_QUESTIONS_FAILURE,
-        errorMsg: err
-    };
+    console.log(err);
 }
 
 export function saveQuestion() {
@@ -122,6 +119,6 @@ export function saveQuestion() {
                 dispatch(receiveQuestionsFailure(data));
             }
         })
-        .catch(err => dispatch(receiveQuestionsFailure(err.responseJSON)));
+        .catch(err => receiveQuestionsFailure(err.responseJSON));
     };
 }

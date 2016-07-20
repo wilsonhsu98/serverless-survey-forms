@@ -9,8 +9,5 @@ export function receiveAccountSuccess(data) {
 }
 
 export function receiveAccountFailure(err) {
-    return {
-        type: types.RECIEVE_ACCOUNT_FAILURE,
-        errorMsg: err
-    };
+    console.log(err);
 }

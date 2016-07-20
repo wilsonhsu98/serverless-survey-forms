@@ -2,7 +2,7 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
-import * as fetchAccounts from './account';
+import * as AccountActions from './account';
 
 function setToken(token) {
     window.localStorage["QustomPortalTK"] = token;
@@ -27,16 +27,12 @@ export function verifyToken(token) {
         .then(data => {
             if (data.hasOwnProperty('accountid') && data.accountid) {
                 dispatch(setToken(token));
-                dispatch(fetchAccounts.receiveAccountSuccess(data));
+                dispatch(AccountActions.receiveAccountSuccess(data));
             } else {
-                console.log('token expired')
                 // token no used: token expired / user doesn't have a account
-                dispatch(fetchAccounts.receiveAccountFailure(data));
+                dispatch(AccountActions.receiveAccountFailure(data));
             }
         })
-        .catch(err => {
-            console.log('Verify token error');
-            dispatch(fetchAccounts.receiveAccountFailure(err.responseJSON));
-        });
+        .catch(err => AccountActions.receiveAccountFailure(err.responseJSON));
     };
 }

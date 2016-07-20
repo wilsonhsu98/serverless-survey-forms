@@ -3,23 +3,21 @@ import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 
-export function requestSurveysFailure(err) {
-    return {
-        type: types.RECIEVE_SURVEYS_FAILURE,
-        errorMsg: err
-    };
+function requestSurveysFailure(err) {
+    console.log(err);
 }
 
-export function receiveSurveysSuccess(data) {
+function receiveSurveysSuccess(data) {
     return {
         type: types.RECIEVE_SURVEYS_SUCCESS,
         surveys: data
     };
 }
 
-export function getSurveys(account_id, token) {
-    return (dispatch) => {
-        return fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/`, {
+export function getSurveys() {
+    return (dispatch, getState) => {
+        const { account, token } = getState();
+        return fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}/`, {
             // TODOS: wait back end
             method: 'GET',
             credentials: 'same-origin',
@@ -33,8 +31,6 @@ export function getSurveys(account_id, token) {
         .then(data => {
             dispatch(receiveSurveysSuccess(data.surveys));
         })
-        .catch(err => {
-            dispatch(requestSurveysFailure(err.responseJSON));
-        });
+        .catch(err => requestSurveysFailure(err.responseJSON));
     };
 }

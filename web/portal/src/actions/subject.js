@@ -8,21 +8,27 @@ import { openEdit } from './editSubject';
 import { setSuveyID } from './surveyID';
 import { saveQuestion } from './questions';
 
-export function setSubject(data) {
+function setSubject(data) {
     return {
         type: types.SET_SUBJECT,
         subject: data
     };
 }
 
-export function saveSubject(account_id, subject, token) {
-    const postData = {
-        subject: subject,
-        survey: []
-    };
+function setSubjectError(err) {
+    console.log(err);
+}
 
-    return (dispatch) => {
-        fetch(`${Config.baseURL}/mgnt/surveys/${account_id}`, {
+export function saveSubject(subject) {
+    return (dispatch, getState) => {
+        const { account, token } = getState();
+        const postData = {
+            subject: subject,
+            survey: []
+        };
+
+        dispatch(setSubject(subject));
+        fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -34,22 +40,23 @@ export function saveSubject(account_id, subject, token) {
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(setSubject(subject));
-            dispatch(setSuveyID(data.surveyid));
-            dispatch(push('/create'));
-            dispatch(openEdit(false));
+            if (data.surveyid) {
+                dispatch(setSuveyID(data.surveyid));
+                dispatch(push('/create'));
+                dispatch(openEdit(false));
+            } else {
+                setSubjectError(data);
+            }
         })
-        .catch(err => {
-
-        });
+        .catch(err => setSubjectError(err.responseJSON));
     };
 }
 
-export function editSubject(account_id, survey_id, subject, surveys, token) {
+export function editSubject(subject) {
     return (dispatch) => {
-        dispatch(saveQuestion(account_id, survey_id, subject, surveys, token))
+        dispatch(setSubject(subject));
+        dispatch(saveQuestion())
         .then(() => {
-            dispatch(setSubject(subject));
             dispatch(openEdit(false));
         });
     };

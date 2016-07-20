@@ -16,8 +16,8 @@ class List extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { account, surveysActions } = props;
-        surveysActions.getSurveys(account.accountid);
+        const { surveysActions } = props;
+        surveysActions.getSurveys();
     }
 
     render() {
@@ -34,7 +34,6 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        account: state.account,
         surveys: state.surveys
     };
 }

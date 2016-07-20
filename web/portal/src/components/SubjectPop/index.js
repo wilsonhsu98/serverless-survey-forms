@@ -49,7 +49,7 @@ class SubjectPop extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { account, token, surveyID, questions, editSubjectActions, subjectActions } = this.props;
+        const { surveyID, editSubjectActions, subjectActions } = this.props;
 
         if (e.target.getAttribute('data-type') === 'cancel') {
             editSubjectActions.openEdit(false);
@@ -59,9 +59,9 @@ class SubjectPop extends PureComponent {
                 alert('Please fill the subject');
             } else {
                 if (!surveyID) {
-                    subjectActions.saveSubject(account.accountid, subject, token);
+                    subjectActions.saveSubject(subject);
                 } else {
-                    subjectActions.editSubject(account.accountid, surveyID, subject, questions, token);
+                    subjectActions.editSubject(subject);
                 }
             }
         }
