@@ -139,6 +139,7 @@ class EditQuestion extends PureComponent {
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save editQuestion to Question
             questionsActions.editQuestion(editQuestion.id, editQuestion);
+            questionsActions.saveQuestion();
             editQuestionActions.stopEditQuestion();
         }
     }

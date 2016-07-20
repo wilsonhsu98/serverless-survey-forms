@@ -119,11 +119,11 @@ class Design extends PureComponent {
         return '';
     }
 
-    _moveQuestion(id, atPage, atIndex) {
+    _moveQuestion(id, aftPage, aftIndex) {
         const { questionsActions } = this.props;
         const { question, page, index } = this._getQuestion(id);
-        if (index !== atIndex || page !== atPage) {
-            questionsActions.exchangeQuestion(page, index, atPage, atIndex, question);
+        if (index !== aftIndex || page !== aftPage) {
+            questionsActions.exchangeQuestion(page, index, aftPage, aftIndex, question);
         }
     }
 

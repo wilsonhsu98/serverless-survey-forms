@@ -85,7 +85,6 @@ class Pagination extends Component {
         const { data, questionsActions } = this.props;
         const question = {
             id: Mixins.generateQuestionID(),
-            order: 1,
             type: 'radio',
             label: values.QUESTION_TITLE,
             data: [
@@ -94,6 +93,8 @@ class Pagination extends Component {
             required: true
         };
         questionsActions.addQuestion(data.page, question);
+        // save Question
+        questionsActions.saveQuestion();
     }
 
     _onEditPageClick(e) {
@@ -107,12 +108,16 @@ class Pagination extends Component {
         } else if (e.target.getAttribute('data-type') === 'copy') {
             const { data, questionsActions } = this.props;
             questionsActions.copyPage(data.page);
+            // save Question
+            questionsActions.saveQuestion();
         } else if (e.target.getAttribute('data-type') === 'text') {
             const { data, editPageActions } = this.props;
             editPageActions.setEditPage({page: data.page, description: data.description});
         } else if (e.target.getAttribute('data-type') === 'delete') {
             const { data, questionsActions } = this.props;
             questionsActions.deletePage(data.page);
+            // save Question
+            questionsActions.saveQuestion();
         }
     }
 
