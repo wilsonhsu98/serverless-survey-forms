@@ -4,10 +4,11 @@ import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import * as fetchAccounts from './account';
 
-function setToken(data) {
+function setToken(token) {
+    window.localStorage["QustomPortalTK"] = token;
     return {
         type: types.SET_TOKEN,
-        token: data
+        token
     };
 }
 
