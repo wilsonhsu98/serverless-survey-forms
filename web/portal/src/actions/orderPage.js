@@ -8,13 +8,10 @@ export function setOrderPage(data) {
     };
 }
 
-export function exchangeOrderPage(data, bfIdx, afIdx) {
-    let originP = [...data];
-    const movePage = originP[bfIdx];
-    originP.splice(bfIdx, 1);
-    originP.splice(afIdx, 0, movePage);
+export function exchangeOrderPage(bfIdx, afIdx) {
     return {
         type: types.EXCHANGE_ORDERPAGE,
-        orderPage: originP
+        bfIdx,
+        afIdx
     };
 }
