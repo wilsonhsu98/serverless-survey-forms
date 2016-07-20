@@ -8,7 +8,6 @@
             "question": [
                 {
                     "id": "1AN2AL0F9BNA7R",
-                    "order": 1,
                     "type": "select",
                     "label": "I am select question",
                     "data": [
@@ -22,7 +21,6 @@
                 },
                 {
                     "id": "1AN2AL0F9BNA7A",
-                    "order": 2,
                     "type": "radio",
                     "label": "I am radio question text",
                     "data": [
@@ -34,7 +32,6 @@
                 },
                 {
                     "id": "1AN2AL0F9BNACD",
-                    "order": 3,
                     "type": "checkbox",
                     "label": "I am checkbox question text",
                     "data": [
@@ -54,7 +51,6 @@
             "question": [
                 {
                     "id": "1AN2AL0F9BNAQ3",
-                    "order": 4,
                     "type": "select",
                     "label": "Select everything",
                     "data": [
@@ -73,14 +69,12 @@
                 },
                 {
                     "id": "1AN2AL0F9BNAR1",
-                    "order": 5,
                     "type": "text",
                     "label": "I am single line text",
                     "required": false
                 },
                 {
                     "id": "1AN2AL0F9BNA99",
-                    "order": 6,
                     "type": "textarea",
                     "label": "I am multiple line text",
                     "rows": 5,
@@ -93,7 +87,6 @@
             "question": [
                 {
                     "id": "1AN2AL0F9BNA8R",
-                    "order": 7,
                     "type": "rating",
                     "label": "Do you satisfy about Trend Micro Email Scan?",
                     "data": [
