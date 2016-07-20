@@ -1,6 +1,9 @@
 
 import * as types from '../constants/ActionTypes';
 
+import fetch from 'isomorphic-fetch';
+import Config from '../config';
+
 export function addQuestion(page, data) {
     return {
         type: types.ADD_QUESTION,
@@ -77,5 +80,47 @@ export function exchangePage(order) {
     return {
         type: types.EXCHANGE_PAGE,
         order
+    };
+}
+
+export function receiveQuestionsSuccess() {
+    return {
+        type: types.RECIEVE_QUESTIONS_SUCCESS
+    };
+}
+
+export function receiveQuestionsFailure(err) {
+    return {
+        type: types.RECIEVE_QUESTIONS_FAILURE,
+        errorMsg: err
+    };
+}
+
+export function saveQuestion(account_id, survey_id, subject, surveys, token) {
+    return (dispatch) => {
+        const postData = {
+            subject: subject,
+            survey: [...surveys]
+        };
+
+        return fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/${survey_id}`, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                // Authenticated: token
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.datetime) {
+                dispatch(receiveQuestionsSuccess());
+            } else {
+                dispatch(receiveQuestionsFailure(data));
+            }
+        })
+        .catch(err => dispatch(receiveQuestionsFailure(err.responseJSON)));
     };
 }

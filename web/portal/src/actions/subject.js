@@ -6,8 +6,9 @@ import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import { openEdit } from './editSubject';
 import { setSuveyID } from './surveyID';
+import { saveQuestion } from './questions';
 
-function setSubject(data) {
+export function setSubject(data) {
     return {
         type: types.SET_SUBJECT,
         subject: data
@@ -45,29 +46,11 @@ export function saveSubject(account_id, subject, token) {
 }
 
 export function editSubject(account_id, survey_id, subject, surveys, token) {
-    const postData = {
-        subject: subject,
-        survey: [...surveys]
-    };
-
     return (dispatch) => {
-        fetch(`${Config.baseURL}/mgnt/surveys/${account_id}/${survey_id}`, {
-            method: 'PUT',
-            credentials: 'same-origin',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-                // Authenticated: token
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(response => response.json())
-        .then(data => {
+        dispatch(saveQuestion(account_id, survey_id, subject, surveys, token))
+        .then(() => {
             dispatch(setSubject(subject));
             dispatch(openEdit(false));
-        })
-        .catch(err => {
-
         });
     };
 }
