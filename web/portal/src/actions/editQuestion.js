@@ -14,11 +14,8 @@ export function stopEditQuestion() {
     };
 }
 
-export function deleteRatingInput(data) {
-    const newData = Object.assign({}, data);
-    delete newData.input;
+export function deleteRatingInput() {
     return {
-        type: types.DELETE_RATING_INPUT,
-        editQuestion: newData
+        type: types.DELETE_RATING_INPUT
     };
 }

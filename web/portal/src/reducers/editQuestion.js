@@ -8,7 +8,9 @@ export default function editQuestion(state = {}, action) {
     case types.STOP_EDITQUESTION:
         return {};
     case types.DELETE_RATING_INPUT:
-        return action.editQuestion;
+        const newData = Object.assign({}, state);
+        delete newData.input;
+        return newData;
     default:
         return state;
     }
