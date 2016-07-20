@@ -18,9 +18,7 @@ class Create extends PureComponent {
     componentWillMount() {
         const { surveyID, push } = this.props;
         // if there is no surveyID, go back
-        if (!surveyID) {
-            push('/');
-        }
+        if (!surveyID) push('/');
     }
 
     render() {

@@ -30,6 +30,8 @@ const dragSource = {
             const { id:droppedId, page:droppedPage, originalIndex } = monitor.getItem();
             props.moveQuestion(droppedId, droppedPage, originalIndex);
         }
+        // save Question
+        props.questionsActions.saveQuestion();
     }
 };
 
@@ -136,11 +138,15 @@ class Item extends Component {
     _onCopyHandle() {
         const { idx, page, questionsActions } = this.props;
         questionsActions.copyQuestion(page, idx);
+        // save Question
+        questionsActions.saveQuestion();
     }
 
     _onDeleteHandle() {
         const { idx, page, questionsActions } = this.props;
         questionsActions.deleteQuestion(page, idx);
+        // save Question
+        questionsActions.saveQuestion();
     }
 }
 

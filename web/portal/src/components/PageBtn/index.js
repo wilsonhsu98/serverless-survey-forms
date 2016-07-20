@@ -26,6 +26,8 @@ class PageBtn extends PureComponent {
         const { questions, questionsActions } = this.props;
         const page = questions.length + 1;
         questionsActions.addPage(page);
+        // save Question
+        questionsActions.saveQuestion();
     }
 
     _generateQuestionID() {

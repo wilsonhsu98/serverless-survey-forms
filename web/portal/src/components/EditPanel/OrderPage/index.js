@@ -70,6 +70,7 @@ class OrderPage extends PureComponent {
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save orderPage to Question
             questionsActions.exchangePage(orderPage);
+            questionsActions.saveQuestion();
             orderPageActions.setOrderPage([]);
         }
     }

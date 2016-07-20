@@ -64,6 +64,7 @@ class EditPage extends PureComponent {
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save editPage to Question
             questionsActions.editPageTitle(editPage.page, editPage.description);
+            questionsActions.saveQuestion();
             editPageActions.stopEditPage();
         }
     }
