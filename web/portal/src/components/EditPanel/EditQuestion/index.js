@@ -159,8 +159,8 @@ class EditQuestion extends PureComponent {
     }
 
     _handleDeleteInput() {
-        const { editQuestion, editQuestionActions } = this.props;
-        editQuestionActions.deleteRatingInput(editQuestion);
+        const { editQuestionActions } = this.props;
+        editQuestionActions.deleteRatingInput();
     }
 }
 
