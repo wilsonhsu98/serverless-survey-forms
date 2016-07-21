@@ -50,9 +50,8 @@ class Rating extends Component {
     }
 
     _renderRatingItem() {
-        const { data:item } = this.props;
+        const { data: item } = this.props;
         const items = item.data.map((itm, idx) => {
-            const val = itm.value ? itm.value : itm.label;
             const label = itm.label;
             return (
                 <li

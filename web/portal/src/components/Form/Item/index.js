@@ -9,7 +9,7 @@ import Checkbox from '../Checkbox';
 import Rating from '../Rating';
 
 const dragSource = {
-    beginDrag: function(props) {
+    beginDrag: function beginDrag(props) {
         // What you return is the only information available
         // to the drop targets about the drag source
         // so it's important to pick the minimal data they need to know.
@@ -22,12 +22,12 @@ const dragSource = {
             originalIndex: props.getQuestion(props.data.id).index
         };
     },
-    endDrag: function(props, monitor) {
+    endDrag: function endDrag(props, monitor) {
         // You can check whether the drop was successful
         // or if the drag ended but nobody handled the drop
         const didDrop = monitor.didDrop();
         if (!didDrop) {
-            const { id:droppedId, page:droppedPage, originalIndex } = monitor.getItem();
+            const { id: droppedId, page: droppedPage, originalIndex } = monitor.getItem();
             props.moveQuestion(droppedId, droppedPage, originalIndex);
         }
         // save Question
@@ -40,16 +40,16 @@ function dragCollect(connect, monitor) {
         connectDragSource: connect.dragSource(),
         connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging()
-    }
+    };
 }
 
 const dropTarget = {
-    canDrop: function() {
+    canDrop: function canDrop() {
         return true;
     },
 
-    hover: function(props, monitor) {
-        const { id:draggedId, page:draggedPage } = monitor.getItem();
+    hover: function hover(props, monitor) {
+        const { id: draggedId, page: draggedPage } = monitor.getItem();
         const overId = props.data.id;
         const overPage = props.page;
 
@@ -78,11 +78,12 @@ class Item extends Component {
     }
 
     render() {
-        const { data, editQuestion, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+        const { data, editQuestion, isOver,
+            connectDragPreview, connectDragSource, connectDropTarget } = this.props;
 
         return connectDragPreview(connectDropTarget(
             <div
-                className={`questionItem ${data.id === editQuestion.id ? 'edit' : '' }`}
+                className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''}`}
                 style={{
                     opacity: isOver ? 0.1 : 1
                 }}
@@ -92,7 +93,7 @@ class Item extends Component {
                     {connectDragSource(
                         <button
                             className="button"
-                            style={{cursor: 'move'}}
+                            style={{ cursor: 'move' }}
                         >
                             Move
                         </button>
