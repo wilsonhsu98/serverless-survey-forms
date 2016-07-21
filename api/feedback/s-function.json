@@ -8,9 +8,7 @@
   "timeout": 60,
   "memorySize": 512,
   "authorizer": {},
-  "custom": {
-    "excludePatterns": []
-  },
+  "custom": "$${customTemplate}",
   "endpoints": [
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -19,13 +17,16 @@
       "authorizationType": "none",
       "authorizerFunction": false,
       "apiKeyRequired": false,
-      "requestParameters": {},
+      "requestParameters": {
+        "integration.request.header.body-header": "method.request.header.If-Modified-Since"
+      },
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
           "clientid": "$input.params('clientid')",
-          "op": "getOneFeedback"
+          "op": "getOneFeedback",
+          "ifModifiedSince": "$input.params('If-Modified-Since')"
         }
       },
       "responses": "$${apiResponseTemplate}"

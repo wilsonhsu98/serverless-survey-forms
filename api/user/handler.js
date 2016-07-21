@@ -8,6 +8,35 @@ module.exports.handler = function(event, context, callback) {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 
+  // todo use Promise to authorize.
+  user.getOneUser({
+    accountid: event.authAccountid
+  }, function(err, data) {
+    if (err) {
+      return callback(err, null);
+    } else {
+        if (data.role=="admin"){
+
+        } else {
+          return (new Error("403 Unauthorized request"), null);
+        }
+    }
+  });
+
+  // A callback handler to decide return is 304 or 200.
+  const cacheCallback = (err, response) => {
+    if (err) {
+      callback(err, response);
+    } else if (event.ifModifiedSince && response.datetime && response.datetime === parseInt(event.ifModifiedSince)) {
+      return callback("304 Not Modified", null);
+    } else {
+      const responseData = {};
+      responseData.response = response;
+      responseData.datetime = (response.datetime) ? response.datetime : Date.now();
+      callback(null, responseData);
+    }
+  };
+
   switch(event.op) {
     case "listUsers":
       // GET /api/v1/mgnt/users/[?startKey=<startKey>]
@@ -15,7 +44,7 @@ module.exports.handler = function(event, context, callback) {
       // TODO: invoke listUsers once authentication is implemented and enabled
       return user.listUsers({
         startKey : event.startKey,
-      }, callback);
+      }, cacheCallback);
       break;
     case "updateOneUser":
       // PUT /api/v1/mgnt/users/
@@ -26,7 +55,7 @@ module.exports.handler = function(event, context, callback) {
         username: event.username,
         email: event.email,
         role: event.role
-      }, callback);
+      }, cacheCallback);
       break;
     case "deleteOneUser":
       // DELETE /api/v1/mgnt/users/<accountid>
@@ -34,7 +63,7 @@ module.exports.handler = function(event, context, callback) {
       // TODO: invoke deleteOneUser once authentication is implemented and enabled
       return user.deleteOneUser({
         "accountid": event.accountid
-      }, callback);
+      }, cacheCallback);
       break;
     default:
       let error = new Error("400 Bad Request: " + JSON.stringify(event));

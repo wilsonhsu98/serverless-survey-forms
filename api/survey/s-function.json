@@ -16,13 +16,16 @@
     "authorizationType": "none",
     "authorizerFunction": false,
     "apiKeyRequired": false,
-    "requestParameters": {},
+    "requestParameters": {
+      "integration.request.header.body-header": "method.request.header.If-Modified-Since"
+    },
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
         "accountid": "$input.params('accountid')",
         "surveyid": "$input.params('surveyid')",
-        "op": "getOneSurvey"
+        "op": "getOneSurvey",
+        "ifModifiedSince": "$input.params('If-Modified-Since')"
       }
     },
     "responses": "$${apiResponseTemplate}"
