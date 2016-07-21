@@ -16,15 +16,15 @@ function receiveSurveysSuccess(data) {
 
 export function getSurveys() {
     return (dispatch, getState) => {
-        const { account } = getState();
-        return fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}/`, {
+        const { account, token } = getState();
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/`, {
             // TODOS: wait back end
             method: 'GET',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
-                // Authenticated: token
+                'Content-Type': 'application/json',
+                authorization: token
             }
         })
         .then(response => response.json())
