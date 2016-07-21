@@ -37,7 +37,7 @@ class Feedback extends PureComponent {
     }
 
     _renderSurvey() {
-        const { paging, surveyActions } = this.props;
+        const { paging, surveyActions, feedbackActions } = this.props;
         const { content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
@@ -65,6 +65,7 @@ class Feedback extends PureComponent {
                         pages={content.length}
                         currentPage={paging}
                         surveyActions={surveyActions}
+                        feedbackActions={feedbackActions}
                     /> :
                     ''
                 }

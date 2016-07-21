@@ -16,6 +16,7 @@ export const SURVEY_DONE = 'SURVEY_DONE';
 export const RECORD_FEEDBACK = 'RECORD_FEEDBACK';
 export const SAVE_FEEDBACK = 'SAVE_FEEDBACK';
 export const UPDATE_FEEDBACK = 'UPDATE_FEEDBACK';
+export const SAVE_CLIENT_ID = 'SAVE_CLIENT_ID';
 
 // paging
 export const GO_TO_PAGE = 'GO_TO_PAGE';

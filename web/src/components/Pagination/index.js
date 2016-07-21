@@ -132,13 +132,21 @@ class Pagination extends PureComponent {
     }
 
     _next() {
+        if (this.props.currentPage === 1) {
+            this.props.feedbackActions.saveFeedback();
+        } else {
+            this.props.feedbackActions.updateFeedback();
+        }
         this.props.surveyActions.goToPage(this.props.currentPage + 1);
-        // TODO: call feedback API
     }
 
     _done() {
+        if (this.props.currentPage === 1) {
+            this.props.feedbackActions.saveFeedback();
+        } else {
+            this.props.feedbackActions.updateFeedback();
+        }
         this.props.surveyActions.surveyDone();
-        // TODO: call feedback API
     }
 }
 
