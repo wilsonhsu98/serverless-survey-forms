@@ -5,7 +5,7 @@ import Config from '../config';
 import * as AccountActions from './account';
 
 function setToken(token) {
-    window.localStorage["QustomPortalTK"] = token;
+    window.localStorage.QustomPortalTK = token;
     return {
         type: types.SET_TOKEN,
         token
@@ -13,8 +13,8 @@ function setToken(token) {
 }
 
 export function verifyToken(token) {
-    return (dispatch) => {
-        return fetch(`${Config.baseURL}/mgnt/users/verify`, {
+    return (dispatch) =>
+        fetch(`${Config.baseURL}/mgnt/users/verify`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -34,5 +34,4 @@ export function verifyToken(token) {
             }
         })
         .catch(err => AccountActions.receiveAccountFailure(err.responseJSON));
-    };
 }

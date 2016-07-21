@@ -5,7 +5,6 @@ import '../../css/main.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 
 // Router
 import { browserHistory } from 'react-router';
@@ -15,7 +14,6 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
-import * as LoadingActions from './actions/loading';
 import * as TokenActions from './actions/token';
 import * as AccountActions from './actions/account';
 
@@ -42,11 +40,11 @@ function getPromise(fetchFunc, ...extraParams) {
 
 function getToken(resolve) {
     // Check localStorage QustomPortal, Verify toekn
-    const token = window.localStorage['QustomPortalTK'] || '';
+    const token = window.localStorage.QustomPortalTK || '';
     console.log(`token:${token}`);
 
     // TODOS: wait for backend API, temporarily
-    // if (token === 'FAKE_TOKEN') {
+    if (token === '') {
         const data = {
             accountid: '123456',
             username: 'Chiou Chu',
@@ -54,9 +52,9 @@ function getToken(resolve) {
         };
         store.dispatch(AccountActions.receiveAccountSuccess(data));
         resolve('Finish Verify Token');
-        window.localStorage['QustomPortalTK'] = '';
+        window.localStorage.QustomPortalTK = '';
         return;
-    // }
+    }
 
     if (token) {
         store.dispatch(TokenActions.verifyToken(token))
