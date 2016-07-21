@@ -2,12 +2,20 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var folder = process.env.NODE_FOLDER;
+var folder = process.env.NODE_FOLDER ? process.env.NODE_FOLDER : 'portal';
 
 // Postcss plugins
 var postcssImport = require('postcss-import');
 var postcssNested = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
+
+// eslint folder path
+var eslintFolder;
+if (folder === 'feedback') {
+    eslintFolder = [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'feedback')];
+} else {
+    eslintFolder = path.resolve(__dirname, 'portal');
+}
 
 var webpackConfig = {
     entry: path.resolve(__dirname, folder + '/src/entry.js'),
@@ -20,7 +28,7 @@ var webpackConfig = {
             {
                 test: /\.js?$/,
                 loader: 'eslint-loader',
-                include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'feedback')],
+                include: eslintFolder,
                 exclude: /node_modules/
             }
         ],

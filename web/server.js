@@ -4,7 +4,7 @@ var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var express = require('express');
 var config = require('./webpack.config');
-var folder = process.env.NODE_FOLDER;
+var folder = process.env.NODE_FOLDER ? process.env.NODE_FOLDER : 'portal';
 
 var webpackConfig = Object.create(config);
 webpackConfig.entry = [
