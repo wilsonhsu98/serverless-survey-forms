@@ -43,6 +43,9 @@ export function saveFeedback() {
                 throw new Error('Bad response from server');
             }
             console.log(`POST Feedback from ${clientID}`, response);
+            // TODO: postMessage to client
+            // window.parent.postMessage(`POST Feedback from ${clientID}`,
+                // window.parent.location.origin);
         });
     };
 }
@@ -68,6 +71,9 @@ export function updateFeedback() {
                 throw new Error('Bad response from server');
             }
             console.log(`UPDATE Feedback from ${clientID}`, response);
+            // TODO: postMessage to client
+            // window.parent.postMessage(`UPDATE Feedback from ${clientID}`,
+                // window.parent.location.origin);
         });
     };
 }
