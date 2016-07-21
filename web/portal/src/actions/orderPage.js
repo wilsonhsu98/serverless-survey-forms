@@ -11,7 +11,7 @@ export function setOrderPage(data) {
 export function exchangeOrderPage(bfIdx, afIdx) {
     return (dispatch, getState) => {
         // exchange order
-        let data = [...getState().orderPage];
+        const data = [...getState().orderPage];
         data.splice(afIdx, 0, ...data.splice(bfIdx, 1));
 
         dispatch(setOrderPage(data));

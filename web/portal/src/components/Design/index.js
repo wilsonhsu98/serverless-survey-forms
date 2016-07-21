@@ -1,6 +1,6 @@
 
 // CSS
-import styles from './style.css';
+import './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
@@ -39,13 +39,16 @@ class Design extends PureComponent {
                 {this._renderPage()}
                 <PageBtn {...ctrlProps} />
 
-                <div style={{width:'100%',margin:'10px 0',textAlign:'center'}}>Thank you page</div>
+                <div style={{ width: '100%', margin: '10px 0', textAlign: 'center' }}>
+                    Thank you page
+                </div>
             </div>
         );
     }
 
     _renderPage() {
-        const { questions, editQuestion, editPage, orderPage, questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const { questions, editQuestion, editPage, orderPage,
+            questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
         const basicProps = {
             questions,
             editQuestion,
@@ -132,16 +135,19 @@ class Design extends PureComponent {
         let page;
         let index;
         let question;
-        findObject:
-        for (let obj of questions) {
-            for (let que of obj.question) {
+        let flag = false;
+        for (const obj of questions) {
+            for (const que of obj.question) {
                 if (que.id === id) {
                     question = que;
                     page = obj.page;
                     index = obj.question.indexOf(question);
-                    break findObject;
+
+                    flag = true;
+                    break;
                 }
             }
+            if (flag) break;
         }
         return {
             question,

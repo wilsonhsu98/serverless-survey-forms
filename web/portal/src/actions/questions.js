@@ -9,10 +9,10 @@ import Mixins from '../mixins/global';
 export function addQuestion(page, data) {
     return (dispatch, getState) => {
         const pageIdx = page - 1;
-        let newQuestions = [...getState().questions];
+        const newQuestions = [...getState().questions];
         // if this page already existed, edit this page content
         // object and array need copy reference
-        let pageData = Object.assign({}, newQuestions[pageIdx]);
+        const pageData = Object.assign({}, newQuestions[pageIdx]);
         pageData.question = [...pageData.question];
         pageData.question.push(data);
         newQuestions[pageIdx] = pageData;
@@ -24,14 +24,14 @@ export function addQuestion(page, data) {
     };
 }
 
-export function editQuestion() {
+export function updateQuestionItem() {
     return (dispatch, getState) => {
         const { questions, editQuestion } = getState();
-        let newQuestions = [];
-        for (let obj of questions) {
-            let newPages = Object.assign({}, obj);
+        const newQuestions = [];
+        for (const obj of questions) {
+            const newPages = Object.assign({}, obj);
             newPages.question = [];
-            for (let que of obj.question) {
+            for (const que of obj.question) {
                 let newItems = Object.assign({}, que);
                 if (que.id === editQuestion.id) {
                     newItems = Object.assign(newItems, editQuestion);
@@ -51,15 +51,16 @@ export function editQuestion() {
     };
 }
 
-export function copyQuestion(page, que_id) {
+export function copyQuestion(page, queId) {
     return (dispatch, getState) => {
         const { questions } = getState();
         const pageIdx = page - 1;
-        let newQuestions = [...questions];
-        const duplicateQue = Object.assign({}, newQuestions[pageIdx].question[que_id], { id: Mixins.generateQuestionID() });
+        const newQuestions = [...questions];
+        const duplicateQue = Object.assign({}, newQuestions[pageIdx].question[queId],
+            { id: Mixins.generateQuestionID() });
         newQuestions[pageIdx] = Object.assign({}, questions[pageIdx]);
         newQuestions[pageIdx].question = [...questions[pageIdx].question];
-        newQuestions[pageIdx].question.splice(que_id, 0, duplicateQue);
+        newQuestions[pageIdx].question.splice(queId, 0, duplicateQue);
 
         dispatch({
             type: types.COPY_QUESTION,
@@ -68,14 +69,14 @@ export function copyQuestion(page, que_id) {
     };
 }
 
-export function deleteQuestion(page, que_id) {
+export function deleteQuestion(page, queId) {
     return (dispatch, getState) => {
         const { questions } = getState();
         const pageIdx = page - 1;
-        let newQuestions = [...questions];
+        const newQuestions = [...questions];
         newQuestions[pageIdx] = Object.assign({}, questions[pageIdx]);
         newQuestions[pageIdx].question = [...questions[pageIdx].question];
-        newQuestions[pageIdx].question.splice(que_id, 1);
+        newQuestions[pageIdx].question.splice(queId, 1);
 
         dispatch({
             type: types.DELETE_QUESTION,
@@ -87,10 +88,10 @@ export function deleteQuestion(page, que_id) {
 export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
     return (dispatch, getState) => {
         const { questions } = getState();
-        let newQuestions = [];
+        const newQuestions = [];
         if (bfPage !== afPage) {
-            for (let obj of questions) {
-                let newPages = Object.assign({}, obj);
+            for (const obj of questions) {
+                const newPages = Object.assign({}, obj);
                 newPages.question = [...obj.question];
                 if (obj.page === bfPage) {
                     newPages.question.splice(bfIdx, 1);
@@ -100,8 +101,8 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
                 newQuestions.push(newPages);
             }
         } else {
-            for (let obj of questions) {
-                let newPages = Object.assign({}, obj);
+            for (const obj of questions) {
+                const newPages = Object.assign({}, obj);
                 newPages.question = [...obj.question];
                 if (obj.page === afPage) {
                     newPages.question.splice(bfIdx, 1);
@@ -131,18 +132,18 @@ export function addPage(page) {
     };
 }
 
-export function copyPage(page_id) {
+export function copyPage(pageId) {
     return (dispatch, getState) => {
-        let newQuestions = [...getState().questions];
-        const originPage = newQuestions[page_id - 1];
-        let duplicateQues = [];
-        for (let que of originPage.question) {
+        const newQuestions = [...getState().questions];
+        const originPage = newQuestions[pageId - 1];
+        const duplicateQues = [];
+        for (const que of originPage.question) {
             // regenerate question id
             duplicateQues.push(Object.assign({}, que, { id: Mixins.generateQuestionID() }));
         }
-        newQuestions.splice(page_id, 0, Object.assign({}, originPage, { question: duplicateQues }));
+        newQuestions.splice(pageId, 0, Object.assign({}, originPage, { question: duplicateQues }));
         newQuestions.forEach((page, idx) => {
-            page.page = idx + 1;
+            Object.assign(page, { page: idx + 1 });
         });
 
         dispatch({
@@ -156,7 +157,8 @@ export function editPageTitle() {
     return (dispatch, getState) => {
         const { page, description } = getState().editPage;
         const newQuestions = [...getState().questions];
-        newQuestions[page - 1] = Object.assign({}, newQuestions[page - 1], { description: description });
+        newQuestions[page - 1] = Object.assign({}, newQuestions[page - 1],
+            { description: description });
 
         dispatch({
             type: types.EDIT_PAGE_TITLE,
@@ -165,12 +167,12 @@ export function editPageTitle() {
     };
 }
 
-export function deletePage(page_id) {
+export function deletePage(pageId) {
     return (dispatch, getState) => {
         const newQuestions = [...getState().questions];
-        newQuestions.splice(page_id - 1, 1);
+        newQuestions.splice(pageId - 1, 1);
         newQuestions.forEach((page, idx) => {
-            page.page = idx + 1;
+            Object.assign(page, { page: idx + 1 });
         });
 
         dispatch({
@@ -183,7 +185,7 @@ export function deletePage(page_id) {
 export function exchangePage() {
     return (dispatch, getState) => {
         const { questions, orderPage } = getState();
-        let newQuestions = [];
+        const newQuestions = [];
         orderPage.forEach((pageNum, idx) => {
             const page = Object.assign({}, questions[pageNum - 1]);
             page.page = idx + 1;
@@ -209,7 +211,7 @@ function receiveQuestionsFailure(err) {
 
 export function saveQuestion() {
     return (dispatch, getState) => {
-        const { account, surveyID, subject, questions, token } = getState();
+        const { account, surveyID, subject, questions } = getState();
         const postData = {
             subject: subject,
             survey: [...questions]

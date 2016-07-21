@@ -30,27 +30,31 @@ class Pagination extends Component {
                     <div className={styles.title}>Page {id}:{description}</div>
                     <div className={styles.control}>
                         <button
-                            data-type='text'
+                            data-type="text"
                             className={`${styles.button} button`}
-                            onClick={this._onEditPageClick}>
+                            onClick={this._onEditPageClick}
+                        >
                             Edit
                         </button>
                         <button
-                            data-type='order'
+                            data-type="order"
                             className={`${styles.button} button`}
-                            onClick={this._onEditPageClick}>
+                            onClick={this._onEditPageClick}
+                        >
                             Order
                         </button>
                         <button
-                            data-type='copy'
+                            data-type="copy"
                             className={`${styles.button} button`}
-                            onClick={this._onEditPageClick}>
+                            onClick={this._onEditPageClick}
+                        >
                             Copy
                         </button>
                         <button
-                            data-type='delete'
+                            data-type="delete"
                             className={`${styles.button} button`}
-                            onClick={this._onEditPageClick}>
+                            onClick={this._onEditPageClick}
+                        >
                             Delete
                         </button>
                     </div>
@@ -66,7 +70,8 @@ class Pagination extends Component {
     }
 
     _renderQuestion(question, idx) {
-        const { data, editQuestion, questionsActions, editQuestionActions, moveQuestion, getQuestion } = this.props;
+        const { data, editQuestion, questionsActions,
+            editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
             idx,
@@ -100,8 +105,8 @@ class Pagination extends Component {
     _onEditPageClick(e) {
         if (e.target.getAttribute('data-type') === 'order') {
             const { questions, orderPageActions } = this.props;
-            let orderPage = [];
-            questions.forEach((page, idx) => {
+            const orderPage = [];
+            questions.forEach((page) => {
                 orderPage.push(page.page);
             });
             orderPageActions.setOrderPage(orderPage);
@@ -112,7 +117,7 @@ class Pagination extends Component {
             questionsActions.saveQuestion();
         } else if (e.target.getAttribute('data-type') === 'text') {
             const { data, editPageActions } = this.props;
-            editPageActions.setEditPage({page: data.page, description: data.description});
+            editPageActions.setEditPage({ page: data.page, description: data.description });
         } else if (e.target.getAttribute('data-type') === 'delete') {
             const { data, questionsActions } = this.props;
             questionsActions.deletePage(data.page);

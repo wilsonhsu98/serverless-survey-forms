@@ -30,7 +30,7 @@ class Select extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { item } = this.props;
         const selectClass = {
             [styles.selectGrp]: true,
             [styles.open]: this.state.isOpen

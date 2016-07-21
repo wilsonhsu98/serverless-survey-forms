@@ -10,7 +10,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import * as types from '../../../constants/DragTypes';
 
 const dragSource = {
-    beginDrag: function(props) {
+    beginDrag: function beginDrag(props) {
         return {
             index: props.id
         };
@@ -18,7 +18,7 @@ const dragSource = {
 };
 
 const dropTarget = {
-    hover: function(props, monitor, component) {
+    hover: function hover(props, monitor, component) {
         const dragIndex = monitor.getItem().index;
         const hoverIndex = props.id;
 
@@ -49,7 +49,7 @@ const dropTarget = {
         // Generally it's better to avoid mutations,
         // but it's good here for the sake of performance
         // to avoid expensive index searches.
-        monitor.getItem().index = hoverIndex;
+        Object.assign(monitor.getItem(), { index: hoverIndex });
     }
 };
 
@@ -58,13 +58,13 @@ function dragCollect(connect, monitor) {
         connectDragSource: connect.dragSource(),
         connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging()
-    }
+    };
 }
 function dropCollect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
         isOver: monitor.isOver()
-    }
+    };
 }
 
 class EditItem extends PureComponent {
@@ -77,7 +77,8 @@ class EditItem extends PureComponent {
     }
 
     render() {
-        const { id, data, onDeleteHandle, isOver, connectDragPreview, connectDragSource, connectDropTarget } = this.props;
+        const { id, data, onDeleteHandle, isOver,
+            connectDragPreview, connectDragSource, connectDropTarget } = this.props;
         const opacity = isOver ? 0.1 : 1;
 
         return connectDragPreview(connectDropTarget(

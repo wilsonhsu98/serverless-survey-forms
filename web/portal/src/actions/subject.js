@@ -21,7 +21,7 @@ function setSubjectError(err) {
 
 export function saveSubject(subject) {
     return (dispatch, getState) => {
-        const { account, token } = getState();
+        const { account } = getState();
         const postData = {
             subject: subject,
             survey: []

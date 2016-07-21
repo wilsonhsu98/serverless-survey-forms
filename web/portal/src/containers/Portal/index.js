@@ -19,7 +19,8 @@ import Loading from '../../components/Loading';
 class Portal extends PureComponent {
 
     render() {
-        const { loading, subject, surveyID, editSubject, editSubjectActions, subjectActions } = this.props;
+        const { loading, subject, surveyID,
+            editSubject, editSubjectActions, subjectActions } = this.props;
         const headProps = {
             subject,
             surveyID,

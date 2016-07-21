@@ -16,7 +16,7 @@ function receiveSurveysSuccess(data) {
 
 export function getSurveys() {
     return (dispatch, getState) => {
-        const { account, token } = getState();
+        const { account } = getState();
         return fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}/`, {
             // TODOS: wait back end
             method: 'GET',

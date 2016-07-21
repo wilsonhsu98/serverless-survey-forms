@@ -2,7 +2,7 @@
 // CSS
 import styles from './style.css';
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
 import * as values from '../../../constants/DefaultValues';
@@ -74,17 +74,18 @@ class EditMultiOptions extends PureComponent {
         const type = e.target.getAttribute('data-type');
         const newData = [...editQuestion.data];
         const data = {
-            [type]: e.target.value || (type === 'label' ? values.OPTION_TITLE : values.PLACEHOLDER_TITLE)
+            [type]: e.target.value || (type === 'label' ?
+                values.OPTION_TITLE : values.PLACEHOLDER_TITLE)
         };
         newData[idx] = Object.assign({}, newData[idx], data);
-        handleChangeEvent({data: newData});
+        handleChangeEvent({ data: newData });
     }
 
     _onDeleteHandle(idx) {
         const { editQuestion, handleChangeEvent } = this.props;
         const newData = [...editQuestion.data];
         newData.splice(idx, 1);
-        handleChangeEvent({data: newData});
+        handleChangeEvent({ data: newData });
     }
 
     _addOption(e) {
@@ -104,7 +105,7 @@ class EditMultiOptions extends PureComponent {
         }
 
         const newData = [...editQuestion.data, opt];
-        handleChangeEvent({data: newData});
+        handleChangeEvent({ data: newData });
     }
 
     _moveItem(dragIndex, hoverIndex) {
@@ -114,7 +115,7 @@ class EditMultiOptions extends PureComponent {
             const moveOpt = newData[dragIndex];
             newData.splice(dragIndex, 1);
             newData.splice(hoverIndex, 0, moveOpt);
-            handleChangeEvent({data: newData});
+            handleChangeEvent({ data: newData });
         }
     }
 }
