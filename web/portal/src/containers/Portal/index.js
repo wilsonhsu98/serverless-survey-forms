@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 // Actions
 import * as EditSubjectActions from '../../actions/editSubject';
 import * as SubjectActions from '../../actions/subject';
+import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
 import SubjectPop from '../../components/SubjectPop';
@@ -17,6 +18,15 @@ import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
 class Portal extends PureComponent {
+
+    constructor(props) {
+        super(props);
+
+        const { routing, accountActions } = props;
+        if (routing.locationBeforeTransitions.query.hasOwnProperty('token')) {
+            accountActions.verifyToken(routing.locationBeforeTransitions.query.token);
+        }
+    }
 
     render() {
         const { loading, subject, surveyID,
@@ -70,14 +80,16 @@ function mapStateToProps(state) {
         account: state.account,
         subject: state.subject,
         surveyID: state.surveyID,
-        editSubject: state.editSubject
+        editSubject: state.editSubject,
+        routing: state.routing
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
-        subjectActions: bindActionCreators(SubjectActions, dispatch)
+        subjectActions: bindActionCreators(SubjectActions, dispatch),
+        accountActions: bindActionCreators(AccountActions, dispatch)
     };
 }
 
