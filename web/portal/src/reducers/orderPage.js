@@ -9,5 +9,3 @@ export default function orderPage(state = [], action) {
         return state;
     }
 }
-
-

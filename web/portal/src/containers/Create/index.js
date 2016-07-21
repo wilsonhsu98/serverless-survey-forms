@@ -14,11 +14,10 @@ import * as OrderPageActions from '../../actions/orderPage';
 import Design from '../../components/Design';
 
 class Create extends PureComponent {
-
     componentWillMount() {
-        const { surveyID, push } = this.props;
+        const { surveyID, pushActions } = this.props;
         // if there is no surveyID, go back
-        if (!surveyID) push('/');
+        if (!surveyID) pushActions('/');
     }
 
     render() {
@@ -43,7 +42,7 @@ function mapDispatchToProps(dispatch) {
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
-        push: bindActionCreators(push, dispatch)
+        pushActions: bindActionCreators(push, dispatch)
     };
 }
 

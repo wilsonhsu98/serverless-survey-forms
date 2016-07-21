@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Postcss plugins
 var postcssImport = require('postcss-import');
@@ -8,6 +9,11 @@ var postcssNested = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
 
 var webpackConfig = {
+    entry: path.resolve(__dirname, 'src/index.js'),
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: "survey.js"
+    },
     module: {
         preLoaders: [
             {
@@ -70,6 +76,11 @@ if (process.env.NODE_ENV === 'production') {
                 dead_code: true,
                 warnings: false
             }
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Qustom',
+            template: path.resolve(__dirname, 'assets/html/index.html'),
+            filename: 'index.html'
         }),
         new webpack.DefinePlugin({
             'process.env': {

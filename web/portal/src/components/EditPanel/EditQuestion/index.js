@@ -4,7 +4,6 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
 import Select from '../../Select';
@@ -83,9 +82,9 @@ class EditQuestion extends PureComponent {
     _renderType() {
         const { editQuestion } = this.props;
         const item = [
-            {'value': 'radio', 'label': 'Radio Button'},
-            {'value': 'checkbox', 'label': 'Checkbox'},
-            {'value': 'rating', 'label': 'Rating (Liert Scale)'}];
+            { value: 'radio', label: 'Radio Button' },
+            { value: 'checkbox', label: 'Checkbox' },
+            { value: 'rating', label: 'Rating (Liert Scale)' }];
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>
@@ -138,7 +137,7 @@ class EditQuestion extends PureComponent {
             editQuestionActions.stopEditQuestion();
         } else if (e.target.getAttribute('data-type') === 'save') {
             // save editQuestion to Question
-            questionsActions.editQuestion();
+            questionsActions.updateQuestionItem();
             questionsActions.saveQuestion();
             editQuestionActions.stopEditQuestion();
         }
@@ -155,7 +154,7 @@ class EditQuestion extends PureComponent {
     }
 
     _handleChangeEvent(data) {
-        const { editQuestion, editQuestionActions } = this.props;
+        const { editQuestionActions } = this.props;
         editQuestionActions.setEditQuestion(data);
     }
 

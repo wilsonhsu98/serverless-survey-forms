@@ -1,10 +1,6 @@
 
-// CSS
-import styles from './style.css';
-
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import Item from './Item';
 

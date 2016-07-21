@@ -2,7 +2,7 @@
 // CSS
 import styles from './style.css';
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
@@ -17,7 +17,7 @@ class EditAdvance extends PureComponent {
     }
 
     render() {
-        const { editQuestion, onChangeHandle } = this.props;
+        const { editQuestion } = this.props;
         const flag = editQuestion.hasOwnProperty('input');
         const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
 
@@ -43,11 +43,11 @@ class EditAdvance extends PureComponent {
         );
     }
 
-    _onChangeHandle(e) {
+    _onChangeHandle() {
         const { editQuestion, handleChangeEvent, handleDeleteInput } = this.props;
-        const flag = $('#chk').is(":checked");
+        const flag = $('#chk').is(':checked');
         const input = $('#why').val();
-        const newData = {...editQuestion};
+        const newData = Object.assign({}, editQuestion);
         if (flag) {
             newData.input = input || values.PLACEHOLDER_TITLE;
             handleChangeEvent(newData);
