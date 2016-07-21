@@ -14,7 +14,6 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
-import * as TokenActions from './actions/token';
 import * as AccountActions from './actions/account';
 
 import MainRouter from './routers';
@@ -57,7 +56,7 @@ function getToken(resolve) {
     }
 
     if (token) {
-        store.dispatch(TokenActions.verifyToken(token))
+        store.dispatch(AccountActions.verifyToken(token))
         .then(() => {
             resolve('Finish Verify Token');
         });
