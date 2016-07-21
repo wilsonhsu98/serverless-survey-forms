@@ -4,9 +4,8 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-// import { push } from 'react-router-redux';
 
-// import Config from '../../config';
+import Config from '../../config';
 
 class FBLogin extends PureComponent {
 
@@ -45,11 +44,7 @@ class FBLogin extends PureComponent {
     }
 
     _onClickFBBtn() {
-        // window.location.href = `${Config.baseURL}/authentication/signin/Facebook`;
-
-        // TODOS: integrate with backend authentication API
-        window.localStorage.QustomPortalTK = 'FAKE_TOKEN';
-        window.location.href = '/';
+        window.location.href = `${Config.baseURL}/authentication/signin/facebook`;
     }
 }
 

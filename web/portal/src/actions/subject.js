@@ -21,20 +21,20 @@ function setSubjectError(err) {
 
 export function saveSubject(subject) {
     return (dispatch, getState) => {
-        const { account } = getState();
+        const { account, token } = getState();
         const postData = {
             subject: subject,
             survey: []
         };
 
         dispatch(setSubject(subject));
-        fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}`, {
+        fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
-                // Authenticated: token
+                'Content-Type': 'application/json',
+                authorization: token
             },
             body: JSON.stringify(postData)
         })
