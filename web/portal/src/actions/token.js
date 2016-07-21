@@ -14,13 +14,13 @@ function setToken(token) {
 
 export function verifyToken(token) {
     return (dispatch) =>
-        fetch(`${Config.baseURL}/mgnt/users/verify`, {
+        fetch(`${Config.baseURL}/api/v1/mgnt/users/verify`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
-                // Authenticated: token
+                'Content-Type': 'application/json',
+                authorization: token
             }
         })
         .then(response => response.json())

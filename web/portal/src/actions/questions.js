@@ -211,19 +211,19 @@ function receiveQuestionsFailure(err) {
 
 export function saveQuestion() {
     return (dispatch, getState) => {
-        const { account, surveyID, subject, questions } = getState();
+        const { account, surveyID, subject, questions, token } = getState();
         const postData = {
             subject: subject,
             survey: [...questions]
         };
 
-        return fetch(`${Config.baseURL}/mgnt/surveys/${account.accountid}/${surveyID}`, {
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
-                // Authenticated: token
+                'Content-Type': 'application/json',
+                authorization: token
             },
             body: JSON.stringify(postData)
         })
