@@ -18,6 +18,7 @@ import survey from './survey';
 import feedback from './feedback';
 import done from './done';
 import paging from './paging';
+import clientID from './clientID';
 
 const rootReducer = combineReducers({
     loading,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     feedback,
     done,
     paging,
+    clientID,
     routing: routerReducer
 });
 
