@@ -21,6 +21,7 @@ module.exports.handler = (event, context, callback) => {
         if (err) {
           reject(err, null);
         } else {
+          // Authorized: Designer or Admin
           if (data.accountid === event.authAccountid && data.role === "Admin" || data.role === "Designer"){
             resolve();
           } else {

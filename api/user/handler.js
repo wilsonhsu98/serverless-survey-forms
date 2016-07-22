@@ -19,7 +19,8 @@ module.exports.handler = function(event, context, callback) {
         if (err) {
           reject(err, null);
         } else {
-          if (data.accountid === event.authAccountid && data.role === "Admin" || data.role === "Designer"){
+          // Authorized: Admin
+          if (data.accountid === event.authAccountid && data.role === "Admin"){
             resolve();
           } else {
             reject(new Error(`403 Unauthorized request： The role of the requester ${event.authAccountid} is ${data.role} ${JSON.stringify(event)}`));
