@@ -4,11 +4,11 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
-import EditAdvance from '../EditAdvance';
 
 class EditQuestion extends PureComponent {
 
@@ -23,7 +23,7 @@ class EditQuestion extends PureComponent {
         this._onTypeChange = this._onTypeChange.bind(this);
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
-        this._handleDeleteInput = this._handleDeleteInput.bind(this);
+        this._onAdvanceChangeHandle = this._onAdvanceChangeHandle.bind(this);
     }
 
     render() {
@@ -118,16 +118,31 @@ class EditQuestion extends PureComponent {
 
     _renderAdvance() {
         const { editQuestion } = this.props;
-        const props = {
-            editQuestion,
-            handleChangeEvent: this._handleChangeEvent,
-            handleDeleteInput: this._handleDeleteInput
-        };
+        const flag = editQuestion.hasOwnProperty('input');
+        const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
 
         return (
             <div className={`${styles.editSection} ut-advance`}>
                 <div className={styles.title}>Advanced Option Settings</div>
-                {<EditAdvance {...props} />}
+
+                <div className={styles.item}>
+                    <input
+                        id="chk"
+                        type="checkbox"
+                        checked={flag}
+                        onChange={this._onAdvanceChangeHandle}
+                    />
+                    <label>
+                        Show "Tell Me Why"<span>&nbsp;-&nbsp;</span>
+                    </label>
+                    <input
+                        id="why"
+                        type="text"
+                        value={input}
+                        placeholder={values.PLACEHOLDER_TITLE}
+                        onChange={this._onAdvanceChangeHandle}
+                    />
+                </div>
             </div>
         );
     }
@@ -159,9 +174,18 @@ class EditQuestion extends PureComponent {
         editQuestionActions.setEditQuestion(data);
     }
 
-    _handleDeleteInput() {
-        const { editQuestionActions } = this.props;
-        editQuestionActions.deleteRatingInput();
+    _onAdvanceChangeHandle() {
+        const { editQuestion, editQuestionActions } = this.props;
+        const flag = $('#chk').is(':checked');
+        const input = $('#why').val();
+        const newData = Object.assign({}, editQuestion);
+        if (flag) {
+            newData.input = input || values.PLACEHOLDER_TITLE;
+            this._handleChangeEvent(newData);
+        } else {
+            delete newData.input;
+            editQuestionActions.deleteRatingInput();
+        }
     }
 }
 
