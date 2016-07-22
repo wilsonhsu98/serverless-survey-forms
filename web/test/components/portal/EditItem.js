@@ -8,7 +8,7 @@ import EditItem from '../../../portal/src/components/EditPanel/EditItem';
 
 DomMock('<html><body></body></html>');
 
-describe('[Portal] Testing EditMultiOptions Component', () => {
+describe('[Portal] Testing EditItem Component', () => {
     jsdom({ skipWindowCheck: true });
 
     const props = {
