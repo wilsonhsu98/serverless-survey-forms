@@ -33,7 +33,7 @@ describe('[Portal] Testing EditQuestion Component', () => {
 
     it('show question editor: question label', () => {
         const textarea = TestUtils.scryRenderedDOMComponentsWithClass(contentRoot, 'ut-editQuestion');
-        // Expect  component
+        // Expect component
         expect(textarea[0].textContent).toEqual(fakeData.label);
     });
 
