@@ -83,7 +83,7 @@ class EditItem extends PureComponent {
 
         return connectDragPreview(connectDropTarget(
             <div
-                className={styles.item}
+                className={`${styles.item} ut-item`}
                 style={{ opacity }}
             >
                 {data.hasOwnProperty('input') ?
@@ -108,7 +108,7 @@ class EditItem extends PureComponent {
                 data-id={id}
                 data-type="label"
                 type="text"
-                className={styles.longText}
+                className={`${styles.longText} ut-input`}
                 value={data.label}
                 placeholder="New Option"
                 onChange={onChangeHandle}
