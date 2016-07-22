@@ -69,6 +69,7 @@ class EditQuestion extends PureComponent {
                 <div>
                     <textarea
                         id="editQuestion"
+                        className="ut-editQuestion"
                         type="text"
                         value={editQuestion.label}
                         onChange={this._onTitleChange}
@@ -124,7 +125,7 @@ class EditQuestion extends PureComponent {
         };
 
         return (
-            <div className={styles.editSection}>
+            <div className={`${styles.editSection} ut-advance`}>
                 <div className={styles.title}>Advanced Option Settings</div>
                 {<EditAdvance {...props} />}
             </div>
