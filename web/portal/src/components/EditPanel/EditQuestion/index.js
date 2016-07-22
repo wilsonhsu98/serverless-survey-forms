@@ -129,6 +129,7 @@ class EditQuestion extends PureComponent {
                     <input
                         id="chk"
                         type="checkbox"
+                        className="ut-chk"
                         checked={flag}
                         onChange={this._onAdvanceChangeHandle}
                     />
