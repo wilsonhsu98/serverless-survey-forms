@@ -24,7 +24,6 @@ class EditMultiOptions extends PureComponent {
         const data = editQuestion.data;
         const optList = [];
         let otherBtn;
-        let advance;
 
         data.forEach((opt, idx) => {
             const pros = {
@@ -38,6 +37,7 @@ class EditMultiOptions extends PureComponent {
                 <EditItem
                     id={idx}
                     {...pros}
+                    className="ut-opt"
                 />
             );
         });
@@ -46,7 +46,7 @@ class EditMultiOptions extends PureComponent {
             // radio/checkbox have this button
             otherBtn = (
                 <button
-                    className={`${styles.otherBtn} button`}
+                    className={`${styles.otherBtn} button ut-other`}
                     onClick={this._addOption}
                 >Add "Other"</button>
             );
@@ -58,12 +58,11 @@ class EditMultiOptions extends PureComponent {
 
                 <button
                     data-type="other"
-                    className={`${styles.addBtn} button`}
+                    className={`${styles.addBtn} button ut-btn`}
                     onClick={this._addOption}
                 >+ Add Option</button>
 
                 {otherBtn}
-                {advance}
             </div>
         );
     }
