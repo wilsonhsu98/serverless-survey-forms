@@ -8,21 +8,26 @@ module.exports.handler = function(event, context, callback) {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 
-  // todo use Promise to authorize.
-  user.getOneUser({
-    accountid: event.authAccountid
-  }, function(err, data) {
-    if (err) {
-      return callback(err, null);
+  // validate requester role Check if authAccountid is authorized
+  const authorizedJudge = new Promise( (resolve, reject) => {
+    if(!event.authAccountid){
+      reject(new Error("400 Bad Request: " + JSON.stringify(event)));
     } else {
-        if (data.role=="admin"){
-
+      user.getOneUser({
+        accountid: event.authAccountid
+      }, function(err, data) {
+        if (err) {
+          reject(err, null);
         } else {
-          return (new Error("403 Unauthorized request"), null);
+          if (data.accountid === event.authAccountid && data.role === "Admin" || data.role === "Designer"){
+            resolve();
+          } else {
+            reject(new Error(`403 Unauthorized request： The role of the requester ${event.authAccountid} is ${data.role} ${JSON.stringify(event)}`));
+          }
         }
+      });
     }
   });
-
   // A callback handler to decide return is 304 or 200.
   const cacheCallback = (err, response) => {
     if (err) {
@@ -38,36 +43,49 @@ module.exports.handler = function(event, context, callback) {
   };
 
   switch(event.op) {
+    case "me":
+      return user.getOneUser({
+        accountid: event.authAccountid
+      }, cacheCallback);
+      break;
     case "listUsers":
       // GET /api/v1/mgnt/users/[?startKey=<startKey>]
-      // Authenticated: Yes, params: authAccountid
-      // TODO: invoke listUsers once authentication is implemented and enabled
-      return user.listUsers({
-        startKey : event.startKey,
-      }, cacheCallback);
+      // Authenticated: Yes
+      return authorizedJudge.then(() => {
+        user.listUsers({
+          startKey : event.startKey,
+        }, cacheCallback);
+      }).catch( (err) => {
+        callback(err, null);
+      });
       break;
     case "updateOneUser":
       // PUT /api/v1/mgnt/users/
-      // Authenticated: Yes, params: authAccountid
-      // TODO: invoke updateOneUser once authentication is implemented and enabled
-      return user.updateOneUser({
-        accountid: event.accountid,
-        username: event.username,
-        email: event.email,
-        role: event.role
-      }, cacheCallback);
+      // Authenticated: Yes
+      return authorizedJudge.then(() => {
+        user.updateOneUser({
+          accountid: event.accountid,
+          username: event.username,
+          email: event.email,
+          role: event.role
+        }, cacheCallback);
+      }).catch( (err) => {
+        callback(err, null);
+      });
       break;
     case "deleteOneUser":
       // DELETE /api/v1/mgnt/users/<accountid>
-      // Authenticated: Yes, params: authAccountid
-      // TODO: invoke deleteOneUser once authentication is implemented and enabled
-      return user.deleteOneUser({
-        "accountid": event.accountid
-      }, cacheCallback);
+      // Authenticated: Yes
+      return authorizedJudge.then(() => {
+        user.deleteOneUser({
+          "accountid": event.accountid
+        }, cacheCallback);
+      }).catch( (err) => {
+        callback(err, null);
+      });
       break;
     default:
       let error = new Error("400 Bad Request: " + JSON.stringify(event));
       return callback(error, null);
   }
-
 };

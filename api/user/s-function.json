@@ -11,11 +11,28 @@
   "custom": "$${customTemplate}",
   "endpoints": [
     {
+      "path": "api/v1/mgnt/users/me",
+      "method": "GET",
+      "type": "AWS",
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": {
+          "apigw": "$${apiRequestTemplate}",
+          "authAccountid": "$context.authorizer.principalId",
+          "op": "me"
+        }
+      },
+      "responses": "$${apiResponseTemplate}"
+    },
+    {
       "path": "api/v1/mgnt/users",
       "method": "GET",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {
         "integration.request.querystring.integrationQueryParam": "method.request.querystring.startKey"
@@ -24,7 +41,7 @@
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "startKey": "$input.params('startKey')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op": "listUsers"
         }
       },
@@ -34,8 +51,8 @@
       "path": "api/v1/mgnt/users",
       "method": "PUT",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {},
       "requestTemplates": {
@@ -45,7 +62,7 @@
           "username": "$input.json('$.username')",
           "email": "$input.json('$.email')",
           "role": "$input.json('$.role')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op": "updateOneUser"
         }
       },
@@ -55,15 +72,15 @@
       "path": "api/v1/mgnt/users/{accountid}",
       "method": "DELETE",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {},
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "accountid": "$input.params('accountid')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op" : "deleteOneUser"
         }
       },
@@ -75,7 +92,8 @@
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
-    "SERVERLESS_USERTABLE": "${project}-${stage}-users"
+    "SERVERLESS_USERTABLE": "${project}-${stage}-users",
+    "TOKEN_SECRET": "${tokenSecret}"
   },
   "vpc": {
     "securityGroupIds": [],

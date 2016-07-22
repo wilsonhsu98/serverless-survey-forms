@@ -10,14 +10,15 @@ function authorize(event, callback) {
   let providerConfig = config(event);
   try {
     let data = utils.readToken(event.authorizationToken, providerConfig.token_secret);
-    console.log("Decrypted data: " + data);
+    console.log("Decrypted data: " + JSON.stringify(data));
     // TODO: handle expiration time validation
     callback(null, utils.generatePolicy(
       data.id, // which is $context.authorizer.principalId
       'Allow',
       event.methodArn));
   } catch (err) {
-    callback('Unauthorized');
+    console.log(err);
+    callback('401 Unauthenticated request');
   }
 }
 

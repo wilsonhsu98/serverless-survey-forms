@@ -56,7 +56,6 @@ module.exports = (() => {
             response = {
               accountid: data.Item.accountid,
               username: data.Item.username,
-              email: data.Item.email,
               role: data.Item.role,
             };
             return callback(null, response);
