@@ -24,7 +24,7 @@ function setToken(token) {
 
 export function verifyToken(token) {
     return (dispatch) =>
-        fetch(`${Config.baseURL}/api/v1/mgnt/users/`, {
+        fetch(`${Config.baseURL}/api/v1/mgnt/users/me`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
