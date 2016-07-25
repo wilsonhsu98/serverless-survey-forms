@@ -40,20 +40,6 @@ function getPromise(fetchFunc, ...extraParams) {
 function getToken(resolve) {
     // Check localStorage QustomPortal, Verify toekn
     const token = window.localStorage.QustomPortalTK || '';
-    console.log(`token:${token}`);
-
-    // TODOS: wait for backend API, temporarily
-    if (token === '') {
-        const data = {
-            accountid: '123456',
-            username: 'Chiou Chu',
-            role: 'Designer'
-        };
-        store.dispatch(AccountActions.receiveAccountSuccess(data));
-        resolve('Finish Verify Token');
-        window.localStorage.QustomPortalTK = '';
-        return;
-    }
 
     if (token) {
         store.dispatch(AccountActions.verifyToken(token))
