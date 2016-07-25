@@ -206,7 +206,10 @@ function receiveQuestionsSuccess() {
 }
 
 function receiveQuestionsFailure(err) {
-    console.log(err);
+    return {
+        type: types.RECIEVE_QUESTIONS_FAILURE,
+        errorMsg: err
+    };
 }
 
 export function saveQuestion() {
