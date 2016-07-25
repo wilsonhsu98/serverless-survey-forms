@@ -1,7 +1,87 @@
 
+/***** Global Component *****/
 body {
     background-color: #eee;
 }
+
+:global .input {
+    padding: 0 8px;
+    border-style: solid;
+    border-color: #bfbfbf;
+    border-width: 1px 1px 2px 1px;
+    font-size: 14px;
+    color: #222;
+
+    &:focus {
+        border-color: #2b99d6;
+    }
+
+    &.input--small {
+        line-height: 24px;
+    }
+
+    &.input--medium {
+        line-height: 32px;
+    }
+
+    &.input--large {
+        font-size: 28px;
+        line-height: 40px;
+        padding: 0 10px;
+    }
+
+    &.input--error {
+        border-color: #d93f2b;
+    }
+}
+
+:global .input__msg {
+    margin-top: 6px;
+    color: #d93f2b;
+    font-size: 14px;
+}
+
+:global .button {
+    cursor: pointer;
+    padding: 0 12px;
+    min-width: 80px;
+    font-size: 14px;
+    color: #222;
+    text-align: center;
+    background-color: #cfcfcf;
+    border: 1px solid #cfcfcf;
+
+    &.button--small {
+        height: 24px;
+    }
+
+    &.button--medium {
+        height: 32px;
+    }
+
+    &.button--large {
+        height: 40px;
+        min-width: 96px;
+    }
+
+    &.button--red {
+        background-color: #df313b;
+        border-color: #df313b;
+        color: #FFF;
+    }
+    &.button--blue {
+        background-color: #2695d2;
+        border-color: #2695d2;
+        color: #FFF;
+    }
+}
+
+:global .close {
+    cursor: pointer;
+    color: #222;
+    font-size: 14px;
+}
+
 
 .wrap {
 	position: relative;
