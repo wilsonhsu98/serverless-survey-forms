@@ -41,7 +41,7 @@
     }
 }
 
-:global .button {
+:global .btn {
     border: 1px dashed #999;
     background-color: #fff;
     border-radius: 5px;
