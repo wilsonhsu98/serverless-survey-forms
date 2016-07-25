@@ -92,18 +92,18 @@ class Item extends Component {
                 <div className="control">
                     {connectDragSource(
                         <button
-                            className="button"
+                            className="btn"
                             style={{ cursor: 'move' }}
                         >
                             Move
                         </button>
                     )}
                     <button
-                        className="button"
+                        className="btn"
                         onClick={this._onCopyHandle}
                     >Copy</button>
                     <button
-                        className="button"
+                        className="btn"
                         onClick={this._onDeleteHandle}
                     >Remove</button>
                 </div>

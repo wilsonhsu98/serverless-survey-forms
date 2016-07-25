@@ -90,12 +90,12 @@ class EditItem extends PureComponent {
                     this._renderOptionWithText() :
                     this._renderOption()}
                 <button
-                    className="button"
+                    className="btn"
                     onClick={() => onDeleteHandle(id)}
                 >Del</button>
 
                 {connectDragSource(
-                    <button className="button">Drag</button>
+                    <button className="btn">Drag</button>
                 )}
             </div>
         ));

@@ -31,28 +31,28 @@ class Pagination extends Component {
                     <div className={styles.control}>
                         <button
                             data-type="text"
-                            className={`${styles.button} button`}
+                            className={`${styles.btn} btn`}
                             onClick={this._onEditPageClick}
                         >
                             Edit
                         </button>
                         <button
                             data-type="order"
-                            className={`${styles.button} button`}
+                            className={`${styles.btn} btn`}
                             onClick={this._onEditPageClick}
                         >
                             Order
                         </button>
                         <button
                             data-type="copy"
-                            className={`${styles.button} button`}
+                            className={`${styles.btn} btn`}
                             onClick={this._onEditPageClick}
                         >
                             Copy
                         </button>
                         <button
                             data-type="delete"
-                            className={`${styles.button} button`}
+                            className={`${styles.btn} btn`}
                             onClick={this._onEditPageClick}
                         >
                             Delete
@@ -61,7 +61,7 @@ class Pagination extends Component {
                 </div>
                 <div className={styles.wrap}>
                     {list}
-                    <button className={`${styles.addBtn} button`} onClick={this._onAddQueClick}>
+                    <button className={`${styles.addBtn} btn`} onClick={this._onAddQueClick}>
                         + Add Question
                     </button>
                 </div>

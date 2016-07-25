@@ -33,7 +33,7 @@ class Design extends PureComponent {
                 {this._renderPage()}
 
                 <div className={styles.control}>
-                    <button className={`${styles.pageBtn} button`} onClick={this._onAddPageClick}>
+                    <button className={`${styles.pageBtn} btn`} onClick={this._onAddPageClick}>
                         + Add Page
                     </button>
                 </div>

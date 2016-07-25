@@ -46,7 +46,7 @@ class EditMultiOptions extends PureComponent {
             // radio/checkbox have this button
             otherBtn = (
                 <button
-                    className={`${styles.otherBtn} button ut-other`}
+                    className={`${styles.otherBtn} btn ut-other`}
                     onClick={this._addOption}
                 >Add "Other"</button>
             );
@@ -58,7 +58,7 @@ class EditMultiOptions extends PureComponent {
 
                 <button
                     data-type="other"
-                    className={`${styles.addBtn} button ut-btn`}
+                    className={`${styles.addBtn} btn ut-btn`}
                     onClick={this._addOption}
                 >+ Add Option</button>
 
