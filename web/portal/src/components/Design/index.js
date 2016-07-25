@@ -1,13 +1,12 @@
 
 // CSS
-import './style.css';
+import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import PageBtn from '../PageBtn';
 import EditQuestion from '../EditPanel/EditQuestion';
 import OrderPage from '../EditPanel/OrderPage';
 import EditPage from '../EditPanel/EditPage';
@@ -19,6 +18,7 @@ class Design extends PureComponent {
         super(props);
         this._moveQuestion = this._moveQuestion.bind(this);
         this._getQuestion = this._getQuestion.bind(this);
+        this._onAddPageClick = this._onAddPageClick.bind(this);
 
         // init questionnaire
         const { questions, questionsActions } = props;
@@ -27,17 +27,16 @@ class Design extends PureComponent {
     }
 
     render() {
-        const { questions, questionsActions } = this.props;
-        const ctrlProps = {
-            questions,
-            questionsActions
-        };
-
         return (
             <div ref="root">
                 {this._renderEdit()}
                 {this._renderPage()}
-                <PageBtn {...ctrlProps} />
+
+                <div className={styles.control}>
+                    <button className={`${styles.pageBtn} button`} onClick={this._onAddPageClick}>
+                        + Add Page
+                    </button>
+                </div>
 
                 <div style={{ width: '100%', margin: '10px 0', textAlign: 'center' }}>
                     Thank you page
@@ -154,6 +153,14 @@ class Design extends PureComponent {
             page,
             index
         };
+    }
+
+    _onAddPageClick() {
+        const { questions, questionsActions } = this.props;
+        const page = questions.length + 1;
+        questionsActions.addPage(page);
+        // save Question
+        questionsActions.saveQuestion();
     }
 }
 
