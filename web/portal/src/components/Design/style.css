@@ -104,3 +104,13 @@
         }
     }
 }
+
+.control {
+    margin: 20px 0;
+
+    .pageBtn {
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
