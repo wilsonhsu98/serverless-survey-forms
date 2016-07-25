@@ -79,7 +79,7 @@ class Item extends PureComponent {
                 <span className={styles.title}>{page.description}</span>
                 {connectDragSource(
                     <button
-                        className="button"
+                        className="btn"
                         style={{ cursor: 'move' }}
                     >Drag</button>
                 )}
