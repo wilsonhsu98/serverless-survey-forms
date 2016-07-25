@@ -16,7 +16,10 @@ function setSubject(data) {
 }
 
 function setSubjectError(err) {
-    console.log(err);
+    return {
+        type: types.SET_SUBJECT_FAILURE,
+        errorMsg: err
+    };
 }
 
 export function saveSubject(subject) {
