@@ -4,7 +4,10 @@ import fetch from 'isomorphic-fetch';
 import Config from '../config';
 
 function requestSurveysFailure(err) {
-    console.log(err);
+    return {
+        type: types.RECIEVE_SURVEYS_FAILURE,
+        errorMsg: err
+    };
 }
 
 function receiveSurveysSuccess(data) {

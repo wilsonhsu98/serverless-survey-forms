@@ -11,6 +11,7 @@ export const SET_TOKEN = 'SET_TOKEN';
 
 // account
 export const RECIEVE_ACCOUNT_SUCCESS = 'RECIEVE_ACCOUNT_SUCCESS';
+export const RECIEVE_ACCOUNT_FAILURE = 'RECIEVE_ACCOUNT_FAILURE';
 
 // questions
 export const ADD_QUESTION = 'ADD_QUESTION';
@@ -24,6 +25,7 @@ export const EXCHANGE_PAGE = 'EXCHANGE_PAGE';
 export const EDIT_PAGE_TITLE = 'EDIT_PAGE_TITLE';
 export const DELETE_PAGE = 'DELETE_PAGE';
 export const RECIEVE_QUESTIONS_SUCCESS = 'RECIEVE_QUESTIONS_SUCCESS';
+export const RECIEVE_QUESTIONS_FAILURE = 'RECIEVE_QUESTIONS_FAILURE';
 
 // edit question
 export const SET_EDITQUESTION = 'SET_EDITQUESTION';
@@ -39,12 +41,14 @@ export const SET_ORDERPAGE = 'SET_ORDERPAGE';
 
 // get survey list
 export const RECIEVE_SURVEYS_SUCCESS = 'RECIEVE_SURVEYS_SUCCESS';
+export const RECIEVE_SURVEYS_FAILURE = 'RECIEVE_SURVEYS_FAILURE';
 
 // edit subject
 export const EDIT_SUBJECT = 'EDIT_SUBJECT';
 
 // subject
 export const SET_SUBJECT = 'SET_SUBJECT';
+export const SET_SUBJECT_FAILURE = 'SET_SUBJECT_FAILURE';
 
 // survey ID
 export const SET_SURVEYID = 'SET_SURVEYID';

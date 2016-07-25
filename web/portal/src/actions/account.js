@@ -11,7 +11,10 @@ export function receiveAccountSuccess(data) {
 }
 
 function receiveAccountFailure(err) {
-    console.log(err);
+    return {
+        type: types.RECIEVE_ACCOUNT_FAILURE,
+        errorMsg: err
+    };
 }
 
 function setToken(token) {
