@@ -19,11 +19,13 @@ class SubjectPop extends PureComponent {
         return (
             <div className={styles.popup}>
                 <div className={styles.wrap}>
-                    <div
-                        data-type="cancel"
-                        className={`${styles.close} close`}
+                    <button
+                        type="button"
                         onClick={this._btnClickEvent}
-                    >X</div>
+                        className={`${styles.close} close`}
+                        data-type="cancel"
+                    >×
+                    </button>
                     <div className={styles.content}>
                         <div className={styles.title}>What would you like to name this survey?</div>
                         <input

@@ -70,7 +70,7 @@ var webpackConfig = {
             postcssImport({
                 addDependencyTo: bundler
             }),
-            postcssAssets({ loadPaths: ['assets/images/component/ruby/'] }),
+            postcssAssets({ loadPaths: ['assets/images/', 'assets/images/component/ruby/'] }),
             postcssMixins,
             postcssVars,
             postcssNested,
