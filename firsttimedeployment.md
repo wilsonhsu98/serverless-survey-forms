@@ -100,7 +100,16 @@ Serverless: Successfully set variable: providerFacebookSecret
 
 Environmental variables are mapped in s-function.json files, for example in the signin/s-function.json.
 
-## Static Website Resources Compilation (TBA - Chiou)
+## Static Website Resources Compilation
+
+```
+# go to web folder
+cd web
+# install npm dependency modules for build script
+npm install
+# execute deploy script
+npm run deploy
+```
 
 ## Service Deployment
 
