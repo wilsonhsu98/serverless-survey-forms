@@ -1,9 +1,4 @@
 {
     "required"					: "*required",
-    "optional"					: "optional",
-
-    "__________PORTAL__________":"",
-    "fblogin_title"	            : "Welcome to Survey Form",
-    "fblogin_desc"	            : "If you want to create questionnaire, click button to sign in/sign up",
-    "fblogin_btn"	            : "Login with Facebook"
+    "optional"					: "optional"
 }

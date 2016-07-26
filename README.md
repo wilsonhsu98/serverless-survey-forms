@@ -47,6 +47,8 @@ Please refer to [instructions](afterfirstdeployment.md) for later deployment.
 
 ## Unit Test
 
+#### Serverless site unit test
+
 The steps below can be taken to verify the functionality.
 
 Enter the serverless-survey-form folder the project was cloned:
@@ -60,6 +62,23 @@ Install npm dependency modules in serverless-survey-form
 Verify the functionality before any code commit to Git.
 
 ```npm test```
+
+
+#### Frontend site unit test
+
+Enter the web folder the project was cloned:
+
+```cd web```
+
+Install npm dependency modules in web
+
+```npm install```
+
+Verify the functionality before any code commit to Git.
+
+```npm test```
+
+
 
 ## License
 

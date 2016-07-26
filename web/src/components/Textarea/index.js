@@ -11,22 +11,21 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import Question from '../Question/index';
 
 class Textarea extends PureComponent {
 
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+    constructor(props) {
+        super(props);
+        this.state = {
+            input: false
+        };
+        this._onChangeHandle = this._onChangeHandle.bind(this);
     }
 
     render() {
-        const { id, item, onChangeHandle } = this.props;
+        const { id, item } = this.props;
         const rows = item.rows ? item.rows : 3;
         return (
             <div ref="root" className="question">
@@ -40,13 +39,24 @@ class Textarea extends PureComponent {
                         id={`textarea_${id}`}
                         rows={rows}
                         className={styles.textarea}
-                        onChange={onChangeHandle}
+                        onChange={this._onChangeHandle}
+                        value={this.state.input ? this.state.input : ''}
                     />
                 </div>
             </div>
         );
     }
 
+    _onChangeHandle(e) {
+        this.setState({
+            input: e.currentTarget.value
+        }, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: this.state.input ? this.state.input : false
+            };
+            this.props.onChangeHandle(feedback);
+        });
+    }
 }
 
 Textarea.PropTypes = {

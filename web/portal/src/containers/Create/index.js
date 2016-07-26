@@ -3,75 +3,46 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
+import { push } from 'react-router-redux';
 
 // Actions
 import * as QuestionsActions from '../../actions/questions';
-import * as EditQuestionIDActions from '../../actions/editQuestionID';
+import * as EditQuestionActions from '../../actions/editQuestion';
+import * as EditPageActions from '../../actions/editPage';
+import * as OrderPageActions from '../../actions/orderPage';
 
 import Design from '../../components/Design';
-import Control from '../../components/Control';
-import Page from '../../components/Form/Page';
-import EditPanel from '../../components/EditPanel';
 
 class Create extends PureComponent {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+    componentWillMount() {
+        const { surveyID, pushActions } = this.props;
+        // if there is no surveyID, go back
+        if (!surveyID) pushActions('/');
     }
 
     render() {
-        const { editQuestionID, editQuestionIDActions, questionsActions } = this.props;
-        const ctrlProps = {
-            questionsActions
-        };
-        const editProps = {
-            editQuestionID,
-            editQuestionIDActions
-        };
-
-        return (
-            <div ref="root">
-                <Design />
-                <Control {...ctrlProps} />
-                {editQuestionID !== '' ? <EditPanel {...editProps} /> : ''}
-                {this._renderPage()}
-            </div>
-        );
-    }
-
-    _renderPage() {
-        const { questions, editQuestionIDActions } = this.props;
-        const pageList = [];
-        questions.forEach((page, idx) => {
-            const pros = {
-                key: idx,
-                data: page,
-                editQuestionIDActions
-            };
-            pageList.push(<Page {...pros} />);
-        });
-        return pageList;
+        return (<Design ref="root" {...this.props} />);
     }
 }
 
 function mapStateToProps(state) {
     return {
-        fbID: state.fbID,
         account: state.account,
+        surveyID: state.surveyID,
         questions: state.questions,
-        editQuestionID: state.editQuestionID
+        editQuestion: state.editQuestion,
+        editPage: state.editPage,
+        orderPage: state.orderPage
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
-        editQuestionIDActions: bindActionCreators(EditQuestionIDActions, dispatch)
+        editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
+        editPageActions: bindActionCreators(EditPageActions, dispatch),
+        orderPageActions: bindActionCreators(OrderPageActions, dispatch),
+        pushActions: bindActionCreators(push, dispatch)
     };
 }
 

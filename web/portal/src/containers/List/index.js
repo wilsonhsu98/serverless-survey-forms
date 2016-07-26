@@ -3,22 +3,30 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
+
+// Actions
+import * as SurveysActions from '../../actions/surveys';
+import * as EditSubjectActions from '../../actions/editSubject';
+
+import CreateBtn from '../../components/List/CreateBtn';
+import SurveyList from '../../components/List/SurveyList';
 
 class List extends PureComponent {
 
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
+    constructor(props) {
+        super(props);
 
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+        const { surveysActions } = props;
+        surveysActions.getSurveys();
     }
 
     render() {
+        const { surveys, editSubjectActions } = this.props;
+
         return (
             <div ref="root">
-                List
+                <CreateBtn editSubjectActions={editSubjectActions} />
+                <SurveyList surveys={surveys} />
             </div>
         );
     }
@@ -26,13 +34,15 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        fbID: state.fbID,
-        account: state.account
+        surveys: state.surveys
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        surveysActions: bindActionCreators(SurveysActions, dispatch),
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch)
+    };
 }
 
 export default connect(

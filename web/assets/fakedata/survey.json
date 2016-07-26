@@ -8,7 +8,6 @@
             "question": [
                 {
                     "id": "1AN2AL0F9BNA7R",
-                    "order": 1,
                     "type": "select",
                     "label": "I am select question",
                     "data": [
@@ -22,7 +21,6 @@
                 },
                 {
                     "id": "1AN2AL0F9BNA7A",
-                    "order": 2,
                     "type": "radio",
                     "label": "I am radio question text",
                     "data": [
@@ -34,7 +32,6 @@
                 },
                 {
                     "id": "1AN2AL0F9BNACD",
-                    "order": 3,
                     "type": "checkbox",
                     "label": "I am checkbox question text",
                     "data": [
@@ -54,7 +51,6 @@
             "question": [
                 {
                     "id": "1AN2AL0F9BNAQ3",
-                    "order": 4,
                     "type": "select",
                     "label": "Select everything",
                     "data": [
@@ -73,14 +69,12 @@
                 },
                 {
                     "id": "1AN2AL0F9BNAR1",
-                    "order": 5,
                     "type": "text",
                     "label": "I am single line text",
                     "required": false
                 },
                 {
                     "id": "1AN2AL0F9BNA99",
-                    "order": 6,
                     "type": "textarea",
                     "label": "I am multiple line text",
                     "rows": 5,
@@ -90,18 +84,30 @@
         },
         {
             "page": 3,
-            "description": "Thanks for sharing your feedback with Trend Micro.",
             "question": [
                 {
-                    "id": "1AN2AL0F9B2ACD",
-                    "order": 7,
-                    "type": "privacy",
-                    "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
-                    "terms": "Yes, Trend Micro can reach me at this address: ",
-                    "input": "Please enter your email address.",
-                    "required": false
+                    "id": "1AN2AL0F9BNA8R",
+                    "type": "rating",
+                    "label": "Do you satisfy about Trend Micro Email Scan?",
+                    "data": [
+                        {"value": "1", "label": "Very dissatisfied"},
+                        {"value": "2", "label": "Dissatisfied"},
+                        {"value": "3", "label": "Fair"},
+                        {"value": "4", "label": "Satisfied"},
+                        {"value": "5", "label": "Very satisfied"}
+                    ],
+                    "input": "Tell us the reason why you choose this answer",
+                    "required": true
                 }
             ]
         }
-    ]
+    ],
+    "thankyou": {
+        "description": "Thanks for sharing your feedback with Trend Micro.",
+        "privacy": {
+            "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
+            "terms": "Yes, Trend Micro can reach me at this address: ",
+            "input": "Please enter your email address."
+        }
+    }
 }

@@ -4,38 +4,21 @@ import * as types from '../constants/ActionTypes';
 export default function questions(state = [], action) {
     switch (action.type) {
     case types.ADD_QUESTION:
-        const len = state.length;
-        const idx = action.idx - 1;
-        let survey = {};
-        if (len >= action.idx) {
-            // if this page already existed
-            // edit this page content
-            survey = state[idx];
-            survey.question = [
-                ...survey.question,
-                action.questions
-            ];
-            return [
-                ...state.slice(0, idx),
-                survey,
-                ...state.slice(idx + 1)
-            ];
-        }
-        // if this page didn't exist
-        survey = {
-            page: action.idx,
-            description: 'Untitle Page',
-            question: [action.questions]
-        };
+    case types.EDIT_QUESTION:
+    case types.COPY_QUESTION:
+    case types.DELETE_QUESTION:
+    case types.EXCHANGE_QUESTION:
+    case types.COPY_PAGE:
+    case types.EDIT_PAGE_TITLE:
+    case types.DELETE_PAGE:
+    case types.EXCHANGE_PAGE:
+        return action.questions;
+
+    case types.ADD_PAGE:
         return [
             ...state,
-            survey
+            action.page
         ];
-    // case types.ADD_PAGE:
-    //     return [
-    //         ...state,
-    //         action.questions
-    //     ];
     default:
         return state;
     }

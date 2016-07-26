@@ -10,8 +10,9 @@ class App extends PureComponent {
         return (
             <div>
                 <Qustom
-                    surveyid='09145678'
-                    localize_path='../../assets/L10N'
+                    accountid="context.authorizer.principalId"
+                    surveyid="759e7930-3219-11e6-b8fc-ed3df7fb1eab"
+                    localize_path="../../assets/L10N"
                 />
             </div>
         );

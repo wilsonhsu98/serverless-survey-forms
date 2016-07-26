@@ -54,5 +54,6 @@ _meta
 web/.DS_Store
 web/node_modules
 web/dist
-web/feedback/build
+client/dist/portal
+client/dist/feedback
 

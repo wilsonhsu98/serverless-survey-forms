@@ -1,53 +1,118 @@
-.paging {
-	list-style: none;
-	margin: 20px 0;
-	padding: 0;
-	overflow: hidden;
+.pagination {
     position: absolute;
-    left: 40%;
-    bottom: 0;
+    bottom: 20px;
+    left: 0;
+    right: 0;
 }
 
-.pagingItem {
-	color: #fff;
-	background: #aaa;
-	border-radius: 100%;
-	padding: 1px 8px;
-	margin-right: 10px;
-	float: left;
-	cursor: pointer;
-}
-
-.pagingItemActive {
-	color: #fff;
-	background: #0086b3;
-	border-radius: 100%;
-	padding: 1px 8px;
-	margin-right: 10px;
-	float: left;
-	cursor: pointer;
+.btnWrapper {
+    text-align: center;
 }
 
 .btn {
-    background: #aaa;
-    padding: 10px 15px;
-    color: #fff;
+    background: #fff;
+    color: #BD2A2A;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
-    position: absolute;
+    border: 1px solid #BD2A2A;
+    outline: none;
+    margin-right: 10px;
 }
+
 .btn:hover {
-    background: #0086b3;
+    background: #BD2A2A;
+    color: #fff;
 }
 
 .prev {
     composes: btn;
-    bottom: 10px;
-    left: 0;
 }
 
 .next {
     composes: btn;
-    bottom: 10px;
-    right: 0;
+}
+
+.done {
+    composes: btn;
+}
+
+.prevMobile {
+   display: none;
+}
+
+.nextMobile {
+    display: none;
+}
+
+.progressWrapper {
+    width: 90%;
+    height: 20px;
+    border-radius: 5px;
+    background: #aaa;
+    margin: 20px auto;
+    position: relative;
+}
+
+.progress {
+    height: 20px;
+    background: #BD2A2A;
+    border-radius: 5px 0 0 5px;
+}
+
+.progressComplete {
+    composes: progress;
+    border-radius: 5px;
+}
+
+.progressText {
+    position: absolute;
+    left: 10px;
+    color: #fff;
+}
+
+@media only screen and (max-width: 639px) {
+    .progressWrapper {
+        width: 75%;
+    }
+
+    .prev {
+        display: none;
+    }
+
+    .next {
+        display: none;
+    }
+
+    .done {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        bottom: 19px;
+        cursor: pointer;
+    }
+
+    .prevMobile {
+        composes: mobile;
+        left: 3%;
+        background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
+
+    }
+
+    .nextMobile {
+        composes: mobile;
+        right: 3%;
+        background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
+    }
+
+    .doneMobile {
+        composes: mobile;
+        right: 3%;
+        background: url(../../../assets/images/check.png) 0 0 no-repeat;
+    }
 }

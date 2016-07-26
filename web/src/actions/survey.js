@@ -1,7 +1,6 @@
-
 import * as types from '../constants/ActionTypes';
-// import fetch from 'isomorphic-fetch';
-// import config from '../config';
+import fetch from 'isomorphic-fetch';
+import config from '../config';
 
 function requestSurvey() {
     return {
@@ -23,27 +22,34 @@ function receiveSurveyFailure(err) {
     };
 }
 
-export function fetchSurvey(surveyid) {
+export function fetchSurvey(accountid, surveyid) {
     return (dispatch) => {
         dispatch(requestSurvey());
-        // TODOS: config.baseURL and get feedback api
-        // maybe debug can keep this fakedata
-        const data = { surveyid: surveyid };
-        data.data = require('../../assets/fakedata/survey.json');
-        return new Promise(() => {
-            setTimeout(() => {
-                if (data) {
-                    dispatch(receiveSurveySuccess(data));
-                } else {
-                    dispatch(receiveSurveyFailure('Error'));
-                }
-            }, 3000);
+        return fetch(`${config.baseURL}/api/v1/surveys/${accountid}/${surveyid}`, {
+            credentials: 'same-origin'
+        })
+        .then((response) => {
+            if (response.status >= 400) {
+                throw new Error('Bad response from server');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.survey) {
+                dispatch(receiveSurveySuccess(data.survey));
+            } else {
+                dispatch(receiveSurveyFailure('Error'));
+            }
         });
+    };
+}
 
-        // return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/<clientid>/`, {})
-        // .then(response => response.json())
-        // .then(data => dispatch(receiveSurveySuccess(data)))
-        // .catch(err => dispatch(receiveSurveyFailure(err)));
+export function surveyDone() {
+    // TODO: postMessage to client
+    // window.parent.postMessage(`Survey done: ${clientID}`,
+    //    window.parent.location.origin);
+    return {
+        type: types.SURVEY_DONE
     };
 }
 

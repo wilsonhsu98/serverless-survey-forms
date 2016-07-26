@@ -6,72 +6,90 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 // Actions
-import * as FBIDActions from '../../actions/fbID';
+import * as EditSubjectActions from '../../actions/editSubject';
+import * as SubjectActions from '../../actions/subject';
+import * as AccountActions from '../../actions/account';
 
-import Menu from '../../components/Menu';
+import Header from '../../components/Header';
+import SubjectPop from '../../components/SubjectPop';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
 class Portal extends PureComponent {
 
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
+    constructor(props) {
+        super(props);
 
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+        const { routing, accountActions } = props;
+        if (routing.locationBeforeTransitions.query.hasOwnProperty('token')) {
+            accountActions.verifyToken(routing.locationBeforeTransitions.query.token);
+        }
     }
 
     render() {
-        const { loading } = this.props;
+        const { loading, subject, surveyID,
+            editSubject, editSubjectActions, subjectActions } = this.props;
+        const headProps = {
+            subject,
+            surveyID,
+            editSubjectActions
+        };
+        const subProps = {
+            subject,
+            surveyID,
+            editSubjectActions,
+            subjectActions
+        };
 
+        if (loading) {
+            return (<Loading />);
+        }
         return (
-            <div ref="root">
-                {loading
-                    ? <Loading />
-                    : this._checkUserLogin()}
+            <div ref="root" className={styles.wrap}>
+                <Header {...headProps} />
+                {this._checkUserLogin()}
+
+                {editSubject ? <SubjectPop {...subProps} /> : ''}
             </div>
         );
     }
 
     _checkUserLogin() {
-        const { fbID, account } = this.props;
-        if (fbID === '') {
+        const { account } = this.props;
+
+        if (!account || !account.hasOwnProperty('accountid') ||
+            (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
-            const requiredFBProps = {
-                fbIDActions: this.props.fbIDActions
-            };
-            return <FBLogin {...requiredFBProps} />;
+            return <FBLogin />;
         }
-        if (account && account.role && (account.role === 'Designer' || account.role === 'Admin')) {
-            // if user had account and account role is Designer or Admin
-            return (
-                <div>
-                    <Menu />
-                    <div className={styles.wrap}>
-                        {this.props.children}
-                    </div>
-                </div>
-            );
-        }
-        return <div>You cannot pass!</div>;
+
+        // if user has a account and the account role is Designer or Admin
+        return (
+            <div className={styles.content}>
+                {this.props.children}
+            </div>
+        );
     }
 }
 
 function mapStateToProps(state) {
     return {
         loading: state.loading,
-        fbID: state.fbID,
-        account: state.account
+        account: state.account,
+        subject: state.subject,
+        surveyID: state.surveyID,
+        editSubject: state.editSubject,
+        routing: state.routing
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fbIDActions: bindActionCreators(FBIDActions, dispatch)
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
+        subjectActions: bindActionCreators(SubjectActions, dispatch),
+        accountActions: bindActionCreators(AccountActions, dispatch)
     };
 }
 

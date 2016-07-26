@@ -1,0 +1,41 @@
+/*
+ * Style for components/EditPanel/EditQuestion/index.js
+ */
+
+.editSection {
+    margin-bottom: 15px;
+    &:last-child {
+        margin-bottom: 0px;
+    }
+    .title {
+        margin-bottom: 5px;
+        font-weight: 800;
+    }
+
+    select {
+        width: 200px;
+    }
+
+    input[type="text"] {
+        width: 300px;
+    }
+
+    textarea {
+        width: 360px;
+        resize: none;
+    }
+
+    .item {
+        label {
+            font-weight: normal;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 140px;
+        }
+    }
+}

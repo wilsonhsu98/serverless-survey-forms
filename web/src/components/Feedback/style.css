@@ -15,7 +15,28 @@
 
 .title {
 	font-size: 32px;
-	margin: 20px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #BD2A2A;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+.contentScroll {
+    position: absolute;
+    top: 85px;
+    bottom: 120px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    overflow: auto;
+}
+
+.content {
+    overflow: hidden;
 }
 
 .description {
@@ -28,9 +49,25 @@
 }
 
 .container {
-    width: 650px;
+    width: 950px;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
     height: 100%;
+    background: #fff;
+    padding: 20px;
+}
+
+/* Tablet and Mobile Styles */
+@media only screen and (max-width: 959px) {
+    .container {
+        width: auto;
+    }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 639px) {
+    .contentScroll {
+        bottom: 80px;
+    }
 }

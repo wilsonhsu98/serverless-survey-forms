@@ -2,24 +2,18 @@
 // CSS
 import styles from './style.css';
 
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, { Component } from 'react';
 
 import Question from '../Question';
 
-class Radio extends PureComponent {
-
-    constructor() {
-        super();
-        this._onClickQuestion = this._onClickQuestion.bind(this);
-    }
+class Radio extends Component {
 
     render() {
-        const { data } = this.props;
+        const { data, onClick } = this.props;
         return (
             <div
                 className="question"
-                onClick={this._onClickQuestion}
+                onClick={onClick}
             >
                 <Question
                     text={data.label}
@@ -54,12 +48,6 @@ class Radio extends PureComponent {
             );
         });
         return items;
-    }
-
-    _onClickQuestion(e) {
-        e.stopPropagation();
-        const { data, editQuestionIDActions } = this.props;
-        editQuestionIDActions.setEditQuestionID(data.id);
     }
 }
 

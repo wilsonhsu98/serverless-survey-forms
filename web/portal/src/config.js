@@ -2,7 +2,7 @@
 
 // setup server url
 const Config = {
-    baseURL: 'https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim/api/v1'
+    baseURL: 'https://d55l5c44l96fo.cloudfront.net'
 };
 
 export default Config;

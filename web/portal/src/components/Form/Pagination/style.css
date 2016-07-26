@@ -1,0 +1,47 @@
+
+.page {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+    padding: 5px 0;
+}
+
+.header {
+    position: relative;
+    overflow: hidden;
+    .title {
+        float: left;
+        width: 550px;
+        font-size: 18px;
+        line-height: 32px;
+        white-space: pre;
+        overflow: hidden;
+    }
+    .control {
+        float: right;
+    }
+
+    &:after {
+        content: '';
+        clear: both;
+    }
+}
+
+.wrap {
+    width: 100%;
+    border: 1px solid #999;
+    border-radius: 8px;
+    margin: 10px auto;
+    background-color: #eee;
+    padding: 20px 0 10px;
+}
+
+.btn {
+    padding: 5px 10px;
+    margin: 0 2px;
+}
+
+.addBtn {
+    padding: 5px 20px;
+    margin: 10px 5px;
+}

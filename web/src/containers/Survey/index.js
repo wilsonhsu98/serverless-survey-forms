@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 // Actions
 import * as SurveyActions from '../../actions/survey';
+import * as FeedbackActions from '../../actions/feedback';
 
 import Feedback from '../../components/Feedback';
 import Loading from '../../components/Loading';
@@ -18,17 +19,12 @@ class Survey extends PureComponent {
     }
 
     render() {
-        const { loading, survey, surveyActions, paging } = this.props;
-        const requiredProps = {
-            survey,
-            surveyActions,
-            paging
-        };
+        const { loading } = this.props;
         return (
             <div>
                 {loading
                     ? <Loading />
-                    : <Feedback {...requiredProps} />}
+                    : <Feedback {...this.props} />}
             </div>
         );
     }
@@ -38,13 +34,16 @@ function mapStateToProps(state) {
     return {
         loading: state.loading,
         survey: state.survey,
+        feedback: state.feedback,
+        done: state.done,
         paging: state.paging
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        surveyActions: bindActionCreators(SurveyActions, dispatch)
+        surveyActions: bindActionCreators(SurveyActions, dispatch),
+        feedbackActions: bindActionCreators(FeedbackActions, dispatch)
     };
 }
 
