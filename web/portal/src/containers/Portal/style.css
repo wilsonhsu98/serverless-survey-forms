@@ -205,10 +205,10 @@ body {
 
 .wrap {
 	position: relative;
-    min-width: 950px;
+    min-width: 960px;
 }
 
 .content {
-    width: 800px;
-    margin: 10px auto;
+    width: 880px;
+    margin: 40px auto;
 }

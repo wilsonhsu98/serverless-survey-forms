@@ -11,6 +11,7 @@ import EditQuestion from '../EditPanel/EditQuestion';
 import OrderPage from '../EditPanel/OrderPage';
 import EditPage from '../EditPanel/EditPage';
 import Pagination from '../Form/Pagination';
+import Privacy from '../Form/Privacy';
 
 class Design extends PureComponent {
 
@@ -38,9 +39,7 @@ class Design extends PureComponent {
                     </button>
                 </div>
 
-                <div style={{ width: '100%', margin: '10px 0', textAlign: 'center' }}>
-                    Thank you page
-                </div>
+                <Privacy />
             </div>
         );
     }
