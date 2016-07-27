@@ -1,40 +1,29 @@
 .pagination {
     position: absolute;
-    bottom: 20px;
+    bottom: 0;
     left: 0;
     right: 0;
+    height: 80px;
 }
 
-.btnWrapper {
-    text-align: center;
+.btnWrapperNext {
+    position: absolute;
+    left: 50%;
+    margin: 20px 0 20px 216px;
 }
 
-.btn {
-    background: #fff;
-    color: #BD2A2A;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid #BD2A2A;
-    outline: none;
-    margin-right: 10px;
+.btnWrapperPrev {
+    position: absolute;
+    right: 50%;
+    margin: 20px 216px 20px 0;
 }
 
-.btn:hover {
-    background: #BD2A2A;
-    color: #fff;
+.pagingBtnNext {
+    float: right;
 }
 
-.prev {
-    composes: btn;
-}
-
-.next {
-    composes: btn;
-}
-
-.done {
-    composes: btn;
+.pagingBtnPrev {
+    float: left;
 }
 
 .prevMobile {
@@ -46,18 +35,19 @@
 }
 
 .progressWrapper {
-    width: 90%;
-    height: 20px;
-    border-radius: 5px;
-    background: #aaa;
-    margin: 20px auto;
+    width: 400px;
+    height: 24px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    background: #fff;
+    margin: 28px auto;
     position: relative;
 }
 
 .progress {
-    height: 20px;
-    background: #BD2A2A;
-    border-radius: 5px 0 0 5px;
+    height: 22px;
+    background: #1F8ECC;
+    border-radius: 10px 0 0 10px;
 }
 
 .progressComplete {
@@ -76,15 +66,7 @@
         width: 75%;
     }
 
-    .prev {
-        display: none;
-    }
-
-    .next {
-        display: none;
-    }
-
-    .done {
+    .pagingBtnNext, .pagingBtnPrev {
         display: none;
     }
 
@@ -93,7 +75,7 @@
         width: 24px;
         height: 24px;
         position: absolute;
-        bottom: 19px;
+        bottom: 28px;
         cursor: pointer;
     }
 

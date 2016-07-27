@@ -8,8 +8,8 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
-import I18Next from 'i18next';
 import classNames from 'classnames';
+import Button from '../Button';
 
 class Pagination extends PureComponent {
 
@@ -32,20 +32,19 @@ class Pagination extends PureComponent {
                         'ut-pagination': true
                     })}
                 >
-                    <div className={styles.btnWrapper}>
+
                     {
                         currentPage > 1 ?
-                            <button
-                                className={classNames({
-                                    [`${styles.prev}`]: true,
-                                    'ut-prev': true
-                                })}
-                                onClick={this._prev}
-                            >
-                            {
-                                I18Next.t('prev')
-                            }
-                            </button> : ''
+                            <div className={styles.btnWrapperPrev}>
+                                <Button
+                                    string={'prev'}
+                                    onClick={this._prev}
+                                    extraClass={{
+                                        'ut-prev': true,
+                                        [`${styles.pagingBtnPrev}`]: true
+                                    }}
+                                />
+                            </div> : ''
                     }
                     {
                         currentPage > 1 ?
@@ -57,19 +56,19 @@ class Pagination extends PureComponent {
                                 onClick={this._prev}
                             /> : ''
                     }
+
                     {
                         currentPage < pages ?
-                            <button
-                                className={classNames({
-                                    [`${styles.next}`]: true,
-                                    'ut-next': true
-                                })}
-                                onClick={this._next}
-                            >
-                            {
-                                I18Next.t('next')
-                            }
-                            </button> : ''
+                            <div className={styles.btnWrapperNext}>
+                                <Button
+                                    string={'next'}
+                                    onClick={this._next}
+                                    extraClass={{
+                                        'ut-next': true,
+                                        [`${styles.pagingBtnNext}`]: true
+                                    }}
+                                />
+                            </div> : ''
                     }
                     {
                         currentPage < pages ?
@@ -83,17 +82,16 @@ class Pagination extends PureComponent {
                     }
                     {
                         currentPage === pages ?
-                            <button
-                                className={classNames({
-                                    [`${styles.done}`]: true,
-                                    'ut-done': true
-                                })}
-                                onClick={this._done}
-                            >
-                            {
-                                I18Next.t('submit')
-                            }
-                            </button> : ''
+                            <div className={styles.btnWrapperNext}>
+                                <Button
+                                    string={'submit'}
+                                    onClick={this._done}
+                                    extraClass={{
+                                        'ut-done': true,
+                                        [`${styles.pagingBtnNext}`]: true
+                                    }}
+                                />
+                            </div> : ''
                     }
                     {
                         currentPage === pages ?
@@ -105,7 +103,6 @@ class Pagination extends PureComponent {
                                 onClick={this._done}
                             /> : ''
                     }
-                    </div>
                     <div className={styles.progressWrapper}>
                         <span className={styles.progressText}>{`${currentPage} / ${pages}`}</span>
                         <div

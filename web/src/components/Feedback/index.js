@@ -46,9 +46,6 @@ class Feedback extends PureComponent {
             (itm, idx) => this._renderQuestion(itm, idx));
         return (
             <div className={styles.container}>
-                <div className={styles.title}>
-                {I18Next.t(this.props.survey.title)}
-                </div>
                 <div className={styles.contentScroll}>
                     <div className={styles.content}>
                     {
@@ -75,7 +72,7 @@ class Feedback extends PureComponent {
 
     _renderQuestion(item, idx) {
         const requiredProps = {
-            id: item.order,
+            id: idx + 1,
             key: idx,
             item: item,
             onChangeHandle: this._onChangeHandle
