@@ -48,7 +48,7 @@
         "op": "listSurveys"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
     "path": "api/v1/mgnt/surveys/{accountid}",
     "method": "POST",
@@ -67,7 +67,7 @@
         "op": "addOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
     "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "PUT",
@@ -87,7 +87,7 @@
         "op": "updateOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
     "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "DELETE",
@@ -105,7 +105,7 @@
         "op": "deleteOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }],
   "events": [],
   "environment": {

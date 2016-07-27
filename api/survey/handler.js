@@ -32,20 +32,6 @@ module.exports.handler = (event, context, callback) => {
     }
   });
 
-  // A callback handler to decide return is 304 or 200.
-  const cacheCallback = (err, response) => {
-    if (err) {
-      callback(err, response);
-    } else if (event.ifModifiedSince && response.datetime && response.datetime === parseInt(event.ifModifiedSince)) {
-      return callback("304 Not Modified", null);
-    } else {
-      const responseData = {};
-      responseData.response = response;
-      responseData.datetime = (response.datetime) ? response.datetime : Date.now();
-      callback(null, responseData);
-    }
-  };
-
   switch(event.op) {
     case "getOneSurvey":
       // GET /api/v1/surveys/<accountid>/<surveyid>/
@@ -53,7 +39,16 @@ module.exports.handler = (event, context, callback) => {
       return survey.getOneSurvey({
         accountid: event.accountid,
         surveyid: event.surveyid
-      }, cacheCallback);
+      }, (err, response) => {
+        // A callback handler to decide return is 304 or 200.
+        if (err) {
+          callback(err, response);
+        } else if (event.ifModifiedSince && response.datetime && response.datetime === parseInt(event.ifModifiedSince)) {
+          return callback("304 Not Modified", null);
+        } else {
+          callback(null, response);
+        }
+      });
       break;
 
     case "listSurveys":
@@ -63,7 +58,7 @@ module.exports.handler = (event, context, callback) => {
         survey.listSurveys({
           accountid: event.accountid,
           startKey: event.startKey,
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });
@@ -77,7 +72,7 @@ module.exports.handler = (event, context, callback) => {
           accountid: event.accountid,
           subject: event.subject,
           survey: event.survey
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });
@@ -92,7 +87,7 @@ module.exports.handler = (event, context, callback) => {
           subject: event.subject,
           survey: event.survey,
           surveyid: event.surveyid
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });
@@ -105,7 +100,7 @@ module.exports.handler = (event, context, callback) => {
         survey.deleteOneSurvey({
           accountid: event.accountid,
           surveyid: event.surveyid
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });

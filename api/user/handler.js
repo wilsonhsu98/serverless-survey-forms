@@ -29,25 +29,12 @@ module.exports.handler = function(event, context, callback) {
       });
     }
   });
-  // A callback handler to decide return is 304 or 200.
-  const cacheCallback = (err, response) => {
-    if (err) {
-      callback(err, response);
-    } else if (event.ifModifiedSince && response.datetime && response.datetime === parseInt(event.ifModifiedSince)) {
-      return callback("304 Not Modified", null);
-    } else {
-      const responseData = {};
-      responseData.response = response;
-      responseData.datetime = (response.datetime) ? response.datetime : Date.now();
-      callback(null, responseData);
-    }
-  };
 
   switch(event.op) {
     case "me":
       return user.getOneUser({
         accountid: event.authAccountid
-      }, cacheCallback);
+      }, callback);
       break;
     case "listUsers":
       // GET /api/v1/mgnt/users/[?startKey=<startKey>]
@@ -55,7 +42,7 @@ module.exports.handler = function(event, context, callback) {
       return authorizedJudge.then(() => {
         user.listUsers({
           startKey : event.startKey,
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });
@@ -69,7 +56,7 @@ module.exports.handler = function(event, context, callback) {
           username: event.username,
           email: event.email,
           role: event.role
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });
@@ -80,7 +67,7 @@ module.exports.handler = function(event, context, callback) {
       return authorizedJudge.then(() => {
         user.deleteOneUser({
           "accountid": event.accountid
-        }, cacheCallback);
+        }, callback);
       }).catch( (err) => {
         callback(err, null);
       });

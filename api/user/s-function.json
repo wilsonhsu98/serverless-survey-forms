@@ -25,7 +25,7 @@
           "op": "me"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/mgnt/users",
@@ -45,7 +45,7 @@
           "op": "listUsers"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/mgnt/users",
@@ -66,7 +66,7 @@
           "op": "updateOneUser"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/mgnt/users/{accountid}",
@@ -84,7 +84,7 @@
           "op" : "deleteOneUser"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     }
   ],
   "events": [],

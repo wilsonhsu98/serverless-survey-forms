@@ -52,7 +52,42 @@
         "application/json;charset=UTF-8": "Empty"
       },
       "responseTemplates": {
-        "application/json;charset=UTF-8": "$input.json('$.response')"
+        "application/json;charset=UTF-8": ""
+      }
+    }
+  },
+  "apiResponseNonCacheTemplate": {
+    "204 No Content:.*": {
+      "statusCode": "204"
+    },
+    "304 Not Modified.*": {
+      "statusCode": "304"
+    },
+    "400 Bad Request:.*": {
+      "statusCode": "400"
+    },
+    "401 Unauthenticated request:.*": {
+      "statusCode": "401"
+    },
+    "403 Unauthorized request:.*": {
+      "statusCode": "403"
+    },
+    "404 Not Found:.*": {
+      "statusCode": "404"
+    },
+    "500 Internal Server Error:.*": {
+      "statusCode": "500"
+    },
+    "default": {
+      "statusCode": "200",
+      "responseParameters": {
+        "method.response.header.Cache-Control": "'no-cache, no-store, must-revalidate'"
+      },
+      "responseModels": {
+        "application/json;charset=UTF-8": "Empty"
+      },
+      "responseTemplates": {
+        "application/json;charset=UTF-8": ""
       }
     }
   }

@@ -50,7 +50,7 @@
           "op": "listFeedbacks"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -69,7 +69,7 @@
           "op" : "addOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -88,7 +88,7 @@
           "op" : "updateOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -106,7 +106,7 @@
           "op" : "deleteOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     }
   ],
   "events": [],
