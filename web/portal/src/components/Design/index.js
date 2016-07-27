@@ -28,6 +28,7 @@ class Design extends PureComponent {
     }
 
     render() {
+        const { surveyPolicy, questionsActions } = this.props;
         return (
             <div ref="root">
                 {this._renderEdit()}
@@ -39,7 +40,10 @@ class Design extends PureComponent {
                     </button>
                 </div>
 
-                <Privacy />
+                <Privacy
+                    surveyPolicy={surveyPolicy}
+                    questionsActions={questionsActions}
+                />
             </div>
         );
     }

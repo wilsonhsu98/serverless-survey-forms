@@ -214,10 +214,10 @@ function receiveQuestionsFailure(err) {
 
 export function saveQuestion() {
     return (dispatch, getState) => {
-        const { account, surveyID, subject, questions, token } = getState();
+        const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
         const postData = {
             subject: subject,
-            survey: [...questions]
+            survey: { content: [...questions], thankyou: surveyPolicy }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
@@ -239,5 +239,35 @@ export function saveQuestion() {
             }
         })
         .catch(err => receiveQuestionsFailure(err.responseJSON));
+    };
+}
+
+function setSurveyPolicy(data) {
+    return {
+        type: types.SET_SURVEY_POLICY,
+        surveyPolicy: data
+    };
+}
+export function editSurveyPolicy(flag) {
+    const data = Object.assign({},
+        {
+            description: 'Thanks for sharing your feedback with Trend Micro.',
+            privacy: {}
+        });
+
+    if (flag) {
+        const label = 'If Trend Micro has a follow-up survey on the Email Scan,'
+            + ' would you like to participate?';
+        const privacy = {
+            label: label,
+            terms: 'Yes, Trend Micro can reach me at this address: ',
+            input: 'Please enter your email address.'
+        };
+        data.privacy = privacy;
+    }
+
+    return (dispatch) => {
+        dispatch(setSurveyPolicy(data));
+        return dispatch(saveQuestion());
     };
 }

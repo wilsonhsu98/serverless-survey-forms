@@ -19,7 +19,15 @@
     editQuestion: {},
     editPage: {page:(the first is 1), description:''},
     orderPage: [],
-    surveys: [{},{},...]
+    surveys: [{},{},...],
+    surveyPolicy: {
+        description: "Thanks for ...",
+        privacy: {
+            label: "If Trend Micro ...",
+            terms: "Yes, ... ",
+            input: "Please enter your email address."
+        }
+    }
  }
 **/
 
@@ -36,6 +44,7 @@ import editQuestion from './editQuestion';
 import editPage from './editPage';
 import orderPage from './orderPage';
 import surveys from './surveys';
+import surveyPolicy from './surveyPolicy';
 
 const rootReducer = combineReducers({
     loading,
@@ -49,6 +58,7 @@ const rootReducer = combineReducers({
     editPage,
     orderPage,
     surveys,
+    surveyPolicy,
     routing: routerReducer
 });
 

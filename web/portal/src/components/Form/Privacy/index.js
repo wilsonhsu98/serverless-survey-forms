@@ -7,11 +7,19 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 class Privacy extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        this._onChangeHandle = this._onChangeHandle.bind(this);
+    }
+
     render() {
-        // const { text } = this.props;
+        const { surveyPolicy } = this.props;
+        const chk = surveyPolicy.privacy.hasOwnProperty('label');
+
         return (
             <div ref="root">
                 <hr className={styles.hr} />
@@ -23,7 +31,12 @@ class Privacy extends PureComponent {
                     <hr className={styles.separate} />
                     <div className={styles.lower}>
                         <div className={styles.lower_txt}>Post Survey Option</div>
-                        <input type="checkbox" />
+                        <input
+                            id="chk"
+                            type="checkbox"
+                            checked={chk}
+                            onChange={this._onChangeHandle}
+                        />
                         <label className={styles.label}>
                             Allow Trend Micro to follow up with the user
                         </label>
@@ -33,6 +46,10 @@ class Privacy extends PureComponent {
         );
     }
 
+    _onChangeHandle() {
+        const { questionsActions } = this.props;
+        questionsActions.editSurveyPolicy($('#chk').is(':checked'));
+    }
 }
 
 export default Privacy;
