@@ -1,8 +1,12 @@
 
 /***** Global Component *****/
-body {
+:global body {
     background-color: #eee;
     font-family: arial,sans-serif;
+
+    &.bg {
+        background-color: #eaf2f3;
+    }
 }
 
 :global .input {

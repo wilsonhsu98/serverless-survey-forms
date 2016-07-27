@@ -58,14 +58,17 @@ class Portal extends PureComponent {
 
     _checkUserLogin() {
         const { account } = this.props;
+        const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid') ||
             (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
+            body.classList.remove('bg');
             return <FBLogin />;
         }
 
         // if user has a account and the account role is Designer or Admin
+        body.classList.add('bg');
         return (
             <div className={styles.content}>
                 {this.props.children}
