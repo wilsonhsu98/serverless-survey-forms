@@ -3,5 +3,11 @@
  */
 
 .textarea {
-	width: 80%;
+    color: #aaa;
+    font-size: 17px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    margin: 0;
+    padding: 6px 13px;
+    width: 320px;
 }
