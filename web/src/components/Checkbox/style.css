@@ -62,4 +62,9 @@
 .checkboxItem input[type="text"] {
 	margin-left: 10px;
 	padding: 0 10px;
+    color: #aaa;
+    font-size: 15px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 4px 13px;
 }
