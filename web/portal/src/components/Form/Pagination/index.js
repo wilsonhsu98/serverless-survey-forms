@@ -59,9 +59,9 @@ class Pagination extends Component {
                         </button>
                     </div>
                 </div>
-                <div className={styles.wrap}>
+                <div className={styles.box}>
                     {list}
-                    <button className={`${styles.addBtn} btn`} onClick={this._onAddQueClick}>
+                    <button className={styles.addBtn} onClick={this._onAddQueClick}>
                         + Add Question
                     </button>
                 </div>

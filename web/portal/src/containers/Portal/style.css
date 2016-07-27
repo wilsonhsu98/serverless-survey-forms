@@ -9,6 +9,10 @@
     }
 }
 
+:global button {
+    outline: none;
+}
+
 :global .input {
     padding: 0 8px;
     border-style: solid;
@@ -102,45 +106,53 @@
 
 
 :global .questionItem {
-    overflow: hidden;
-    width: 100%;
-    background-color: #eee;
-    box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4), 0px 0px 6px rgba(55, 55, 55, 0.4);
-    margin: 3px 0;
+    background-color: #FFF;
     & > div {
-        float: left;
+        display: table-cell;
         &.question {
-            width: 85%;
-            background-color: #FFF;
-            border: 1px solid #000;
-            border-right: none;
+            position: relative;
+            width: 640px;
+            vertical-align: top;
+            padding: 36px;
             min-height: 135px;
-            padding: 10px;
             cursor: pointer;
             & > * {
                 pointer-events: none;
             }
+            &:hover {
+                background-color: #fafafa;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                top: 36px;
+                right: 0;
+                width: 1px;
+                height: calc(100% - 72px);
+                background: #EEE;
+            }
         }
         &.control {
-            padding: 10px 0;
-            width: 15%;
+            vertical-align: top;
             text-align: center;
+            padding: 36px 0 36px 28px;
             button {
-                margin: 5px 20px;
+                display: block;
+                margin: 0 0 8px;
+                height: 32px;
             }
         }
     }
     &.edit {
         .question {
-            background-color: #c6e8ff;
-            border: 2px dashed #999;
-            border-right: none;
+            background-color: #e3f5fa;
         }
     }
-    &:after {
-        content: '';
-        clear: both;
-    }
+}
+
+:global .questionLine {
+    border-top: 1px solid #DDD;
+    margin: 0 16px;
 }
 
 :global .btn {

@@ -31,10 +31,10 @@ class Design extends PureComponent {
         return (
             <div ref="root">
                 {this._renderEdit()}
-                {this._renderPage()}
+                <div>{this._renderPage()}</div>
 
                 <div className={styles.control}>
-                    <button className={`${styles.pageBtn} btn`} onClick={this._onAddPageClick}>
+                    <button className={styles.pageBtn} onClick={this._onAddPageClick}>
                         + Add Page
                     </button>
                 </div>

@@ -2,38 +2,41 @@
 .page {
     position: relative;
     width: 100%;
-    margin: 10px 0;
+    margin: 0 0 48px;
     padding: 5px 0;
+    &:first-child {
+        margin-top: 80px;
+    }
+    &:last-child {
+        margin-bottom: 24px;
+    }
 }
 
 .header {
     position: relative;
     overflow: hidden;
     .title {
-        float: left;
-        width: 550px;
-        font-size: 18px;
-        line-height: 32px;
-        white-space: pre;
-        overflow: hidden;
+        display: table-cell;
+        width: 620px;
+        font-size: 24px;
+        color: #22727F;
+        letter-spacing: -0.72px;
+        padding-left: 36px;
     }
     .control {
-        float: right;
-    }
-
-    &:after {
-        content: '';
-        clear: both;
+        display: table-cell;
+        vertical-align: bottom;
+        text-align: center;
+        padding-left: 16px;
     }
 }
 
-.wrap {
+.box {
     width: 100%;
-    border: 1px solid #999;
-    border-radius: 8px;
-    margin: 10px auto;
-    background-color: #eee;
-    padding: 20px 0 10px;
+    background-color: #FFF;
+    border-radius: 4px;
+    margin-top: 8px;
+    border: 1px solid #BFBFBF;
 }
 
 .btn {
@@ -42,6 +45,10 @@
 }
 
 .addBtn {
-    padding: 5px 20px;
-    margin: 10px 5px;
+    width: 100%;
+    height: 60px;
+    font-size: 18px;
+    color: #1F8ECC;
+    background-color: #FFF;
+    border: none;
 }
