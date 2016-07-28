@@ -8,7 +8,7 @@ import { openEdit } from './editSubject';
 import { setSurveyID } from './surveyID';
 import { saveQuestion } from './questions';
 
-function setSubject(data) {
+export function setSubject(data) {
     return {
         type: types.SET_SUBJECT,
         subject: data

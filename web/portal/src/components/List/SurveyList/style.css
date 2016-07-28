@@ -54,6 +54,7 @@
 }
 
 .titleLink {
+    cursor: pointer;
     color: #1F8ECC;
     &:hover {
         color: #007ABB;

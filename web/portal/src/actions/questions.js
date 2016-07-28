@@ -2,9 +2,12 @@
 import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
 
+import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import Mixins from '../mixins/global';
+import { setSubject } from './subject';
+import { setSurveyID } from './surveyID';
 
 export function addQuestion(page, data) {
     return (dispatch, getState) => {
@@ -199,15 +202,15 @@ export function exchangePage() {
     };
 }
 
-function receiveQuestionsSuccess() {
+function saveQuestionsSuccess() {
     return {
-        type: types.RECIEVE_QUESTIONS_SUCCESS
+        type: types.SAVE_QUESTIONS_SUCCESS
     };
 }
 
-function receiveQuestionsFailure(err) {
+function saveQuestionsFailure(err) {
     return {
-        type: types.RECIEVE_QUESTIONS_FAILURE,
+        type: types.SAVE_QUESTIONS_FAILURE,
         errorMsg: err
     };
 }
@@ -232,12 +235,12 @@ export function saveQuestion() {
         .then(response => response.json())
         .then(data => {
             if (data.datetime) {
-                dispatch(receiveQuestionsSuccess());
+                dispatch(saveQuestionsSuccess());
             } else {
-                dispatch(receiveQuestionsFailure(data));
+                dispatch(saveQuestionsFailure(data));
             }
         })
-        .catch(err => receiveQuestionsFailure(err.responseJSON));
+        .catch(err => saveQuestionsFailure(err.responseJSON));
     };
 }
 
@@ -247,6 +250,7 @@ function setSurveyPolicy(data) {
         surveyPolicy: data
     };
 }
+
 export function editSurveyPolicy(flag) {
     const data = Object.assign({},
         {
@@ -268,5 +272,44 @@ export function editSurveyPolicy(flag) {
     return (dispatch) => {
         dispatch(setSurveyPolicy(data));
         return dispatch(saveQuestion());
+    };
+}
+
+function receiveQuestionsSuccess(data) {
+    return {
+        type: types.RECIEVE_QUESTIONS_SUCCESS,
+        questions: data
+    };
+}
+
+function receiveQuestionsFailure(err) {
+    return {
+        type: types.RECIEVE_QUESTIONS_FAILURE,
+        errorMsg: err
+    };
+}
+
+export function getQuestion(surveyID) {
+    return (dispatch, getState) => {
+        const { account } = getState();
+
+        return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
+            method: 'GET',
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.surveyid) {
+                dispatch(setSurveyID(data.surveyid));
+                dispatch(setSubject(data.subject));
+                dispatch(receiveQuestionsSuccess(data.survey.content));
+                dispatch(setSurveyPolicy(data.survey.thankyou));
+                console.log(data.survey.thankyou);
+                dispatch(push('/create'));
+            } else {
+                dispatch(receiveQuestionsFailure(data));
+            }
+        })
+        .catch(err => receiveQuestionsFailure(err.responseJSON));
     };
 }

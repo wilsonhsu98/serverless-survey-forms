@@ -14,7 +14,7 @@ import * as OrderPageActions from '../../actions/orderPage';
 import Design from '../../components/Design';
 
 class Create extends PureComponent {
-    componentWillMount() {
+    componentDidMount() {
         const { surveyID, pushActions } = this.props;
         // if there is no surveyID, go back
         if (!surveyID) pushActions('/');
