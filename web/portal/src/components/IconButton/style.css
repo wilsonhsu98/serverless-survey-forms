@@ -1,0 +1,75 @@
+/*
+ * Style for components/IconButton/index.js
+ */
+
+.btn-icon {
+    cursor: pointer;
+    display: inline-block;
+    .icon {
+        display: table-cell;
+        width: 32px;
+        height: 32px;
+        background-image: resolve("component/ic_add_blue.png");
+    }
+    .txt {
+        display: table-cell;
+        color: #049EB7;
+        font-size: 14px;
+        line-height: 32px;
+    }
+    &.disabled {
+        cursor: default;
+        .icon {  background-image: resolve("component/ic_add_blue_disabled.png"); }
+        .txt { color: #a5d9e0; }
+    }
+    &:hover {
+        .icon { background-image: resolve("component/ic_add_blue_hover.png"); }
+        .txt { color: #078da2; }
+    }
+    &:active, &:focus {
+        .icon { background-image: resolve("component/ic_add_blue_press.png"); }
+        .txt { color: #036a7b; }
+    }
+
+    /* TODOS integrate into for loop*/
+    /* share */
+    &.btn-icon-share {
+        .icon { background-image: resolve("component/ic_share_blue.png"); }
+        &.disabled {
+            .icon {  background-image: resolve("component/ic_share_blue_disabled.png"); }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_share_blue_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_share_blue_press.png"); }
+        }
+    }
+    /* report */
+    &.btn-icon-share {
+        .icon { background-image: resolve("component/ic_report_blue.png"); }
+        &.disabled {
+            .icon {  background-image: resolve("component/ic_report_blue_disabled.png"); }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_report_blue_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_report_blue_press.png"); }
+        }
+    }
+    /* delete */
+    &.btn-icon-delete {
+        .icon { background-image: resolve("component/ic_delet_blue.png"); }
+        &.disabled {
+            .icon {  background-image: resolve("component/ic_delet_blue_disabled.png"); }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_delet_blue_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_delet_blue_press.png"); }
+        }
+    }
+}
+
