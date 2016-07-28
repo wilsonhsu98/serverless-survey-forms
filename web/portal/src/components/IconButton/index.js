@@ -26,7 +26,7 @@ class IconButton extends PureComponent {
             [styles[`btn-icon-${color}`]]: color,
             [styles[`btn-icon-${img}`]]: img
         };
-        console.log(`btn-icon-${img}`);
+
         return (
             <div
                 ref="button"

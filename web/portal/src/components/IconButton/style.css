@@ -17,10 +17,14 @@
         font-size: 14px;
         line-height: 32px;
     }
-    &.disabled {
+    &.disabled, &[disabled], &:disabled {
         cursor: default;
         .icon {  background-image: resolve("component/ic_add_blue_disabled.png"); }
         .txt { color: #a5d9e0; }
+        &:hover, &:active, &:focus {
+            .icon {  background-image: resolve("component/ic_add_blue_disabled.png"); }
+            .txt { color: #a5d9e0; }
+        }
     }
     &:hover {
         .icon { background-image: resolve("component/ic_add_blue_hover.png"); }
@@ -35,8 +39,11 @@
     /* share */
     &.btn-icon-share {
         .icon { background-image: resolve("component/ic_share_blue.png"); }
-        &.disabled {
+        &.disabled, &[disabled], &:disabled {
             .icon {  background-image: resolve("component/ic_share_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_share_blue_disabled.png"); }
+            }
         }
         &:hover {
             .icon { background-image: resolve("component/ic_share_blue_hover.png"); }
@@ -48,8 +55,11 @@
     /* report */
     &.btn-icon-share {
         .icon { background-image: resolve("component/ic_report_blue.png"); }
-        &.disabled {
+        &.disabled, &[disabled], &:disabled {
             .icon {  background-image: resolve("component/ic_report_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_report_blue_disabled.png"); }
+            }
         }
         &:hover {
             .icon { background-image: resolve("component/ic_report_blue_hover.png"); }
@@ -61,8 +71,11 @@
     /* delete */
     &.btn-icon-delete {
         .icon { background-image: resolve("component/ic_delet_blue.png"); }
-        &.disabled {
+        &.disabled, &[disabled], &:disabled {
             .icon {  background-image: resolve("component/ic_delet_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_delet_blue_disabled.png"); }
+            }
         }
         &:hover {
             .icon { background-image: resolve("component/ic_delet_blue_hover.png"); }
