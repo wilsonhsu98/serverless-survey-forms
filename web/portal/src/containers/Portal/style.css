@@ -235,7 +235,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: resolve("component/bg_cloud_top.png") center 0 no-repeat;
+        background: resolve("bg_cloud_top.png") center 0 no-repeat;
     }
     .content_inner {
         position: relative;
