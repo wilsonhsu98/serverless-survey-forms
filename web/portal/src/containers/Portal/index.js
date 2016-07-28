@@ -71,7 +71,10 @@ class Portal extends PureComponent {
         body.classList.add('bg');
         return (
             <div className={styles.content}>
-                {this.props.children}
+                <div className={styles.content_bg}></div>
+                <div className={styles.content_inner}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }
