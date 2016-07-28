@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import moment from 'moment';
 
 class SurveyList extends PureComponent {
 
@@ -27,12 +28,17 @@ class SurveyList extends PureComponent {
         const { surveys } = this.props;
         let list = [];
         surveys.forEach((item, idx) => {
-            const dt = new Date(item.datetime);
             const tr = (
                 <tr key={idx}>
-                    <td>{item.subject}</td>
-                    <td>100</td>
-                    <td>{dt.toString()}</td>
+                    <td className={styles.subject}>
+                        <input
+                            type="checkbox"
+                            className={styles.checkbox}
+                        />
+                        <a className={styles.titleLink} href="#">{item.subject}</a>
+                    </td>
+                    <td className={styles.response}>100</td>
+                    <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
                 </tr>
             );
             list.push(tr);
@@ -45,7 +51,7 @@ class SurveyList extends PureComponent {
                             <span>Name</span>
                         </th>
                         <th className={styles.response}>
-                            <span>Response</span>
+                            <span>Responses</span>
                         </th>
                         <th className={styles.dt}>
                             <span>Date Updated</span>

@@ -2,10 +2,12 @@
  * Style for components/List/SurveyList/index.js
  */
 .list {
-    margin: 10px auto;
-    background-color: #e5e5e5;
-    border: 1px solid #999;
-    box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4);
+    margin-top: 8px;
+    margin-bottom: 48px;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 0 16px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
 
     &.nodata {
         min-height: 300px;
@@ -20,38 +22,44 @@
 
 .listTb {
     width: 100%;
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 20px;
     text-align: left;
 
     th {
         color: #222;
-        font-weight: 400;
-        padding: 10px 12px;
-        cursor: pointer;
-        box-sizing: border-box;
-        background: #FFF;
-
-        &.subject {
-            width: 360px;
-        }
-        &.response {
-            width: 100px;
-        }
-        &.dt {
-            width: 320px;
-        }
+        font-weight: normal;
+        padding: 18px 8px;
     }
     tr {
-        background: #FFF;
-        &:nth-child(odd) {
-            background: #EEE;
+        border-bottom: 1px solid #BFBFBF;
+    }
+    tbody tr {
+        &:last-child {
+            border-bottom: none;
         }
     }
     td{
-        padding: 10px 12px;
+        padding: 14px 4px 14px 8px;
         vertical-align: top;
-        color: #555;
+        color: #666;
         word-wrap: break-word;
-        box-sizing: border-box;
     }
+    .subject {
+        width: 380px;
+    }
+    .response {
+        width: 160px;
+    }
+}
+
+.titleLink {
+    color: #1F8ECC;
+    &:hover {
+        color: #007ABB;
+    }
+}
+
+input[type="checkbox"].checkbox {
+    margin-right: 12px;
 }
