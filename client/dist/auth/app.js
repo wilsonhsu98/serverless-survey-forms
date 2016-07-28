@@ -40,8 +40,7 @@ $(function() {
     var provider = $(event.currentTarget).attr('id');
     $('#token').html('Loading...');
     $('#test-result').html('Loading...');
-    // window.location.href = "https://" + location.hostname + '/authentication/signin/' + provider;
-    window.location.href = "https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim/authentication/signin/"+provider;
+    window.location.href = "https://" + location.hostname + '/authentication/signin/' + provider;
   });
 
   $('#logout').on('click', function(event) {
