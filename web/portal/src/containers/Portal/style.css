@@ -159,7 +159,7 @@
     border: 1px dashed #999;
     background-color: #fff;
     border-radius: 5px;
-    color: #3762b9;
+    color: #1F8ECC;
 }
 
 :global .actionBtn {
@@ -182,24 +182,23 @@
     .editpanel {
         position: absolute;
         width: 450px;
-        height: 100%;
+        height: calc(100% - 60px);
+        top: 60px;
         right: 0;
+        background-color: #fff;
+        border-top-left-radius: 4px;
+        box-shadow: 1px 1px 8px rgba(0,0,0, 0.35);
 
         .edit {
             position: absolute;
-            bottom: 60px;
             right: 0;
             width: 100%;
-            height: 88%;
-            background-color: #FFF;
-            border: 1px solid #999;
-            border-top-left-radius: 5px;
-            padding: 10px;
+            height: calc(100% - 72px);
+            padding: 36px 36px 0 36px;
 
             .editContent {
                 width: 100%;
                 height: 100%;
-                padding: 10px;
                 overflow-y: auto;
                 overflow-x: hidden;
             }
@@ -209,12 +208,15 @@
             left: 0;
             bottom: 0;
             width: 100%;
-            height: 60px;
-            background-color: #d6d6d6;
-            padding-top: 10px;
-            border: 1px solid #999;
-            border-top: none;
+            height: 72px;
+            padding: 16px 0 24px;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.35);
             text-align: center;
+
+            & > div {
+                margin: 0 6px;
+                display: inline-block;
+            }
         }
     }
 }

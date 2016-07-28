@@ -47,6 +47,7 @@
 .addBtn {
     width: 100%;
     height: 60px;
+    border-radius: 4px;
     font-size: 18px;
     color: #1F8ECC;
     background-color: #FFF;
