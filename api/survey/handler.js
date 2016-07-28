@@ -22,10 +22,10 @@ module.exports.handler = (event, context, callback) => {
           reject(err, null);
         } else {
           // Authorized: Designer or Admin
-          if (data.accountid === event.authAccountid && data.role === "Admin" || data.role === "Designer"){
+          if (data.role === "Admin" || data.role === "Designer" && event.accountid === event.authAccountid){
             resolve();
           } else {
-            reject(new Error(`403 Unauthorized request： The role of the requester ${event.authAccountid} is ${data.role} ${JSON.stringify(event)}`));
+            reject(new Error(`403 Unauthorized request: The role of the requester ${event.authAccountid} is ${data.role} or ${event.accountid} != ${event.authAccountid}`));
           }
         }
       });

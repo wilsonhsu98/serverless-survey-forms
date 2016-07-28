@@ -6,8 +6,7 @@ function testToken() {
   // set token to Authorization header
   $.ajax({
     method: 'GET',
-    url: "https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim/api/v1/mgnt/users/me",
-    // url: "https://" + location.hostname + '/api/v1/mgnt/test-token',
+    url: "https://" + location.hostname + '/api/v1/mgnt/users/me',
     headers: {
       authorization: localStorage.getItem('token')
     }

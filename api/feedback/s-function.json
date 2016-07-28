@@ -32,7 +32,7 @@
       "responses": "$${apiResponseTemplate}"
     },
     {
-      "path": "api/v1/feedbacks/{surveyid}",
+      "path": "api/v1/mgnt/feedbacks/{surveyid}",
       "method": "GET",
       "type": "AWS",
       "authorizationType": "CUSTOM",
