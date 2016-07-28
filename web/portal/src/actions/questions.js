@@ -7,7 +7,20 @@ import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
-import { setSurveyID } from './surveyID';
+
+function setSurveyID(data) {
+    return {
+        type: types.SET_SURVEYID,
+        surveyID: data
+    };
+}
+
+export function finishEdit() {
+    return (dispatch) => {
+        dispatch(setSurveyID(''));
+        dispatch(push('/'));
+    };
+}
 
 export function addQuestion(page, data) {
     return (dispatch, getState) => {
@@ -304,7 +317,6 @@ export function getQuestion(surveyID) {
                 dispatch(setSubject(data.subject));
                 dispatch(receiveQuestionsSuccess(data.survey.content));
                 dispatch(setSurveyPolicy(data.survey.thankyou));
-                console.log(data.survey.thankyou);
                 dispatch(push('/create'));
             } else {
                 dispatch(receiveQuestionsFailure(data));

@@ -10,6 +10,7 @@ class Header extends PureComponent {
     constructor() {
         super();
         this._onEditSubject = this._onEditSubject.bind(this);
+        this._onBackClick = this._onBackClick.bind(this);
     }
 
     render() {
@@ -18,13 +19,19 @@ class Header extends PureComponent {
         if (surveyID) {
             content = (
                 <div className={styles.qustom}>
-                    <div className={styles.logo}>Q</div>
+                    <div
+                        className={styles.back}
+                        onClick={this._onBackClick}
+                    ></div>
                     <div
                         id="title"
                         className={styles.title}
                         onClick={this._onEditSubject}
                     >
                         {subject}
+                    </div>
+                    <div className={styles.build}>
+                        <div className={styles.status}>Build</div>
                     </div>
                 </div>
             );
@@ -49,6 +56,11 @@ class Header extends PureComponent {
     _onEditSubject() {
         const { editSubjectActions } = this.props;
         editSubjectActions.openEdit(true);
+    }
+
+    _onBackClick() {
+        const { questionsActions } = this.props;
+        questionsActions.finishEdit('');
     }
 }
 

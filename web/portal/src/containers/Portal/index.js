@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 // Actions
 import * as EditSubjectActions from '../../actions/editSubject';
 import * as SubjectActions from '../../actions/subject';
+import * as QuestionsActions from '../../actions/questions';
 import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
@@ -30,11 +31,12 @@ class Portal extends PureComponent {
 
     render() {
         const { loading, subject, surveyID,
-            editSubject, editSubjectActions, subjectActions } = this.props;
+            editSubject, editSubjectActions, subjectActions, questionsActions } = this.props;
         const headProps = {
             subject,
             surveyID,
-            editSubjectActions
+            editSubjectActions,
+            questionsActions
         };
         const subProps = {
             subject,
@@ -95,6 +97,7 @@ function mapDispatchToProps(dispatch) {
     return {
         editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
         subjectActions: bindActionCreators(SubjectActions, dispatch),
+        questionsActions: bindActionCreators(QuestionsActions, dispatch),
         accountActions: bindActionCreators(AccountActions, dispatch)
     };
 }

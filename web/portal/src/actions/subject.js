@@ -5,8 +5,7 @@ import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import { openEdit } from './editSubject';
-import { setSurveyID } from './surveyID';
-import { saveQuestion } from './questions';
+import { setSurveyID, saveQuestion } from './questions';
 
 export function setSubject(data) {
     return {

@@ -63,23 +63,36 @@
     position: relative;
     padding: 0;
     vertical-align: top;
-
-    .logo {
+    .back {
         float: left;
-        margin-right: 10px;
-        background-color: #e30919;
-        color: #FFF;
-        font-size: 30px;
-        line-height: 40px;
-        padding: 0 10px;
+        cursor: pointer;
+        width: calc(24px + 16px);
+        height: 72px;
+        background: resolve("ic_back_header.png") 0 center no-repeat;
+        margin-left: 12px;
     }
-
     .title {
         float: left;
-        font-size: 18px;
-        line-height: 40px;
         cursor: pointer;
+        font-size: 32px;
+        color: #222;
+        line-height: 40px;
+        letter-spacing: -1.76px;
         min-width: 100px;
+        padding: 16px 0;
+    }
+    .build {
+        clear: both;
+    }
+    .status {
+        font-size: 20px;
+        line-height: 24px;
+        color: #666;
+        width: 132px;
+        margin-left: 400px;
+        padding: 10px 0;
+        border-bottom: 4px solid #e4424e;
+        text-align: center;
     }
 }
 
