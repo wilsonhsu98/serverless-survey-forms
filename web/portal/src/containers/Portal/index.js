@@ -14,6 +14,7 @@ import * as QuestionsActions from '../../actions/questions';
 import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import SubjectPop from '../../components/SubjectPop';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
@@ -54,6 +55,7 @@ class Portal extends PureComponent {
                 {this._checkUserLogin()}
 
                 {editSubject ? <SubjectPop {...subProps} /> : ''}
+                <Footer />
             </div>
         );
     }
