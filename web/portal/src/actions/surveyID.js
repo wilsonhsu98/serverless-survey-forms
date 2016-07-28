@@ -1,7 +1,7 @@
 
 import * as types from '../constants/ActionTypes';
 
-export function setSuveyID(data) {
+export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
         surveyID: data
