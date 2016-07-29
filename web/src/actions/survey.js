@@ -35,8 +35,11 @@ export function fetchSurvey(accountid, surveyid) {
             return response.json();
         })
         .then(data => {
+            const survey = Object.assign({}, data.survey, {
+                subject: data.subject
+            });
             if (data && data.survey) {
-                dispatch(receiveSurveySuccess(data.survey));
+                dispatch(receiveSurveySuccess(survey));
             } else {
                 dispatch(receiveSurveyFailure('Error'));
             }

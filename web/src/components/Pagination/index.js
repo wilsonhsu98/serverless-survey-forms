@@ -22,20 +22,26 @@ class Pagination extends PureComponent {
     }
 
     render() {
-        const { currentPage, pages } = this.props;
+        const { settings, currentPage, pages } = this.props;
         return (
             pages > 1 ?
             (
                 <div
                     className={classNames({
-                        [`${styles.pagination}`]: true,
+                        [`${styles.pagination}`]: settings.type !== 'preview',
+                        [`${styles.paginationPreview}`]: settings.type === 'preview',
                         'ut-pagination': true
                     })}
                 >
 
                     {
                         currentPage > 1 ?
-                            <div className={styles.btnWrapperPrev}>
+                            <div
+                                className={
+                                    settings.type === 'preview' ?
+                                        styles.btnWrapperPrevPreview : styles.btnWrapperPrev
+                                }
+                            >
                                 <Button
                                     string={'prev'}
                                     onClick={this._prev}
@@ -59,7 +65,12 @@ class Pagination extends PureComponent {
 
                     {
                         currentPage < pages ?
-                            <div className={styles.btnWrapperNext}>
+                            <div
+                                className={
+                                    settings.type === 'preview' ?
+                                        styles.btnWrapperNextPreview : styles.btnWrapperNext
+                                }
+                            >
                                 <Button
                                     string={'next'}
                                     onClick={this._next}
@@ -82,7 +93,12 @@ class Pagination extends PureComponent {
                     }
                     {
                         currentPage === pages ?
-                            <div className={styles.btnWrapperNext}>
+                            <div
+                                className={
+                                    settings.type === 'preview' ?
+                                        styles.btnWrapperNextPreview : styles.btnWrapperNext
+                                }
+                            >
                                 <Button
                                     string={'submit'}
                                     onClick={this._done}
@@ -103,7 +119,12 @@ class Pagination extends PureComponent {
                                 onClick={this._done}
                             /> : ''
                     }
-                    <div className={styles.progressWrapper}>
+                    <div
+                        className={
+                            settings.type === 'preview' ?
+                                styles.progressWrapperPreview : styles.progressWrapper
+                        }
+                    >
                         <span className={styles.progressText}>{`${currentPage} / ${pages}`}</span>
                         <div
                             className={classNames({
@@ -129,19 +150,23 @@ class Pagination extends PureComponent {
     }
 
     _next() {
-        if (this.props.currentPage === 1) {
-            this.props.feedbackActions.saveFeedback();
-        } else {
-            this.props.feedbackActions.updateFeedback();
+        if (this.props.settings.type !== 'preview') {
+            if (this.props.currentPage === 1) {
+                this.props.feedbackActions.saveFeedback();
+            } else {
+                this.props.feedbackActions.updateFeedback();
+            }
         }
         this.props.surveyActions.goToPage(this.props.currentPage + 1);
     }
 
     _done() {
-        if (this.props.currentPage === 1) {
-            this.props.feedbackActions.saveFeedback();
-        } else {
-            this.props.feedbackActions.updateFeedback();
+        if (this.props.settings.type !== 'preview') {
+            if (this.props.currentPage === 1) {
+                this.props.feedbackActions.saveFeedback();
+            } else {
+                this.props.feedbackActions.updateFeedback();
+            }
         }
         this.props.surveyActions.surveyDone();
     }

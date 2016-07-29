@@ -36,7 +36,7 @@
 
 .progressWrapper {
     width: 400px;
-    height: 24px;
+    height: 20px;
     border-radius: 10px;
     border: 1px solid #bbb;
     background: #fff;
@@ -45,7 +45,7 @@
 }
 
 .progress {
-    height: 22px;
+    height: 18px;
     background: #1F8ECC;
     border-radius: 10px 0 0 10px;
 }
@@ -57,13 +57,49 @@
 
 .progressText {
     position: absolute;
-    left: 10px;
+    left: 20px;
     color: #fff;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+/* Preview styles */
+.paginationPreview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 96px;
+}
+
+.btnWrapperNextPreview {
+    position: absolute;
+    left: 50%;
+    margin: 16px 0 20px 5px;
+}
+
+.btnWrapperPrevPreview {
+    position: absolute;
+    right: 50%;
+    margin: 16px 5px 20px 0;
+}
+
+.progressWrapperPreview {
+    width: 400px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    background: #fff;
+    margin: 62px auto 0 auto;
+    position: relative;
 }
 
 @media only screen and (max-width: 639px) {
-    .progressWrapper {
+    .pagination, .paginationPreview {
+        height: 60px;
+    }
+    .progressWrapper, .progressWrapperPreview {
         width: 75%;
+        margin-top: 20px;
     }
 
     .pagingBtnNext, .pagingBtnPrev {
@@ -75,26 +111,26 @@
         width: 24px;
         height: 24px;
         position: absolute;
-        bottom: 28px;
+        bottom: 20px;
         cursor: pointer;
     }
 
     .prevMobile {
         composes: mobile;
-        left: 3%;
+        left: 4px;
         background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
 
     }
 
     .nextMobile {
         composes: mobile;
-        right: 3%;
+        right: 4px;
         background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
     }
 
     .doneMobile {
         composes: mobile;
-        right: 3%;
+        right: 4px;
         background: url(../../../assets/images/check.png) 0 0 no-repeat;
     }
 }
