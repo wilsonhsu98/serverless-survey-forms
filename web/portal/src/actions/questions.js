@@ -311,7 +311,7 @@ export function getQuestion(surveyID) {
 
         // TODOS: temporarily
         // const dt = new Date(window.localStorage[surveyID]).toGMTString();
-        const dt = new Date().toGMTString();
+        const dt = new Date().getTime();
         return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
             method: 'GET',
             credentials: 'same-origin',
