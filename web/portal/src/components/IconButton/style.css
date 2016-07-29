@@ -53,7 +53,7 @@
         }
     }
     /* report */
-    &.btn-icon-share {
+    &.btn-icon-report {
         .icon { background-image: resolve("component/ic_report_blue.png"); }
         &.disabled, &[disabled], &:disabled {
             .icon {  background-image: resolve("component/ic_report_blue_disabled.png"); }
