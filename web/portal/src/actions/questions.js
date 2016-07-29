@@ -8,7 +8,7 @@ import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
 
-function setSurveyID(data) {
+export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
         surveyID: data
