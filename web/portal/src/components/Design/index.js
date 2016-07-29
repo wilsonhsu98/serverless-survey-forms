@@ -17,14 +17,19 @@ class Design extends PureComponent {
 
     constructor(props) {
         super(props);
+
         this._moveQuestion = this._moveQuestion.bind(this);
         this._getQuestion = this._getQuestion.bind(this);
         this._onAddPageClick = this._onAddPageClick.bind(this);
+    }
 
+    componentDidMount() {
         // init questionnaire
-        const { questions, questionsActions } = props;
-        const page = questions.length + 1;
-        questionsActions.addPage(page);
+        const { questions, questionsActions } = this.props;
+        if (questions.length === 0) {
+            const page = questions.length + 1;
+            questionsActions.addPage(page);
+        }
     }
 
     render() {

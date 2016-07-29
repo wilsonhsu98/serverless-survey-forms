@@ -5,10 +5,9 @@ import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import { openEdit } from './editSubject';
-import { setSuveyID } from './surveyID';
-import { saveQuestion } from './questions';
+import { setSurveyID, saveQuestion } from './questions';
 
-function setSubject(data) {
+export function setSubject(data) {
     return {
         type: types.SET_SUBJECT,
         subject: data
@@ -35,7 +34,6 @@ export function saveSubject(subject) {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
-                Accept: 'application/json',
                 'Content-Type': 'application/json',
                 authorization: token
             },
@@ -44,7 +42,7 @@ export function saveSubject(subject) {
         .then(response => response.json())
         .then(data => {
             if (data.surveyid) {
-                dispatch(setSuveyID(data.surveyid));
+                dispatch(setSurveyID(data.surveyid));
                 dispatch(push('/create'));
                 dispatch(openEdit(false));
             } else {

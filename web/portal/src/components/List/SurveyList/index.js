@@ -11,6 +11,7 @@ class SurveyList extends PureComponent {
     constructor() {
         super();
         this._renderList = this._renderList.bind(this);
+        this._onClickEdit = this._onClickEdit.bind(this);
     }
 
     render() {
@@ -35,7 +36,11 @@ class SurveyList extends PureComponent {
                             type="checkbox"
                             className={styles.checkbox}
                         />
-                        <a className={styles.titleLink} href="#">{item.subject}</a>
+                        <a
+                            className={styles.titleLink}
+                            data-id={item.surveyid}
+                            onClick={this._onClickEdit}
+                        >{item.subject}</a>
                     </td>
                     <td className={styles.response}>100</td>
                     <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
@@ -63,6 +68,11 @@ class SurveyList extends PureComponent {
                 </tbody>
             </table>
         );
+    }
+
+    _onClickEdit(e) {
+        const { questionsActions } = this.props;
+        questionsActions.getQuestion(e.currentTarget.getAttribute('data-id'));
     }
 }
 

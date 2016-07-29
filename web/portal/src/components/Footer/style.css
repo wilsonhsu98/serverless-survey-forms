@@ -1,0 +1,112 @@
+/*
+ * Style for components/Footer/index.js
+ */
+
+/* fixed footer make page scroll */
+.trend-footer {
+    height: 82px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    a {
+        color: #888;
+        font-size: 13px;
+        text-decoration: none;
+        &:hover {
+            color: #db3d44;
+        }
+    }
+    .tm-logo {
+        position: absolute;
+        top: 12px;
+        right: 0;
+        background: transparent resolve("trend/ic_trendmicro_logo.png") no-repeat center center;
+        width: 80px;
+        height: 28px;
+        overflow: hidden;
+        text-indent: -99999px;
+    }
+}
+
+.copyright {
+    color: #999;
+    font-size: 11px;
+    margin-bottom: 14px;
+    line-height: 1.3em;
+}
+
+.footer-wrapper {
+    position: relative;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+.footer-links {
+    margin: 12px 0px 6px;
+    position:relative;
+
+    >* {
+        display: inline-block;
+        margin: 5px 0;
+        padding: 0 18px 0 0;
+    }
+
+    .link {
+        background: transparent resolve("trend/ic_dot.png") no-repeat right center;
+        vertical-align: top;
+        &:last-child {
+            background-image: none;
+        }
+    }
+
+}
+.container {
+    width: 960px;
+    margin-right: auto;
+    margin-left: auto;
+
+    &:before {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+}
+
+@media only screen and (max-width: 949px) {
+    .trend-footer {
+        text-align: center;
+
+        .tm-logo {
+            display: none;
+        }
+
+        .footer-links {
+            margin: 12px 25px 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #DDD;
+
+            .link {
+                margin-bottom: 0;
+            }
+
+            .link:last-child {
+                padding-right: 0;
+            }
+        }
+
+        .copyright {
+            margin: 0 25px 20px;
+            padding: 0;
+        }
+    }
+}
