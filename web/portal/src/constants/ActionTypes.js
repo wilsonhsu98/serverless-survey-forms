@@ -57,3 +57,7 @@ export const SET_SUBJECT_FAILURE = 'SET_SUBJECT_FAILURE';
 
 // survey ID
 export const SET_SURVEYID = 'SET_SURVEYID';
+
+// preview & previewID
+export const SET_PREVIEW = 'SET_PREVIEW';
+export const STOP_PREVIEW = 'STOP_PREVIEW';

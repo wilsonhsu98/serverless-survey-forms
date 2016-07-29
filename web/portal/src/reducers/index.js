@@ -27,7 +27,8 @@
             terms: "Yes, ... ",
             input: "Please enter your email address."
         }
-    }
+    },
+    preview: 'embedded/normal_mobile/normal_pad/normal_desktop'
  }
 **/
 
@@ -45,6 +46,8 @@ import editPage from './editPage';
 import orderPage from './orderPage';
 import surveys from './surveys';
 import surveyPolicy from './surveyPolicy';
+import preview from './preview';
+import previewID from './previewID';
 
 const rootReducer = combineReducers({
     loading,
@@ -59,6 +62,8 @@ const rootReducer = combineReducers({
     orderPage,
     surveys,
     surveyPolicy,
+    preview,
+    previewID,
     routing: routerReducer
 });
 
