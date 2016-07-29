@@ -18,6 +18,9 @@ export function setSurveyID(data) {
 export function finishEdit() {
     return (dispatch) => {
         dispatch(setSurveyID(''));
+        dispatch(setSubject(''));
+        dispatch({ type: types.INIT_QUESTIONS });
+        dispatch({ type: types.INIT_SURVEY_POLICY });
         dispatch(push('/'));
     };
 }
