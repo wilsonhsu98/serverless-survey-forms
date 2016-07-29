@@ -109,7 +109,8 @@ class Pagination extends Component {
     }
 
     _onEditPageClick(e) {
-        const { questions, data, questionsActions, editPageActions, orderPageActions } = this.props;
+        const { surveyID, questions, data,
+            questionsActions, editPageActions, orderPageActions, previewActions } = this.props;
         const type = e.target.getAttribute('data-type');
         const orderPage = [];
 
@@ -134,7 +135,9 @@ class Pagination extends Component {
             questionsActions.saveQuestion();
             break;
         case 'preview':
-
+            // TODOS:
+            // default: embedded
+            previewActions.setPreview('preview', surveyID);
             break;
         default:
         }
