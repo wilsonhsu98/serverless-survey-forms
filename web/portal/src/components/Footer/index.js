@@ -11,6 +11,7 @@ class Footer extends PureComponent {
     render() {
         return (
             <footer
+                id="footer"
                 className={classNames({
                     [styles['trend-footer']]: true
                 })}

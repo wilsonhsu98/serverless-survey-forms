@@ -45,7 +45,7 @@ class Header extends PureComponent {
         }
 
         return (
-            <div className={`${styles.header} ${surveyID ? styles.edit : ''}`}>
+            <div id="header" className={`${styles.header} ${surveyID ? styles.edit : ''}`}>
                 <div className={styles.container}>
                     {content}
                 </div>

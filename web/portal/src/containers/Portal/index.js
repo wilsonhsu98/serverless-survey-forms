@@ -50,9 +50,11 @@ class Portal extends PureComponent {
             return (<Loading />);
         }
         return (
-            <div ref="root" className={styles.wrap}>
-                <Header {...headProps} />
-                {this._checkUserLogin()}
+            <div ref="root">
+                <div className={styles.wrap}>
+                    <Header {...headProps} />
+                    {this._checkUserLogin()}
+                </div>
 
                 {editSubject ? <SubjectPop {...subProps} /> : ''}
                 <Footer />
@@ -76,7 +78,7 @@ class Portal extends PureComponent {
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
-                <div className={styles.content_inner}>
+                <div className={styles.container}>
                     {this.props.children}
                 </div>
             </div>
