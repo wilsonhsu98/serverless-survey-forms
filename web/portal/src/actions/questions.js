@@ -8,7 +8,7 @@ import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
 
-function setSurveyID(data) {
+export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
         surveyID: data
@@ -18,6 +18,9 @@ function setSurveyID(data) {
 export function finishEdit() {
     return (dispatch) => {
         dispatch(setSurveyID(''));
+        dispatch(setSubject(''));
+        dispatch({ type: types.INIT_QUESTIONS });
+        dispatch({ type: types.INIT_SURVEY_POLICY });
         dispatch(push('/'));
     };
 }
@@ -306,13 +309,24 @@ export function getQuestion(surveyID) {
     return (dispatch, getState) => {
         const { account } = getState();
 
+        // TODOS: temporarily
+        // const dt = new Date(window.localStorage[surveyID]).toGMTString();
+        const dt = new Date().toGMTString();
         return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
+            headers: {
+                'If-Modified-Since': dt
+            }
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log(response.status);
+            return response.json();
+        })
         .then(data => {
             if (data.surveyid) {
+                // console.log(data.datetime);
+                // window.localStorage[surveyID] = data.datetime;
                 dispatch(setSurveyID(data.surveyid));
                 dispatch(setSubject(data.subject));
                 dispatch(receiveQuestionsSuccess(data.survey.content));

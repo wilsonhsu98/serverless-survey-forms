@@ -39,13 +39,13 @@ class Header extends PureComponent {
             content = (
                 <div className={styles.trend}>
                     <div className={styles.logo}></div>
-                    <h1 className={styles.title}>Qustom</h1>
+                    <div className={styles.productlogo}></div>
                 </div>
             );
         }
 
         return (
-            <div className={`${styles.header} ${surveyID ? styles.edit : ''}`}>
+            <div id="header" className={`${styles.header} ${surveyID ? styles.edit : ''}`}>
                 <div className={styles.container}>
                     {content}
                 </div>

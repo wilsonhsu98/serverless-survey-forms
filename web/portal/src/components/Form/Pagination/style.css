@@ -16,6 +16,7 @@
     position: relative;
     overflow: hidden;
     .title {
+        cursor: pointer;
         display: table-cell;
         width: 620px;
         font-size: 24px;

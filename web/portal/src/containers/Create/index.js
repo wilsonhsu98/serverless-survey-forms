@@ -10,6 +10,7 @@ import * as QuestionsActions from '../../actions/questions';
 import * as EditQuestionActions from '../../actions/editQuestion';
 import * as EditPageActions from '../../actions/editPage';
 import * as OrderPageActions from '../../actions/orderPage';
+import * as PreviewActions from '../../actions/preview';
 
 import Design from '../../components/Design';
 
@@ -43,6 +44,7 @@ function mapDispatchToProps(dispatch) {
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
+        previewActions: bindActionCreators(PreviewActions, dispatch),
         pushActions: bindActionCreators(push, dispatch)
     };
 }

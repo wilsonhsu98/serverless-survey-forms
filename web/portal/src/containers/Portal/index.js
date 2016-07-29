@@ -11,11 +11,13 @@ import { connect } from 'react-redux';
 import * as EditSubjectActions from '../../actions/editSubject';
 import * as SubjectActions from '../../actions/subject';
 import * as QuestionsActions from '../../actions/questions';
+import * as PreviewActions from '../../actions/preview';
 import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SubjectPop from '../../components/SubjectPop';
+import Preview from '../../components/PreviewPop/Preview';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 
@@ -31,30 +33,31 @@ class Portal extends PureComponent {
     }
 
     render() {
-        const { loading, subject, surveyID,
-            editSubject, editSubjectActions, subjectActions, questionsActions } = this.props;
+        const { account, loading, subject, surveyID, preview, previewID,
+            editSubject, editSubjectActions, subjectActions,
+            questionsActions, previewActions } = this.props;
         const headProps = {
             subject,
             surveyID,
             editSubjectActions,
             questionsActions
         };
-        const subProps = {
-            subject,
-            surveyID,
-            editSubjectActions,
-            subjectActions
-        };
+        const subProps = { subject, surveyID, editSubjectActions, subjectActions };
+        const preProps = { account, preview, previewID, previewActions };
 
         if (loading) {
             return (<Loading />);
         }
         return (
-            <div ref="root" className={styles.wrap}>
-                <Header {...headProps} />
-                {this._checkUserLogin()}
+            <div ref="root">
+                <div className={styles.wrap}>
+                    <Header {...headProps} />
+                    {this._checkUserLogin()}
+                </div>
 
                 {editSubject ? <SubjectPop {...subProps} /> : ''}
+                {preview ? <Preview {...preProps} /> : ''}
+
                 <Footer />
             </div>
         );
@@ -76,7 +79,7 @@ class Portal extends PureComponent {
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
-                <div className={styles.content_inner}>
+                <div className={styles.container}>
                     {this.props.children}
                 </div>
             </div>
@@ -91,6 +94,8 @@ function mapStateToProps(state) {
         subject: state.subject,
         surveyID: state.surveyID,
         editSubject: state.editSubject,
+        preview: state.preview,
+        previewID: state.previewID,
         routing: state.routing
     };
 }
@@ -100,6 +105,7 @@ function mapDispatchToProps(dispatch) {
         editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
         subjectActions: bindActionCreators(SubjectActions, dispatch),
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
+        previewActions: bindActionCreators(PreviewActions, dispatch),
         accountActions: bindActionCreators(AccountActions, dispatch)
     };
 }

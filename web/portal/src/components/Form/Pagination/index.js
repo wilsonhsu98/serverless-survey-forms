@@ -27,14 +27,20 @@ class Pagination extends Component {
         return (
             <div className={styles.page}>
                 <div className={styles.header}>
-                    <div className={styles.title}>Page {id}:{description}</div>
+                    <div
+                        className={styles.title}
+                        data-type="text"
+                        onClick={this._onEditPageClick}
+                    >
+                        Page {id}:{description}
+                    </div>
                     <div className={styles.control}>
                         <button
-                            data-type="text"
+                            data-type="preview"
                             className={`${styles.btn} btn`}
                             onClick={this._onEditPageClick}
                         >
-                            Edit
+                            View
                         </button>
                         <button
                             data-type="order"
@@ -103,26 +109,37 @@ class Pagination extends Component {
     }
 
     _onEditPageClick(e) {
-        if (e.target.getAttribute('data-type') === 'order') {
-            const { questions, orderPageActions } = this.props;
-            const orderPage = [];
+        const { surveyID, questions, data,
+            questionsActions, editPageActions, orderPageActions, previewActions } = this.props;
+        const type = e.target.getAttribute('data-type');
+        const orderPage = [];
+
+        switch (type) {
+        case 'order':
             questions.forEach((page) => {
                 orderPage.push(page.page);
             });
             orderPageActions.setOrderPage(orderPage);
-        } else if (e.target.getAttribute('data-type') === 'copy') {
-            const { data, questionsActions } = this.props;
+            break;
+        case 'copy':
             questionsActions.copyPage(data.page);
             // save Question
             questionsActions.saveQuestion();
-        } else if (e.target.getAttribute('data-type') === 'text') {
-            const { data, editPageActions } = this.props;
+            break;
+        case 'text':
             editPageActions.setEditPage({ page: data.page, description: data.description });
-        } else if (e.target.getAttribute('data-type') === 'delete') {
-            const { data, questionsActions } = this.props;
+            break;
+        case 'delete':
             questionsActions.deletePage(data.page);
             // save Question
             questionsActions.saveQuestion();
+            break;
+        case 'preview':
+            // TODOS:
+            // default: embedded
+            previewActions.setPreview('preview', surveyID);
+            break;
+        default:
         }
     }
 

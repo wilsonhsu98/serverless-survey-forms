@@ -20,6 +20,8 @@ export default function questions(state = [], action) {
             ...state,
             action.page
         ];
+
+    case types.INIT_QUESTIONS:
     default:
         return state;
     }

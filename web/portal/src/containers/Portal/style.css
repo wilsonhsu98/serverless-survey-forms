@@ -1,8 +1,20 @@
 
 /***** Global Component *****/
+:global html {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    min-height: 100%;
+    background-color: #eaf2f3;
+}
+
 :global body {
-    background-color: #eee;
+    overflow-x: hidden;
+    width: 100%;
+    line-height: 20px;
+    margin-bottom: 82px;
     font-family: arial,sans-serif;
+    background-color: #eaf2f3;
 
     &.bg {
         background-color: #eaf2f3;
@@ -222,7 +234,10 @@
 }
 
 .wrap {
-    min-width: 960px;
+    min-height: 100%;
+    height: auto!important;
+    height: 100%;
+    margin: 0 auto;
 }
 
 .content {
@@ -236,9 +251,20 @@
         height: 100%;
         background: resolve("bg_cloud_top.png") center 0 no-repeat;
     }
-    .content_inner {
+    .container {
         position: relative;
         width: 880px;
         margin: 0 auto;
+        &:before {
+            display: table;
+            content: "";
+            line-height: 0;
+        }
+        &:after {
+            clear: both;
+            display: table;
+            content: "";
+            line-height: 0;
+        }
     }
 }
