@@ -10,11 +10,12 @@ import * as QuestionsActions from '../../actions/questions';
 import * as EditQuestionActions from '../../actions/editQuestion';
 import * as EditPageActions from '../../actions/editPage';
 import * as OrderPageActions from '../../actions/orderPage';
+import * as PreviewActions from '../../actions/preview';
 
 import Design from '../../components/Design';
 
 class Create extends PureComponent {
-    componentWillMount() {
+    componentDidMount() {
         const { surveyID, pushActions } = this.props;
         // if there is no surveyID, go back
         if (!surveyID) pushActions('/');
@@ -32,7 +33,8 @@ function mapStateToProps(state) {
         questions: state.questions,
         editQuestion: state.editQuestion,
         editPage: state.editPage,
-        orderPage: state.orderPage
+        orderPage: state.orderPage,
+        surveyPolicy: state.surveyPolicy
     };
 }
 
@@ -42,6 +44,7 @@ function mapDispatchToProps(dispatch) {
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
+        previewActions: bindActionCreators(PreviewActions, dispatch),
         pushActions: bindActionCreators(push, dispatch)
     };
 }

@@ -13,10 +13,10 @@ webpackConfig.entry = [
 ];
 webpackConfig.output = {
     filename: "index.js",
-    path: path.resolve(__dirname, 'build/'),
-    publicPath: 'http://localhost:8080/build/'
+    path: path.resolve(__dirname, '/'),
+    publicPath: 'http://localhost:8080/'
 };
-console.log(webpackConfig.entry);
+
 var app = express();
 var port = 8080;
 var compiler = webpack(webpackConfig);
@@ -29,7 +29,7 @@ app.use(webpackDevMiddleware(compiler, {
    	}
 }));
 app.use(webpackHotMiddleware(compiler));
-app.use(express.static(path.join(__dirname, '..')));
+app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
 
 app.get('*', function(req, res) {
     var body = '<!doctype html>' +
@@ -37,11 +37,11 @@ app.get('*', function(req, res) {
         '<head>' +
         '<meta charset="utf-8" />' +
         '<title>' + folder + '</title>' +
-        '<link rel="stylesheet" href="build/styles.css">' +
+        '<link rel="stylesheet" href="styles.css">' +
         '</head>' +
         '<body>' +
         '<div id="main"></div>' +
-        '<script src="build/index.js"></script>' +
+        '<script src="index.js"></script>' +
         '</body>'+
         '</html>';
 

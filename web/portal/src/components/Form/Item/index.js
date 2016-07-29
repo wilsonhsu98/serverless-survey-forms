@@ -82,31 +82,34 @@ class Item extends Component {
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
 
         return connectDragPreview(connectDropTarget(
-            <div
-                className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''}`}
-                style={{
-                    opacity: isOver ? 0.1 : 1
-                }}
-            >
-                {this._renderQuestion()}
-                <div className="control">
-                    {connectDragSource(
+            <div>
+                <div
+                    className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''}`}
+                    style={{
+                        opacity: isOver ? 0.1 : 1
+                    }}
+                >
+                    {this._renderQuestion()}
+                    <div className="control">
+                        {connectDragSource(
+                            <button
+                                className="btn"
+                                style={{ cursor: 'move' }}
+                            >
+                                Move
+                            </button>
+                        )}
                         <button
                             className="btn"
-                            style={{ cursor: 'move' }}
-                        >
-                            Move
-                        </button>
-                    )}
-                    <button
-                        className="btn"
-                        onClick={this._onCopyHandle}
-                    >Copy</button>
-                    <button
-                        className="btn"
-                        onClick={this._onDeleteHandle}
-                    >Remove</button>
+                            onClick={this._onCopyHandle}
+                        >Copy</button>
+                        <button
+                            className="btn"
+                            onClick={this._onDeleteHandle}
+                        >Remove</button>
+                    </div>
                 </div>
+                <div className="questionLine"></div>
             </div>
         ));
     }

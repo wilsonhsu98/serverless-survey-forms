@@ -2,9 +2,28 @@
 import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
 
+import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import Mixins from '../mixins/global';
+import { setSubject } from './subject';
+
+export function setSurveyID(data) {
+    return {
+        type: types.SET_SURVEYID,
+        surveyID: data
+    };
+}
+
+export function finishEdit() {
+    return (dispatch) => {
+        dispatch(setSurveyID(''));
+        dispatch(setSubject(''));
+        dispatch({ type: types.INIT_QUESTIONS });
+        dispatch({ type: types.INIT_SURVEY_POLICY });
+        dispatch(push('/'));
+    };
+}
 
 export function addQuestion(page, data) {
     return (dispatch, getState) => {
@@ -199,9 +218,83 @@ export function exchangePage() {
     };
 }
 
-function receiveQuestionsSuccess() {
+function saveQuestionsSuccess() {
     return {
-        type: types.RECIEVE_QUESTIONS_SUCCESS
+        type: types.SAVE_QUESTIONS_SUCCESS
+    };
+}
+
+function saveQuestionsFailure(err) {
+    return {
+        type: types.SAVE_QUESTIONS_FAILURE,
+        errorMsg: err
+    };
+}
+
+export function saveQuestion() {
+    return (dispatch, getState) => {
+        const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
+        const postData = {
+            subject: subject,
+            survey: { content: [...questions], thankyou: surveyPolicy }
+        };
+
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: token
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.datetime) {
+                dispatch(saveQuestionsSuccess());
+            } else {
+                dispatch(saveQuestionsFailure(data));
+            }
+        })
+        .catch(err => saveQuestionsFailure(err.responseJSON));
+    };
+}
+
+function setSurveyPolicy(data) {
+    return {
+        type: types.SET_SURVEY_POLICY,
+        surveyPolicy: data
+    };
+}
+
+export function editSurveyPolicy(flag) {
+    const data = Object.assign({},
+        {
+            description: 'Thanks for sharing your feedback with Trend Micro.',
+            privacy: {}
+        });
+
+    if (flag) {
+        const label = 'If Trend Micro has a follow-up survey on the Email Scan,'
+            + ' would you like to participate?';
+        const privacy = {
+            label: label,
+            terms: 'Yes, Trend Micro can reach me at this address: ',
+            input: 'Please enter your email address.'
+        };
+        data.privacy = privacy;
+    }
+
+    return (dispatch) => {
+        dispatch(setSurveyPolicy(data));
+        return dispatch(saveQuestion());
+    };
+}
+
+function receiveQuestionsSuccess(data) {
+    return {
+        type: types.RECIEVE_QUESTIONS_SUCCESS,
+        questions: data
     };
 }
 
@@ -212,28 +305,33 @@ function receiveQuestionsFailure(err) {
     };
 }
 
-export function saveQuestion() {
+export function getQuestion(surveyID) {
     return (dispatch, getState) => {
-        const { account, surveyID, subject, questions, token } = getState();
-        const postData = {
-            subject: subject,
-            survey: [...questions]
-        };
+        const { account } = getState();
 
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
-            method: 'PUT',
+        // TODOS: temporarily
+        // const dt = new Date(window.localStorage[surveyID]).toGMTString();
+        const dt = new Date().getTime();
+        return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
+            method: 'GET',
             credentials: 'same-origin',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                authorization: token
-            },
-            body: JSON.stringify(postData)
+                'If-Modified-Since': dt
+            }
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log(response.status);
+            return response.json();
+        })
         .then(data => {
-            if (data.datetime) {
-                dispatch(receiveQuestionsSuccess());
+            if (data.surveyid) {
+                // console.log(data.datetime);
+                // window.localStorage[surveyID] = data.datetime;
+                dispatch(setSurveyID(data.surveyid));
+                dispatch(setSubject(data.subject));
+                dispatch(receiveQuestionsSuccess(data.survey.content));
+                dispatch(setSurveyPolicy(data.survey.thankyou));
+                dispatch(push('/create'));
             } else {
                 dispatch(receiveQuestionsFailure(data));
             }

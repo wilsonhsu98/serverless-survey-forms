@@ -21,12 +21,9 @@ export function getSurveys() {
     return (dispatch, getState) => {
         const { account, token } = getState();
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
-            // TODOS: wait back end
             method: 'GET',
             credentials: 'same-origin',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
                 authorization: token
             }
         })

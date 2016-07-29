@@ -1,0 +1,50 @@
+/*
+ * Style for components/Privacy/index.js
+ */
+
+.hr {
+    width: 95%;
+    margin: 40px auto 48px;
+    border-top: 1px solid #92BBC2;
+}
+
+.title {
+    font-size: 24px;
+    color: #22727F;
+    letter-spacing: -0.72px;
+    padding-left: 36px;
+}
+
+.box {
+    background-color: #FFF;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    border: 1px solid #BFBFBF;
+    .upper {
+        padding: 36px;
+        font-size: 18px;
+        color: #222;
+    }
+    .separate {
+        width: auto;
+        margin: 0 16px;
+        border-top: 1px solid #DDD;
+    }
+    .lower {
+        padding: 36px;
+        color: #222;
+    }
+    .lower_txt {
+        font-size: 18px;
+    }
+    input {
+        margin-right: 10px;
+    }
+    .label {
+        font-size: 14px;
+        color: #666;
+        line-height: 40px;
+        font-weight: normal;
+    }
+}

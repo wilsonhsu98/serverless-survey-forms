@@ -9,6 +9,7 @@ import $ from 'jquery';
 import * as values from '../../../constants/DefaultValues';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
+import Button from '../../Button';
 
 class EditQuestion extends PureComponent {
 
@@ -41,20 +42,19 @@ class EditQuestion extends PureComponent {
                         </div>
                     </div>
                     <div className="bottom">
-                        <button
-                            data-type="save"
-                            className="actionBtn"
+                        <Button
+                            string="Save"
+                            i18nKey={false}
+                            color="ruby"
                             onClick={this._btnClickEvent}
-                        >
-                            Save
-                        </button>
-                        <button
-                            data-type="cancel"
-                            className="actionBtn"
+                            extraProps={{ 'data-type': 'save' }}
+                        />
+                        <Button
+                            string="Cancel"
+                            i18nKey={false}
                             onClick={this._btnClickEvent}
-                        >
-                            Cancel
-                        </button>
+                            extraProps={{ 'data-type': 'cancel' }}
+                        />
                     </div>
                 </div>
             </div>
@@ -150,9 +150,9 @@ class EditQuestion extends PureComponent {
 
     _btnClickEvent(e) {
         const { questionsActions, editQuestionActions } = this.props;
-        if (e.target.getAttribute('data-type') === 'cancel') {
+        if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editQuestionActions.stopEditQuestion();
-        } else if (e.target.getAttribute('data-type') === 'save') {
+        } else if (e.currentTarget.getAttribute('data-type') === 'save') {
             // save editQuestion to Question
             questionsActions.updateQuestionItem();
             questionsActions.saveQuestion();

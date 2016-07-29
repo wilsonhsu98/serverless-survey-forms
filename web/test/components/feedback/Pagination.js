@@ -12,7 +12,7 @@ describe('Testing Pagination Component', () => {
 
     it('check total pages < 1: No pagination', () => {
         const content = TestUtils.renderIntoDocument(
-            <Pagination pages={1} currentPage={1} />
+            <Pagination pages={1} currentPage={1} settings={{ type: 'preview' }} />
         );
         const component = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-pagination');
 
@@ -22,7 +22,7 @@ describe('Testing Pagination Component', () => {
 
     it('check page one scenario: No prev button', () => {
         const content = TestUtils.renderIntoDocument(
-            <Pagination pages={4} currentPage={1} />
+            <Pagination pages={4} currentPage={1} settings={{ type: 'preview' }} />
         );
         const prevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
 
@@ -33,7 +33,7 @@ describe('Testing Pagination Component', () => {
 
     it('check page one scenario: Has next button', () => {
         const content = TestUtils.renderIntoDocument(
-            <Pagination pages={4} currentPage={1} />
+            <Pagination pages={4} currentPage={1} settings={{ type: 'preview' }} />
         );
         const nextBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-next');
 
@@ -42,7 +42,7 @@ describe('Testing Pagination Component', () => {
 
     it('check last page scenario: No next button', () => {
         const content = TestUtils.renderIntoDocument(
-            <Pagination pages={4} currentPage={4} />
+            <Pagination pages={4} currentPage={4} settings={{ type: 'preview' }} />
         );
         const NextBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-next');
 
@@ -52,7 +52,7 @@ describe('Testing Pagination Component', () => {
 
     it('check last page scenario: Has prev button', () => {
         const content = TestUtils.renderIntoDocument(
-            <Pagination pages={4} currentPage={4} />
+            <Pagination pages={4} currentPage={4} settings={{ type: 'preview' }} />
         );
         const PrevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
 

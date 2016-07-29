@@ -11,51 +11,62 @@ import EditQuestion from '../EditPanel/EditQuestion';
 import OrderPage from '../EditPanel/OrderPage';
 import EditPage from '../EditPanel/EditPage';
 import Pagination from '../Form/Pagination';
+import Privacy from '../Form/Privacy';
 
 class Design extends PureComponent {
 
     constructor(props) {
         super(props);
+
         this._moveQuestion = this._moveQuestion.bind(this);
         this._getQuestion = this._getQuestion.bind(this);
         this._onAddPageClick = this._onAddPageClick.bind(this);
+    }
 
+    componentDidMount() {
         // init questionnaire
-        const { questions, questionsActions } = props;
-        const page = questions.length + 1;
-        questionsActions.addPage(page);
+        const { questions, questionsActions } = this.props;
+        if (questions.length === 0) {
+            const page = questions.length + 1;
+            questionsActions.addPage(page);
+        }
     }
 
     render() {
+        const { surveyPolicy, questionsActions } = this.props;
         return (
             <div ref="root">
                 {this._renderEdit()}
-                {this._renderPage()}
+                <div>{this._renderPage()}</div>
 
                 <div className={styles.control}>
-                    <button className={`${styles.pageBtn} btn`} onClick={this._onAddPageClick}>
+                    <button className={styles.pageBtn} onClick={this._onAddPageClick}>
                         + Add Page
                     </button>
                 </div>
 
-                <div style={{ width: '100%', margin: '10px 0', textAlign: 'center' }}>
-                    Thank you page
-                </div>
+                <Privacy
+                    surveyPolicy={surveyPolicy}
+                    questionsActions={questionsActions}
+                />
             </div>
         );
     }
 
     _renderPage() {
-        const { questions, editQuestion, editPage, orderPage,
-            questionsActions, editQuestionActions, editPageActions, orderPageActions } = this.props;
+        const { questions, editQuestion, editPage, orderPage, surveyID,
+            questionsActions, editQuestionActions, editPageActions,
+            orderPageActions, previewActions } = this.props;
         const basicProps = {
             questions,
             editQuestion,
             editPage,
+            surveyID,
             questionsActions,
             editQuestionActions,
             editPageActions,
             orderPageActions,
+            previewActions,
             moveQuestion: this._moveQuestion,
             getQuestion: this._getQuestion
         };

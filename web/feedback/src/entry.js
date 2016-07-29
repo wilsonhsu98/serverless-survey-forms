@@ -13,6 +13,7 @@ class App extends PureComponent {
                     accountid="context.authorizer.principalId"
                     surveyid="759e7930-3219-11e6-b8fc-ed3df7fb1eab"
                     localize_path="../../assets/L10N"
+                    type="preview"
                 />
             </div>
         );

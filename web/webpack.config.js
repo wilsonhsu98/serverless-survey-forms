@@ -7,6 +7,10 @@ var folder = process.env.NODE_FOLDER ? process.env.NODE_FOLDER : 'portal';
 // Postcss plugins
 var postcssImport = require('postcss-import');
 var postcssNested = require('postcss-nested');
+var postcssVars = require('postcss-simple-vars');
+var postcssMixins = require('postcss-mixins');
+var postcssAssets = require('postcss-assets');
+var postcssGradientfixer = require('postcss-gradientfixer');
 var autoprefixer = require('autoprefixer');
 
 // eslint folder path
@@ -66,7 +70,11 @@ var webpackConfig = {
             postcssImport({
                 addDependencyTo: bundler
             }),
+            postcssAssets({ loadPaths: ['assets/images/', 'assets/images/component/ruby/'] }),
+            postcssMixins,
+            postcssVars,
             postcssNested,
+            postcssGradientfixer,
             autoprefixer({ browsers: 'last 2 version' })
         ];
     }
