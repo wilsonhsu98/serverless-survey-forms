@@ -8,9 +8,7 @@
   "timeout": 60,
   "memorySize": 512,
   "authorizer": {},
-  "custom": {
-    "excludePatterns": []
-  },
+  "custom": "$${customTemplate}",
   "endpoints": [
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -19,23 +17,26 @@
       "authorizationType": "none",
       "authorizerFunction": false,
       "apiKeyRequired": false,
-      "requestParameters": {},
+      "requestParameters": {
+        "integration.request.header.body-header": "method.request.header.If-Modified-Since"
+      },
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
           "clientid": "$input.params('clientid')",
-          "op": "getOneFeedback"
+          "op": "getOneFeedback",
+          "ifModifiedSince": "$input.params('If-Modified-Since')"
         }
       },
       "responses": "$${apiResponseTemplate}"
     },
     {
-      "path": "api/v1/feedbacks/{surveyid}",
+      "path": "api/v1/mgnt/feedbacks/{surveyid}",
       "method": "GET",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {
         "integration.request.querystring.integrationQueryParam": "method.request.querystring.startKey"
@@ -45,11 +46,11 @@
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
           "startKey": "$input.params('startKey')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op": "listFeedbacks"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -68,7 +69,7 @@
           "op" : "addOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -87,7 +88,7 @@
           "op" : "updateOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     },
     {
       "path": "api/v1/feedbacks/{surveyid}/{clientid}",
@@ -105,7 +106,7 @@
           "op" : "deleteOneFeedback"
         }
       },
-      "responses": "$${apiResponseTemplate}"
+      "responses": "$${apiResponseNonCacheTemplate}"
     }
   ],
   "events": [],
@@ -115,7 +116,8 @@
     "SERVERLESS_REGION": "${region}",
     "SERVERLESS_USERTABLE": "${project}-${stage}-users",
     "SERVERLESS_SURVEYTABLE": "${project}-${stage}-surveys",
-    "SERVERLESS_FEEDBACKTABLE": "${project}-${stage}-feedbacks"
+    "SERVERLESS_FEEDBACKTABLE": "${project}-${stage}-feedbacks",
+    "TOKEN_SECRET": "${tokenSecret}"
   },
   "vpc": {
     "securityGroupIds": [],

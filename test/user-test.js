@@ -239,10 +239,9 @@ describe("Interface to get one user model from data store", function() {
         user.getOneUser(event, (error, response) => {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
-          response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
+          response.should.have.all.keys(['accountid', 'username', 'role']);
           response.accountid.should.have.string(accountid);
           response.username.should.have.string(username);
-          response.email.should.have.string(email);
           response.role.should.have.string(role);
           done();
         });
