@@ -13,6 +13,7 @@ import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 
 import Question from '../Question/index';
+import styles from './style.css';
 
 class Text extends PureComponent {
 
@@ -33,7 +34,7 @@ class Text extends PureComponent {
                     text={item.label}
                     required={item.required}
                 />
-                <div>
+                <div className={styles.inputItem}>
                     <input
                         id={`text_${id}`}
                         type="text"

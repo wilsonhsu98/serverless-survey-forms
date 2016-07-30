@@ -4,7 +4,7 @@
 
 .wrap {
     height: 100%;
-    background: #F0F0F0;
+    background: #fff;
     overflow: hidden;
     position: absolute;
     top: 0;
@@ -25,10 +25,19 @@
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
 }
 
+.container {
+    width: 680px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    padding: 20px;
+}
+
 .contentScroll {
     position: absolute;
-    top: 85px;
-    bottom: 120px;
+    top: 20px;
+    bottom: 80px;
     left: 0;
     right: 0;
     padding: 20px;
@@ -40,22 +49,67 @@
 }
 
 .description {
-	font-size: 16px;
-	margin: 0 0 20px;
+    font-size: 16px;
+    margin: 0 0 20px;
 }
 
 :global .question {
-	margin: 10px 0;
+    margin-bottom: 20px;
 }
 
-.container {
-    width: 950px;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
+/* Preivew styles */
+.wrapPreview {
     height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: resolve("bg_cloud_top.png") center 72px no-repeat;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    height: 72px;
     background: #fff;
-    padding: 20px;
+    border-bottom: 1px solid #eee;
+    h1 {
+        width: 680px;
+        margin: 0 auto;
+        font-size: 32px;
+        line-height: 72px;
+    }
+}
+
+.contentScrollPreview {
+    position: absolute;
+    top: 72px;
+    bottom: 96px;
+    left: 0;
+    right: 0;
+    padding: 48px 34px;
+    overflow: auto;
+}
+
+.feedbackPreview {
+    background: #fff;
+    padding: 18px 30px 48px 30px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+.paginationPreview {
+    border-top: 1px solid #eee;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 96px;
 }
 
 /* Tablet and Mobile Styles */
@@ -63,11 +117,36 @@
     .container {
         width: auto;
     }
+    .header {
+        h1 {
+            width: auto;
+        }
+    }
 }
 
 /* Mobile Styles */
 @media only screen and (max-width: 639px) {
-    .contentScroll {
-        bottom: 80px;
+    .contentScroll, .contentScrollPreview {
+        bottom: 60px;
+        padding: 16px;
+    }
+    .contentScrollPreview {
+        top: 48px;
+    }
+    .feedbackPreview {
+        padding: 24px 16px;
+    }
+    .paginationPreview {
+        height: 60px;
+    }
+    .wrapPreview {
+        background-position: center 48px;
+    }
+    .header {
+        height: 48px;
+        h1 {
+            font-size: 18px;
+            line-height: 48px;
+        }
     }
 }

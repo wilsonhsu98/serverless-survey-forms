@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import Button from '../Button';
 
 class SubjectPop extends PureComponent {
 
@@ -18,11 +19,13 @@ class SubjectPop extends PureComponent {
         return (
             <div className={styles.popup}>
                 <div className={styles.wrap}>
-                    <div
-                        data-type="cancel"
-                        className={`${styles.close} close`}
+                    <button
+                        type="button"
                         onClick={this._btnClickEvent}
-                    >X</div>
+                        className={`${styles.close} close`}
+                        data-type="cancel"
+                    >×
+                    </button>
                     <div className={styles.content}>
                         <div className={styles.title}>What would you like to name this survey?</div>
                         <input
@@ -36,20 +39,19 @@ class SubjectPop extends PureComponent {
                         <div id="msg" className={`${styles.input__msg} input__msg`}></div>
 
                         <div className={`bottom ${styles.bottom}`}>
-                            <button
-                                data-type="save"
-                                className={`${styles.button} button button--medium button--red`}
+                            <Button
+                                string="Save"
+                                i18nKey={false}
+                                color="ruby"
                                 onClick={this._btnClickEvent}
-                            >
-                                Save
-                            </button>
-                            <button
-                                data-type="cancel"
-                                className={`${styles.button} button button--medium`}
+                                extraProps={{ 'data-type': 'save' }}
+                            />
+                            <Button
+                                string="Cancel"
+                                i18nKey={false}
                                 onClick={this._btnClickEvent}
-                            >
-                                Cancel
-                            </button>
+                                extraProps={{ 'data-type': 'cancel' }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -67,9 +69,9 @@ class SubjectPop extends PureComponent {
         const msg = document.getElementById('msg');
         msg.innerHTML = '';
 
-        if (e.target.getAttribute('data-type') === 'cancel') {
+        if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editSubjectActions.openEdit(false);
-        } else if (e.target.getAttribute('data-type') === 'save') {
+        } else if (e.currentTarget.getAttribute('data-type') === 'save') {
             const subject = document.getElementById('subject').value;
             if (subject === '') {
                 msg.innerHTML = 'Please fill the subject';

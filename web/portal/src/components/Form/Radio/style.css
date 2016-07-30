@@ -2,16 +2,21 @@
  * Style for components/Radio/index.js
  */
 
+.radioGrp {
+    margin-left: 24px;
+}
+
 .radioItem {
-    margin: 5px 0;
+    margin: 12px 0;
 }
 
 .radioItem input[type="radio"] {
-	margin-right: 10px;
+	margin-right: 8px;
 }
 
-.radioItem input[type="text"] {
-	margin-left: 10px;
-	padding: 0 10px;
+.radioItem label {
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+    margin-right: 8px;
 }
-

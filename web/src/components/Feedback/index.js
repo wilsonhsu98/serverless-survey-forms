@@ -23,21 +23,29 @@ class Feedback extends PureComponent {
 
     constructor(props) {
         super(props);
-        this._renderSurvey = this._renderSurvey.bind(this);
+        this._renderPreview = this._renderPreview.bind(this);
+        this._renderEmbedded = this._renderEmbedded.bind(this);
         this._renderThankyou = this._renderThankyou.bind(this);
         this._onChangeHandle = this._onChangeHandle.bind(this);
     }
 
     render() {
+        const { settings, done } = this.props;
+        let feedbackView;
+        if (settings.type === 'preview') {
+            feedbackView = this._renderPreview();
+        } else {
+            feedbackView = this._renderEmbedded();
+        }
         return (
-            <div ref="root" className={styles.wrap}>
-                {this.props.done ? this._renderThankyou() : this._renderSurvey()}
+            <div ref="root">
+                {done ? this._renderThankyou() : feedbackView}
             </div>
         );
     }
 
-    _renderSurvey() {
-        const { paging, surveyActions, feedbackActions } = this.props;
+    _renderEmbedded() {
+        const { settings, paging, surveyActions, feedbackActions } = this.props;
         const { content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
@@ -45,29 +53,71 @@ class Feedback extends PureComponent {
         const list = question.map(
             (itm, idx) => this._renderQuestion(itm, idx));
         return (
-            <div className={styles.container}>
-                <div className={styles.title}>
-                {I18Next.t(this.props.survey.title)}
-                </div>
-                <div className={styles.contentScroll}>
-                    <div className={styles.content}>
-                    {
-                        description ?
-                            <div className={styles.description}>{description}</div> :
-                            ''
-                    }
-                        <div>{list}</div>
+            <div className={styles.wrap}>
+                <div className={styles.container}>
+                    <div className={styles.contentScroll}>
+                        <div className={styles.content}>
+                        {
+                            description ?
+                                <div className={styles.description}>{description}</div> :
+                                ''
+                        }
+                            <div>{list}</div>
+                        </div>
                     </div>
+                    {
+                    content.length > 1 ?
+                        <Pagination
+                            pages={content.length}
+                            currentPage={paging}
+                            surveyActions={surveyActions}
+                            feedbackActions={feedbackActions}
+                            settings={settings}
+                        /> :
+                        ''
+                    }
+                </div>
+            </div>
+        );
+    }
+
+    _renderPreview() {
+        const { settings, paging, survey, surveyActions, feedbackActions } = this.props;
+        const { subject, content } = survey;
+
+        const currentPageContent = content[paging - 1];
+        const { description, question } = currentPageContent;
+        const list = question.map(
+            (itm, idx) => this._renderQuestion(itm, idx));
+        return (
+            <div className={styles.wrapPreview}>
+                <div className={styles.header}>
+                    <h1>{subject}</h1>
+                </div>
+                <div className={styles.container}>
+                    <div className={styles.contentScrollPreview}>
+                        <div className={styles.content}>
+                        {
+                            description ?
+                                <div className={styles.description}>{description}</div> :
+                                ''
+                        }
+                            <div className={styles.feedbackPreview}>{list}</div>
+                        </div>
+                    </div>
+
                 </div>
                 {
-                content.length > 1 ?
-                    <Pagination
-                        pages={content.length}
-                        currentPage={paging}
-                        surveyActions={surveyActions}
-                        feedbackActions={feedbackActions}
-                    /> :
-                    ''
+                    content.length > 1 ?
+                        <div className={styles.paginationPreview}>
+                            <Pagination
+                                pages={content.length}
+                                currentPage={paging}
+                                surveyActions={surveyActions}
+                                feedbackActions={feedbackActions}
+                                settings={settings}
+                            />
+                        </div> : ''
                 }
             </div>
         );
@@ -75,7 +125,7 @@ class Feedback extends PureComponent {
 
     _renderQuestion(item, idx) {
         const requiredProps = {
-            id: item.order,
+            id: idx + 1,
             key: idx,
             item: item,
             onChangeHandle: this._onChangeHandle

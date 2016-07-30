@@ -12,6 +12,7 @@ export default function questions(state = [], action) {
     case types.EDIT_PAGE_TITLE:
     case types.DELETE_PAGE:
     case types.EXCHANGE_PAGE:
+    case types.RECIEVE_QUESTIONS_SUCCESS:
         return action.questions;
 
     case types.ADD_PAGE:
@@ -19,6 +20,8 @@ export default function questions(state = [], action) {
             ...state,
             action.page
         ];
+
+    case types.INIT_QUESTIONS:
     default:
         return state;
     }

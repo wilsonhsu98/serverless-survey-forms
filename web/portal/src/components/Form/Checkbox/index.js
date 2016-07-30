@@ -41,7 +41,11 @@ class Checkbox extends Component {
                     </label>
                     {
                         input ?
-                            <input type="text" placeholder={input} /> :
+                            <input
+                                type="text"
+                                className="input input--small"
+                                placeholder={input}
+                            /> :
                             ''
                     }
                 </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
 import Item from './Item';
+import Button from '../../Button';
 
 class OrderPage extends PureComponent {
 
@@ -39,20 +40,19 @@ class OrderPage extends PureComponent {
                     </div>
 
                     <div className="bottom">
-                        <button
-                            data-type="save"
-                            className="actionBtn"
+                        <Button
+                            string="Save"
+                            i18nKey={false}
+                            color="ruby"
                             onClick={this._btnClickEvent}
-                        >
-                            Save
-                        </button>
-                        <button
-                            data-type="cancel"
-                            className="actionBtn"
+                            extraProps={{ 'data-type': 'save' }}
+                        />
+                        <Button
+                            string="Cancel"
+                            i18nKey={false}
                             onClick={this._btnClickEvent}
-                        >
-                            Cancel
-                        </button>
+                            extraProps={{ 'data-type': 'cancel' }}
+                        />
                     </div>
                 </div>
             </div>
@@ -61,9 +61,9 @@ class OrderPage extends PureComponent {
 
     _btnClickEvent(e) {
         const { questionsActions, orderPageActions } = this.props;
-        if (e.target.getAttribute('data-type') === 'cancel') {
+        if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             orderPageActions.setOrderPage([]);
-        } else if (e.target.getAttribute('data-type') === 'save') {
+        } else if (e.currentTarget.getAttribute('data-type') === 'save') {
             // save orderPage to Question
             questionsActions.exchangePage();
             questionsActions.saveQuestion();

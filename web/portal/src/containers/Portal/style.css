@@ -1,7 +1,28 @@
 
 /***** Global Component *****/
-body {
-    background-color: #eee;
+:global html {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    min-height: 100%;
+    background-color: #eaf2f3;
+}
+
+:global body {
+    overflow-x: hidden;
+    width: 100%;
+    line-height: 20px;
+    margin-bottom: 82px;
+    font-family: arial,sans-serif;
+    background-color: #eaf2f3;
+
+    &.bg {
+        background-color: #eaf2f3;
+    }
+}
+
+:global button {
+    outline: none;
 }
 
 :global .input {
@@ -77,18 +98,173 @@ body {
 }
 
 :global .close {
-    cursor: pointer;
-    color: #222;
-    font-size: 14px;
+    background: resolve("component/ic_popup_close.png") no-repeat 0 0;
+    height: 40px;
+    width: 40px;
+    text-indent: -99999px;
+    outline: none;
+    border: none;
+    z-index: 1;
+    &:hover {
+        background-position: 0 -39px;
+    }
+    &:active {
+        background-position: 0 -79px;
+    }
+    &:disabled {
+        background-position: 0 -120px;
+    }
 }
 
 
+:global .questionItem {
+    background-color: #FFF;
+    & > div {
+        display: table-cell;
+        &.question {
+            position: relative;
+            width: 640px;
+            vertical-align: top;
+            padding: 36px;
+            min-height: 135px;
+            cursor: pointer;
+            & > * {
+                pointer-events: none;
+            }
+            &:hover {
+                background-color: #fafafa;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                top: 36px;
+                right: 0;
+                width: 1px;
+                height: calc(100% - 72px);
+                background: #EEE;
+            }
+        }
+        &.control {
+            vertical-align: top;
+            text-align: center;
+            padding: 36px 0 36px 28px;
+            button {
+                display: block;
+                margin: 0 0 8px;
+                height: 32px;
+            }
+        }
+    }
+    &.edit {
+        .question {
+            background-color: #e3f5fa;
+        }
+    }
+}
+
+:global .questionLine {
+    border-top: 1px solid #DDD;
+    margin: 0 16px;
+}
+
+:global .btn {
+    border: 1px dashed #999;
+    background-color: #fff;
+    border-radius: 5px;
+    color: #1F8ECC;
+}
+
+:global .actionBtn {
+    border: 1px solid #999;
+    background-color: #3b629c;
+    border-radius: 5px;
+    color: #FFF;
+    width: 100px;
+    margin: 5px;
+}
+
+:global .modalEditPanel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+
+    .editpanel {
+        position: absolute;
+        width: 450px;
+        height: calc(100% - 60px);
+        top: 60px;
+        right: 0;
+        background-color: #fff;
+        border-top-left-radius: 4px;
+        box-shadow: 1px 1px 8px rgba(0,0,0, 0.35);
+
+        .edit {
+            position: absolute;
+            right: 0;
+            width: 100%;
+            height: calc(100% - 72px);
+            padding: 36px 36px 0 36px;
+
+            .editContent {
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+        .bottom {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 72px;
+            padding: 16px 0 24px;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.35);
+            text-align: center;
+
+            & > div {
+                margin: 0 6px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
 .wrap {
-	position: relative;
-    min-width: 950px;
+    min-height: 100%;
+    height: auto!important;
+    height: 100%;
+    margin: 0 auto;
 }
 
 .content {
-    width: 800px;
-    margin: 10px auto;
+    overflow: hidden;
+    position: relative;
+    .content_bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: resolve("bg_cloud_top.png") center 0 no-repeat;
+    }
+    .container {
+        position: relative;
+        width: 880px;
+        margin: 0 auto;
+        &:before {
+            display: table;
+            content: "";
+            line-height: 0;
+        }
+        &:after {
+            clear: both;
+            display: table;
+            content: "";
+            line-height: 0;
+        }
+    }
 }

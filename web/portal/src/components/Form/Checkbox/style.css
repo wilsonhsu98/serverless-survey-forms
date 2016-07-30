@@ -2,12 +2,22 @@
  * Style for components/Checkbox/index.js
  */
 
-.checkboxItem input[type="checkbox"] {
-    margin-right: 10px;
+.checkboxGrp {
+    margin-left: 24px;
 }
 
-.checkboxItem input[type="text"] {
-    margin-left: 10px;
-    padding: 0 10px;
+.checkboxItem {
+    margin: 12px 0;
+}
+
+.checkboxItem input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.checkboxItem label {
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+    margin-right: 8px;
 }
 

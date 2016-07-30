@@ -33,6 +33,7 @@ class Survey extends PureComponent {
 function mapStateToProps(state) {
     return {
         loading: state.loading,
+        settings: state.settings,
         survey: state.survey,
         feedback: state.feedback,
         done: state.done,
