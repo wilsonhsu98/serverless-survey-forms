@@ -2,7 +2,7 @@
 import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
 
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import Mixins from '../mixins/global';
@@ -21,7 +21,8 @@ export function finishEdit() {
         dispatch(setSubject(''));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
-        dispatch(push('/'));
+        // TODOS: temporarily remove router
+        // dispatch(push('/'));
     };
 }
 
@@ -323,7 +324,8 @@ export function getQuestion(surveyID) {
                 dispatch(setSubject(data.subject));
                 dispatch(receiveQuestionsSuccess(data.survey.content));
                 dispatch(setSurveyPolicy(data.survey.thankyou));
-                dispatch(push('/create'));
+                // TODOS: temporarily remove router
+                // dispatch(push('/create'));
             } else {
                 dispatch(receiveQuestionsFailure(data));
             }

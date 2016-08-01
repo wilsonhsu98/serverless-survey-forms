@@ -1,7 +1,7 @@
 
 import * as types from '../constants/ActionTypes';
 
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import { openEdit } from './editSubject';
@@ -43,7 +43,8 @@ export function saveSubject(subject) {
         .then(data => {
             if (data.surveyid) {
                 dispatch(setSurveyID(data.surveyid));
-                dispatch(push('/create'));
+                // TODOS: temporarily remove router
+                // dispatch(push('/create'));
                 dispatch(openEdit(false));
             } else {
                 setSubjectError(data);

@@ -20,6 +20,8 @@ import SubjectPop from '../../components/SubjectPop';
 import Preview from '../../components/PreviewPop/Preview';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
+import Create from '../../containers/Create/';
+import List from '../../containers/List/';
 
 class Portal extends PureComponent {
 
@@ -64,7 +66,7 @@ class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { account } = this.props;
+        const { account, surveyID } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid') ||
@@ -73,14 +75,17 @@ class Portal extends PureComponent {
             body.classList.remove('bg');
             return <FBLogin />;
         }
-
         // if user has a account and the account role is Designer or Admin
         body.classList.add('bg');
+
+
+        // TODOS: temporarily remove router
+        const children = surveyID ? <Create /> : <List />;
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
                 <div className={styles.container}>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
