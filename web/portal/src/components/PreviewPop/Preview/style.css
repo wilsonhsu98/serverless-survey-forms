@@ -30,14 +30,29 @@
         margin: 12px;
     }
 
-    .title {
+    .header {
         position: relative;
-        display: table-cell;
-        padding: 8px 32px 0 0;
+        padding: 8px 0 0 12px;
+
+        & > div {
+            display: table-cell;
+            vertical-align: bottom;
+        }
+    }
+
+    .title {
+        padding-right: 32px;
         font-size: 32px;
         line-height: 32px;
         color: #222;
         letter-spacing: -1.76px;
+    }
+
+    .control {
+        line-height: 0;
+        & > div {
+            margin-right: 4px;
+        }
     }
 
     .preview {

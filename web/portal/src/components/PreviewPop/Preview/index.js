@@ -5,6 +5,7 @@ import styles from './style.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
+import IconButton from '../../IconButton';
 import Qustom from '../../../../../src/index';
 
 class Preview extends PureComponent {
@@ -30,7 +31,36 @@ class Preview extends PureComponent {
                     >×
                     </button>
                     <div className={styles.content}>
-                        <div className={styles.title}>Preview</div>
+                        <div className={styles.header}>
+                            <div className={styles.title}>Preview</div>
+                            <div className={styles.control}>
+                                <IconButton
+                                    id="previewBtn"
+                                    i18nKey={false}
+                                    img="previewIcon"
+                                    selected="true"
+                                    onClick={this._btnClickEvent}
+                                />
+                                <IconButton
+                                    id="previewBtn"
+                                    i18nKey={false}
+                                    img="previewIcon-phone"
+                                    onClick={this._btnClickEvent}
+                                />
+                                <IconButton
+                                    id="previewBtn"
+                                    i18nKey={false}
+                                    img="previewIcon-pad"
+                                    onClick={this._btnClickEvent}
+                                />
+                                <IconButton
+                                    id="previewBtn"
+                                    i18nKey={false}
+                                    img="previewIcon-desktop"
+                                    onClick={this._btnClickEvent}
+                                />
+                            </div>
+                        </div>
                         <div className={styles.preview}>
                             <Qustom
                                 accountid={account.accountid}
