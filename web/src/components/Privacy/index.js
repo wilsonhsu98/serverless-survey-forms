@@ -25,14 +25,15 @@ class Privacy extends PureComponent {
                 </div>
                 <div className={styles.terms}>
                     <div className={styles.topWrapper}>
-                        <input type="checkbox" />
-                        <div
-                            className={classNames({
-                                [`${styles.desc}`]: true,
-                                'ut-terms': true
-                            })}
-                        >
-                        {info.terms}
+                        <div className="checkboxItem">
+                            <input type="checkbox" />
+                            <label
+                                className={classNames({
+                                    'ut-terms': true
+                                })}
+                            >
+                            {info.terms}
+                            </label>
                         </div>
                     </div>
                     <div className={styles.bottomWrapper}>

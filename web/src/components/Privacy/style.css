@@ -9,15 +9,6 @@
     width: 80%;
 }
 
-.terms input[type="checkbox"] {
-    position: absolute;
-}
-
-.terms .desc {
-    float: left;
-    margin: 0 0 10px 20px;
-}
-
 .bottomWrapper {
     margin-left: 20px;
     position: relative;
