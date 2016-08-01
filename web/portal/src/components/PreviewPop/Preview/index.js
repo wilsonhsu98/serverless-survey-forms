@@ -10,15 +10,64 @@ import Qustom from '../../../../../src/index';
 
 class Preview extends PureComponent {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        // set initial states
+        this.state = {
+            previewType: `${props.preview}Icon`
+        };
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
+        this._onChangePreviewType = this._onChangePreviewType.bind(this);
     }
 
     render() {
         const { account, previewID, preview } = this.props;
+        const { previewType } = this.state;
         const type = preview === 'embedded' ? preview : 'preview';
+        let buttons = [];
+        ['embeddedIcon', 'previewPhoneIcon', 'previewPadIcon', 'previewDesktopIcon'].
+            forEach((btn, idx) => {
+                buttons.push(
+                    <IconButton
+                        key={idx}
+                        id={`preview${idx}Btn`}
+                        i18nKey={false}
+                        img={btn}
+                        selected={previewType === btn}
+                        onClick={this._onChangePreviewType}
+                        extraProps={{ 'data-type': btn }}
+                    />);
+            });
+        let qustom;
+        if (preview === 'embedded') {
+            qustom = (
+                <div className={styles.embedded}>
+                    <button
+                        type="button"
+                        className={`${styles.close} close`}
+                    >×</button>
+                    <div className={styles.preview__header}></div>
+                    <div className={`${styles.preview} ${styles[preview]}`}>
+                        <Qustom
+                            accountid={account.accountid}
+                            surveyid={previewID}
+                            type={type}
+                            localize_path="../../../../../assets/L10N"
+                        />
+                    </div>
+                </div>
+            );
+        } else {
+            qustom = (<div className={`${styles.preview} ${styles[preview]}`}>
+                <Qustom
+                    accountid={account.accountid}
+                    surveyid={previewID}
+                    type={type}
+                    localize_path="../../../../../assets/L10N"
+                />
+            </div>);
+        }
 
         return (
             <div className={styles.popup}>
@@ -34,45 +83,23 @@ class Preview extends PureComponent {
                         <div className={styles.header}>
                             <div className={styles.title}>Preview</div>
                             <div className={styles.control}>
-                                <IconButton
-                                    id="previewBtn"
-                                    i18nKey={false}
-                                    img="previewIcon"
-                                    selected="true"
-                                    onClick={this._btnClickEvent}
-                                />
-                                <IconButton
-                                    id="previewBtn"
-                                    i18nKey={false}
-                                    img="previewIcon-phone"
-                                    onClick={this._btnClickEvent}
-                                />
-                                <IconButton
-                                    id="previewBtn"
-                                    i18nKey={false}
-                                    img="previewIcon-pad"
-                                    onClick={this._btnClickEvent}
-                                />
-                                <IconButton
-                                    id="previewBtn"
-                                    i18nKey={false}
-                                    img="previewIcon-desktop"
-                                    onClick={this._btnClickEvent}
-                                />
+                                {buttons}
                             </div>
                         </div>
-                        <div className={styles.preview}>
-                            <Qustom
-                                accountid={account.accountid}
-                                surveyid={previewID}
-                                type={type}
-                                localize_path="../../../../../assets/L10N"
-                            />
-                        </div>
+                        {qustom}
                     </div>
                 </div>
             </div>
         );
+    }
+
+    _onChangePreviewType(e) {
+        const { previewActions } = this.props;
+        const type = e.currentTarget.getAttribute('data-type').replace('Icon', '');
+        this.setState({
+            previewType: e.currentTarget.getAttribute('data-type')
+        });
+        previewActions.changePreview(type);
     }
 
     _btnClickEvent() {

@@ -40,6 +40,33 @@
         }
     }
 
+    .embedded {
+        position: relative;
+        width: 888px;
+        height: 508px;
+        margin: 32px auto 12px;
+        padding: 24px;
+        background: resolve("bg_product_preview_embedded.png") 0 0 no-repeat;
+
+        .close {
+            top: 24px;
+            right: 88px;
+        }
+        .preview__header {
+            width: 710px;
+            height: 72px;
+            margin: 0 auto;
+            background-color: #FFF;
+            border-top: 5px solid #e30919;
+        }
+        .preview {
+            border: none;
+            margin: 0 auto;
+            width: 710px;
+            height: calc(460px - 72px);
+        }
+    }
+
     .title {
         padding-right: 32px;
         font-size: 32px;
@@ -57,9 +84,16 @@
 
     .preview {
         position: relative;
-        margin-top: 20px;
-        border: 12px solid #222;
+        margin: 20px auto 0;
         height: 532px;
+        border: 12px solid #222;
+        width: 100%;
+        &.previewPhone {
+            width: 320px;
+        }
+        &.previewPad {
+            width: 768px;
+        }
     }
 
     .close {
