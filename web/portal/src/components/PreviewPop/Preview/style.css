@@ -48,22 +48,11 @@
         padding: 24px;
         background: resolve("bg_product_preview_embedded.png") 0 0 no-repeat;
 
-        .close {
-            top: 24px;
-            right: 88px;
-        }
-        .preview__header {
-            width: 710px;
-            height: 72px;
-            margin: 0 auto;
-            background-color: #FFF;
-            border-top: 5px solid #e30919;
-        }
         .preview {
             border: none;
             margin: 0 auto;
             width: 710px;
-            height: calc(460px - 72px);
+            height: 460px;
         }
     }
 
@@ -92,7 +81,7 @@
             width: 320px;
         }
         &.previewPad {
-            width: 768px;
+            width: 640px;
         }
     }
 

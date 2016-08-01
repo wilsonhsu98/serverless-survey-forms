@@ -43,11 +43,6 @@ class Preview extends PureComponent {
         if (preview === 'embedded') {
             qustom = (
                 <div className={styles.embedded}>
-                    <button
-                        type="button"
-                        className={`${styles.close} close`}
-                    >×</button>
-                    <div className={styles.preview__header}></div>
                     <div className={`${styles.preview} ${styles[preview]}`}>
                         <Qustom
                             accountid={account.accountid}
