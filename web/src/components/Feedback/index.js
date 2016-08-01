@@ -8,7 +8,6 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import I18Next from 'i18next';
 
 import Checkbox from '../Checkbox';
 import Radio from '../Radio';
@@ -149,24 +148,38 @@ class Feedback extends PureComponent {
     }
 
     _renderThankyou() {
+        const { subject } = this.props.survey;
         const { description, privacy } = this.props.survey.thankyou;
         return (
-            <div className={styles.container}>
-                <div className={styles.title}>
-                {I18Next.t(this.props.survey.title)}
-                </div>
-                <div className={styles.contentScroll}>
-                    <div className={styles.content}>
-                    {
-                        description ?
-                            <div className={styles.description}>{description}</div> :
-                            ''
-                    }
-                        <Privacy info={privacy} />
+            <div
+                className={
+                    this.props.settings.type === 'preview' ?
+                        styles.wrapPreview : styles.wrap}
+            >
+                {
+                    this.props.settings.type === 'preview' ?
+                        <div className={styles.header}>
+                            <h1>{subject}</h1>
+                        </div> : ''
+                }
+
+                <div className={styles.container}>
+                    <div
+                        className={
+                            this.props.settings.type === 'preview' ?
+                                styles.contentScrollPreview : styles.contentScroll}
+                    >
+                        <div className={styles.content}>
+                        {
+                            description ?
+                                <div className={styles.description}>{description}</div> :
+                                ''
+                        }
+                            <Privacy info={privacy} />
+                        </div>
                     </div>
                 </div>
             </div>
-
         );
     }
 
