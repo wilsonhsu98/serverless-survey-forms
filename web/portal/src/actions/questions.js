@@ -309,24 +309,16 @@ export function getQuestion(surveyID) {
     return (dispatch, getState) => {
         const { account } = getState();
 
-        // TODOS: temporarily
-        // const dt = new Date(window.localStorage[surveyID]).toGMTString();
-        const dt = new Date().getTime();
         return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
-                'If-Modified-Since': dt
+                'Cache-Control': 'max-age=0'
             }
         })
-        .then(response => {
-            console.log(response.status);
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.surveyid) {
-                // console.log(data.datetime);
-                // window.localStorage[surveyID] = data.datetime;
                 dispatch(setSurveyID(data.surveyid));
                 dispatch(setSubject(data.subject));
                 dispatch(receiveQuestionsSuccess(data.survey.content));
