@@ -60,4 +60,5 @@ export const SET_SURVEYID = 'SET_SURVEYID';
 
 // preview & previewID
 export const SET_PREVIEW = 'SET_PREVIEW';
+export const SET_CHANGE_PREVIEW = 'SET_CHANGE_PREVIEW';
 export const STOP_PREVIEW = 'STOP_PREVIEW';
