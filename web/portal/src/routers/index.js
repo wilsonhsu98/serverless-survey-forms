@@ -1,24 +1,23 @@
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route } from 'react-router';
+// IndexRoute
 
 import Portal from '../containers/Portal/';
-import Create from '../containers/Create/';
-import List from '../containers/List/';
+// import Create from '../containers/Create/';
+// import List from '../containers/List/';
 
 class MainRouter extends PureComponent {
     render() {
-        // TODOS: add route to
+        // TODOS: temporarily remove router
         // /create
-        // /edit?surveyid=xxx
         // /report
+        // <IndexRoute component={List} />
+        // <Route path="create" component={Create} />
         return (
             <Router history={this.props.history}>
-                <Route path="/" component={Portal}>
-                    <IndexRoute component={List} />
-                    <Route path="create" component={Create} />
-                </Route>
+                <Route path="*" component={Portal} />
             </Router>
         );
     }

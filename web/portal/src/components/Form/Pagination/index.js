@@ -135,9 +135,7 @@ class Pagination extends Component {
             questionsActions.saveQuestion();
             break;
         case 'preview':
-            // TODOS:
-            // default: embedded
-            previewActions.setPreview('preview', surveyID);
+            previewActions.setPreview('embedded', surveyID);
             break;
         default:
         }

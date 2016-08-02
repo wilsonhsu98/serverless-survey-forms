@@ -2,6 +2,7 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
+import { finishEdit } from './questions';
 
 export function receiveAccountSuccess(data) {
     return {
@@ -14,6 +15,18 @@ function receiveAccountFailure(err) {
     return {
         type: types.RECIEVE_ACCOUNT_FAILURE,
         errorMsg: err
+    };
+}
+
+export function expiredToken() {
+    window.localStorage.QustomPortalTK = '';
+
+    return (dispatch, getState) => {
+        const { surveyID } = getState();
+        if (surveyID) dispatch(finishEdit());
+        dispatch({
+            type: types.EXPIRED_TOKEN
+        });
     };
 }
 
@@ -44,5 +57,5 @@ export function verifyToken(token) {
                 dispatch(receiveAccountFailure(data));
             }
         })
-        .catch(err => receiveAccountFailure(err.responseJSON));
+        .catch(err => receiveAccountFailure(err));
 }

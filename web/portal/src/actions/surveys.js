@@ -2,11 +2,15 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
+import { expiredToken } from './account';
 
 function requestSurveysFailure(err) {
-    return {
-        type: types.RECIEVE_SURVEYS_FAILURE,
-        errorMsg: err
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.RECIEVE_SURVEYS_FAILURE,
+            errorMsg: err
+        });
     };
 }
 
@@ -31,6 +35,6 @@ export function getSurveys() {
         .then(data => {
             dispatch(receiveSurveysSuccess(data.surveys));
         })
-        .catch(err => requestSurveysFailure(err.responseJSON));
+        .catch(err => requestSurveysFailure(err));
     };
 }

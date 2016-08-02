@@ -10,6 +10,13 @@ export function setPreview(preview, previewID) {
     };
 }
 
+export function changePreview(preview) {
+    return {
+        type: types.SET_CHANGE_PREVIEW,
+        preview: preview
+    };
+}
+
 export function closePreview() {
     return {
         type: types.STOP_PREVIEW
