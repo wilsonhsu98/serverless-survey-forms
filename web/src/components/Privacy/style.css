@@ -9,15 +9,6 @@
     width: 80%;
 }
 
-.terms input[type="checkbox"] {
-    position: absolute;
-}
-
-.terms .desc {
-    float: left;
-    margin: 0 0 10px 20px;
-}
-
 .bottomWrapper {
     margin-left: 20px;
     position: relative;
@@ -34,19 +25,6 @@
 }
 
 .btn {
-    background: #fff;
-    color: #BD2A2A;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid #BD2A2A;
-    outline: none;
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    float: right;
 }
 
-.btn:hover {
-    background: #BD2A2A;
-    color: #fff;
-}

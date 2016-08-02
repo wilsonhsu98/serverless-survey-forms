@@ -20,6 +20,8 @@ import SubjectPop from '../../components/SubjectPop';
 import Preview from '../../components/PreviewPop/Preview';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
+import Create from '../../containers/Create/';
+import List from '../../containers/List/';
 
 class Portal extends PureComponent {
 
@@ -64,23 +66,26 @@ class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { account } = this.props;
+        const { token, account, surveyID } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
-        if (!account || !account.hasOwnProperty('accountid') ||
+        if (token === '' || !account || !account.hasOwnProperty('accountid') ||
             (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
             body.classList.remove('bg');
             return <FBLogin />;
         }
-
         // if user has a account and the account role is Designer or Admin
         body.classList.add('bg');
+
+
+        // TODOS: temporarily remove router
+        const children = surveyID ? <Create /> : <List />;
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
                 <div className={styles.container}>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
@@ -90,6 +95,7 @@ class Portal extends PureComponent {
 function mapStateToProps(state) {
     return {
         loading: state.loading,
+        token: state.token,
         account: state.account,
         subject: state.subject,
         surveyID: state.surveyID,

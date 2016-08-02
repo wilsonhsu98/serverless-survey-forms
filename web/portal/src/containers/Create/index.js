@@ -3,7 +3,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 
 // Actions
 import * as QuestionsActions from '../../actions/questions';
@@ -15,11 +15,12 @@ import * as PreviewActions from '../../actions/preview';
 import Design from '../../components/Design';
 
 class Create extends PureComponent {
-    componentDidMount() {
-        const { surveyID, pushActions } = this.props;
-        // if there is no surveyID, go back
-        if (!surveyID) pushActions('/');
-    }
+    // componentDidMount() {
+        // TODOS: temporarily remove router
+        // const { surveyID, pushActions } = this.props;
+        // // if there is no surveyID, go back
+        // if (!surveyID) pushActions('/');
+    // }
 
     render() {
         return (<Design ref="root" {...this.props} />);
@@ -44,8 +45,8 @@ function mapDispatchToProps(dispatch) {
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
-        previewActions: bindActionCreators(PreviewActions, dispatch),
-        pushActions: bindActionCreators(push, dispatch)
+        previewActions: bindActionCreators(PreviewActions, dispatch)
+        // pushActions: bindActionCreators(push, dispatch)
     };
 }
 

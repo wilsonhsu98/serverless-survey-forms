@@ -84,5 +84,69 @@
             .icon { background-image: resolve("component/ic_delet_blue_press.png"); }
         }
     }
+
+    /* TODOS integrate into for loop*/
+    /* preview mode */
+    /* one more type: when selected */
+    &.btn-icon-embeddedIcon {
+        .icon { background-image: resolve("component/ic_embedded_preview_normal.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_embedded_preview_normal.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_embedded_preview_normal.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_embedded_preview_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_embedded_preview_selected.png"); }
+        }
+    }
+    &.btn-icon-previewPhoneIcon {
+        .icon { background-image: resolve("component/ic_phone_preview_normal.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_phone_preview_normal.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_phone_preview_normal.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_phone_preview_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_phone_preview_selected.png"); }
+        }
+    }
+    &.btn-icon-previewPadIcon {
+        .icon { background-image: resolve("component/ic_pad_preview_normal.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_pad_preview_normal.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_pad_preview_normal.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_pad_preview_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_pad_preview_selected.png"); }
+        }
+    }
+    &.btn-icon-previewDesktopIcon {
+        .icon { background-image: resolve("component/ic_desktop_preview_normal.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_desktop_preview_normal.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_desktop_preview_normal.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_desktop_preview_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_desktop_preview_selected.png"); }
+        }
+    }
 }
 

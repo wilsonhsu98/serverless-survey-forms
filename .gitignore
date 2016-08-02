@@ -56,4 +56,5 @@ web/node_modules
 web/dist
 client/dist/portal
 client/dist/feedback
+client/dist/assets
 
