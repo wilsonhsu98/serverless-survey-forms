@@ -10,7 +10,8 @@
         "Content-Type",
         "X-Amz-Date",
         "Authorization",
-        "X-Api-Key"
+        "X-Api-Key",
+        "Cache-Control"
       ]
     }
   },

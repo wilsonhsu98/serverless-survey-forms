@@ -78,7 +78,7 @@
             "PathPattern": "api/*",
             "AllowedMethods": ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"],
             "ForwardedValues": {
-              "Headers": ["Authorization"]
+              "Headers": ["Authorization", "If-Modified-Since"]
             },
             "Compress": "true",
             "TargetOriginId": "APIGW",
