@@ -25,7 +25,6 @@ class EditPage extends PureComponent {
                 <div id="editPanel" className="editpanel">
                     <div className="edit">
                         <div className="editContent">
-                            <div>Edit Page</div>
                             <div className={styles.item}>
                                 Page #{editPage.page}:&nbsp;
                                 <input

@@ -34,7 +34,6 @@ class OrderPage extends PureComponent {
                 <div id="editPanel" className="editpanel">
                     <div className="edit">
                         <div className="editContent">
-                            <div>Move Pages</div>
                             {queList}
                         </div>
                     </div>

@@ -3,7 +3,7 @@
  */
 
 .item {
-    margin: 5px;
+    margin: 0 5px 20px 0;
 
     .title {
         display: inline-block;
