@@ -6,9 +6,9 @@ function testToken() {
   // set token to Authorization header
   $.ajax({
     method: 'GET',
-    url: "https://" + location.hostname + '/api/v1/mgnt/test-token',
+    url: "https://" + location.hostname + '/api/v1/mgnt/users/me',
     headers: {
-      Authorization: localStorage.getItem('token')
+      authorization: localStorage.getItem('token')
     }
   })
     .done(function(data) {
