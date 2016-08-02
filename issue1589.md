@@ -13,8 +13,9 @@ Please follow steps below to work around the issue.
 * Change **Forward Headers** to **Whitelist**.
 * Add the following headers in **Whitelist Headers**
     * **Authorization**
+    * **If-Modified-Since**
 
-![](https://media.amazonwebservices.com/blog/2014/cloudfront_console_whitelist_headers_2.png)
+![](https://github.com/trendmicro/serverless-survey-forms/blob/beta/ForwardHeaders.png)
 
 * Click on **Yes, Edit**
 
