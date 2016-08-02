@@ -1,44 +1,46 @@
 
 .wrap {
-    width: 800px;
-    margin: 30px auto 10px;
-    border: 1px solid #d6d6d6;
+    position: relative;
     overflow: hidden;
-    box-shadow: 2px 2px 2px rgba(55, 55, 55, 0.4);
-
-    &:after {
-        content: '';
-        clear: both;
-    }
 }
 
-.wording {
-    float: left;
-    width: 438px;
-    padding: 15px;
-    background-color: #FFF;
+.content_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: resolve("bg_cloud_login.png") center 0 no-repeat;
+}
 
-    .title {
-        font-size: 26px;
-        line-height: 46px;
-    }
-    .description {
-        font-size: 14px;
-        color: #6d6d6d;
-    }
-    .grantBtn {
-        border: 1px solid #999;
-        background-color: #FFF;
-        border-radius: 5px;
-        margin: 20px 0;
-        padding: 5px 10px;
-        color: #337ab7;
-    }
+.content {
+    position: relative;
+    margin: 154px 20px 90px 86px;
+    width: 490px;
+}
+
+.title {
+    font-size: 48px;
+    color: #222;
+    line-height: 50px;
+    letter-spacing: -1.44px;
+}
+.description {
+    font-size: 16px;
+    color: #444;
+    letter-spacing: -0.4px;
+    margin-top: 14px;
+    margin-bottom: 20px;
+}
+.grantBtn {
+    width: 240px;
 }
 
 .photo {
-    float: right;
-    width: 360px;
-    height: 328px;
-    background-color: #777;
+    position: absolute;
+    top: 102px;
+    left: 596px;
+    width: 348px;
+    height: 344px;
+    background: resolve("img_bird_mian.png") 0 0 no-repeat;
 }
