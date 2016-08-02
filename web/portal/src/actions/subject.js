@@ -17,6 +17,7 @@ export function setSubject(data) {
 
 function setSubjectError(err) {
     return (dispatch) => {
+        dispatch(openEdit(false));
         dispatch(expiredToken());
         dispatch({
             type: types.SET_SUBJECT_FAILURE,
@@ -34,7 +35,7 @@ export function saveSubject(subject) {
         };
 
         dispatch(setSubject(subject));
-        fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -51,10 +52,10 @@ export function saveSubject(subject) {
                 // dispatch(push('/create'));
                 dispatch(openEdit(false));
             } else {
-                setSubjectError(data);
+                dispatch(setSubjectError(data));
             }
         })
-        .catch(err => setSubjectError(err));
+        .catch(err => dispatch(setSubjectError(err)));
     };
 }
 

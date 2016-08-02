@@ -292,7 +292,7 @@ export function editSurveyPolicy(flag) {
 
     return (dispatch) => {
         dispatch(setSurveyPolicy(data));
-        return dispatch(saveQuestion());
+        dispatch(saveQuestion());
     };
 }
 
@@ -337,6 +337,6 @@ export function getQuestion(surveyID) {
                 dispatch(receiveQuestionsFailure(data));
             }
         })
-        .catch(err => receiveQuestionsFailure(err));
+        .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }
