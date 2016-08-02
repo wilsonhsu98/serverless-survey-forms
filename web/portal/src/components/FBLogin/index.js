@@ -42,7 +42,7 @@ class FBLogin extends PureComponent {
                             size="medium"
                             onClick={this._onClickFBBtn}
                         />
-                </div>
+                    </div>
                 </div>
                 <div className={styles.photo}></div>
             </div>
