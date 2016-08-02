@@ -8,6 +8,7 @@ export const SET_LOADING = 'SET_LOADING';
 
 // token
 export const SET_TOKEN = 'SET_TOKEN';
+export const EXPIRED_TOKEN = 'EXPIRED_TOKEN';
 
 // account
 export const RECIEVE_ACCOUNT_SUCCESS = 'RECIEVE_ACCOUNT_SUCCESS';

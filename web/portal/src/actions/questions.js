@@ -7,6 +7,7 @@ import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
+import { expiredToken } from './account';
 
 export function setSurveyID(data) {
     return {
@@ -226,9 +227,12 @@ function saveQuestionsSuccess() {
 }
 
 function saveQuestionsFailure(err) {
-    return {
-        type: types.SAVE_QUESTIONS_FAILURE,
-        errorMsg: err
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.SAVE_QUESTIONS_FAILURE,
+            errorMsg: err
+        });
     };
 }
 
@@ -257,7 +261,7 @@ export function saveQuestion() {
                 dispatch(saveQuestionsFailure(data));
             }
         })
-        .catch(err => saveQuestionsFailure(err.responseJSON));
+        .catch(err => dispatch(saveQuestionsFailure(err)));
     };
 }
 
@@ -300,9 +304,12 @@ function receiveQuestionsSuccess(data) {
 }
 
 function receiveQuestionsFailure(err) {
-    return {
-        type: types.RECIEVE_QUESTIONS_FAILURE,
-        errorMsg: err
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.RECIEVE_QUESTIONS_FAILURE,
+            errorMsg: err
+        });
     };
 }
 
@@ -330,6 +337,6 @@ export function getQuestion(surveyID) {
                 dispatch(receiveQuestionsFailure(data));
             }
         })
-        .catch(err => receiveQuestionsFailure(err.responseJSON));
+        .catch(err => receiveQuestionsFailure(err));
     };
 }

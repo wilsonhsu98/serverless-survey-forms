@@ -66,10 +66,10 @@ class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { account, surveyID } = this.props;
+        const { token, account, surveyID } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
-        if (!account || !account.hasOwnProperty('accountid') ||
+        if (token === '' || !account || !account.hasOwnProperty('accountid') ||
             (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
             body.classList.remove('bg');
@@ -95,6 +95,7 @@ class Portal extends PureComponent {
 function mapStateToProps(state) {
     return {
         loading: state.loading,
+        token: state.token,
         account: state.account,
         subject: state.subject,
         surveyID: state.surveyID,
