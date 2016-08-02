@@ -8,7 +8,7 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
-import I18Next from 'i18next';
+import Button from '../Button';
 
 class Privacy extends PureComponent {
 
@@ -25,23 +25,35 @@ class Privacy extends PureComponent {
                 </div>
                 <div className={styles.terms}>
                     <div className={styles.topWrapper}>
-                        <input type="checkbox" />
-                        <div
-                            className={classNames({
-                                [`${styles.desc}`]: true,
-                                'ut-terms': true
-                            })}
-                        >
-                        {info.terms}
+                        <div className="checkboxItem">
+                            <input type="checkbox" />
+                            <label
+                                className={classNames({
+                                    'ut-terms': true
+                                })}
+                            >
+                            {info.terms}
+                            </label>
                         </div>
                     </div>
                     <div className={styles.bottomWrapper}>
                         <input type="text" placeholder={info.input} />
-                        <button className={styles.btn}>{I18Next.t('participate')}</button>
+                        <Button
+                            string={'participate'}
+                            onClick={this._participate}
+                            extraClass={{
+                                'ut-participate': true,
+                                [`${styles.btn}`]: true
+                            }}
+                        />
                     </div>
                 </div>
             </div>
         );
+    }
+
+    _participate() {
+        console.log('TODO: participate callback');
     }
 
 }

@@ -92,6 +92,10 @@ class App extends PureComponent {
         );
     }
 
+    componentWillReceiveProps(nextProps) {
+        store.dispatch(SettingsActions.settings(Object.assign({}, nextProps)));
+    }
+
     render() {
         return (
             <Provider store={store}>

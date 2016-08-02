@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var folder = process.env.NODE_FOLDER ? process.env.NODE_FOLDER : 'portal';
 
 // Postcss plugins
@@ -103,7 +104,11 @@ if (process.env.NODE_ENV === 'production') {
             'process.env': {
                 'NODE_ENV': '"production"'
             }
-        })
+        }),
+        new CopyWebpackPlugin(
+            [{ from: 'assets/', to: '../assets/' }],
+            { ignore: ['**/html/*', '**/fakedata/*'] }
+        )
     ];
 } else {
     webpackConfig.devtool = "source-map";

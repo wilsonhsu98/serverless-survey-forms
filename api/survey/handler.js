@@ -43,9 +43,10 @@ module.exports.handler = (event, context, callback) => {
         // A callback handler to decide return is 304 or 200.
         if (err) {
           callback(err, response);
-        } else if (event.ifModifiedSince && response.datetime && response.datetime === parseInt(event.ifModifiedSince)) {
+        } else if (event.ifModifiedSince && response.datetime && new Date(response.datetime).toUTCString() === event.ifModifiedSince) {
           return callback("304 Not Modified", null);
         } else {
+          response['datetime'] = new Date(response.datetime).toUTCString();
           callback(null, response);
         }
       });

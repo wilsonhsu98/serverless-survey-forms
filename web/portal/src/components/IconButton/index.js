@@ -19,10 +19,11 @@ class IconButton extends PureComponent {
     }
 
     render() {
-        const { id, color, img, i18nKey, string, disabled, extraProps } = this.props;
+        const { id, color, img, i18nKey, string, disabled, selected, extraProps } = this.props;
         const classSet = {
             [styles['btn-icon']]: true,
             [styles.disabled]: disabled,
+            [styles.selected]: selected,
             [styles[`btn-icon-${color}`]]: color,
             [styles[`btn-icon-${img}`]]: img
         };
@@ -54,7 +55,7 @@ IconButton.propTypes = {
     // id to identify the Button
     id: PropTypes.string,
     // (Required) Button string
-    string: PropTypes.string.isRequired,
+    string: PropTypes.string,
     // whether the string is an i18n key (default is true)
     i18nKey: PropTypes.bool,
     // button color (blue/black, please follow the CSS rule 'btn-icon-${color}')
@@ -63,6 +64,8 @@ IconButton.propTypes = {
     img: PropTypes.string,
     // whether the Button is disabled or not (default is false)
     disabled: PropTypes.bool,
+    // whether the Button is selected or not (default is false)
+    selected: PropTypes.bool,
     // (Required) options onClick handler
     onClick: PropTypes.func.isRequired,
     // extra Props, ex: { "data-target-text": "test", "data-target-value": "test1" }
@@ -70,8 +73,10 @@ IconButton.propTypes = {
 };
 
 IconButton.defaultProps = {
+    string: '',      // default string is empty
+    selected: false, // default selected state = false
     disabled: false, // default disabled state = false
-    i18nKey: true // default i18nKey setting = true
+    i18nKey: true    // default i18nKey setting = true
 };
 
 export default IconButton;

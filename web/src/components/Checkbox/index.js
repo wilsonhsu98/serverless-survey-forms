@@ -13,6 +13,8 @@
  **/
 
 // CSS
+
+/* eslint no-unused-vars: 0 */
 import styles from './style.css';
 
 import React, { PropTypes } from 'react';
@@ -52,7 +54,7 @@ class Checkbox extends PureComponent {
                     text={item.label}
                     required={item.required}
                 />
-                <div className={styles.checkboxGrp}>
+                <div className="checkboxGrp">
                     {this._renderCheckboxItem()}
                 </div>
             </div>
@@ -68,7 +70,7 @@ class Checkbox extends PureComponent {
             const input = itm.input;
             return (
                 <div
-                    className={styles.checkboxItem}
+                    className="checkboxItem"
                     key={idx}
                 >
                     <input

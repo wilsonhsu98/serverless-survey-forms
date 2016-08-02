@@ -1,11 +1,12 @@
 
 import * as types from '../constants/ActionTypes';
 
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
 import { openEdit } from './editSubject';
 import { setSurveyID, saveQuestion } from './questions';
+import { expiredToken } from './account';
 
 export function setSubject(data) {
     return {
@@ -15,9 +16,12 @@ export function setSubject(data) {
 }
 
 function setSubjectError(err) {
-    return {
-        type: types.SET_SUBJECT_FAILURE,
-        errorMsg: err
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.SET_SUBJECT_FAILURE,
+            errorMsg: err
+        });
     };
 }
 
@@ -43,13 +47,14 @@ export function saveSubject(subject) {
         .then(data => {
             if (data.surveyid) {
                 dispatch(setSurveyID(data.surveyid));
-                dispatch(push('/create'));
+                // TODOS: temporarily remove router
+                // dispatch(push('/create'));
                 dispatch(openEdit(false));
             } else {
                 setSubjectError(data);
             }
         })
-        .catch(err => setSubjectError(err.responseJSON));
+        .catch(err => setSubjectError(err));
     };
 }
 
