@@ -13,6 +13,24 @@
     background: resolve("bg_cloud_login.png") center 0 no-repeat;
 }
 
+.container {
+    width: 960px;
+    margin-right: auto;
+    margin-left: auto;
+
+    &:before {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+}
+
 .content {
     position: relative;
     margin: 154px 20px 90px 86px;
@@ -39,7 +57,8 @@
 .photo {
     position: absolute;
     top: 102px;
-    left: 596px;
+    left: 50%;
+    margin-left: 116px;
     width: 348px;
     height: 344px;
     background: resolve("img_bird_mian.png") 0 0 no-repeat;
