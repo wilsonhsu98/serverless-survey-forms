@@ -505,4 +505,11 @@ $button-border-width: 1px;
         font-size: 11px;
         line-height: 13px;
     }
+
+    &.btn-diamond-medium {
+        .btnM { padding: 0 16px; }
+        min-width: 78px;
+        font-size: 14px;
+        line-height: 16px;
+    }
 }
