@@ -3,11 +3,5 @@
  */
 
 .item {
-    margin: 5px;
-
-    .title {
-        display: inline-block;
-        width: 220px;
-        border: 1px solid #999;
-    }
+    margin: 0 5px 20px 0;
 }

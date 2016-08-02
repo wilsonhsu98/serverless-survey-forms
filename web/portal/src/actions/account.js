@@ -22,8 +22,8 @@ export function expiredToken() {
     window.localStorage.QustomPortalTK = '';
 
     return (dispatch, getState) => {
-        const { surveyID } = getState();
-        if (surveyID) dispatch(finishEdit());
+        const { surveyID, subject } = getState();
+        if (surveyID || subject) dispatch(finishEdit());
         dispatch({
             type: types.EXPIRED_TOKEN
         });
@@ -57,5 +57,5 @@ export function verifyToken(token) {
                 dispatch(receiveAccountFailure(data));
             }
         })
-        .catch(err => receiveAccountFailure(err));
+        .catch(err => dispatch(receiveAccountFailure(err)));
 }

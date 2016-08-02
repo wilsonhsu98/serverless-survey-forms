@@ -5,16 +5,16 @@
     width: 100%;
     position: relative;
     min-height: 100%;
-    background-color: #eaf2f3;
 }
 
 :global body {
     overflow-x: hidden;
     width: 100%;
+    min-height: 100%;
     line-height: 20px;
     margin-bottom: 82px;
     font-family: arial,sans-serif;
-    background-color: #eaf2f3;
+    background-color: #FFFFFF;
 
     &.bg {
         background-color: #eaf2f3;

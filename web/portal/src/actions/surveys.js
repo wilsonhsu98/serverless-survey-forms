@@ -35,6 +35,6 @@ export function getSurveys() {
         .then(data => {
             dispatch(receiveSurveysSuccess(data.surveys));
         })
-        .catch(err => requestSurveysFailure(err));
+        .catch(err => dispatch(requestSurveysFailure(err)));
     };
 }
