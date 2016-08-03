@@ -12,6 +12,7 @@ class CreateBtn extends PureComponent {
         super();
         this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
+        this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
     }
 
     render() {
@@ -30,8 +31,8 @@ class CreateBtn extends PureComponent {
                         string="Share"
                         i18nKey={false}
                         img="share"
-                        disabled
-                        onClick={this._onAddSurveyClick}
+                        disabled={!selectedSurveys.length}
+                        onClick={this._onPreviewSurveyClick}
                     />
                     <IconButton
                         id="reportBtn"
@@ -63,6 +64,11 @@ class CreateBtn extends PureComponent {
     _onDeleteSurveyClick() {
         const { surveysActions } = this.props;
         surveysActions.deleteSurvey();
+    }
+
+    _onPreviewSurveyClick() {
+        const { selectedSurveys, previewActions } = this.props;
+        previewActions.setPreview('embedded', selectedSurveys);
     }
 }
 
