@@ -38,3 +38,18 @@ export function getSurveys() {
         .catch(err => dispatch(requestSurveysFailure(err)));
     };
 }
+
+export function toggleSelectedSurveys(data) {
+    return (dispatch, getState) => {
+        if (getState().selectedSurveys === data) {
+            dispatch({
+                type: types.REMOVE_SELECTED_SURVEYS
+            });
+        } else {
+            dispatch({
+                type: types.ADD_SELECTED_SURVEYS,
+                selectedSurveys: data
+            });
+        }
+    };
+}

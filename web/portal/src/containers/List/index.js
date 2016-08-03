@@ -22,14 +22,20 @@ class List extends PureComponent {
     }
 
     render() {
-        const { surveys, questionsActions, editSubjectActions } = this.props;
+        const { surveys, selectedSurveys,
+            surveysActions, questionsActions, editSubjectActions } = this.props;
 
         return (
             <div ref="root">
-                <CreateBtn editSubjectActions={editSubjectActions} />
+                <CreateBtn
+                    selectedSurveys={selectedSurveys}
+                    editSubjectActions={editSubjectActions}
+                />
                 <SurveyList
                     surveys={surveys}
+                    selectedSurveys={selectedSurveys}
                     questionsActions={questionsActions}
+                    surveysActions={surveysActions}
                 />
             </div>
         );
@@ -38,7 +44,8 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        surveys: state.surveys
+        surveys: state.surveys,
+        selectedSurveys: state.selectedSurveys
     };
 }
 

@@ -14,6 +14,7 @@ class CreateBtn extends PureComponent {
     }
 
     render() {
+        const { selectedSurveys } = this.props;
         return (
             <div ref="root" className={styles.control}>
                 <div className={styles.wrap}>
@@ -44,7 +45,7 @@ class CreateBtn extends PureComponent {
                         string="Delete"
                         i18nKey={false}
                         img="delete"
-                        disabled
+                        disabled={!selectedSurveys.length}
                         onClick={this._onAddSurveyClick}
                     />
                 </div>
