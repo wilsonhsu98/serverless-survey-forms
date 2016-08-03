@@ -21,7 +21,7 @@
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
     "TOKEN_SECRET": "${tokenSecret}",
-    "REDIRECT_CLIENT_URI": "${redirectClientURI}",
+    "REDIRECT_CLIENT_URI": "${websiteDomainName}/portal/index.html",
     "PROVIDER_FACEBOOK_ID": "${providerFacebookId}",
     "PROVIDER_FACEBOOK_SECRET": "${providerFacebookSecret}"
   },
