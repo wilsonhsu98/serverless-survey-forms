@@ -5,54 +5,50 @@ import ReactDOM from 'react-dom';
 
 import Qustom from '../../src/index';
 
+
 class App extends PureComponent {
-
-    constructor(props) {
-        super(props);
-        this.receiveClientMessage = this.receiveClientMessage.bind(this);
-        this.state = {
-            clientData: ''
-        };
-    }
-
-    componentDidMount() {
-        // Create IE + others compatible event handler
-        const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-        const eventer = window[eventMethod];
-        const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-        eventer(messageEvent, (e) => this.receiveClientMessage(e), false);
-    }
-
     render() {
         // TODO: get surveyID/accountID from Client
         return (
             <div>
-                <Qustom
-                    accountid="context.authorizer.principalId"
-                    surveyid="759e7930-3219-11e6-b8fc-ed3df7fb1eab"
-                    localize_path="../../assets/L10N"
-                    type="embedded"
-                />
+                <Qustom {...this.props} />
             </div>
         );
     }
+}
 
-    receiveClientMessage(e) {
-        // TODO: event origin detection
-        // if (e.origin !== 'https://qustomURL') return;
-        console.log('Message received from Client!:  ', e.data);
-        this.setState({
-            clientData: e.data
-        });
+function initApp(accountID, surveyID, type) {
+    const props = {
+        accountid: accountID || 'context.authorizer.principalId',
+        surveyid: surveyID || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
+        type: type || 'preview',
+        localize_path: '../../assets/L10N'
+    };
+
+    if (accountID && surveyID) {
+        ReactDOM.render(
+            <App {...props} />,
+            document.getElementById('main')
+        );
+    } else {
+        console.log('Survey ID / Account ID required');
     }
 }
 
-function initApp() {
-    ReactDOM.render(
-        <App />,
-        document.getElementById('main')
-    );
+// Create IE + others compatible event handler
+
+function receiveClientMessage(e) {
+    console.log(e.origin);
+    console.log(e.data.source);
+    if (e.origin !== e.data.source) return;
+    console.log('Message received from Client!:  ', e.data);
+    initApp(e.data.accountID, e.data.surveyID, 'embedded');
 }
+
+const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+eventer(messageEvent, (e) => receiveClientMessage(e), false);
 
 initApp();
 
