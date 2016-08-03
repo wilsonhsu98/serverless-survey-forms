@@ -18,6 +18,9 @@ class App extends PureComponent {
 }
 
 function initApp(accountID, surveyID, type) {
+    // Tell Client that Qustom has initialized
+    window.parent.postMessage('QustomInit', '*');
+
     const props = {
         accountid: accountID || 'context.authorizer.principalId',
         surveyid: surveyID || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
