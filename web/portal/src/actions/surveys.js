@@ -53,3 +53,40 @@ export function toggleSelectedSurveys(data) {
         }
     };
 }
+
+function requestDeleteSurveysFailure(err) {
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.RECIEVE_DELETE_SURVEYS_FAILURE,
+            errorMsg: err
+        });
+    };
+}
+
+function receiveDeleteSurveysSuccess() {
+    return {
+        type: types.RECIEVE_DELETE_SURVEYS_SUCCESS
+    };
+}
+
+export function deleteSurvey() {
+    return (dispatch, getState) => {
+        const { account, selectedSurveys, token } = getState();
+        return fetch(
+            `${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${selectedSurveys}`, {
+                method: 'DELETE',
+                credentials: 'same-origin',
+                headers: {
+                    authorization: token
+                }
+            })
+            .then(response => response.json())
+            .then(() => {
+                dispatch(receiveDeleteSurveysSuccess());
+                dispatch(toggleSelectedSurveys(selectedSurveys));
+                dispatch(getSurveys());
+            })
+            .catch(err => dispatch(requestDeleteSurveysFailure(err)));
+    };
+}
