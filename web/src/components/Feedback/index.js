@@ -159,13 +159,9 @@ class Feedback extends PureComponent {
                     this.props.settings.type === 'preview' ?
                         styles.wrapPreview : styles.wrap}
             >
-                {
-                    this.props.settings.type === 'preview' ?
-                        <div className={styles.header}>
-                            <h1>{subject}</h1>
-                        </div> : ''
-                }
-
+                <div className={styles.header}>
+                    <h1>{subject}</h1>
+                </div>
                 <div className={styles.container}>
                     <div
                         className={
@@ -178,7 +174,13 @@ class Feedback extends PureComponent {
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
-                            <Privacy info={privacy} />
+                            <div
+                                className={
+                                    this.props.settings.type === 'preview' ?
+                                    styles.feedbackPreview : ''}
+                            >
+                                <Privacy info={privacy} />
+                            </div>
                         </div>
                     </div>
                 </div>
