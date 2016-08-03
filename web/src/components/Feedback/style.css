@@ -35,7 +35,7 @@
         right: 10px;
         width: 40px;
         height: 40px;
-        background: resolve("ic_popup_close.png") 0 0 no-repeat;
+        background: url(../../../assets/images/ic_popup_close.png) 0 0 no-repeat;
         cursor: pointer;
         &:hover {
             background-position: 0 -40px;
