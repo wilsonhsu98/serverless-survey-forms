@@ -10,6 +10,7 @@ class CreateBtn extends PureComponent {
 
     constructor() {
         super();
+        this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
     }
 
@@ -46,7 +47,7 @@ class CreateBtn extends PureComponent {
                         i18nKey={false}
                         img="delete"
                         disabled={!selectedSurveys.length}
-                        onClick={this._onAddSurveyClick}
+                        onClick={this._onDeleteSurveyClick}
                     />
                 </div>
                 <div className={styles.bird}></div>
@@ -57,6 +58,11 @@ class CreateBtn extends PureComponent {
     _onAddSurveyClick() {
         const { editSubjectActions } = this.props;
         editSubjectActions.openEdit(true);
+    }
+
+    _onDeleteSurveyClick() {
+        const { surveysActions } = this.props;
+        surveysActions.deleteSurvey();
     }
 }
 

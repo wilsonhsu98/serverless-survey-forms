@@ -30,6 +30,7 @@ class List extends PureComponent {
                 <CreateBtn
                     selectedSurveys={selectedSurveys}
                     editSubjectActions={editSubjectActions}
+                    surveysActions={surveysActions}
                 />
                 <SurveyList
                     surveys={surveys}
