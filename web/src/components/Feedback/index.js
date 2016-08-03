@@ -45,7 +45,7 @@ class Feedback extends PureComponent {
 
     _renderEmbedded() {
         const { settings, paging, surveyActions, feedbackActions } = this.props;
-        const { content } = this.props.survey;
+        const { subject, content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
         const { description, question } = currentPageContent;
@@ -53,6 +53,9 @@ class Feedback extends PureComponent {
             (itm, idx) => this._renderQuestion(itm, idx));
         return (
             <div className={styles.wrap}>
+                <div className={styles.header}>
+                    <h1>{subject}</h1>
+                </div>
                 <div className={styles.container}>
                     <div className={styles.contentScroll}>
                         <div className={styles.content}>
