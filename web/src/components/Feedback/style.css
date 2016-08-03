@@ -28,6 +28,19 @@
         font-size: 32px;
         line-height: 72px;
     }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: resolve("ic_popup_close.png") 0 0 no-repeat;
+        cursor: pointer;
+        &:hover {
+            background-position: 0 -40px;
+        }
+    }
 }
 
 .wrap .header:before {

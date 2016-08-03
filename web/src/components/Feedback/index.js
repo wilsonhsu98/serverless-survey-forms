@@ -26,6 +26,7 @@ class Feedback extends PureComponent {
         this._renderEmbedded = this._renderEmbedded.bind(this);
         this._renderThankyou = this._renderThankyou.bind(this);
         this._onChangeHandle = this._onChangeHandle.bind(this);
+        this._onClose = this._onClose.bind(this);
     }
 
     render() {
@@ -55,6 +56,7 @@ class Feedback extends PureComponent {
             <div className={styles.wrap}>
                 <div className={styles.header}>
                     <h1>{subject}</h1>
+                    <div onClick={this._onClose} className={styles.close} />
                 </div>
                 <div className={styles.container}>
                     <div className={styles.contentScroll}>
@@ -191,6 +193,10 @@ class Feedback extends PureComponent {
     _onChangeHandle(feedback) {
         // Add feedback to store
         this.props.feedbackActions.recordFeedback(feedback);
+    }
+
+    _onClose() {
+        window.parent.postMessage('close', window.parent.location.origin);
     }
 }
 
