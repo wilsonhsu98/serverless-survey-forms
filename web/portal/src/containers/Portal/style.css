@@ -146,7 +146,7 @@
         }
         &.control {
             vertical-align: top;
-            text-align: center;
+            text-align: left;
             padding: 36px 0 36px 28px;
             button {
                 display: block;

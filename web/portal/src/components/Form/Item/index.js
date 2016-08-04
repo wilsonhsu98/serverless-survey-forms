@@ -1,4 +1,7 @@
 
+// CSS
+import styles from './style.css';
+
 import React, { Component } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 
@@ -7,6 +10,7 @@ import * as types from '../../../constants/DragTypes';
 import Radio from '../Radio';
 import Checkbox from '../Checkbox';
 import Rating from '../Rating';
+import IconButton from '../../IconButton';
 
 const dragSource = {
     beginDrag: function beginDrag(props) {
@@ -90,23 +94,33 @@ class Item extends Component {
                     }}
                 >
                     {this._renderQuestion()}
-                    <div className="control">
+                    <div className={`control ${styles.control}`}>
                         {connectDragSource(
-                            <button
-                                className="btn"
-                                style={{ cursor: 'move' }}
-                            >
-                                Move
-                            </button>
+                            <div>
+                                <IconButton
+                                    string="Move"
+                                    i18nKey={false}
+                                    img="move"
+                                    color="black"
+                                    onClick={() => {}}
+                                    extraProps={{ style: { cursor: 'move' } }}
+                                />
+                            </div>
                         )}
-                        <button
-                            className="btn"
+                        <IconButton
+                            string="Copy"
+                            i18nKey={false}
+                            img="copy"
+                            color="black"
                             onClick={this._onCopyHandle}
-                        >Copy</button>
-                        <button
-                            className="btn"
+                        />
+                        <IconButton
+                            string="Remove"
+                            i18nKey={false}
+                            img="delete"
+                            color="black"
                             onClick={this._onDeleteHandle}
-                        >Remove</button>
+                        />
                     </div>
                 </div>
                 <div className="questionLine"></div>
