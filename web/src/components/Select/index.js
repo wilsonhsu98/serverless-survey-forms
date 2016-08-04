@@ -119,12 +119,15 @@ class Select extends PureComponent {
             selectedValue: e.currentTarget.getAttribute('data-value')
         });
         const feedbackArray = [{
-            type: 'select',
             value: e.currentTarget.getAttribute('data-value'),
             label: e.currentTarget.getAttribute('data-label')
         }];
         const feedback = {
-            [`Q${this.props.id}`]: feedbackArray
+            [`Q${this.props.id}`]: {
+                type: 'select',
+                label: this.props.item.label,
+                data: feedbackArray
+            }
         };
         this.props.onChangeHandle(feedback);
     }

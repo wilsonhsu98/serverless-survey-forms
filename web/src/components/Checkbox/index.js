@@ -101,19 +101,27 @@ class Checkbox extends PureComponent {
     }
 
     _onChangeHandle(e) {
-        const feedbackArray = this.state.feedbackArray;
-        const feedbackItem = {
-            type: 'checkbox',
-            value: e.currentTarget.getAttribute('value'),
-            label: e.currentTarget.getAttribute('data-label')
-        };
-        feedbackArray.push(feedbackItem);
+        const feedbackArray = this.state.feedbackArray.filter((item) =>
+            item.value !== e.currentTarget.getAttribute('value'));
+
+        if (e.target.checked) {
+            const feedbackItem = {
+                value: e.currentTarget.getAttribute('value'),
+                label: e.currentTarget.getAttribute('data-label')
+            };
+            feedbackArray.push(feedbackItem);
+        }
+
         this.setState({
             [`${e.currentTarget.id}`]: !this.state[e.currentTarget.id],
             feedbackArray
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    label: this.props.item.label,
+                    type: 'checkbox',
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });
@@ -125,7 +133,7 @@ class Checkbox extends PureComponent {
         feedbackArray.map((item) => {
             const updatedItem = item;
             if (item.value === e.currentTarget.getAttribute('name')) {
-                updatedItem.input = e.currentTarget.value;
+                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
             }
             return updatedItem;
         });
@@ -133,7 +141,11 @@ class Checkbox extends PureComponent {
             feedbackArray
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    label: this.props.item.label,
+                    type: 'checkbox',
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });

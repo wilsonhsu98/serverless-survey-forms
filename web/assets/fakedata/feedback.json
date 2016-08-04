@@ -1,56 +1,77 @@
 {
-    "Q1": [
-        {
-            "type": "select",
-            "value": 2,
-            "label": "Select label"
-        }
-    ],
-    "Q2": [
-        {
-            "type": "radio",
-            "value": 3,
-            "label": "Radio label",
-            "input": "Input in radio options"
-        }
-    ],
-    "Q3": [
-        {
-            "type": "checkbox",
-            "value": 1,
-            "label": "Checkbox label"
-        }, {
-            "type": "checkbox",
-            "value": 5,
-            "label": "Checkbox label",
-            "input": "Input in checkbox options"
-        }
-    ],
-    "Q4": [
-        {
-            "type": "select",
-            "value": 4,
-            "label": "Select label"
-        }
-    ],
-    "Q5": [
-        {
-            "type": "input",
-            "input": "Single line input"
-        }
-    ],
-    "Q6":  [
-        {
-            "type": "textarea",
-            "input": "Textarea input"
-        }
-    ],
-    "Q7": [
-        {
-            "type": "rating",
-            "value": 1,
-            "label": "Rating label",
-            "input": "Input of reason"
-        }
-    ]
+    "Q1": {
+        "label": "Select title label",
+        "type": "select",
+        "data": [
+            {
+                "value": 2,
+                "label": "Select label"
+            }
+        ]
+    },
+    "Q2": {
+        "label": "Radio title label",
+        "type": "radio",
+        "data": [
+            {
+                "value": 3,
+                "label": "Radio label",
+                "input": "Input in radio options"
+            }
+        ]
+    },
+    "Q3": {
+        "label": "Checkbox title label",
+        "type": "checkbox",
+        "data": [
+            {
+                "value": 1,
+                "label": "Checkbox label"
+            }, {
+                "value": 5,
+                "label": "Checkbox label",
+                "input": "Input in checkbox options"
+            }
+        ]
+    },
+    "Q4": {
+        "label": "Select title label",
+        "type": "select",
+        "data": [
+            {
+                "value": 4,
+                "label": "Select label"
+            }
+        ]
+    },
+    "Q5": {
+        "label": "Input title label",
+        "type": "input",
+        "data": [
+            {
+                "input": "Single line input"
+            }
+        ]
+    },
+    "Q6":  {
+        "label": "Textarea title label",
+        "type": "textarea",
+        "data": [
+            {
+                "input": "Textarea input"
+            }
+        ]
+    },
+    "Q7": {
+        "label": "Rating title label",
+        "type": "rating",
+        "data": [
+            {
+                "type": "rating",
+                "value": 1,
+                "label": "Rating label",
+                "input": "Input of reason"
+            }
+        ]
+    }
 }

@@ -53,12 +53,15 @@ class Textarea extends PureComponent {
         }, () => {
             const feedbackArray = [
                 {
-                    type: 'textarea',
                     input: this.state.input ? this.state.input : false
                 }
             ];
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'textarea',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });
