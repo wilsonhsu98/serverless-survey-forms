@@ -68,7 +68,7 @@ class Rating extends PureComponent {
         const { id, item } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `rating_${id}_${idx}`;
-            const val = itm.value ? itm.value : itm.label;
+            const val = itm.value;
             const label = itm.label;
             return (
                 <li
@@ -96,7 +96,7 @@ class Rating extends PureComponent {
     _onChangeHandle(e) {
         const feedbackArray = [{
             type: 'rating',
-            value: this.state.rating,
+            value: e.currentTarget.getAttribute('data-value'),
             label: e.currentTarget.title
         }];
         this.setState({
