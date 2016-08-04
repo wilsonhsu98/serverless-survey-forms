@@ -145,7 +145,7 @@ class Feedback extends PureComponent {
             return (<Textarea {...requiredProps} />);
         case 'select':
             return (<Select {...requiredProps} />);
-        case 'scale':
+        case 'rating':
             return (<Rating {...requiredProps} />);
         default:
             return (<div key={idx + 1}>Can't find the survey component: {item.type}</div>);
