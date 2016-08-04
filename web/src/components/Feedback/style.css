@@ -27,6 +27,13 @@
          url("../../../assets/fonts/Interstate-Regular-webfont.ttf") format("truetype");
 
 }
+:global .error {
+    font-family: "InterstateExtraLight";
+    margin: 20px;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: #d63833;
+}
 
 .wrap {
     height: 100%;

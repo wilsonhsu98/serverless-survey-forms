@@ -107,4 +107,20 @@ class App extends PureComponent {
     }
 }
 
+function receiveClientMessage(e) {
+    if (e.origin !== e.data.source) return;
+    console.log('Message received from Client!:  ', e.data);
+    // Store client prefilling info
+    if (e.data) {
+        store.dispatch(SurveyActions.savePrefill(e.data));
+    }
+}
+
+// Create IE + others compatible event handler
+const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+eventer(messageEvent, (e) => receiveClientMessage(e), false);
+
+
 export default App;

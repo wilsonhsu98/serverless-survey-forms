@@ -196,7 +196,10 @@ class Feedback extends PureComponent {
     }
 
     _onClose() {
-        window.parent.postMessage('close', '*');
+        window.parent.postMessage({
+            source: window.location.origin,
+            msg: 'close'
+        }, '*');
     }
 }
 

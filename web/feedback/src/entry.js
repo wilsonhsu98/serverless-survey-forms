@@ -8,7 +8,6 @@ import Qustom from '../../src/index';
 
 class App extends PureComponent {
     render() {
-        // TODO: get surveyID/accountID from Client
         return (
             <div>
                 <Qustom {...this.props} />
@@ -17,42 +16,40 @@ class App extends PureComponent {
     }
 }
 
-function initApp(accountID, surveyID, type) {
-    const props = {
-        accountid: accountID || 'context.authorizer.principalId',
-        surveyid: surveyID || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
-        type: type || 'preview',
-        localize_path: '../../assets/L10N'
-    };
+function getParameterByName(targetName) {
+    const url = window.location.href;
+    const name = targetName.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
+    const results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
-    if (accountID && surveyID) {
-        ReactDOM.render(
-            <App {...props} />,
-            document.getElementById('main')
-        );
+function initApp() {
+    let view;
+    if (!getParameterByName('accountid') && !getParameterByName('surveyid')) {
+        view = (<h1 className="error">Survey ID and Account ID are required!</h1>);
+    } else if (!getParameterByName('surveyid')) {
+        view = (<h1 className="error">Survey ID is required!</h1>);
+    } else if (!getParameterByName('accountid')) {
+        view = (<h1 className="error">Account ID is required!</h1>);
     } else {
-        console.log('Survey ID / Account ID required');
+        const props = {
+            accountid: getParameterByName('accountid') || 'context.authorizer.principalId',
+            surveyid: getParameterByName('surveyid') || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
+            type: getParameterByName('type') || 'embedded',
+            localize_path: '../../assets/L10N'
+        };
+        view = (<App {...props} />);
     }
+    ReactDOM.render(
+        view,
+        document.getElementById('main')
+    );
 }
-
-// Create IE + others compatible event handler
-
-function receiveClientMessage(e) {
-    console.log(e.origin);
-    console.log(e.data.source);
-    if (e.origin !== e.data.source) return;
-    console.log('Message received from Client!:  ', e.data);
-    initApp(e.data.accountID, e.data.surveyID, 'embedded');
-}
-
-const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-const eventer = window[eventMethod];
-const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-eventer(messageEvent, (e) => receiveClientMessage(e), false);
 
 initApp();
-// Tell Client that Qustom has initialized
-window.parent.postMessage('QustomInit', '*');
 
 if (module.hot) {
     module.hot.accept();
