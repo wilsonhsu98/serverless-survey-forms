@@ -16,7 +16,6 @@ Vagrant.configure(2) do |config|
   config.vm.box = "nghiaht/nodejs"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "serverless-survey-forms"
     vb.gui  = false
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
