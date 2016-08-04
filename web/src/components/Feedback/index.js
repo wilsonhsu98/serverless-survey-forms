@@ -62,7 +62,7 @@ class Feedback extends PureComponent {
                     <div className={styles.contentScroll}>
                         <div className={styles.content}>
                         {
-                            description ?
+                            description && description !== 'Untitle Page' ?
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
@@ -102,7 +102,7 @@ class Feedback extends PureComponent {
                     <div className={styles.contentScrollPreview}>
                         <div className={styles.content}>
                         {
-                            description ?
+                            description && description !== 'Untitle Page' ?
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
