@@ -13,6 +13,7 @@ export default function questions(state = [], action) {
     case types.DELETE_PAGE:
     case types.EXCHANGE_PAGE:
     case types.RECIEVE_QUESTIONS_SUCCESS:
+    case types.UPDATE_QUESTIONS:
         return action.questions;
 
     case types.ADD_PAGE:

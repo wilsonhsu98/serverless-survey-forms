@@ -4,6 +4,7 @@ import * as values from '../constants/DefaultValues';
 
 // import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
+import deepClone from 'deep-clone';
 import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
@@ -76,13 +77,15 @@ export function copyQuestion(page, queId) {
     return (dispatch, getState) => {
         const { questions } = getState();
         const pageIdx = page - 1;
-        const newQuestions = [...questions];
-        const duplicateQue = Object.assign({}, newQuestions[pageIdx].question[queId],
-            { id: Mixins.generateQuestionID() });
-        newQuestions[pageIdx] = Object.assign({}, questions[pageIdx]);
-        newQuestions[pageIdx].question = [...questions[pageIdx].question];
-        newQuestions[pageIdx].question.splice(queId, 0, duplicateQue);
-
+        const newQuestions = deepClone(questions);
+        const duplicateQue = deepClone(newQuestions[pageIdx].question[queId]);
+        // regenerate question id
+        Object.assign(duplicateQue, { id: Mixins.generateQuestionID() });
+        duplicateQue.data.forEach((item) => {
+            // regenerate options id
+            Object.assign(item, { value: Mixins.generateQuestionID() });
+        });
+        newQuestions[pageIdx].question.splice(queId + 1, 0, duplicateQue);
         dispatch({
             type: types.COPY_QUESTION,
             questions: newQuestions
@@ -155,18 +158,20 @@ export function addPage(page) {
 
 export function copyPage(pageId) {
     return (dispatch, getState) => {
-        const newQuestions = [...getState().questions];
-        const originPage = newQuestions[pageId - 1];
-        const duplicateQues = [];
-        for (const que of originPage.question) {
+        const newQuestions = deepClone(getState().questions);
+        const newPage = deepClone(newQuestions[pageId - 1]);
+        newPage.question.forEach((que) => {
             // regenerate question id
-            duplicateQues.push(Object.assign({}, que, { id: Mixins.generateQuestionID() }));
-        }
-        newQuestions.splice(pageId, 0, Object.assign({}, originPage, { question: duplicateQues }));
+            Object.assign(que, { id: Mixins.generateQuestionID() });
+            que.data.forEach((item) => {
+                // regenerate options id
+                Object.assign(item, { value: Mixins.generateQuestionID() });
+            });
+        });
+        newQuestions.splice(pageId, 0, newPage);
         newQuestions.forEach((page, idx) => {
             Object.assign(page, { page: idx + 1 });
         });
-
         dispatch({
             type: types.COPY_PAGE,
             questions: newQuestions
@@ -239,9 +244,18 @@ function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
+        const genQuestions = deepClone(questions);
+        // generate order number
+        let idx = 0;
+        for (const page of genQuestions) {
+            for (const que of page.question) {
+                idx ++;
+                Object.assign(que, { order: idx });
+            }
+        }
         const postData = {
             subject: subject,
-            survey: { content: [...questions], thankyou: surveyPolicy }
+            survey: { content: genQuestions, thankyou: surveyPolicy }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
@@ -256,6 +270,10 @@ export function saveQuestion() {
         .then(response => response.json())
         .then(data => {
             if (data.datetime) {
+                dispatch({
+                    type: types.UPDATE_QUESTIONS,
+                    questions: genQuestions
+                });
                 dispatch(saveQuestionsSuccess());
             } else {
                 dispatch(saveQuestionsFailure(data));
