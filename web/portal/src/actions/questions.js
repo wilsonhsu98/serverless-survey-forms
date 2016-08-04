@@ -244,9 +244,18 @@ function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
+        const genQuestions = deepClone(questions);
+        // generate order number
+        let idx = 0;
+        for (const page of genQuestions) {
+            for (const que of page.question) {
+                idx ++;
+                Object.assign(que, { order: idx });
+            }
+        }
         const postData = {
             subject: subject,
-            survey: { content: [...questions], thankyou: surveyPolicy }
+            survey: { content: genQuestions, thankyou: surveyPolicy }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
@@ -261,6 +270,10 @@ export function saveQuestion() {
         .then(response => response.json())
         .then(data => {
             if (data.datetime) {
+                dispatch({
+                    type: types.UPDATE_QUESTIONS,
+                    questions: genQuestions
+                });
                 dispatch(saveQuestionsSuccess());
             } else {
                 dispatch(saveQuestionsFailure(data));
