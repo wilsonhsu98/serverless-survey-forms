@@ -97,6 +97,7 @@ class Select extends PureComponent {
                     key={idx}
                     id={inputID}
                     data-value={val}
+                    data-label={label}
                     onClick={this._onClickCallback}
                 >
                     <span>{label}</span>
@@ -117,8 +118,13 @@ class Select extends PureComponent {
             isOpen: false,
             selectedValue: e.currentTarget.getAttribute('data-value')
         });
+        const feedbackArray = [{
+            type: 'select',
+            value: e.currentTarget.getAttribute('data-value'),
+            label: e.currentTarget.getAttribute('data-label')
+        }];
         const feedback = {
-            [`Q${this.props.id}`]: e.currentTarget.getAttribute('data-value')
+            [`Q${this.props.id}`]: feedbackArray
         };
         this.props.onChangeHandle(feedback);
     }

@@ -28,7 +28,8 @@ class Rating extends PureComponent {
         this.state = {
             selected: false,
             rating: undefined,
-            reason: false
+            reason: false,
+            feedbackArray: []
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
@@ -93,31 +94,36 @@ class Rating extends PureComponent {
     }
 
     _onChangeHandle(e) {
+        const feedbackArray = [{
+            type: 'rating',
+            value: this.state.rating,
+            label: e.currentTarget.title
+        }];
         this.setState({
             selected: e.currentTarget.id,
-            rating: e.currentTarget.getAttribute('data-value')
+            rating: e.currentTarget.getAttribute('data-value'),
+            feedbackArray
         }, () => {
-            const feedbackObj = {
-                rating: this.state.rating,
-                reason: false
-            };
             const feedback = {
-                [`Q${this.props.id}`]: feedbackObj
+                [`Q${this.props.id}`]: feedbackArray
             };
             this.props.onChangeHandle(feedback);
         });
     }
 
     _onChangeInput(e) {
+        const feedbackArray = this.state.feedbackArray;
+
         this.setState({
             reason: e.currentTarget.value
         }, () => {
-            const feedbackObj = {
-                rating: this.state.rating,
-                reason: this.state.reason
-            };
+            feedbackArray.map((item) => {
+                const updatedItem = item;
+                updatedItem.input = this.state.reason;
+                return updatedItem;
+            });
             const feedback = {
-                [`Q${this.props.id}`]: feedbackObj
+                [`Q${this.props.id}`]: feedbackArray
             };
             this.props.onChangeHandle(feedback);
         });

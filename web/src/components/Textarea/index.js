@@ -51,8 +51,14 @@ class Textarea extends PureComponent {
         this.setState({
             input: e.currentTarget.value
         }, () => {
+            const feedbackArray = [
+                {
+                    type: 'textarea',
+                    input: this.state.input ? this.state.input : false
+                }
+            ];
             const feedback = {
-                [`Q${this.props.id}`]: this.state.input ? this.state.input : false
+                [`Q${this.props.id}`]: feedbackArray
             };
             this.props.onChangeHandle(feedback);
         });
