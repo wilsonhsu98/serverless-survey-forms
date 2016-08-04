@@ -6,6 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
 import * as values from '../../../constants/DefaultValues';
+import Mixins from '../../../mixins/global';
 import EditItem from '../EditItem';
 
 class EditMultiOptions extends PureComponent {
@@ -92,12 +93,12 @@ class EditMultiOptions extends PureComponent {
         let opt;
         if (e.target.getAttribute('data-type') === 'other') {
             opt = {
-                value: editQuestion.data.length + 1,
+                value: Mixins.generateQuestionID(),
                 label: values.OPTION_TITLE
             };
         } else {
             opt = {
-                value: editQuestion.data.length + 1,
+                value: Mixins.generateQuestionID(),
                 label: values.OPTION_TITLE,
                 input: values.PLACEHOLDER_TITLE
             };
