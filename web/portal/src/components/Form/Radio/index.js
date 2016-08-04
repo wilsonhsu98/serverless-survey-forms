@@ -40,7 +40,7 @@ class Radio extends Component {
                         {label}
                     </label>
                     {
-                        input ?
+                        itm.hasOwnProperty('input') ?
                             <input
                                 type="text"
                                 className="input input--small"

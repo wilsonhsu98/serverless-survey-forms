@@ -119,7 +119,7 @@ class EditQuestion extends PureComponent {
     _renderAdvance() {
         const { editQuestion } = this.props;
         const flag = editQuestion.hasOwnProperty('input');
-        const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
+        const input = flag ? editQuestion.input : '';
 
         return (
             <div className={`${styles.editSection} ut-advance`}>
@@ -142,6 +142,7 @@ class EditQuestion extends PureComponent {
                         value={input}
                         placeholder={values.PLACEHOLDER_TITLE}
                         onChange={this._onAdvanceChangeHandle}
+                        readOnly={!flag}
                     />
                 </div>
             </div>
@@ -161,7 +162,7 @@ class EditQuestion extends PureComponent {
     }
 
     _onTitleChange(e) {
-        const data = { label: e.target.value || values.QUESTION_TITLE };
+        const data = { label: e.target.value };
         this._handleChangeEvent(data);
     }
 
@@ -178,10 +179,9 @@ class EditQuestion extends PureComponent {
     _onAdvanceChangeHandle() {
         const { editQuestion, editQuestionActions } = this.props;
         const flag = $('#chk').is(':checked');
-        const input = $('#why').val();
         const newData = Object.assign({}, editQuestion);
         if (flag) {
-            newData.input = input || values.PLACEHOLDER_TITLE;
+            newData.input = $('#why').val();
             this._handleChangeEvent(newData);
         } else {
             delete newData.input;

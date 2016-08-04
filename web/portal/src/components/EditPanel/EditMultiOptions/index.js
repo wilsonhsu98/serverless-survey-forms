@@ -74,8 +74,7 @@ class EditMultiOptions extends PureComponent {
         const type = e.target.getAttribute('data-type');
         const newData = [...editQuestion.data];
         const data = {
-            [type]: e.target.value || (type === 'label' ?
-                values.OPTION_TITLE : values.PLACEHOLDER_TITLE)
+            [type]: e.target.value
         };
         newData[idx] = Object.assign({}, newData[idx], data);
         handleChangeEvent({ data: newData });

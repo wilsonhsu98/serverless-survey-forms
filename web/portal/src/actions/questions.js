@@ -248,9 +248,20 @@ export function saveQuestion() {
         // generate order number
         let idx = 0;
         for (const page of genQuestions) {
+            if (page.description === '') Object.assign(page, { description: values.PAGE_TITLE });
             for (const que of page.question) {
                 idx ++;
+                if (que.label === '') Object.assign(que, { label: values.QUESTION_TITLE });
+                if (que.hasOwnProperty('input') && que.input === '') {
+                    Object.assign(que, { input: values.PLACEHOLDER_TITLE });
+                }
                 Object.assign(que, { order: idx });
+                for (const opt of que.data) {
+                    if (opt.label === '') Object.assign(opt, { label: values.OPTION_TITLE });
+                    if (opt.hasOwnProperty('input') && opt.input === '') {
+                        Object.assign(opt, { input: values.PLACEHOLDER_TITLE });
+                    }
+                }
             }
         }
         const postData = {

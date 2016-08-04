@@ -5,7 +5,6 @@ import styles from './style.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
-import * as values from '../../../constants/DefaultValues';
 import Button from '../../Button';
 
 class EditPage extends PureComponent {
@@ -69,7 +68,7 @@ class EditPage extends PureComponent {
 
     _handleChangeEvent(e) {
         const { editPageActions } = this.props;
-        const data = { description: e.target.value || values.PAGE_TITLE };
+        const data = { description: e.target.value };
         editPageActions.setEditPage(data);
     }
 }
