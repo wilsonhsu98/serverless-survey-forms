@@ -122,5 +122,10 @@ const eventer = window[eventMethod];
 const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
 eventer(messageEvent, (e) => receiveClientMessage(e), false);
 
+// Tell Client that Qustom has initialized
+window.parent.postMessage({
+    source: window.location.origin,
+    msg: 'init'
+}, '*');
 
 export default App;
