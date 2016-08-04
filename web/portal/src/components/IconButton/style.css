@@ -86,6 +86,52 @@
     }
 
     /* TODOS integrate into for loop*/
+    /* create mode */
+    &.btn-icon-preview {
+        .icon { background-image: resolve("component/ic_preview_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_preview_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_preview_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_preview_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_preview_blue_press.png"); }
+        }
+    }
+    &.btn-icon-move {
+        .icon { background-image: resolve("component/ic_move_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_move_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_move_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_move_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_move_blue_press.png"); }
+        }
+    }
+    &.btn-icon-copy {
+        .icon { background-image: resolve("component/ic_copy_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_copy_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_copy_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_copy_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_copy_blue_press.png"); }
+        }
+    }
     /* preview mode */
     /* one more type: when selected */
     &.btn-icon-embeddedIcon {
