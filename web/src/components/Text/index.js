@@ -52,12 +52,15 @@ class Text extends PureComponent {
         }, () => {
             const feedbackArray = [
                 {
-                    type: 'input',
                     input: this.state.input ? this.state.input : false
                 }
             ];
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'input',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });

@@ -89,7 +89,6 @@ class Radio extends PureComponent {
     _onChangeHandle(e) {
         const feedbackArray = [];
         const feedbackItem = {
-            type: 'radio',
             value: e.currentTarget.getAttribute('value'),
             label: e.currentTarget.getAttribute('data-label')
         };
@@ -99,7 +98,11 @@ class Radio extends PureComponent {
             feedbackArray
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });
@@ -111,7 +114,7 @@ class Radio extends PureComponent {
         feedbackArray.map((item) => {
             const updatedItem = item;
             if (item.value === e.currentTarget.getAttribute('name')) {
-                updatedItem.input = e.currentTarget.value;
+                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
             }
             return updatedItem;
         });
@@ -119,7 +122,11 @@ class Radio extends PureComponent {
             feedbackArray
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });

@@ -95,7 +95,6 @@ class Rating extends PureComponent {
 
     _onChangeHandle(e) {
         const feedbackArray = [{
-            type: 'rating',
             value: e.currentTarget.getAttribute('data-value'),
             label: e.currentTarget.title
         }];
@@ -105,7 +104,11 @@ class Rating extends PureComponent {
             feedbackArray
         }, () => {
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'rating',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });
@@ -123,7 +126,11 @@ class Rating extends PureComponent {
                 return updatedItem;
             });
             const feedback = {
-                [`Q${this.props.id}`]: feedbackArray
+                [`Q${this.props.id}`]: {
+                    type: 'rating',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
             };
             this.props.onChangeHandle(feedback);
         });
