@@ -26,7 +26,10 @@ export function fetchSurvey(accountid, surveyid) {
     return (dispatch) => {
         dispatch(requestSurvey());
         return fetch(`${config.baseURL}/api/v1/surveys/${accountid}/${surveyid}`, {
-            credentials: 'same-origin'
+            credentials: 'same-origin',
+            headers: {
+                'Cache-Control': 'max-age=0'
+            }
         })
         .then((response) => {
             if (response.status >= 400) {
