@@ -8,11 +8,15 @@ Open a command line terminal and cd to the location where you will be placing th
 
 Clone the project directly from Github:
 
-```git clone https://github.com/trendmicro/serverless-survey-forms.git```
+```
+git clone https://github.com/trendmicro/serverless-survey-forms.git
+```
 
 Enter the serverless-survey-form folder that was just created:
 
-```cd serverless-survey-forms```
+```
+cd serverless-survey-forms
+```
 
 Install npm dependency modules in serverless-survey-form:
 
@@ -22,13 +26,23 @@ npm install
 
 Initialize the project and input your AWS access key and secret key:
 
-```sls project init -n [your-unique-project-name]```
+```
+sls project init
+```
+
+Please name your stage name globally unique due to S3 naming convention.
+
+> * [issue#1322](https://github.com/serverless/serverless/issues/1322): 
+> After executing ```sls project init```, a lot of files are modified.
+> Please revert those changes as work around.
+
+```
+
+```
 
 Please ignore the following possible warning:
 
 ```
-> Serverless: \ Serverless: WARNING: This variable is not defined: tokenSecret  
-> Serverless: WARNING: This variable is not defined: redirectClientURI  
 > Serverless: WARNING: This variable is not defined: providerFacebookId  
 > Serverless: WARNING: This variable is not defined: providerFacebookSecret  
 > Serverless: WARNING: This variable is not defined: websiteDomainName  
@@ -68,15 +82,6 @@ Serverless: Select variable type:
     2) Stage
   > 3) Region
 Serverless: Successfully set variable: tokenSecret  
-
-$ sls variables set 
-Serverless: Enter variable key to set a value to:  redirectClientURI
-Serverless: Enter variable value to set a value to:  https://[cloudfront distributions]/auth/test.html
-Serverless: Select variable type: 
-    1) Common
-    2) Stage
-  > 3) Region
-Serverless: Successfully set variable: redirectClientURI  
 
 $ sls variables set 
 Serverless: Enter variable key to set a value to:  providerFacebookId
