@@ -31,15 +31,17 @@ class Privacy extends PureComponent {
                     <hr className={styles.separate} />
                     <div className={styles.lower}>
                         <div className={styles.lower_txt}>Post Survey Option</div>
-                        <input
-                            id="chk"
-                            type="checkbox"
-                            checked={chk}
-                            onChange={this._onChangeHandle}
-                        />
-                        <label className={styles.label}>
-                            Allow Trend Micro to follow up with the user
-                        </label>
+                        <div className="checkboxItem">
+                            <input
+                                id="chk"
+                                type="checkbox"
+                                checked={chk}
+                                onChange={this._onChangeHandle}
+                            />
+                            <label>
+                                Allow Trend Micro to follow up with the user
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

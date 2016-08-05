@@ -10,7 +10,7 @@ import * as QuestionsActions from '../../actions/questions';
 import * as EditSubjectActions from '../../actions/editSubject';
 import * as PreviewActions from '../../actions/preview';
 
-import CreateBtn from '../../components/List/CreateBtn';
+import ControlBtn from '../../components/List/ControlBtn';
 import SurveyList from '../../components/List/SurveyList';
 
 class List extends PureComponent {
@@ -28,7 +28,7 @@ class List extends PureComponent {
 
         return (
             <div ref="root">
-                <CreateBtn
+                <ControlBtn
                     selectedSurveys={selectedSurveys}
                     editSubjectActions={editSubjectActions}
                     surveysActions={surveysActions}

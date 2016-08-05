@@ -27,13 +27,13 @@ describe('[Portal] Testing OrderPage Item Component', () => {
     let contentRoot = TestUtils.renderIntoDocument(<ItemContext {...props} />);
 
     it('edit orderPage items: page label', () => {
-        const span = TestUtils.findRenderedDOMComponentWithTag(contentRoot, 'span');
+        const span = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-title');
         expect(span.textContent).toEqual(props.page.description);
     });
 
     it('edit orderPage items: drag item', () => {
         const backend = contentRoot.getManager().getBackend();
-        const component = TestUtils.findRenderedDOMComponentWithTag(contentRoot, 'div');
+        const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-obj');
 
         // Expect opacity is 1 before drag
         expect(component.style.opacity).toEqual(1);

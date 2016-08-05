@@ -25,11 +25,12 @@ class EditPage extends PureComponent {
                     <div className="edit">
                         <div className="editContent">
                             <div className={styles.item}>
-                                Page #{editPage.page}:&nbsp;
+                                Page {editPage.page}:
                                 <input
                                     type="text"
                                     value={editPage.description}
                                     onChange={this._handleChangeEvent}
+                                    className={`${styles.input} input input--medium`}
                                 />
                             </div>
                         </div>

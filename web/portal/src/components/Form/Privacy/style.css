@@ -37,14 +37,6 @@
     }
     .lower_txt {
         font-size: 18px;
-    }
-    input {
-        margin-right: 10px;
-    }
-    .label {
-        font-size: 14px;
-        color: #666;
-        line-height: 40px;
-        font-weight: normal;
+        margin-bottom: 10px;
     }
 }

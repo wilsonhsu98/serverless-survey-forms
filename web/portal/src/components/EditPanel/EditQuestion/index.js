@@ -69,7 +69,7 @@ class EditQuestion extends PureComponent {
                 <div>
                     <textarea
                         id="editQuestion"
-                        className="ut-editQuestion"
+                        className="ut-editQuestion teaxarea"
                         type="text"
                         value={editQuestion.label}
                         onChange={this._onTitleChange}
@@ -89,7 +89,7 @@ class EditQuestion extends PureComponent {
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>
-                <div>
+                <div className={styles.select}>
                     <Select
                         id="editSelect"
                         item={item}
@@ -125,11 +125,11 @@ class EditQuestion extends PureComponent {
             <div className={`${styles.editSection} ut-advance`}>
                 <div className={styles.title}>Advanced Option Settings</div>
 
-                <div className={styles.item}>
+                <div className={`${styles.checkboxItem} checkboxItem`}>
                     <input
                         id="chk"
                         type="checkbox"
-                        className="ut-chk"
+                        className={`${styles.input} ut-chk input`}
                         checked={flag}
                         onChange={this._onAdvanceChangeHandle}
                     />
@@ -140,6 +140,7 @@ class EditQuestion extends PureComponent {
                         id="why"
                         type="text"
                         value={input}
+                        className={`${styles.input__why} input input--medium`}
                         placeholder={values.PLACEHOLDER_TITLE}
                         onChange={this._onAdvanceChangeHandle}
                         readOnly={!flag}
