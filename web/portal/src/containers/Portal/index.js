@@ -23,20 +23,17 @@ import List from '../../containers/List/';
 import Subject from '../../components/Popup/Subject';
 import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
+import NoPermission from '../../components/Popup/NoPermission';
 
 class Portal extends PureComponent {
 
-    constructor(props) {
-        super(props);
-
-        const { routing, accountActions } = props;
-        if (routing.locationBeforeTransitions.query.hasOwnProperty('token')) {
-            accountActions.verifyToken(routing.locationBeforeTransitions.query.token);
-        }
+    constructor() {
+        super();
+        this._checkAccountStatus = this._checkAccountStatus.bind(this);
     }
 
     render() {
-        const { token, account, loading, subject, surveyID, preview, previewID,
+        const { account, loading, subject, surveyID, preview, previewID,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions } = this.props;
         const headProps = {
@@ -60,19 +57,29 @@ class Portal extends PureComponent {
 
                 {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
-                {(token === '' && account.hasOwnProperty('accountid')) ? <Unauthorize /> : ''}
+                {this._checkAccountStatus()}
 
                 <Footer />
             </div>
         );
     }
 
+    _checkAccountStatus() {
+        const { account, token } = this.props;
+        if (account.hasOwnProperty('accountid')) {
+            if (account.role === 'User') {
+                return <NoPermission />;
+            } else if (token === '') {
+                return <Unauthorize />;
+            }
+        }
+    }
+
     _checkUserLogin() {
         const { account, surveyID } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
-        if (!account || !account.hasOwnProperty('accountid') ||
-            (account.role !== 'Designer' && account.role !== 'Admin')) {
+        if (!account || !account.hasOwnProperty('accountid')) {
             // if user didn't grant FB permission
             body.classList.remove('bg');
             return <FBLogin />;
