@@ -1,7 +1,4 @@
 
-// CSS
-import styles from './style.css';
-
 import React, { Component } from 'react';
 
 import Question from '../Question';
@@ -18,7 +15,7 @@ class Checkbox extends Component {
                 <Question
                     text={data.label}
                 />
-                <div className={styles.checkboxGrp}>
+                <div className="checkboxGrp">
                     {this._renderCheckboxItem()}
                 </div>
             </div>
@@ -32,7 +29,7 @@ class Checkbox extends Component {
             const input = itm.input;
             return (
                 <div
-                    className={styles.checkboxItem}
+                    className="checkboxItem"
                     key={idx}
                 >
                     <input type="checkbox" />
