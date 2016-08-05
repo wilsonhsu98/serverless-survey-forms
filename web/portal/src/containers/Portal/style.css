@@ -159,7 +159,7 @@
         }
     }
     &.edit {
-        .question {
+        .question, .question:hover {
             background-color: #e3f5fa;
         }
     }
