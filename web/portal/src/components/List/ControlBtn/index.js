@@ -6,7 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import IconButton from '../../IconButton';
 
-class CreateBtn extends PureComponent {
+class ControlBtn extends PureComponent {
 
     constructor() {
         super();
@@ -72,4 +72,4 @@ class CreateBtn extends PureComponent {
     }
 }
 
-export default CreateBtn;
+export default ControlBtn;
