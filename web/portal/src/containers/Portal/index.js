@@ -16,12 +16,13 @@ import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import Subject from '../../components/Popup/Subject';
-import Preview from '../../components/Popup/Preview';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 import Create from '../../containers/Create/';
 import List from '../../containers/List/';
+import Subject from '../../components/Popup/Subject';
+import Preview from '../../components/Popup/Preview';
+import Unauthorize from '../../components/Popup/Unauthorize';
 
 class Portal extends PureComponent {
 
@@ -35,7 +36,7 @@ class Portal extends PureComponent {
     }
 
     render() {
-        const { account, loading, subject, surveyID, preview, previewID,
+        const { token, account, loading, subject, surveyID, preview, previewID,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions } = this.props;
         const headProps = {
@@ -59,6 +60,7 @@ class Portal extends PureComponent {
 
                 {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
+                {(token === '' && account.hasOwnProperty('accountid')) ? <Unauthorize /> : ''}
 
                 <Footer />
             </div>
@@ -66,10 +68,10 @@ class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { token, account, surveyID } = this.props;
+        const { account, surveyID } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
-        if (token === '' || !account || !account.hasOwnProperty('accountid') ||
+        if (!account || !account.hasOwnProperty('accountid') ||
             (account.role !== 'Designer' && account.role !== 'Admin')) {
             // if user didn't grant FB permission
             body.classList.remove('bg');
