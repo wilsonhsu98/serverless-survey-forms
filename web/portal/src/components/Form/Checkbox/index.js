@@ -40,7 +40,7 @@ class Checkbox extends Component {
                         itm.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                className="input input--small"
+                                className="input input--medium"
                                 placeholder={input}
                             /> :
                             ''

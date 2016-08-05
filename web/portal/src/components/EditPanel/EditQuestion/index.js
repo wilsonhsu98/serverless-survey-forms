@@ -140,7 +140,7 @@ class EditQuestion extends PureComponent {
                         id="why"
                         type="text"
                         value={input}
-                        className={`${styles.input__why} input input--small`}
+                        className={`${styles.input__why} input input--medium`}
                         placeholder={values.PLACEHOLDER_TITLE}
                         onChange={this._onAdvanceChangeHandle}
                         readOnly={!flag}
