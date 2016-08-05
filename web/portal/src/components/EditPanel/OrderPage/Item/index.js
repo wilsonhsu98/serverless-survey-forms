@@ -8,6 +8,7 @@ import PureComponent from 'react-pure-render/component';
 import { DragSource, DropTarget } from 'react-dnd';
 
 import * as types from '../../../../constants/DragTypes';
+import IconButton from '../../../IconButton';
 
 const dragSource = {
     beginDrag: function beginDrag(props) {
@@ -75,13 +76,21 @@ class Item extends PureComponent {
 
         return connectDragPreview(connectDropTarget(
             <div className={styles.item} style={{ opacity }}>
-                Page #{orderId}:&nbsp;
-                <span className={styles.title}>{page.description}</span>
+                <div className={styles.info}>
+                    Page {orderId}:
+                    <span className={styles.title}>{page.description}</span>
+                </div>
                 {connectDragSource(
-                    <button
-                        className="btn"
-                        style={{ cursor: 'move' }}
-                    >Drag</button>
+                    <div className={styles.drag}>
+                        <IconButton
+                            string="Move"
+                            i18nKey={false}
+                            img="move"
+                            color="black"
+                            onClick={() => {}}
+                            extraProps={{ style: { cursor: 'move' } }}
+                        />
+                    </div>
                 )}
             </div>
         ));
