@@ -28,6 +28,7 @@
             input: "Please enter your email address."
         }
     },
+    selectedSurveys: '',
     preview: 'embedded/normal_mobile/normal_pad/normal_desktop'
  }
 **/
@@ -45,6 +46,7 @@ import editQuestion from './editQuestion';
 import editPage from './editPage';
 import orderPage from './orderPage';
 import surveys from './surveys';
+import selectedSurveys from './selectedSurveys';
 import surveyPolicy from './surveyPolicy';
 import preview from './preview';
 import previewID from './previewID';
@@ -61,6 +63,7 @@ const rootReducer = combineReducers({
     editPage,
     orderPage,
     surveys,
+    selectedSurveys,
     surveyPolicy,
     preview,
     previewID,

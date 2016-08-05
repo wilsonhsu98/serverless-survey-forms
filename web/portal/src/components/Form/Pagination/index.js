@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import * as values from '../../../constants/DefaultValues';
 import Mixins from '../../../mixins/global';
 import Item from '../Item';
+import IconButton from '../../IconButton';
 
 class Pagination extends Component {
 
@@ -35,34 +36,30 @@ class Pagination extends Component {
                         Page {id}:{description}
                     </div>
                     <div className={styles.control}>
-                        <button
-                            data-type="preview"
-                            className={`${styles.btn} btn`}
+                        <IconButton
+                            i18nKey={false}
+                            img="preview"
                             onClick={this._onEditPageClick}
-                        >
-                            View
-                        </button>
-                        <button
-                            data-type="order"
-                            className={`${styles.btn} btn`}
+                            extraProps={{ 'data-type': 'preview' }}
+                        />
+                        <IconButton
+                            i18nKey={false}
+                            img="move"
                             onClick={this._onEditPageClick}
-                        >
-                            Order
-                        </button>
-                        <button
-                            data-type="copy"
-                            className={`${styles.btn} btn`}
+                            extraProps={{ 'data-type': 'order' }}
+                        />
+                        <IconButton
+                            i18nKey={false}
+                            img="copy"
                             onClick={this._onEditPageClick}
-                        >
-                            Copy
-                        </button>
-                        <button
-                            data-type="delete"
-                            className={`${styles.btn} btn`}
+                            extraProps={{ 'data-type': 'copy' }}
+                        />
+                        <IconButton
+                            i18nKey={false}
+                            img="delete"
                             onClick={this._onEditPageClick}
-                        >
-                            Delete
-                        </button>
+                            extraProps={{ 'data-type': 'delete' }}
+                        />
                     </div>
                 </div>
                 <div className={styles.box}>
@@ -111,7 +108,7 @@ class Pagination extends Component {
     _onEditPageClick(e) {
         const { surveyID, questions, data,
             questionsActions, editPageActions, orderPageActions, previewActions } = this.props;
-        const type = e.target.getAttribute('data-type');
+        const type = e.currentTarget.getAttribute('data-type');
         const orderPage = [];
 
         switch (type) {

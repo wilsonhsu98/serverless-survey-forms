@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import * as SurveysActions from '../../actions/surveys';
 import * as QuestionsActions from '../../actions/questions';
 import * as EditSubjectActions from '../../actions/editSubject';
+import * as PreviewActions from '../../actions/preview';
 
-import CreateBtn from '../../components/List/CreateBtn';
+import ControlBtn from '../../components/List/ControlBtn';
 import SurveyList from '../../components/List/SurveyList';
 
 class List extends PureComponent {
@@ -22,14 +23,22 @@ class List extends PureComponent {
     }
 
     render() {
-        const { surveys, questionsActions, editSubjectActions } = this.props;
+        const { surveys, selectedSurveys,
+            surveysActions, questionsActions, editSubjectActions, previewActions } = this.props;
 
         return (
             <div ref="root">
-                <CreateBtn editSubjectActions={editSubjectActions} />
+                <ControlBtn
+                    selectedSurveys={selectedSurveys}
+                    editSubjectActions={editSubjectActions}
+                    surveysActions={surveysActions}
+                    previewActions={previewActions}
+                />
                 <SurveyList
                     surveys={surveys}
+                    selectedSurveys={selectedSurveys}
                     questionsActions={questionsActions}
+                    surveysActions={surveysActions}
                 />
             </div>
         );
@@ -38,7 +47,8 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        surveys: state.surveys
+        surveys: state.surveys,
+        selectedSurveys: state.selectedSurveys
     };
 }
 
@@ -46,7 +56,8 @@ function mapDispatchToProps(dispatch) {
     return {
         surveysActions: bindActionCreators(SurveysActions, dispatch),
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
-        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch)
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
+        previewActions: bindActionCreators(PreviewActions, dispatch)
     };
 }
 

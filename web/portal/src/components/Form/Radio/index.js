@@ -1,7 +1,4 @@
 
-// CSS
-import styles from './style.css';
-
 import React, { Component } from 'react';
 
 import Question from '../Question';
@@ -18,7 +15,7 @@ class Radio extends Component {
                 <Question
                     text={data.label}
                 />
-                <div className={styles.radioGrp}>
+                <div className="radioGrp">
                     {this._renderRadioItem()}
                 </div>
             </div>
@@ -32,7 +29,7 @@ class Radio extends Component {
             const input = itm.input;
             return (
                 <div
-                    className={styles.radioItem}
+                    className="radioItem"
                     key={idx}
                 >
                     <input type="radio" />
@@ -40,10 +37,10 @@ class Radio extends Component {
                         {label}
                     </label>
                     {
-                        input ?
+                        itm.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                className="input input--small"
+                                className="input input--medium"
                                 placeholder={input}
                             /> :
                             ''

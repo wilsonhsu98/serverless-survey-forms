@@ -1,7 +1,7 @@
 .question {
     font-size: 16px;
     display: inline-block;
-    margin: 15px 20px 10px 0;
+    margin: 10px 0 10px 0;
 }
 
 .terms {
@@ -10,7 +10,7 @@
 }
 
 .bottomWrapper {
-    margin-left: 20px;
+    margin-left: 30px;
     position: relative;
     width: 90%;
     height: 80px;

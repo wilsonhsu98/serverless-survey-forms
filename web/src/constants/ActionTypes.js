@@ -21,3 +21,6 @@ export const SAVE_CLIENT_ID = 'SAVE_CLIENT_ID';
 // paging
 export const GO_TO_PAGE = 'GO_TO_PAGE';
 
+// prefill from client
+export const SAVE_PREFILL_DATA = 'SAVE_PREFILL_DATA';
+

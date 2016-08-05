@@ -30,7 +30,7 @@ describe('[Portal] Testing EditItem Component', () => {
 
     it('edit option items: drag option', () => {
         const backend = contentRoot.getManager().getBackend();
-        const component = TestUtils.findRenderedDOMComponentWithTag(contentRoot, 'div');
+        const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-item');
 
         // Expect opacity is 1 before drag
         expect(component.style.opacity).toEqual(1);

@@ -15,8 +15,8 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
 import * as AccountActions from './actions/account';
-
 import MainRouter from './routers';
+import Mixins from './mixins/global';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -39,7 +39,8 @@ function getPromise(fetchFunc, ...extraParams) {
 
 function getToken(resolve) {
     // Check localStorage QustomPortal, Verify toekn
-    const token = window.localStorage.QustomPortalTK || '';
+    const token = Mixins.getParameterByName('token') ||
+        window.localStorage.QustomPortalTK || '';
 
     if (token) {
         store.dispatch(AccountActions.verifyToken(token))

@@ -26,7 +26,10 @@ export function fetchSurvey(accountid, surveyid) {
     return (dispatch) => {
         dispatch(requestSurvey());
         return fetch(`${config.baseURL}/api/v1/surveys/${accountid}/${surveyid}`, {
-            credentials: 'same-origin'
+            credentials: 'same-origin',
+            headers: {
+                'Cache-Control': 'max-age=0'
+            }
         })
         .then((response) => {
             if (response.status >= 400) {
@@ -48,9 +51,6 @@ export function fetchSurvey(accountid, surveyid) {
 }
 
 export function surveyDone() {
-    // TODO: postMessage to client
-    // window.parent.postMessage(`Survey done: ${clientID}`,
-    //    window.parent.location.origin);
     return {
         type: types.SURVEY_DONE
     };
@@ -60,5 +60,12 @@ export function goToPage(index) {
     return {
         type: types.GO_TO_PAGE,
         index
+    };
+}
+
+export function savePrefill(data) {
+    return {
+        type: types.SAVE_PREFILL_DATA,
+        data
     };
 }

@@ -16,7 +16,7 @@ describe('Testing Question Component', () => {
         );
         const question = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-question');
 
-        expect(question.textContent).toEqual('Q2. Question 2');
+        expect(question.textContent).toEqual('2. Question 2');
     });
 
     it('should contain *required tag', () => {

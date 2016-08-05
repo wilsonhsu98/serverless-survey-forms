@@ -255,30 +255,30 @@ $button-border-width: 1px;
         /* Pre-load image in hover/press state */
         content: '';
         background-image:
-            resolve("btn_white_normal_1.png"),
-            resolve("btn_white_normal_2.png"),
-            resolve("btn_white_normal_3.png"),
-            resolve("btn_white_normal_4.png"),
-            resolve("btn_white_normal_5.png"),
-            resolve("btn_white_hover_1.png"),
-            resolve("btn_white_hover_2.png"),
-            resolve("btn_white_hover_3.png"),
-            resolve("btn_white_hover_4.png"),
-            resolve("btn_white_hover_5.png"),
-            resolve("btn_white_press_1.png"),
-            resolve("btn_white_press_2.png"),
-            resolve("btn_white_press_3.png"),
-            resolve("btn_white_press_4.png"),
-            resolve("btn_white_press_5.png");
+            url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_5.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_5.png),
+            url(../../../assets/images/component/ruby/btn_white_press_1.png),
+            url(../../../assets/images/component/ruby/btn_white_press_2.png),
+            url(../../../assets/images/component/ruby/btn_white_press_3.png),
+            url(../../../assets/images/component/ruby/btn_white_press_4.png),
+            url(../../../assets/images/component/ruby/btn_white_press_5.png);
         visibility: hidden;
     }
     @mixin ruby-style-block
         btn, TR, 10px,
-        resolve("btn_white_normal_1.png"),
-        resolve("btn_white_normal_2.png"),
-        resolve("btn_white_normal_3.png"),
-        resolve("btn_white_normal_4.png"),
-        resolve("btn_white_normal_5.png"),
+        url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_5.png),
         none,
         1px solid #DEDEDE;
     border-radius: 0;
@@ -305,11 +305,11 @@ $button-border-width: 1px;
         transition-property: none;
         @mixin ruby-style-block
             btn, TR, 10px,
-            resolve("btn_white_hover_1.png"),
-            resolve("btn_white_hover_2.png"),
-            resolve("btn_white_hover_3.png"),
-            resolve("btn_white_hover_4.png"),
-            resolve("btn_white_hover_5.png"),
+            url(../../../assets/images/component/ruby/btn_white_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_5.png),
             none,
             1px solid #D6D6D6;
     }
@@ -319,11 +319,11 @@ $button-border-width: 1px;
         box-shadow: none;
         @mixin ruby-style-block
             btn, TR, 10px,
-            resolve("btn_white_press_1.png"),
-            resolve("btn_white_press_2.png"),
-            resolve("btn_white_press_3.png"),
-            resolve("btn_white_press_4.png"),
-            resolve("btn_white_press_5.png"),
+            url(../../../assets/images/component/ruby/btn_white_press_1.png),
+            url(../../../assets/images/component/ruby/btn_white_press_2.png),
+            url(../../../assets/images/component/ruby/btn_white_press_3.png),
+            url(../../../assets/images/component/ruby/btn_white_press_4.png),
+            url(../../../assets/images/component/ruby/btn_white_press_5.png),
             none,
             1px solid #D6D6D6;
     }
@@ -341,11 +341,11 @@ $button-border-width: 1px;
             color: inherit;
             @mixin ruby-style-block
                 btn, TR, 10px,
-                resolve("btn_white_normal_1.png"),
-                resolve("btn_white_normal_2.png"),
-                resolve("btn_white_normal_3.png"),
-                resolve("btn_white_normal_4.png"),
-                resolve("btn_white_normal_5.png"),
+                url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_5.png),
                 none,
                 1px solid #DEDEDE;
         }
@@ -355,30 +355,30 @@ $button-border-width: 1px;
         &:before {
             content: '';
             background-image:
-                resolve("btn_blue_normal_1.png"),
-                resolve("btn_blue_normal_2.png"),
-                resolve("btn_blue_normal_3.png"),
-                resolve("btn_blue_normal_4.png"),
-                resolve("btn_blue_normal_5.png"),
-                resolve("btn_blue_hover_1.png"),
-                resolve("btn_blue_hover_2.png"),
-                resolve("btn_blue_hover_3.png"),
-                resolve("btn_blue_hover_4.png"),
-                resolve("btn_blue_hover_5.png"),
-                resolve("btn_blue_press_1.png"),
-                resolve("btn_blue_press_2.png"),
-                resolve("btn_blue_press_3.png"),
-                resolve("btn_blue_press_4.png"),
-                resolve("btn_blue_press_5.png");
+            url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_5.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_5.png);
             visibility: hidden;
         }
         @mixin ruby-style-block
             btn, TR, 10px,
-            resolve("btn_blue_normal_1.png"),
-            resolve("btn_blue_normal_2.png"),
-            resolve("btn_blue_normal_3.png"),
-            resolve("btn_blue_normal_4.png"),
-            resolve("btn_blue_normal_5.png"),
+            url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
             none,
             1px solid #2695d2;
         color: #FFF;
@@ -388,11 +388,11 @@ $button-border-width: 1px;
             color: #FFF;
             @mixin ruby-style-block
                 btn, TR, 10px,
-                resolve("btn_blue_hover_1.png"),
-                resolve("btn_blue_hover_2.png"),
-                resolve("btn_blue_hover_3.png"),
-                resolve("btn_blue_hover_4.png"),
-                resolve("btn_blue_hover_5.png"),
+                url(../../../assets/images/component/ruby/btn_blue_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_5.png),
                 none,
                 1px solid #1483C4;
         }
@@ -400,11 +400,11 @@ $button-border-width: 1px;
         &:active, &:focus {
             @mixin ruby-style-block
                 btn, TR, 10px,
-                resolve("btn_blue_press_1.png"),
-                resolve("btn_blue_press_2.png"),
-                resolve("btn_blue_press_3.png"),
-                resolve("btn_blue_press_4.png"),
-                resolve("btn_blue_press_5.png"),
+                url(../../../assets/images/component/ruby/btn_blue_press_1.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_2.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_3.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_4.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_5.png),
                 none,
                 1px solid #1C7AB0;
         }
@@ -414,11 +414,11 @@ $button-border-width: 1px;
             &:hover, &:active, &:focus {
                 @mixin ruby-style-block
                     btn, TR, 10px,
-                    resolve("btn_blue_normal_1.png"),
-                    resolve("btn_blue_normal_2.png"),
-                    resolve("btn_blue_normal_3.png"),
-                    resolve("btn_blue_normal_4.png"),
-                    resolve("btn_blue_normal_5.png"),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
                     none,
                     1px solid #2695d2;
             }
@@ -429,30 +429,30 @@ $button-border-width: 1px;
         &:before {
             content: '';
             background-image:
-                resolve("btn_red_normal_1.png"),
-                resolve("btn_red_normal_2.png"),
-                resolve("btn_red_normal_3.png"),
-                resolve("btn_red_normal_4.png"),
-                resolve("btn_red_normal_5.png"),
-                resolve("btn_red_hover_1.png"),
-                resolve("btn_red_hover_2.png"),
-                resolve("btn_red_hover_3.png"),
-                resolve("btn_red_hover_4.png"),
-                resolve("btn_red_hover_5.png"),
-                resolve("btn_red_press_1.png"),
-                resolve("btn_red_press_2.png"),
-                resolve("btn_red_press_3.png"),
-                resolve("btn_red_press_4.png"),
-                resolve("btn_red_press_5.png");
+                url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_5.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_5.png),
+                url(../../../assets/images/component/ruby/btn_red_press_1.png),
+                url(../../../assets/images/component/ruby/btn_red_press_2.png),
+                url(../../../assets/images/component/ruby/btn_red_press_3.png),
+                url(../../../assets/images/component/ruby/btn_red_press_4.png),
+                url(../../../assets/images/component/ruby/btn_red_press_5.png);
             visibility: hidden;
         }
         @mixin ruby-style-block
             btn, TR, 10px,
-            resolve("btn_red_normal_1.png"),
-            resolve("btn_red_normal_2.png"),
-            resolve("btn_red_normal_3.png"),
-            resolve("btn_red_normal_4.png"),
-            resolve("btn_red_normal_5.png"),
+            url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_5.png),
             none,
             1px solid #DF313B;
         color: #FFF;
@@ -462,11 +462,11 @@ $button-border-width: 1px;
             color: #FFF;
             @mixin ruby-style-block
                 btn, TR, 10px,
-                resolve("btn_red_hover_1.png"),
-                resolve("btn_red_hover_2.png"),
-                resolve("btn_red_hover_3.png"),
-                resolve("btn_red_hover_4.png"),
-                resolve("btn_red_hover_5.png"),
+                url(../../../assets/images/component/ruby/btn_red_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_5.png),
                 none,
                 1px solid #C7383D;
         }
@@ -474,12 +474,11 @@ $button-border-width: 1px;
         &:active, &:focus {
             @mixin ruby-style-block
                 btn, TR, 10px,
-                resolve("btn_red_press_1.png"),
-                resolve("btn_red_press_2.png"),
-                resolve("btn_red_press_3.png"),
-                resolve("btn_red_press_4.png"),
-                resolve("btn_red_press_5.png"),
-                none,
+                url(../../../assets/images/component/ruby/btn_red_press_1.png),
+                url(../../../assets/images/component/ruby/btn_red_press_2.png),
+                url(../../../assets/images/component/ruby/btn_red_press_3.png),
+                url(../../../assets/images/component/ruby/btn_red_press_4.png),
+                url(../../../assets/images/component/ruby/btn_red_press_5.png),
                 1px solid #BB3136;
         }
 
@@ -488,11 +487,11 @@ $button-border-width: 1px;
             &:hover, &:active, &:focus {
                 @mixin ruby-style-block
                     btn, TR, 10px,
-                    resolve("btn_red_normal_1.png"),
-                    resolve("btn_red_normal_2.png"),
-                    resolve("btn_red_normal_3.png"),
-                    resolve("btn_red_normal_4.png"),
-                    resolve("btn_red_normal_5.png"),
+                    url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_5.png),
                     none,
                     1px solid #DF313B;
             }

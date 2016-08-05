@@ -58,7 +58,11 @@ var webpackConfig = {
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192'
-            }
+            },
+            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/font-woff" },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/octet-stream]" },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/vnd.ms-fontobject" },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=image/svg+xml" }
         ]
     },
     resolve: {
@@ -119,7 +123,8 @@ if (process.env.NODE_ENV === 'production') {
         new ExtractTextPlugin("styles.css", { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': '"development"'
+                'NODE_ENV': '"development"',
+                'NODE_URL': JSON.stringify(process.env.NODE_URL)
             }
         })
     ];

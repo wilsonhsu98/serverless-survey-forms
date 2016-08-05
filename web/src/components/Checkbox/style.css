@@ -21,6 +21,7 @@
 :global .checkboxItem input[type="checkbox"] + label {
     clear: none;
     cursor: pointer;
+    font-weight: normal;
 }
 
 :global .checkboxItem input[type="checkbox"]:disabled + label {
