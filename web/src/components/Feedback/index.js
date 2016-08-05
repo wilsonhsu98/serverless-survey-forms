@@ -149,6 +149,7 @@ class Feedback extends PureComponent {
     }
 
     _renderThankyou() {
+        const { prefillData } = this.props;
         const { subject } = this.props.survey;
         const { description, privacy } = this.props.survey.thankyou;
         return (
@@ -177,7 +178,7 @@ class Feedback extends PureComponent {
                                     this.props.settings.type === 'preview' ?
                                     styles.feedbackPreview : ''}
                             >
-                                <Privacy info={privacy} />
+                                <Privacy info={privacy} prefillData={prefillData} />
                             </div>
                         </div>
                     </div>

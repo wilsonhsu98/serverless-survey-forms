@@ -37,7 +37,8 @@ function mapStateToProps(state) {
         survey: state.survey,
         feedback: state.feedback,
         done: state.done,
-        paging: state.paging
+        paging: state.paging,
+        prefillData: state.prefillData
     };
 }
 

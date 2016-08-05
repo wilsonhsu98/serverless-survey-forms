@@ -12,6 +12,18 @@ import Button from '../Button';
 
 class Privacy extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        let email = '';
+        if (props.prefillData && props.prefillData.email) {
+            email = props.prefillData.email;
+        }
+        this.state = {
+            email
+        };
+        this._onChange = this._onChange.bind(this);
+    }
+
     render() {
         const { info } = this.props;
         return (
@@ -37,7 +49,12 @@ class Privacy extends PureComponent {
                         </div>
                     </div>
                     <div className={styles.bottomWrapper}>
-                        <input type="text" placeholder={info.input} />
+                        <input
+                            type="text"
+                            placeholder={info.input}
+                            value={this.state.email}
+                            onChange={this._onChange}
+                        />
                         <Button
                             string={'participate'}
                             onClick={this._participate}
@@ -54,6 +71,12 @@ class Privacy extends PureComponent {
 
     _participate() {
         console.log('TODO: participate callback');
+    }
+
+    _onChange(e) {
+        this.setState({
+            email: e.target.value
+        });
     }
 
 }
