@@ -17,16 +17,16 @@ class SubjectPop extends PureComponent {
     render() {
         const { subject } = this.props;
         return (
-            <div className={styles.popup}>
-                <div className={styles.wrap}>
+            <div className={`${styles.popup} popup`}>
+                <div className={`${styles.wrap} wrap`}>
                     <button
                         type="button"
                         onClick={this._btnClickEvent}
-                        className={`${styles.close} close`}
+                        className="close"
                         data-type="cancel"
                     >×
                     </button>
-                    <div className={styles.content}>
+                    <div className={`${styles.content} content`}>
                         <div className={styles.title}>What would you like to name this survey?</div>
                         <input
                             id="subject"

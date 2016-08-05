@@ -1,35 +1,20 @@
 /*
  * Style for containers/PreviewPop/Preview/index.js
- * TODOS: integrate popup
  */
 
-.popup {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5;
-    background-color: rgba(0, 0, 0, 0.6);
 
+.popup {
     .wrap {
-        position: fixed;
-        left: 50%;
-        top: 50%;
         margin-left: -468px;
         margin-top: -308px;
         width: 936px;
         min-height: 616px;
         border-radius: 8px;
         box-shadow: 0 0 12px rgba(0,0,0,0.5);
-        background-color: #FFF;
     }
-
     .content {
-        position: relative;
         margin: 12px;
     }
-
     .header {
         position: relative;
         padding: 8px 0 0 12px;
@@ -39,7 +24,6 @@
             vertical-align: bottom;
         }
     }
-
     .embedded {
         position: relative;
         width: 888px;
@@ -55,7 +39,6 @@
             height: 460px;
         }
     }
-
     .title {
         padding-right: 32px;
         font-size: 32px;
@@ -63,14 +46,12 @@
         color: #222;
         letter-spacing: -1.76px;
     }
-
     .control {
         line-height: 0;
         & > div {
             margin-right: 4px;
         }
     }
-
     .preview {
         position: relative;
         margin: 20px auto 0;
@@ -83,11 +64,5 @@
         &.previewPad {
             width: 640px;
         }
-    }
-
-    .close {
-        position: absolute;
-        top: 0;
-        right: 0;
     }
 }

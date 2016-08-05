@@ -3,24 +3,7 @@
  */
 
 .popup {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5;
-    background-color: rgba(0, 0, 0, 0.6);
-
     .wrap {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        margin-left: -320px;
-        margin-top: -100px;
-        width: 640px;
-        min-height: 200px;
-        background-color: #FFF;
-
         &:before {
             content: '';
             display: block;
@@ -29,33 +12,21 @@
             background-color: #ED1C24;
         }
     }
-
     .content {
-        position: relative;
         margin: 36px 80px 24px;
     }
-
     .title {
         font-size: 18px;
         font-family: Arial;
         color: #222;
         margin-bottom: 20px;
     }
-
     .input {
         width: 100%;
     }
-
     .input__msg {
         width: 100%;
     }
-
-    .close {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
     .bottom {
         text-align: center;
         margin-top: 30px;
