@@ -69,17 +69,13 @@ class Feedback extends PureComponent {
                             <div>{list}</div>
                         </div>
                     </div>
-                    {
-                    content.length > 1 ?
-                        <Pagination
-                            pages={content.length}
-                            currentPage={paging}
-                            surveyActions={surveyActions}
-                            feedbackActions={feedbackActions}
-                            settings={settings}
-                        /> :
-                        ''
-                    }
+                    <Pagination
+                        pages={content.length}
+                        currentPage={paging}
+                        surveyActions={surveyActions}
+                        feedbackActions={feedbackActions}
+                        settings={settings}
+                    />
                 </div>
             </div>
         );
