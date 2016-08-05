@@ -33,18 +33,21 @@ class SurveyList extends PureComponent {
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>
-                        <input
-                            type="checkbox"
-                            className={styles.checkbox}
-                            value={item.surveyid}
-                            checked={item.surveyid === selectedSurveys}
-                            onChange={this._toggleChange}
-                        />
-                        <a
-                            className={styles.titleLink}
-                            data-id={item.surveyid}
-                            onClick={this._onClickEdit}
-                        >{item.subject}</a>
+                        <div className="checkboxItem">
+                            <input
+                                type="checkbox"
+                                className={styles.checkbox}
+                                value={item.surveyid}
+                                checked={item.surveyid === selectedSurveys}
+                                onChange={this._toggleChange}
+                            />
+                            <label></label>
+                            <a
+                                className={styles.titleLink}
+                                data-id={item.surveyid}
+                                onClick={this._onClickEdit}
+                            >{item.subject}</a>
+                        </div>
                     </td>
                     <td className={styles.response}>100</td>
                     <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
