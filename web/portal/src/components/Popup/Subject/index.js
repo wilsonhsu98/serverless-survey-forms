@@ -4,9 +4,9 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import Button from '../Button';
+import Button from '../../Button';
 
-class SubjectPop extends PureComponent {
+class Subject extends PureComponent {
 
     constructor() {
         super();
@@ -86,4 +86,4 @@ class SubjectPop extends PureComponent {
     }
 }
 
-export default SubjectPop;
+export default Subject;

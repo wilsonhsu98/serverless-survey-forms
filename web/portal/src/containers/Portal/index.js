@@ -16,8 +16,8 @@ import * as AccountActions from '../../actions/account';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import SubjectPop from '../../components/SubjectPop';
-import Preview from '../../components/PreviewPop/Preview';
+import Subject from '../../components/Popup/Subject';
+import Preview from '../../components/Popup/Preview';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 import Create from '../../containers/Create/';
@@ -57,7 +57,7 @@ class Portal extends PureComponent {
                     {this._checkUserLogin()}
                 </div>
 
-                {editSubject ? <SubjectPop {...subProps} /> : ''}
+                {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
 
                 <Footer />
