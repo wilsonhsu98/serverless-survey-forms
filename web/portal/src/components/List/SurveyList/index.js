@@ -43,7 +43,7 @@ class SurveyList extends PureComponent {
                             />
                             <label></label>
                             <a
-                                className={styles.titleLink}
+                                className="link"
                                 data-id={item.surveyid}
                                 onClick={this._onClickEdit}
                             >{item.subject}</a>

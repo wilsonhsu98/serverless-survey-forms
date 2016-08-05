@@ -139,7 +139,6 @@
 
 
 :global .questionItem {
-    background-color: #FFF;
     & > div {
         display: table-cell;
         &.question {
@@ -181,6 +180,10 @@
             background-color: #e3f5fa;
         }
     }
+}
+
+:global .questionGrp:first-child .questionItem .question {
+    border-top-left-radius: 4px;
 }
 
 :global .questionLine {

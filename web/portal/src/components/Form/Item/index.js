@@ -86,7 +86,7 @@ class Item extends Component {
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
 
         return connectDragPreview(connectDropTarget(
-            <div>
+            <div className="questionGrp">
                 <div
                     className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''}`}
                     style={{
