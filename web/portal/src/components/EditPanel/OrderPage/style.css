@@ -3,11 +3,16 @@
  */
 
 .item {
-    margin: 0 5px 20px 0;
+    margin: 10px 5px 10px 0;
 
     .title {
         display: inline-block;
         width: 220px;
-        border: 1px solid #999;
+        padding: 0 8px;
+        border-style: solid;
+        border-color: #bfbfbf;
+        border-width: 1px 1px 2px 1px;
+        font-size: 14px;
+        color: #777;
     }
 }

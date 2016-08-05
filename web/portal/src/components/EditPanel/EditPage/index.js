@@ -30,6 +30,7 @@ class EditPage extends PureComponent {
                                     type="text"
                                     value={editPage.description}
                                     onChange={this._handleChangeEvent}
+                                    className={`${styles.input} input input--small`}
                                 />
                             </div>
                         </div>

@@ -13,32 +13,24 @@
         margin-bottom: 8px;
     }
 
-    select {
-        width: 200px;
+    .select {
+        width: 426px;
     }
 
-    input[type="text"] {
+    .input {
         width: 300px;
     }
 
     textarea {
-        width: 360px;
-        resize: none;
+        width: 426px;
+        height: 65px;
     }
 
-    .item {
-        label {
-            font-weight: normal;
-            font-size: 14px;
-            color: #666;
-        }
-
-        input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
-        input[type="text"] {
-            width: 140px;
+    .checkboxItem input[type="text"].input__why {
+        width: 200px;
+        margin-left: 0;
+        &[readonly]:focus {
+            border-color: #bfbfbf;
         }
     }
 }

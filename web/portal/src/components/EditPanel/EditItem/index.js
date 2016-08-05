@@ -108,7 +108,7 @@ class EditItem extends PureComponent {
                 data-id={id}
                 data-type="label"
                 type="text"
-                className={`${styles.longText} ut-input`}
+                className={`${styles.longText} ut-input input input--small`}
                 value={data.label}
                 placeholder="New Option"
                 onChange={onChangeHandle}
@@ -124,7 +124,7 @@ class EditItem extends PureComponent {
                     data-id={id}
                     data-type="label"
                     type="text"
-                    className={styles.shortText}
+                    className={`${styles.shortText} input input--small`}
                     value={data.label}
                     placeholder="New Option"
                     onChange={onChangeHandle}
@@ -134,7 +134,7 @@ class EditItem extends PureComponent {
                     data-id={id}
                     data-type="input"
                     type="text"
-                    className={styles.shortText}
+                    className={`${styles.shortText} input input--small`}
                     value={data.input}
                     placeholder="New Option"
                     onChange={onChangeHandle}

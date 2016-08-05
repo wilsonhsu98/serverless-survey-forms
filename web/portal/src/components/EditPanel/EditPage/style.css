@@ -5,3 +5,7 @@
 .item {
     margin: 0 5px 20px 0;
 }
+
+.input {
+    width: 360px;
+}
