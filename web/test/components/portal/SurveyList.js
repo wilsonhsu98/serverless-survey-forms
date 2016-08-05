@@ -25,7 +25,11 @@ describe('[Portal] Testing SurveyList Component', () => {
             }],
         selectedSurveys: '2222-3333-4444-0000',
         questionsActions: () => {},
-        surveysActions: () => {}
+        surveysActions: {
+            toggleSelectedSurveys: (val) => {
+                props.selectedSurveys = val;
+            }
+        }
     };
     const content = TestUtils.renderIntoDocument(
         <SurveyList {...props} />
@@ -36,9 +40,15 @@ describe('[Portal] Testing SurveyList Component', () => {
         expect(list.length).toEqual(2);
     });
 
-    it('survey list: choose survey', () => {
+    it('survey list: selected survey', () => {
         const input = TestUtils.scryRenderedDOMComponentsWithTag(content, 'input');
         expect(input[0].checked).toEqual(false);
         expect(input[1].checked).toEqual(true);
+    });
+
+    it('survey list: change selected survey', () => {
+        const input = TestUtils.scryRenderedDOMComponentsWithTag(content, 'input');
+        TestUtils.Simulate.change(input[0]);
+        expect(props.selectedSurveys).toEqual(input[0].value);
     });
 });
