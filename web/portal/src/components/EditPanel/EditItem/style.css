@@ -3,10 +3,16 @@
  */
 
 .item {
-    margin: 5px 0;
-    button {
-        margin-left: 5px;
+    margin: 5px 0 10px;
+    overflow: hidden;
+    & > div {
+        float: left;
     }
+    &:after {
+        content: '';
+        clear: both;
+    }
+
     input[type="text"].longText {
         width: 276px;
     }

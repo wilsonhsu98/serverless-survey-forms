@@ -27,7 +27,7 @@
     }
 
     .checkboxItem input[type="text"].input__why {
-        width: 200px;
+        width: 258px;
         margin-left: 0;
         &[readonly]:focus {
             border-color: #bfbfbf;

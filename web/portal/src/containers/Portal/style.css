@@ -25,6 +25,17 @@
     outline: none;
 }
 
+:global .link {
+    cursor: pointer;
+    color: #1F8ECC;
+    &:hover {
+        color: #007ABB;
+    }
+    &:active, &:focus {
+        color: rgba(0, 122 ,187, 0.5);
+    }
+}
+
 :global .teaxarea,
 :global .input,
 :global .checkboxItem input[type="text"].input,
