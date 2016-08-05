@@ -10,24 +10,29 @@ DomMock('<html><body></body></html>');
 describe('Testing Pagination Component', () => {
     jsdom({ skipWindowCheck: true });
 
-    it('check total pages < 1: No pagination', () => {
+    it('check total pages < 1: Only submit button', () => {
         const content = TestUtils.renderIntoDocument(
             <Pagination pages={1} currentPage={1} settings={{ type: 'preview' }} />
         );
-        const component = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-pagination');
+        const PrevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
+        const NextBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-next');
+        const DoneBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-done');
 
-        // Expect no component
-        expect(component).toEqual([]);
+        // Expect only submit button
+        expect(PrevBtn).toEqual([]);
+        expect(NextBtn).toEqual([]);
+        expect(DoneBtn[0].textContent).toEqual('Submit');
+
     });
 
     it('check page one scenario: No prev button', () => {
         const content = TestUtils.renderIntoDocument(
             <Pagination pages={4} currentPage={1} settings={{ type: 'preview' }} />
         );
-        const prevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
+        const PrevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
 
         // Expect no prev button
-        expect(prevBtn).toEqual([]);
+        expect(PrevBtn).toEqual([]);
 
     });
 
@@ -35,9 +40,10 @@ describe('Testing Pagination Component', () => {
         const content = TestUtils.renderIntoDocument(
             <Pagination pages={4} currentPage={1} settings={{ type: 'preview' }} />
         );
-        const nextBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-next');
+        const NextBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-next');
 
-        expect(nextBtn[0].textContent).toEqual('Next');
+        // Expect to have next button
+        expect(NextBtn[0].textContent).toEqual('Next');
     });
 
     it('check last page scenario: No next button', () => {
@@ -50,13 +56,15 @@ describe('Testing Pagination Component', () => {
         expect(NextBtn).toEqual([]);
     });
 
-    it('check last page scenario: Has prev button', () => {
+    it('check last page scenario: Has prev and submit button', () => {
         const content = TestUtils.renderIntoDocument(
             <Pagination pages={4} currentPage={4} settings={{ type: 'preview' }} />
         );
         const PrevBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-prev');
+        const DoneBtn = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-done');
 
-        // Expect no prev button
+        // Expect to have prev and submit button
         expect(PrevBtn[0].textContent).toEqual('Prev');
+        expect(DoneBtn[0].textContent).toEqual('Submit');
     });
 });
