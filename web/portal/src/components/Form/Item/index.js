@@ -88,7 +88,7 @@ class Item extends Component {
         return connectDragPreview(connectDropTarget(
             <div className="questionGrp">
                 <div
-                    className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''}`}
+                    className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''} ut-item`}
                     style={{
                         opacity: isOver ? 0.1 : 1
                     }}
