@@ -25,7 +25,7 @@ import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
 import NoPermission from '../../components/Popup/NoPermission';
 
-class Portal extends PureComponent {
+export class Portal extends PureComponent {
 
     constructor() {
         super();
