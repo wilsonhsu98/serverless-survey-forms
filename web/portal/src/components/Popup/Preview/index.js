@@ -24,7 +24,7 @@ class Preview extends PureComponent {
     render() {
         const { account, previewID, preview } = this.props;
         const { previewType } = this.state;
-        const type = preview === 'embedded' ? preview : 'preview';
+        const type = preview === 'embedded' ? preview : 'default';
         let buttons = [];
         ['embeddedIcon', 'previewPhoneIcon', 'previewPadIcon', 'previewDesktopIcon'].
             forEach((btn, idx) => {
@@ -49,6 +49,7 @@ class Preview extends PureComponent {
                             surveyid={previewID}
                             type={type}
                             localize_path="../../../../../assets/L10N"
+                            preview
                         />
                     </div>
                 </div>
@@ -60,6 +61,7 @@ class Preview extends PureComponent {
                     surveyid={previewID}
                     type={type}
                     localize_path="../../../../../assets/L10N"
+                    preview
                 />
             </div>);
         }
