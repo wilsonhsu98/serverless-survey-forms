@@ -20,6 +20,7 @@
     editPage: {page:(the first is 1), description:''},
     orderPage: [],
     surveys: [{},{},...],
+    selectedSurveys: '',
     surveyPolicy: {
         description: "Thanks for ...",
         privacy: {
@@ -28,8 +29,8 @@
             input: "Please enter your email address."
         }
     },
-    selectedSurveys: '',
-    preview: 'embedded/previewPhone/previewPad/previewDesktop'
+    preview: 'embedded/previewPhone/previewPad/previewDesktop',
+    previewID: ''
  }
 **/
 
