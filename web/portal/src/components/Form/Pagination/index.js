@@ -29,7 +29,7 @@ class Pagination extends Component {
             <div className={styles.page}>
                 <div className={styles.header}>
                     <div
-                        className={styles.title}
+                        className={`${styles.title} ut-page`}
                         data-type="text"
                         onClick={this._onEditPageClick}
                     >
@@ -64,7 +64,7 @@ class Pagination extends Component {
                 </div>
                 <div className={styles.box}>
                     {list}
-                    <button className={styles.addBtn} onClick={this._onAddQueClick}>
+                    <button className={`${styles.addBtn} ut-btn`} onClick={this._onAddQueClick}>
                         + Add Question
                     </button>
                 </div>
