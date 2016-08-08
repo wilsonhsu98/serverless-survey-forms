@@ -17,7 +17,6 @@ import Textarea from '../Textarea';
 import Rating from '../Rating';
 import Privacy from '../Privacy';
 import Pagination from '../Pagination';
-import Error from '../Error';
 
 class Feedback extends PureComponent {
 
@@ -46,7 +45,7 @@ class Feedback extends PureComponent {
     }
 
     _renderEmbedded() {
-        const { settings, paging, surveyActions, feedback, feedbackActions } = this.props;
+        const { settings, paging, surveyActions, feedbackActions } = this.props;
         const { subject, content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
@@ -69,10 +68,8 @@ class Feedback extends PureComponent {
                         }
                             <div>{list}</div>
                         </div>
-                        <Error msg="testing" />
                     </div>
                     <Pagination
-                        feedback={feedback}
                         pages={content.length}
                         currentPage={paging}
                         surveyActions={surveyActions}
@@ -85,7 +82,7 @@ class Feedback extends PureComponent {
     }
 
     _renderPreview() {
-        const { settings, paging, survey, surveyActions, feedback, feedbackActions } = this.props;
+        const { settings, paging, survey, surveyActions, feedbackActions } = this.props;
         const { subject, content } = survey;
 
         const currentPageContent = content[paging - 1];
@@ -110,7 +107,6 @@ class Feedback extends PureComponent {
                     </div>
                 </div>
                 <Pagination
-                    feedback={feedback}
                     pages={content.length}
                     currentPage={paging}
                     surveyActions={surveyActions}
