@@ -32,7 +32,7 @@ class Feedback extends PureComponent {
     render() {
         const { settings, done } = this.props;
         let feedbackView;
-        if (settings.type === 'preview') {
+        if (settings.type === 'default') {
             feedbackView = this._renderPreview();
         } else {
             feedbackView = this._renderEmbedded();
@@ -149,7 +149,7 @@ class Feedback extends PureComponent {
         return (
             <div
                 className={
-                    this.props.settings.type === 'preview' ?
+                    this.props.settings.type === 'default' ?
                         styles.wrapPreview : styles.wrap}
             >
                 <div className={styles.header}>
@@ -158,7 +158,7 @@ class Feedback extends PureComponent {
                 <div className={styles.container}>
                     <div
                         className={
-                            this.props.settings.type === 'preview' ?
+                            this.props.settings.type === 'default' ?
                                 styles.contentScrollPreview : styles.contentScroll}
                     >
                         <div className={styles.content}>
@@ -169,7 +169,7 @@ class Feedback extends PureComponent {
                         }
                             <div
                                 className={
-                                    this.props.settings.type === 'preview' ?
+                                    this.props.settings.type === 'default' ?
                                     styles.feedbackPreview : ''}
                             >
                                 <Privacy info={privacy} prefillData={prefillData} />

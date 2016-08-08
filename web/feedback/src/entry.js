@@ -38,8 +38,9 @@ function initApp() {
         const props = {
             accountid: getParameterByName('accountid') || 'context.authorizer.principalId',
             surveyid: getParameterByName('surveyid') || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
-            type: getParameterByName('type') || 'embedded',
-            localize_path: '../../assets/L10N'
+            type: getParameterByName('type') || 'default', // type=default/embedded
+            localize_path: '../../assets/L10N',
+            preview: false // preview mode does not send out feedback
         };
         view = (<App {...props} />);
     }
