@@ -29,7 +29,7 @@
         }
     },
     selectedSurveys: '',
-    preview: 'embedded/normal_mobile/normal_pad/normal_desktop'
+    preview: 'embedded/previewPhone/previewPad/previewDesktop'
  }
 **/
 
