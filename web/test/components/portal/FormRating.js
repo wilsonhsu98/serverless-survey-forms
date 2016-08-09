@@ -42,11 +42,6 @@ describe('[Portal] Testing Form Rating Component', () => {
         expect(opt.length).toEqual(4);
     });
 
-    it('rating: option label numbers', () => {
-        const opt = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-label');
-        expect(opt.length).toEqual(2);
-    });
-
     it('rating: question input', () => {
         const input = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-input');
         expect(input.getAttribute('placeholder')).toEqual(props.data.input);
