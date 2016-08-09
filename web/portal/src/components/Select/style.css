@@ -4,7 +4,6 @@
 
 .selectGrp {
     min-width: 160px;
-    max-width: 280px;
     position: relative;
 
     .placeholder {
@@ -20,11 +19,11 @@
         &:after {
             content: ' ';
             position: absolute;
-            top: 15px;
+            top: 12px;
             right: 10px;
-            border-top: 8px solid #777777;
-            border-left: 7px solid transparent;
-            border-right: 7px solid transparent;
+            border-top: 6px solid #777777;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
             position: absolute;
         }
         &:hover {
@@ -74,7 +73,7 @@
             text-shadow: 0 1px rgba(255, 255, 255, 0.8);
             &:after {
                 border-top: none;
-                border-bottom: 8px solid #777777;
+                border-bottom: 6px solid #777777;
             }
         }
         .options {

@@ -5,7 +5,7 @@
 
 // setup api url
 const Config = {
-    baseURL: 'https://r2c5wmub95.execute-api.ap-northeast-1.amazonaws.com/devjim'
+    baseURL: process.env.NODE_URL || `https://${location.hostname}`
 };
 
 export default Config;

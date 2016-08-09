@@ -25,16 +25,32 @@
     outline: none;
 }
 
-:global .input {
+:global .link {
+    cursor: pointer;
+    color: #1F8ECC;
+    &:hover {
+        color: #007ABB;
+    }
+    &:active, &:focus {
+        color: rgba(0, 122 ,187, 0.5);
+    }
+}
+
+:global .teaxarea,
+:global .input,
+:global .checkboxItem input[type="text"].input,
+:global .radioItem input[type="text"].input {
     padding: 0 8px;
     border-style: solid;
     border-color: #bfbfbf;
     border-width: 1px 1px 2px 1px;
     font-size: 14px;
-    color: #222;
+    color: #777;
+    background-color: #fff;
 
     &:focus {
         border-color: #2b99d6;
+        color: #222;
     }
 
     &.input--small {
@@ -54,6 +70,11 @@
     &.input--error {
         border-color: #d93f2b;
     }
+}
+
+:global .teaxarea {
+    padding: 8px;
+    resize: none;
 }
 
 :global .input__msg {
@@ -118,7 +139,6 @@
 
 
 :global .questionItem {
-    background-color: #FFF;
     & > div {
         display: table-cell;
         &.question {
@@ -146,7 +166,7 @@
         }
         &.control {
             vertical-align: top;
-            text-align: center;
+            text-align: left;
             padding: 36px 0 36px 28px;
             button {
                 display: block;
@@ -156,10 +176,14 @@
         }
     }
     &.edit {
-        .question {
+        .question, .question:hover {
             background-color: #e3f5fa;
         }
     }
+}
+
+:global .questionGrp:first-child .questionItem .question {
+    border-top-left-radius: 4px;
 }
 
 :global .questionLine {
@@ -193,7 +217,7 @@
 
     .editpanel {
         position: absolute;
-        width: 450px;
+        width: 500px;
         height: calc(100% - 60px);
         top: 60px;
         right: 0;
@@ -230,6 +254,171 @@
                 display: inline-block;
             }
         }
+    }
+}
+
+/***** Global Component Checkbox *****/
+:global .checkboxGrp {
+    margin-left: 30px;
+}
+
+:global .checkboxItem {
+    position: relative;
+}
+
+:global .checkboxItem input[type="checkbox"] {
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 1;
+}
+
+:global .checkboxItem input[type="checkbox"] + label {
+    clear: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+}
+
+:global .checkboxItem input[type="checkbox"]:disabled + label {
+    cursor: default;
+}
+
+:global .checkboxItem input[type="checkbox"] + label:before {
+    content: '';
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    visibility: visible;
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    background: resolve("component/ic_checkbox_unchecked_normal.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="checkbox"]:checked + label:before {
+    background: resolve("component/ic_checkbox_checked_normal.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="checkbox"]:hover + label:before {
+    background: resolve("component/ic_checkbox_unchecked_hover.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="checkbox"]:checked:hover + label:before {
+    background: resolve("component/ic_checkbox_checked_hover.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="checkbox"]:disabled + label:before {
+    background: resolve("component/ic_checkbox_unchecked_disable.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="checkbox"]:checked:disabled + label:before {
+    background: resolve("component/ic_checkbox_checked_disable.png");
+    background-size: 100%;
+}
+
+:global .checkboxItem input[type="text"] {
+    margin-left: 10px;
+}
+
+/***** Global Component Radio *****/
+:global .radioGrp {
+    margin-left: 30px;
+}
+
+:global .radioItem input[type="radio"] {
+    opacity: 0;
+    width: 19px;
+    margin-left: -20px;
+}
+
+:global .radioItem input[type="radio"] + label {
+    clear: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+}
+
+:global .radioItem input[type="radio"]:disabled + label {
+    cursor: default;
+}
+
+:global .radioItem input[type="radio"] + label:before {
+    content: '';
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    visibility: visible;
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    background: resolve("component/ic_radiobtn_unchecked_normal.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="radio"]:checked + label:before {
+    background: resolve("component/ic_radiobtn_checked_normal.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="radio"]:hover + label:before {
+    background: resolve("component/ic_radiobtn_unchecked_hover.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="radio"]:checked:hover + label:before {
+    background: resolve("component/ic_radiobtn_checked_hover.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="radio"]:disabled + label:before {
+    background: resolve("component/ic_radiobtn_unchecked_disable.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="radio"]:checked:disabled + label:before {
+    background: resolve("component/ic_radiobtn_checked_disable.png");
+    background-size: 100%;
+}
+
+:global .radioItem input[type="text"] {
+    margin-left: 10px;
+}
+
+/***** Global Component POPUP *****/
+:global .popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.6);
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .wrap {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: -320px;
+        margin-top: -100px;
+        width: 640px;
+        height: 200px;
+        background-color: #FFF;
+    }
+    .content {
+        position: relative;
     }
 }
 

@@ -64,6 +64,7 @@ class Radio extends PureComponent {
                         type="radio"
                         name={id}
                         value={val}
+                        data-label={label}
                         checked={this.state.selected === inputID}
                         onChange={this._onChangeHandle}
                     />
@@ -86,24 +87,49 @@ class Radio extends PureComponent {
     }
 
     _onChangeHandle(e) {
-        this.setState({
-            selected: e.currentTarget.id
-        });
-        const feedbackObj = {};
-        feedbackObj[e.currentTarget.getAttribute('value')] = false;
-        const feedback = {
-            [`Q${this.props.id}`]: feedbackObj
+        const feedbackArray = [];
+        const feedbackItem = {
+            value: e.currentTarget.getAttribute('value'),
+            label: e.currentTarget.getAttribute('data-label')
         };
-        this.props.onChangeHandle(feedback);
+        feedbackArray.push(feedbackItem);
+        this.setState({
+            selected: e.currentTarget.id,
+            feedbackArray
+        }, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 
     _onChangeInput(e) {
-        const feedbackObj = {};
-        feedbackObj[e.currentTarget.getAttribute('name')] = e.currentTarget.value;
-        const feedback = {
-            [`Q${this.props.id}`]: feedbackObj
-        };
-        this.props.onChangeHandle(feedback);
+        const feedbackArray = this.state.feedbackArray;
+        // Find the item, update the input
+        feedbackArray.map((item) => {
+            const updatedItem = item;
+            if (item.value === e.currentTarget.getAttribute('name')) {
+                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
+            }
+            return updatedItem;
+        });
+        this.setState({
+            feedbackArray
+        }, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 }
 

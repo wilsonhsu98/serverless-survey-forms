@@ -5,7 +5,6 @@ import styles from './style.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
-import * as values from '../../../constants/DefaultValues';
 import Button from '../../Button';
 
 class EditPage extends PureComponent {
@@ -26,11 +25,12 @@ class EditPage extends PureComponent {
                     <div className="edit">
                         <div className="editContent">
                             <div className={styles.item}>
-                                Page #{editPage.page}:&nbsp;
+                                Page {editPage.page}:
                                 <input
                                     type="text"
                                     value={editPage.description}
                                     onChange={this._handleChangeEvent}
+                                    className={`${styles.input} input input--medium`}
                                 />
                             </div>
                         </div>
@@ -69,7 +69,7 @@ class EditPage extends PureComponent {
 
     _handleChangeEvent(e) {
         const { editPageActions } = this.props;
-        const data = { description: e.target.value || values.PAGE_TITLE };
+        const data = { description: e.target.value };
         editPageActions.setEditPage(data);
     }
 }

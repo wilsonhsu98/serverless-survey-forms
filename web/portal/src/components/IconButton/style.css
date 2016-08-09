@@ -35,8 +35,24 @@
         .txt { color: #036a7b; }
     }
 
+    &.btn-icon-black {
+        .txt { color: #545d5e; }
+        &.disabled, &[disabled], &:disabled {
+            .txt { color: #515a5b; }
+            &:hover, &:active, &:focus {
+                .txt { color: #515a5b; }
+            }
+        }
+        &:hover {
+            .txt { color: #303d40; }
+        }
+        &:active, &:focus {
+            .txt { color: #303d40; }
+        }
+    }
+
     /* TODOS integrate into for loop*/
-    /* share */
+    /* share blue */
     &.btn-icon-share {
         .icon { background-image: resolve("component/ic_share_blue.png"); }
         &.disabled, &[disabled], &:disabled {
@@ -52,7 +68,7 @@
             .icon { background-image: resolve("component/ic_share_blue_press.png"); }
         }
     }
-    /* report */
+    /* report blue */
     &.btn-icon-report {
         .icon { background-image: resolve("component/ic_report_blue.png"); }
         &.disabled, &[disabled], &:disabled {
@@ -68,7 +84,7 @@
             .icon { background-image: resolve("component/ic_report_blue_press.png"); }
         }
     }
-    /* delete */
+    /* delete blue */
     &.btn-icon-delete {
         .icon { background-image: resolve("component/ic_delet_blue.png"); }
         &.disabled, &[disabled], &:disabled {
@@ -84,8 +100,103 @@
             .icon { background-image: resolve("component/ic_delet_blue_press.png"); }
         }
     }
+    /* move black */
+    &.btn-icon-move.btn-icon-black {
+        .icon { background-image: resolve("component/ic_move.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_move_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_move_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_move_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_move_press.png"); }
+        }
+    }
+    /* copy black */
+    &.btn-icon-copy.btn-icon-black {
+        .icon { background-image: resolve("component/ic_copy.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_copy_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_copy_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_copy_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_copy_press.png"); }
+        }
+    }
+    /* delete black */
+    &.btn-icon-delete.btn-icon-black {
+        .icon { background-image: resolve("component/ic_delet.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_delet_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_delet_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_delet_hover.png"); }
+        }
+        &:active, &:focus {
+            .icon { background-image: resolve("component/ic_delet_press.png"); }
+        }
+    }
+    /* preview blue */
+    &.btn-icon-preview {
+        .icon { background-image: resolve("component/ic_preview_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_preview_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_preview_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_preview_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_preview_blue_press.png"); }
+        }
+    }
+    /* move blue */
+    &.btn-icon-move {
+        .icon { background-image: resolve("component/ic_move_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_move_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_move_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_move_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_move_blue_press.png"); }
+        }
+    }
+    /* copy blue */
+    &.btn-icon-copy {
+        .icon { background-image: resolve("component/ic_copy_blue.png"); }
+        &.disabled, &[disabled], &:disabled {
+            .icon {  background-image: resolve("component/ic_copy_blue_disabled.png"); }
+            &:hover, &:active, &:focus {
+                .icon {  background-image: resolve("component/ic_copy_blue_disabled.png"); }
+            }
+        }
+        &:hover {
+            .icon { background-image: resolve("component/ic_copy_blue_hover.png"); }
+        }
+        &:active, &:focus, &.selected {
+            .icon { background-image: resolve("component/ic_copy_blue_press.png"); }
+        }
+    }
 
-    /* TODOS integrate into for loop*/
     /* preview mode */
     /* one more type: when selected */
     &.btn-icon-embeddedIcon {
