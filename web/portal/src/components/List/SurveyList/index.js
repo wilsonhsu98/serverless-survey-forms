@@ -49,7 +49,7 @@ class SurveyList extends PureComponent {
                             >{item.subject}</a>
                         </div>
                     </td>
-                    <td className={styles.response}>100</td>
+                    <td className={styles.response}>{item.count}</td>
                     <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
                 </tr>
             );
