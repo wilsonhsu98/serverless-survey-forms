@@ -3,9 +3,7 @@
  */
 
 .ratingWrapper {
-    margin: 20px;
     overflow: hidden;
-    width: 80%;
     position: relative;
 }
 
@@ -17,46 +15,27 @@
 }
 
 .ratingItem {
-    border: 3px solid #aaa;
-    background: #fff;
-    border-radius: 100%;
-    width: 30px;
-    height: 30px;
+    min-width: 116px;
+    height: 72px;
     float: left;
-    margin-right: 20px;
+    margin-right: 8px;
     display: block;
-    cursor: pointer;
-}
-
-.ratingItem:last-child {
-    margin-right: 30px;
-}
-
-.ratingItemSelected {
-    composes: ratingItem;
-    border-color: #BD2A2A;
 }
 
 .label {
-    display: block;
-    line-height: 30px;
-    float: left;
-    margin-right: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    line-height: 18px;
+    padding: 6px 0;
+    margin-bottom: 8px;
+}
+
+.radio {
+    text-align: center;
 }
 
 .ratingWrapper input[type=text] {
-    margin: 20px 0;
+    margin: 12px 0;
     width: 100%;
 }
-
-/* @media only screen and (max-width: 639px) {
-    .scaleWrapper {
-        width: 100%;
-        margin: 20px 0;
-    }
-
-    .label {
-        display: none;
-    }
-} */
-
