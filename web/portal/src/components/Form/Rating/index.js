@@ -8,12 +8,6 @@ import Question from '../Question';
 
 class Rating extends Component {
 
-    constructor() {
-        super();
-
-        this._onChangeHandle = this._onChangeHandle.bind(this);
-    }
-
     render() {
         const { data, onClick } = this.props;
         return (
@@ -34,8 +28,8 @@ class Rating extends Component {
                         data.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                value={data.input}
-                                onChange={this._onChangeHandle}
+                                className="input input--medium ut-input"
+                                placeholder={data.input}
                             /> : ''
                     }
                 </div>
@@ -45,7 +39,7 @@ class Rating extends Component {
 
     _renderLabel(item) {
         return (
-            <li className={styles.label}>{item.label}</li>
+            <li className={`${styles.label} ut-label`}>{item.label}</li>
         );
     }
 
@@ -57,14 +51,11 @@ class Rating extends Component {
                 <li
                     key={idx}
                     title={label}
-                    className={styles.ratingItem}
+                    className={`${styles.ratingItem} ut-rating`}
                 />
             );
         });
         return items;
-    }
-
-    _onChangeHandle() {
     }
 }
 
