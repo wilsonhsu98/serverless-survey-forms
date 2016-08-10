@@ -119,6 +119,7 @@ class Feedback extends PureComponent {
 
     _renderQuestion(item, idx) {
         const requiredProps = {
+            feedback: this.props.feedback,
             id: item.order,
             key: idx,
             item: item,

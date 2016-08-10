@@ -29,11 +29,12 @@ class Rating extends PureComponent {
             selected: false,
             rating: undefined,
             reason: false,
-            feedbackArray: []
+            feedback: {}
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
+        this._feedback = this._feedback.bind(this);
     }
 
     render() {
@@ -94,46 +95,51 @@ class Rating extends PureComponent {
     }
 
     _onChangeHandle(e) {
-        const feedbackArray = [{
-            value: e.currentTarget.getAttribute('data-value'),
-            label: e.currentTarget.title
-        }];
+        const feedback = {};
+        feedback[e.currentTarget.getAttribute('data-value')] = {};
+        feedback[e.currentTarget.getAttribute('data-value')].label =
+        e.currentTarget.title;
+
         this.setState({
             selected: e.currentTarget.id,
             rating: e.currentTarget.getAttribute('data-value'),
-            feedbackArray
+            feedback
         }, () => {
-            const feedback = {
-                [`Q${this.props.id}`]: {
-                    type: 'rating',
-                    label: this.props.item.label,
-                    data: feedbackArray
-                }
-            };
-            this.props.onChangeHandle(feedback);
+            this._feedback();
         });
     }
 
     _onChangeInput(e) {
-        const feedbackArray = this.state.feedbackArray;
-
         this.setState({
             reason: e.currentTarget.value
         }, () => {
-            feedbackArray.map((item) => {
-                const updatedItem = item;
-                updatedItem.input = this.state.reason;
-                return updatedItem;
-            });
-            const feedback = {
-                [`Q${this.props.id}`]: {
-                    type: 'rating',
-                    label: this.props.item.label,
-                    data: feedbackArray
-                }
-            };
-            this.props.onChangeHandle(feedback);
+            this._feedback();
         });
+    }
+
+    _feedback() {
+        let data = this.props.feedback[`Q${this.props.id}`].data;
+        data = data.map((item) => {
+            const updatedItem = {};
+            // Value will be the same
+            updatedItem.value = item.value;
+            // Updated Label
+            if (this.state.feedback[item.value] && this.state.feedback[item.value].label) {
+                updatedItem.label = this.state.feedback[item.value].label;
+                updatedItem.input = this.state.reason ? this.state.reason : ' ';
+            } else {
+                updatedItem.label = ' ';
+            }
+            return updatedItem;
+        });
+        const updatedfeedback = {
+            [`Q${this.props.id}`]: {
+                type: 'rating',
+                label: this.props.item.label,
+                data: data
+            }
+        };
+        this.props.onChangeHandle(updatedfeedback);
     }
 }
 

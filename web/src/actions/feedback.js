@@ -6,6 +6,23 @@ function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+export function setFeedback(survey) {
+    let questions = [];
+    let surveyContent = survey.content;
+    surveyContent = surveyContent.forEach((page) => {
+        questions = questions.concat(page.question);
+    });
+    const feedback = {};
+    questions.forEach((qitem) => {
+        feedback[`Q${qitem.order}`] = {};
+        feedback[`Q${qitem.order}`].data = qitem.data;
+    });
+    return {
+        type: types.SET_FEEDBACK_FORMAT,
+        feedback
+    };
+}
+
 // Record ongoing feedback data to store
 export function recordFeedback(feedback) {
     return {
@@ -52,7 +69,7 @@ export function saveFeedback() {
 
 export function updateFeedback() {
     return (dispatch, getState) => {
-        const feedback = getState().feedback;
+        const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         const clientID = getState().clientID;
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {

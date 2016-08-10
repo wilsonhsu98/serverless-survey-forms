@@ -1,6 +1,7 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import config from '../config';
+import * as feedbackAction from './feedback';
 
 function requestSurvey() {
     return {
@@ -43,6 +44,7 @@ export function fetchSurvey(accountid, surveyid) {
             });
             if (data && data.survey) {
                 dispatch(receiveSurveySuccess(survey));
+                dispatch(feedbackAction.setFeedback(data.survey));
             } else {
                 dispatch(receiveSurveyFailure('Error'));
             }

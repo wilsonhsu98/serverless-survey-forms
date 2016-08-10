@@ -4,8 +4,24 @@
         "type": "select",
         "data": [
             {
+                "value": 1,
+                "label": " "
+            },
+            {
                 "value": 2,
                 "label": "Select label"
+            },
+            {
+                "value": 3,
+                "label": " "
+            },
+            {
+                "value": 4,
+                "label": " "
+            },
+            {
+                "value": 5,
+                "label": " "
             }
         ]
     },
@@ -14,9 +30,24 @@
         "type": "radio",
         "data": [
             {
+                "value": 1,
+                "label": " "
+            },{
+                "value": 2,
+                "label": " "
+            },
+            {
                 "value": 3,
                 "label": "Radio label",
                 "input": "Input in radio options"
+            },
+            {
+                "value": 4,
+                "label": " "
+            },
+            {
+                "value": 5,
+                "label": " "
             }
         ]
     },
@@ -28,6 +59,16 @@
                 "value": 1,
                 "label": "Checkbox label"
             }, {
+                "value": 2,
+                "label": " ",
+            }, {
+                "value": 3,
+                "label": " "
+            }, {
+                "value": 4,
+                "label": " ",
+            },
+            {
                 "value": 5,
                 "label": "Checkbox label",
                 "input": "Input in checkbox options"
@@ -39,7 +80,21 @@
         "type": "select",
         "data": [
             {
+                "value": 1,
+                "label": " "
+            },{
+                "value": 2,
+                "label": " "
+            },
+            {
+                "value": 3,
+                "label": " "
+            },{
                 "value": 4,
+                "label": " "
+            },
+            {
+                "value": 5,
                 "label": "Select label"
             }
         ]
@@ -67,10 +122,17 @@
         "type": "rating",
         "data": [
             {
-                "type": "rating",
                 "value": 1,
+                "label": " "
+            },
+            {
+                "value": 2,
                 "label": "Rating label",
                 "input": "Input of reason"
+            },
+            {
+                "value": 3,
+                "label": " "
             }
         ]
     }
