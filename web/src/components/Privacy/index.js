@@ -96,6 +96,11 @@ class Privacy extends PureComponent {
                 }
             };
             this.props.onChangeHandle(updatedfeedback);
+            this.props.feedbackActions.updateFeedback();
+            window.parent.postMessage({
+                source: window.location.origin,
+                msg: 'close'
+            }, '*');
         }
     }
 
