@@ -89,11 +89,13 @@ class Privacy extends PureComponent {
         } else if (!this.state.email || !emailFormat.test(this.state.email)) {
             console.log('Please input correct email');
         } else {
-            window.parent.postMessage({
-                source: window.location.origin,
-                msg: 'followup',
-                email: this.state.email
-            }, '*');
+            const updatedfeedback = {
+                [`Q${Object.keys(this.props.submit).length + 1}`]: {
+                    type: 'privacy',
+                    input: this.state.email
+                }
+            };
+            this.props.onChangeHandle(updatedfeedback);
         }
     }
 

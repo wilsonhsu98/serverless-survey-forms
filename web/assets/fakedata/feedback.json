@@ -135,5 +135,9 @@
                 "label": " "
             }
         ]
+    },
+    "Q8": {
+        "type": "privacy",
+        "input": "follower@test.com"
     }
 }
