@@ -3,12 +3,12 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 
 import IconButton from '../../IconButton';
 import Qustom from '../../../../../src/index';
 
-class Preview extends PureComponent {
+class Preview extends FixComponent {
 
     constructor(props) {
         super(props);

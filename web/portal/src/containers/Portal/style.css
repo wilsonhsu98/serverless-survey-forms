@@ -5,6 +5,7 @@
     width: 100%;
     position: relative;
     min-height: 100%;
+    &.non-scroll { position: fixed; }
 }
 
 :global body {
