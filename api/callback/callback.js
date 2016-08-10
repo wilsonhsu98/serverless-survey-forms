@@ -43,7 +43,7 @@ function callback(event, _callback) {
           userid: profile.id
         },
         options: {
-          expiresIn: 60
+          expiresIn: '1h'   // By rauchg/ms.js
         }
       };
 
