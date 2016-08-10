@@ -28,15 +28,24 @@ export function finishEdit() {
     };
 }
 
-export function addQuestion(page, data) {
+export function addQuestion(page) {
     return (dispatch, getState) => {
+        const newQuestion = {
+            id: Mixins.generateQuestionID(),
+            type: 'radio',
+            label: values.QUESTION_TITLE,
+            data: [
+                { value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }
+            ],
+            required: true
+        };
         const pageIdx = page - 1;
         const newQuestions = [...getState().questions];
         // if this page already existed, edit this page content
         // object and array need copy reference
         const pageData = Object.assign({}, newQuestions[pageIdx]);
         pageData.question = [...pageData.question];
-        pageData.question.push(data);
+        pageData.question.push(newQuestion);
         newQuestions[pageIdx] = pageData;
 
         dispatch({
