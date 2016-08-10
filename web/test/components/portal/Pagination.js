@@ -26,8 +26,8 @@ describe('[Portal] Testing Pagination Component', () => {
                 type: 'rating',
                 label: 'Testing question text',
                 data: [
-                    { value: 1, label: 'Very dissatisfied' },
-                    { value: 2, label: 'Very satisfied' }
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Very dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Very satisfied' }
                 ],
                 input: 'Tell us the reason why you choose this answe',
                 required: false
@@ -37,14 +37,23 @@ describe('[Portal] Testing Pagination Component', () => {
                 type: 'radio',
                 label: 'Testing',
                 data: [
-                    { value: 1, label: 'Very dissatisfied' },
-                    { value: 2, label: 'Very satisfied' }
+                    { value: '1APPJND2CYBHAA3FEB78S', label: 'Very dissatisfied' },
+                    { value: '1APPJND2CYA3FNNSHA2AO', label: 'Very satisfied' }
                 ],
                 required: false
             } ]
         },
         questionsActions: {
-            addQuestion: (idx, que) => {
+            addQuestion: (idx) => {
+                const que = {
+                    id: '1A0F97AN2ABNAL',
+                    type: 'radio',
+                    label: 'Testing',
+                    data: [
+                        { value: '1APPJND2CYBHAAO1HQNNS', label: 'Very dissatisfied' }
+                    ],
+                    required: false
+                };
                 props.data.question.push(que);
             },
             saveQuestion: () => {}

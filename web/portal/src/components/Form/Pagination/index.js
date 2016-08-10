@@ -4,8 +4,6 @@ import styles from './style.css';
 
 import React, { Component } from 'react';
 
-import * as values from '../../../constants/DefaultValues';
-import Mixins from '../../../mixins/global';
 import Item from '../Item';
 import IconButton from '../../IconButton';
 
@@ -91,16 +89,7 @@ class Pagination extends Component {
 
     _onAddQueClick() {
         const { data, questionsActions } = this.props;
-        const question = {
-            id: Mixins.generateQuestionID(),
-            type: 'radio',
-            label: values.QUESTION_TITLE,
-            data: [
-                { value: '1', label: values.OPTION_TITLE }
-            ],
-            required: true
-        };
-        questionsActions.addQuestion(data.page, question);
+        questionsActions.addQuestion(data.page);
         // save Question
         questionsActions.saveQuestion();
     }

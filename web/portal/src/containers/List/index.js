@@ -15,10 +15,8 @@ import SurveyList from '../../components/List/SurveyList';
 
 class List extends PureComponent {
 
-    constructor(props) {
-        super(props);
-
-        const { surveysActions } = props;
+    componentWillMount() {
+        const { surveysActions } = this.props;
         surveysActions.getSurveys();
     }
 
