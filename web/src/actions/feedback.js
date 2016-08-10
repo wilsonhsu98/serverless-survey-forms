@@ -67,7 +67,7 @@ export function saveFeedback() {
     };
 }
 
-export function updateFeedback() {
+export function updateFeedback(closeWhenDone) {
     return (dispatch, getState) => {
         const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
@@ -88,6 +88,12 @@ export function updateFeedback() {
                 throw new Error('Bad response from server');
             }
             console.log(`UPDATE Feedback from ${clientID}`, response);
+            if (closeWhenDone) {
+                window.parent.postMessage({
+                    source: window.location.origin,
+                    msg: 'close'
+                }, '*');
+            }
             // TODO: postMessage to client
             // window.parent.postMessage(`UPDATE Feedback from ${clientID}`,
                 // window.parent.location.origin);

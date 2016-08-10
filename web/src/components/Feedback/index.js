@@ -144,7 +144,7 @@ class Feedback extends PureComponent {
     }
 
     _renderThankyou() {
-        const { prefillData, submit, feedbackActions } = this.props;
+        const { settings, prefillData, submit, feedbackActions } = this.props;
         const { subject } = this.props.survey;
         const { description, privacy } = this.props.survey.thankyou;
         return (
@@ -178,6 +178,7 @@ class Feedback extends PureComponent {
                                 Object.keys(privacy).length !== 0 ?
                                     <Privacy
                                         info={privacy}
+                                        settings={settings}
                                         prefillData={prefillData}
                                         submit={submit}
                                         onChangeHandle={this._onChangeHandle}
