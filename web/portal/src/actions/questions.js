@@ -243,6 +243,7 @@ function saveQuestionsFailure(err) {
 
 export function saveQuestion() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_SAVE_QUESTION });
         const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
         const genQuestions = deepClone(questions);
         // generate order number
@@ -344,8 +345,8 @@ function receiveQuestionsFailure(err) {
 
 export function getQuestion(surveyID) {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_GET_QUESTION });
         const { account } = getState();
-
         return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
             method: 'GET',
             credentials: 'same-origin',
@@ -356,10 +357,10 @@ export function getQuestion(surveyID) {
         .then(response => response.json())
         .then(data => {
             if (data.surveyid) {
-                dispatch(setSurveyID(data.surveyid));
                 dispatch(setSubject(data.subject));
-                dispatch(receiveQuestionsSuccess(data.survey.content));
                 dispatch(setSurveyPolicy(data.survey.thankyou));
+                dispatch(receiveQuestionsSuccess(data.survey.content));
+                dispatch(setSurveyID(data.surveyid));
                 // TODOS: temporarily remove router
                 // dispatch(push('/create'));
             } else {
