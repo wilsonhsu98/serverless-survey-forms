@@ -30,6 +30,13 @@ class SurveyList extends PureComponent {
         const { surveys, selectedSurveys } = this.props;
         let list = [];
         surveys.forEach((item, idx) => {
+            const title = !item.count ?
+                (<a
+                    className="link ut-title"
+                    data-id={item.surveyid}
+                    onClick={this._onClickEdit}
+                >{item.subject}</a>) :
+                (<span className="link disabled ut-title">{item.subject}</span>);
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>
@@ -42,14 +49,10 @@ class SurveyList extends PureComponent {
                                 onChange={this._toggleChange}
                             />
                             <label></label>
-                            <a
-                                className="link"
-                                data-id={item.surveyid}
-                                onClick={this._onClickEdit}
-                            >{item.subject}</a>
+                            {title}
                         </div>
                     </td>
-                    <td className={styles.response}>{item.count}</td>
+                    <td className={`${styles.response} ut-count`}>{item.count}</td>
                     <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
                 </tr>
             );
