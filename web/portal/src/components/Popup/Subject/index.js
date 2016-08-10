@@ -3,10 +3,11 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
+
 import Button from '../../Button';
 
-class Subject extends PureComponent {
+class Subject extends FixComponent {
 
     constructor() {
         super();

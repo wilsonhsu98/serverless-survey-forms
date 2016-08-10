@@ -3,12 +3,12 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 
 import Config from '../../../config';
 import Button from '../../Button';
 
-class Unauthorize extends PureComponent {
+class Unauthorize extends FixComponent {
 
     constructor() {
         super();
