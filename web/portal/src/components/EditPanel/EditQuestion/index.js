@@ -85,7 +85,7 @@ class EditQuestion extends FixComponent {
         const item = [
             { value: 'radio', label: 'Radio Button' },
             { value: 'checkbox', label: 'Checkbox' },
-            { value: 'rating', label: 'Rating (Liert Scale)' }];
+            { value: 'rating', label: 'Rating (Likert Scale)' }];
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>
