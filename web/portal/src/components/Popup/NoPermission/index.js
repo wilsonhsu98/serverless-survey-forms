@@ -6,7 +6,6 @@ import React from 'react';
 import FixComponent from '../../FixComponent';
 
 import Config from '../../../config';
-import Button from '../../Button';
 
 class NoPermission extends FixComponent {
 
@@ -22,15 +21,12 @@ class NoPermission extends FixComponent {
                 <div className={`${styles.wrap} wrap`}>
                     <div className={`${styles.content} content`}>
                         <div className={styles.title}>
-                            Please wait for admin setting permission.
-                        </div>
-                        <div className={`bottom ${styles.bottom}`}>
-                            <Button
-                                string="Contact Admin"
-                                i18nKey={false}
-                                color="ruby"
-                                onClick={this._btnClickEvent}
-                            />
+                            Your application of using Qustom is under evaluation.&nbsp;
+                            We’ll inform you once it’s done.&nbsp;
+                            Want to accelerate the process?&nbsp;
+                            <a className="link" onClick={this._btnClickEvent}>
+                                Contact system admin.
+                            </a>
                         </div>
                     </div>
                 </div>

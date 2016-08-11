@@ -21,10 +21,12 @@ class Unauthorize extends FixComponent {
             <div className={`${styles.popup} popup`}>
                 <div className={`${styles.wrap} wrap`}>
                     <div className={`${styles.content} content`}>
-                        <div className={styles.title}>Token expired. You have to log in again.</div>
+                        <div className={styles.title}>
+                            Time out. To continue using Qustom, please log in again.
+                        </div>
                         <div className={`bottom ${styles.bottom}`}>
                             <Button
-                                string="Log in"
+                                string="Log In"
                                 i18nKey={false}
                                 color="ruby"
                                 onClick={this._btnClickEvent}
