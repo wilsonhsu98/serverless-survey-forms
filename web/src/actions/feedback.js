@@ -67,11 +67,18 @@ export function saveFeedback() {
     };
 }
 
-export function updateFeedback(closeWhenDone) {
+export function updateFeedback(closeWhenDone, privacyData) {
     return (dispatch, getState) => {
         const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         const clientID = getState().clientID;
+        const submittedData = {
+            feedback: feedback
+        };
+        // Privacy data
+        if (privacyData) {
+            feedback.thankyou = privacyData;
+        }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
             method: 'PUT',
             credentials: 'same-origin',
@@ -79,9 +86,7 @@ export function updateFeedback(closeWhenDone) {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                feedback: feedback
-            })
+            body: JSON.stringify(submittedData)
         })
         .then((response) => {
             if (response.status >= 400) {

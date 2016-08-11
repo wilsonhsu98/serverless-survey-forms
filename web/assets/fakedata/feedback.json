@@ -1,90 +1,93 @@
 {
-    "Q1": {
-        "label": "Select title label",
-        "type": "select",
-        "data": [
-            {
-                "value": 2,
-                "label": "Select label"
-            }
-        ]
+    "feedback": {
+        "Q1": {
+            "label": "Select title label",
+            "type": "select",
+            "data": [
+                {
+                    "value": 2,
+                    "label": "Select label"
+                }
+            ]
+        },
+        "Q2": {
+            "label": "Radio title label",
+            "type": "radio",
+            "data": [
+                {
+                    "value": 3,
+                    "label": "Radio label",
+                    "input": "Input in radio options"
+                }
+            ]
+        },
+        "Q3": {
+            "label": "Checkbox title label",
+            "type": "checkbox",
+            "data": [
+                {
+                    "value": 1,
+                    "label": "Checkbox label"
+                }, {
+                    "value": 2,
+                    "label": " ",
+                }, {
+                    "value": 3,
+                    "label": " "
+                }, {
+                    "value": 4,
+                    "label": " ",
+                },
+                {
+                    "value": 5,
+                    "label": "Checkbox label",
+                    "input": "Input in checkbox options"
+                }
+            ]
+        },
+        "Q4": {
+            "label": "Select title label",
+            "type": "select",
+            "data": [
+                {
+                    "value": 5,
+                    "label": "Select label"
+                }
+            ]
+        },
+        "Q5": {
+            "label": "Input title label",
+            "type": "input",
+            "data": [
+                {
+                    "input": "Single line input"
+                }
+            ]
+        },
+        "Q6":  {
+            "label": "Textarea title label",
+            "type": "textarea",
+            "data": [
+                {
+                    "input": "Textarea input"
+                }
+            ]
+        },
+        "Q7": {
+            "label": "Rating title label",
+            "type": "rating",
+            "data": [
+                {
+                    "value": 2,
+                    "label": "Rating label",
+                    "input": "Input of reason"
+                }
+            ]
+        }
     },
-    "Q2": {
-        "label": "Radio title label",
-        "type": "radio",
-        "data": [
-            {
-                "value": 3,
-                "label": "Radio label",
-                "input": "Input in radio options"
-            }
-        ]
-    },
-    "Q3": {
-        "label": "Checkbox title label",
-        "type": "checkbox",
-        "data": [
-            {
-                "value": 1,
-                "label": "Checkbox label"
-            }, {
-                "value": 2,
-                "label": " ",
-            }, {
-                "value": 3,
-                "label": " "
-            }, {
-                "value": 4,
-                "label": " ",
-            },
-            {
-                "value": 5,
-                "label": "Checkbox label",
-                "input": "Input in checkbox options"
-            }
-        ]
-    },
-    "Q4": {
-        "label": "Select title label",
-        "type": "select",
-        "data": [
-            {
-                "value": 5,
-                "label": "Select label"
-            }
-        ]
-    },
-    "Q5": {
-        "label": "Input title label",
-        "type": "input",
-        "data": [
-            {
-                "input": "Single line input"
-            }
-        ]
-    },
-    "Q6":  {
-        "label": "Textarea title label",
-        "type": "textarea",
-        "data": [
-            {
-                "input": "Textarea input"
-            }
-        ]
-    },
-    "Q7": {
-        "label": "Rating title label",
-        "type": "rating",
-        "data": [
-            {
-                "value": 2,
-                "label": "Rating label",
-                "input": "Input of reason"
-            }
-        ]
-    },
-    "Q8": {
-        "type": "privacy",
-        "input": "follower@test.com"
+    "thankyou": {
+        "privacy": {
+            "input": "follower@test.com"
+        }
     }
 }
