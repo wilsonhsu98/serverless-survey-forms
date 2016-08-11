@@ -4,6 +4,8 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+
+import config from '../../../config';
 import IconButton from '../../IconButton';
 
 class ControlBtn extends PureComponent {
@@ -67,8 +69,9 @@ class ControlBtn extends PureComponent {
     }
 
     _onPreviewSurveyClick() {
-        const { selectedSurveys, previewActions } = this.props;
-        previewActions.setPreview('embedded', selectedSurveys);
+        const { account, selectedSurveys } = this.props;
+        const url = `${config.baseURL}/feedback/index.html`;
+        window.open(`${url}?accountid=${account.accountid}&surveyid=${selectedSurveys}`, '_blank');
     }
 }
 
