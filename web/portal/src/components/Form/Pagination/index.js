@@ -3,9 +3,36 @@
 import styles from './style.css';
 
 import React, { Component } from 'react';
+import { DropTarget } from 'react-dnd';
+
+import * as types from '../../../constants/DragTypes';
 
 import Item from '../Item';
 import IconButton from '../../IconButton';
+
+const dropTarget = {
+    canDrop: function canDrop() {
+        return true;
+    },
+
+    hover: function hover(props, monitor) {
+        const { id: draggedId, page: draggedPage } = monitor.getItem();
+        const overId = 0;
+        const overPage = props.data.page;
+
+        if (draggedId !== overId || draggedPage !== overPage) {
+            const overIndex = props.getQuestion(overId).index || props.data.question.length;
+            props.moveQuestion(draggedId, overPage, overIndex);
+        }
+    }
+};
+
+function dropCollect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
 
 class Pagination extends Component {
 
@@ -16,7 +43,7 @@ class Pagination extends Component {
     }
 
     render() {
-        const { id, data, editPage } = this.props;
+        const { id, data, editPage, connectDropTarget } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
@@ -62,9 +89,14 @@ class Pagination extends Component {
                 </div>
                 <div className={styles.box}>
                     {list}
-                    <button className={`${styles.addBtn} ut-btn`} onClick={this._onAddQueClick}>
-                        + Add Question
-                    </button>
+                    {connectDropTarget(
+                        <button
+                            className={`${styles.addBtn} ut-btn`}
+                            onClick={this._onAddQueClick}
+                        >
+                            + Add Question
+                        </button>
+                    )}
                 </div>
             </div>
         );
@@ -129,4 +161,4 @@ class Pagination extends Component {
 
 }
 
-export default Pagination;
+export default DropTarget(types.DRAG_QUESTION, dropTarget, dropCollect)(Pagination);
