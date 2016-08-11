@@ -255,6 +255,7 @@ describe("Interface to get list survey model from data store", function() {
       it("should response successfully", function(done) {
         let event = {
           accountid: accountid,
+          unitTest: true
         };
         survey.listSurveys(event, function(error, response) {
           expect(error).to.be.null;
@@ -277,6 +278,7 @@ describe("Interface to get list survey model from data store", function() {
         let event = {
           accountid: accountid,
           limitTesting: true,
+          unitTest: true
         };
         const limitTestCase = (event) => {
           survey.listSurveys(event, function(error, response) {

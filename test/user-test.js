@@ -379,8 +379,8 @@ describe("Interface to update one user model in data store", function() {
           role: "this is true User",
         };
         // chai with Promise
-        return new Promise((resolve, reject) => {
-            user.updateOneUser(event, (error, response) => {
+        new Promise((resolve, reject) => {
+          return user.updateOneUser(event, (error, response) => {
               expect(error).to.be.null;
               expect(response).to.not.be.null;
               resolve(event);
