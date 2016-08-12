@@ -124,16 +124,14 @@ module.exports = (() => {
         params.ExclusiveStartKey = event.startKey;
       }
       // turn on the limit in testing mode
-      if (event.limitTesting){
+      if (event.unitTest){
         params.Limit = 1;
       }
 
       const listObjectPromise = docClient.query(params).promise();
 
       const queryCountFeedbacks = ((surveyDatas) => {
-        let aws = require('../config/aws');
         let feedback = require('../feedback/feedback.js');
-        feedback.initAWS(aws);
 
         return Promise.all(
           surveyDatas.map( (surveyData) => {
@@ -158,10 +156,6 @@ module.exports = (() => {
         // LastEvaluatedKey
         if(typeof data.LastEvaluatedKey != "undefined") {
           response['LastEvaluatedKey'] = data.LastEvaluatedKey;
-        }
-        if (event.unitTest === true) { // for UnitTest
-          response['surveys'] = data.Items;
-          return data.Items;
         }
         return queryCountFeedbacks(data.Items);
       }).then((result) => {
