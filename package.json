@@ -17,7 +17,8 @@
   "dependencies": {
     "serverless-client-s3": "^2.0.0",
     "serverless-cors-plugin": "^0.4.1",
-    "serverless-meta-sync": "^0.1.0"
+    "serverless-meta-sync": "^0.1.0",
+    "json2csv": "^3.6.2"
   },
   "devDependencies": {
     "aws-sdk": "^2.3.7",
