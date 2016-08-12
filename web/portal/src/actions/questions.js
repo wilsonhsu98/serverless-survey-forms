@@ -139,7 +139,12 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
                 newPages.question = [...obj.question];
                 if (obj.page === afPage) {
                     newPages.question.splice(bfIdx, 1);
-                    newPages.question.splice(afIdx, 0, data);
+                    if (bfIdx < afIdx) {
+                        // subtract itself
+                        newPages.question.splice(afIdx - 1, 0, data);
+                    } else {
+                        newPages.question.splice(afIdx, 0, data);
+                    }
                 }
                 newQuestions.push(newPages);
             }

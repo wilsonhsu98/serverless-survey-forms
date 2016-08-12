@@ -14,12 +14,6 @@ import IconButton from '../../IconButton';
 
 const dragSource = {
     beginDrag: function beginDrag(props) {
-        // What you return is the only information available
-        // to the drop targets about the drag source
-        // so it's important to pick the minimal data they need to know.
-        // You may be tempted to put a reference to the component into it,
-        // but you should try very hard to avoid doing this
-        // because it couples the drag sources and drop targets.
         return {
             id: props.data.id,
             page: props.page,
@@ -27,15 +21,22 @@ const dragSource = {
         };
     },
     endDrag: function endDrag(props, monitor) {
-        // You can check whether the drop was successful
-        // or if the drag ended but nobody handled the drop
         const didDrop = monitor.didDrop();
+        let droppedPage;
+        let droppedIndex;
         if (!didDrop) {
-            const { id: droppedId, page: droppedPage, originalIndex } = monitor.getItem();
-            props.moveQuestion(droppedId, droppedPage, originalIndex);
+            droppedPage = props.dropQuestion.page;
+            droppedIndex = props.dropQuestion.index;
+        } else {
+            droppedPage = monitor.getDropResult().page;
+            droppedIndex = monitor.getDropResult().index;
         }
-        // save Question
-        props.questionsActions.saveQuestion();
+        if (droppedPage !== undefined && droppedIndex !== undefined) {
+            props.moveQuestion(monitor.getItem().id, droppedPage, droppedIndex);
+            // save Question
+            props.questionsActions.saveQuestion();
+        }
+        props.questionsActions.stopDropQuestion();
     }
 };
 
@@ -48,18 +49,23 @@ function dragCollect(connect, monitor) {
 }
 
 const dropTarget = {
+    drop: function drop(props) {
+        return {
+            id: props.data.id,
+            page: props.page,
+            originalIndex: props.getQuestion(props.data.id).index
+        };
+    },
     canDrop: function canDrop() {
         return true;
     },
-
-    hover: function hover(props, monitor) {
-        const { id: draggedId, page: draggedPage } = monitor.getItem();
-        const overId = props.data.id;
-        const overPage = props.page;
-
-        if (draggedId !== overId || draggedPage !== overPage) {
-            const overIndex = props.getQuestion(overId).index;
-            props.moveQuestion(draggedId, overPage, overIndex);
+    hover: function hover(props) {
+        const { data, page, dropQuestion, getQuestion, questionsActions } = props;
+        const overId = data.id;
+        const overPage = page;
+        const overIndex = getQuestion(overId).index;
+        if (dropQuestion.page !== overPage || dropQuestion.index !== overIndex) {
+            questionsActions.setDropQuestion({ page: overPage, index: overIndex });
         }
     }
 };
@@ -82,16 +88,17 @@ class Item extends Component {
     }
 
     render() {
-        const { data, editQuestion, isOver,
+        const { data, editQuestion, isDragging,
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
-
         return connectDragPreview(connectDropTarget(
-            <div className="questionGrp">
+            <div
+                className="questionGrp"
+                style={{
+                    display: isDragging ? 'none' : 'block'
+                }}
+            >
                 <div
                     className={`questionItem ${data.id === editQuestion.id ? 'edit' : ''} ut-item`}
-                    style={{
-                        opacity: isOver ? 0.1 : 1
-                    }}
                 >
                     {this._renderQuestion()}
                     <div className={`control ${styles.control}`}>

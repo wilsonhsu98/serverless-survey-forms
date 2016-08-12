@@ -2,7 +2,8 @@
 // CSS
 import styles from './style.css';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import { DropTarget } from 'react-dnd';
 
 import * as types from '../../../constants/DragTypes';
@@ -11,18 +12,22 @@ import Item from '../Item';
 import IconButton from '../../IconButton';
 
 const dropTarget = {
+    drop: function drop(props) {
+        return {
+            id: '',
+            page: props.data.page,
+            originalIndex: props.data.question.length
+        };
+    },
     canDrop: function canDrop() {
         return true;
     },
-
-    hover: function hover(props, monitor) {
-        const { id: draggedId, page: draggedPage } = monitor.getItem();
-        const overId = 0;
-        const overPage = props.data.page;
-
-        if (draggedId !== overId || draggedPage !== overPage) {
-            const overIndex = props.getQuestion(overId).index || props.data.question.length;
-            props.moveQuestion(draggedId, overPage, overIndex);
+    hover: function hover(props, monitor, component) {
+        const { data, dropQuestion } = props;
+        const overPage = data.page;
+        const overIndex = data.question.length;
+        if (dropQuestion.page !== overPage || dropQuestion.index !== overIndex) {
+            component.props.questionsActions.setDropQuestion({ page: overPage, index: overIndex });
         }
     }
 };
@@ -34,7 +39,27 @@ function dropCollect(connect, monitor) {
     };
 }
 
-class Pagination extends Component {
+class DropQuestion extends PureComponent {
+    render() {
+        // empty item for drop position hint
+        return (
+            <div className="questionGrp">
+                <div
+                    className="questionItem edit"
+                    style={{ height: 200 }}
+                >
+                    <div
+                        className="question"
+                        style={{ height: 200 }}
+                    ></div>
+                </div>
+                <div className="questionLine"></div>
+            </div>
+        );
+    }
+}
+
+class Pagination extends PureComponent {
 
     constructor() {
         super();
@@ -43,11 +68,16 @@ class Pagination extends Component {
     }
 
     render() {
-        const { id, data, editPage, connectDropTarget } = this.props;
+        const { id, data, dropQuestion, editPage, connectDropTarget } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
         });
+        if (dropQuestion.hasOwnProperty('index') && dropQuestion.page === data.page) {
+            // add empty item for drop position hint
+            list.splice(dropQuestion.index, 0,
+                <DropQuestion key={data.question.length} />);
+        }
         const description = editPage.page === data.page ? editPage.description : data.description;
 
         return (
@@ -103,13 +133,14 @@ class Pagination extends Component {
     }
 
     _renderQuestion(question, idx) {
-        const { data, editQuestion, questionsActions,
+        const { data, dropQuestion, editQuestion, questionsActions,
             editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
             idx,
             page: data.page,
             data: question,
+            dropQuestion,
             editQuestion,
             questionsActions,
             editQuestionActions,
@@ -158,7 +189,6 @@ class Pagination extends Component {
         default:
         }
     }
-
 }
 
 export default DropTarget(types.DRAG_QUESTION, dropTarget, dropCollect)(Pagination);
