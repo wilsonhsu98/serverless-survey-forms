@@ -6,6 +6,23 @@ function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+export function setFeedback(survey) {
+    let questions = [];
+    let surveyContent = survey.content;
+    surveyContent = surveyContent.forEach((page) => {
+        questions = questions.concat(page.question);
+    });
+    const feedback = {};
+    questions.forEach((qitem) => {
+        feedback[`Q${qitem.order}`] = {};
+        feedback[`Q${qitem.order}`].data = qitem.data;
+    });
+    return {
+        type: types.SET_FEEDBACK_FORMAT,
+        feedback
+    };
+}
+
 // Record ongoing feedback data to store
 export function recordFeedback(feedback) {
     return {
@@ -50,11 +67,18 @@ export function saveFeedback() {
     };
 }
 
-export function updateFeedback() {
+export function updateFeedback(closeWhenDone, privacyData) {
     return (dispatch, getState) => {
-        const feedback = getState().feedback;
+        const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         const clientID = getState().clientID;
+        const submittedData = {
+            feedback: feedback
+        };
+        // Privacy data
+        if (privacyData) {
+            feedback.thankyou = privacyData;
+        }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
             method: 'PUT',
             credentials: 'same-origin',
@@ -62,15 +86,19 @@ export function updateFeedback() {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                feedback: feedback
-            })
+            body: JSON.stringify(submittedData)
         })
         .then((response) => {
             if (response.status >= 400) {
                 throw new Error('Bad response from server');
             }
             console.log(`UPDATE Feedback from ${clientID}`, response);
+            if (closeWhenDone) {
+                window.parent.postMessage({
+                    source: window.location.origin,
+                    msg: 'close'
+                }, '*');
+            }
             // TODO: postMessage to client
             // window.parent.postMessage(`UPDATE Feedback from ${clientID}`,
                 // window.parent.location.origin);

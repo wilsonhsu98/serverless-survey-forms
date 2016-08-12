@@ -8,12 +8,6 @@ import Question from '../Question';
 
 class Rating extends Component {
 
-    constructor() {
-        super();
-
-        this._onChangeHandle = this._onChangeHandle.bind(this);
-    }
-
     render() {
         const { data, onClick } = this.props;
         return (
@@ -26,26 +20,18 @@ class Rating extends Component {
                 />
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>
-                        {this._renderLabel(data.data[0])}
                         {this._renderRatingItem()}
-                        {this._renderLabel(data.data[data.data.length - 1])}
                     </ul>
                     {
                         data.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                value={data.input}
-                                onChange={this._onChangeHandle}
+                                className="input input--medium ut-input"
+                                placeholder={data.input}
                             /> : ''
                     }
                 </div>
             </div>
-        );
-    }
-
-    _renderLabel(item) {
-        return (
-            <li className={styles.label}>{item.label}</li>
         );
     }
 
@@ -56,15 +42,17 @@ class Rating extends Component {
             return (
                 <li
                     key={idx}
-                    title={label}
-                    className={styles.ratingItem}
-                />
+                    className={`${styles.ratingItem} ut-rating`}
+                >
+                    <div className={`${styles.label}`}>{label}</div>
+                    <div className={`${styles.radio} radioItem`}>
+                        <input type="radio" />
+                        <label />
+                    </div>
+                </li>
             );
         });
         return items;
-    }
-
-    _onChangeHandle() {
     }
 }
 

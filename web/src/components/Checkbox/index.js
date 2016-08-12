@@ -33,9 +33,10 @@ class Checkbox extends PureComponent {
             state[inputID] = false;
         });
         this.state = state;
-        this.state.feedbackArray = [];
+        this.state.feedback = {};
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
+        this._feedback = this._feedback.bind(this);
     }
     componentDidMount() {
         $(this.refs.root).localize();
@@ -101,54 +102,63 @@ class Checkbox extends PureComponent {
     }
 
     _onChangeHandle(e) {
-        const feedbackArray = this.state.feedbackArray.filter((item) =>
-            item.value !== e.currentTarget.getAttribute('value'));
-
+        const feedback = this.state.feedback;
+        feedback[e.currentTarget.getAttribute('value')] = {};
         if (e.target.checked) {
-            const feedbackItem = {
-                value: e.currentTarget.getAttribute('value'),
-                label: e.currentTarget.getAttribute('data-label')
-            };
-            feedbackArray.push(feedbackItem);
+            feedback[e.currentTarget.getAttribute('value')].label =
+            e.currentTarget.getAttribute('data-label');
+        } else {
+            feedback[e.currentTarget.getAttribute('value')].label = false;
         }
 
         this.setState({
             [`${e.currentTarget.id}`]: !this.state[e.currentTarget.id],
-            feedbackArray
+            feedback
         }, () => {
-            const feedback = {
-                [`Q${this.props.id}`]: {
-                    label: this.props.item.label,
-                    type: 'checkbox',
-                    data: feedbackArray
-                }
-            };
-            this.props.onChangeHandle(feedback);
+            this._feedback();
         });
     }
 
     _onChangeInput(e) {
-        const feedbackArray = this.state.feedbackArray;
-        // Find the item, update the input
-        feedbackArray.map((item) => {
-            const updatedItem = item;
-            if (item.value === e.currentTarget.getAttribute('name')) {
-                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
+        const feedback = this.state.feedback;
+        feedback[e.currentTarget.getAttribute('name')].input =
+            e.currentTarget.value ? e.currentTarget.value : false;
+
+        this.setState({
+            feedback
+        }, () => {
+            this._feedback();
+        });
+    }
+
+    _feedback() {
+        let data = this.props.feedback[`Q${this.props.id}`].data;
+        data = data.map((item) => {
+            const updatedItem = {};
+            // Value will be the same
+            updatedItem.value = item.value;
+            // Updated Label
+            if (this.state.feedback[item.value] && this.state.feedback[item.value].label) {
+                updatedItem.label = this.state.feedback[item.value].label;
+            } else {
+                updatedItem.label = ' ';
+            }
+            // Updated Input
+            if (this.state.feedback[item.value] && this.state.feedback[item.value].input) {
+                updatedItem.input = this.state.feedback[item.value].input;
+            } else if (item.input) {
+                updatedItem.input = ' ';
             }
             return updatedItem;
         });
-        this.setState({
-            feedbackArray
-        }, () => {
-            const feedback = {
-                [`Q${this.props.id}`]: {
-                    label: this.props.item.label,
-                    type: 'checkbox',
-                    data: feedbackArray
-                }
-            };
-            this.props.onChangeHandle(feedback);
-        });
+        const updatedfeedback = {
+            [`Q${this.props.id}`]: {
+                type: 'checkbox',
+                label: this.props.item.label,
+                data: data
+            }
+        };
+        this.props.onChangeHandle(updatedfeedback);
     }
 
 }

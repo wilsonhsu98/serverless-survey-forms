@@ -15,11 +15,13 @@
     surveyID: '',
     subject: '',
     questions: [{},{},...],
+    dropQuestion: { page: 1, index: 0 },
     editSubject: true/false,
     editQuestion: {},
     editPage: {page:(the first is 1), description:''},
     orderPage: [],
     surveys: [{},{},...],
+    selectedSurveys: '',
     surveyPolicy: {
         description: "Thanks for ...",
         privacy: {
@@ -28,8 +30,8 @@
             input: "Please enter your email address."
         }
     },
-    selectedSurveys: '',
-    preview: 'embedded/normal_mobile/normal_pad/normal_desktop'
+    preview: 'embedded/previewPhone/previewPad/previewDesktop',
+    previewID: ''
  }
 **/
 
@@ -41,6 +43,7 @@ import account from './account';
 import surveyID from './surveyID';
 import subject from './subject';
 import questions from './questions';
+import dropQuestion from './dropQuestion';
 import editSubject from './editSubject';
 import editQuestion from './editQuestion';
 import editPage from './editPage';
@@ -58,6 +61,7 @@ const rootReducer = combineReducers({
     surveyID,
     subject,
     questions,
+    dropQuestion,
     editSubject,
     editQuestion,
     editPage,

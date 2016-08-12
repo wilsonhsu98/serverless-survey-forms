@@ -3,12 +3,12 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 
 import Config from '../../../config';
 import Button from '../../Button';
 
-class Unauthorize extends PureComponent {
+class Unauthorize extends FixComponent {
 
     constructor() {
         super();
@@ -21,10 +21,12 @@ class Unauthorize extends PureComponent {
             <div className={`${styles.popup} popup`}>
                 <div className={`${styles.wrap} wrap`}>
                     <div className={`${styles.content} content`}>
-                        <div className={styles.title}>Token expired. You have to log in again.</div>
+                        <div className={styles.title}>
+                            Time out. To continue using Qustom, please log in again.
+                        </div>
                         <div className={`bottom ${styles.bottom}`}>
                             <Button
-                                string="Log in"
+                                string="Log In"
                                 i18nKey={false}
                                 color="ruby"
                                 onClick={this._btnClickEvent}

@@ -2,14 +2,64 @@
 // CSS
 import styles from './style.css';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PureComponent from 'react-pure-render/component';
+import { DropTarget } from 'react-dnd';
 
-import * as values from '../../../constants/DefaultValues';
-import Mixins from '../../../mixins/global';
+import * as types from '../../../constants/DragTypes';
+
 import Item from '../Item';
 import IconButton from '../../IconButton';
 
-class Pagination extends Component {
+const dropTarget = {
+    drop: function drop(props) {
+        return {
+            id: '',
+            page: props.data.page,
+            originalIndex: props.data.question.length
+        };
+    },
+    canDrop: function canDrop() {
+        return true;
+    },
+    hover: function hover(props, monitor, component) {
+        const { data, dropQuestion } = props;
+        const overPage = data.page;
+        const overIndex = data.question.length;
+        if (dropQuestion.page !== overPage || dropQuestion.index !== overIndex) {
+            component.props.questionsActions.setDropQuestion({ page: overPage, index: overIndex });
+        }
+    }
+};
+
+function dropCollect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
+
+class DropQuestion extends PureComponent {
+    render() {
+        // empty item for drop position hint
+        return (
+            <div className="questionGrp ut-dropped">
+                <div
+                    className="questionItem edit"
+                    style={{ height: 200 }}
+                >
+                    <div
+                        className="question"
+                        style={{ height: 200 }}
+                    ></div>
+                </div>
+                <div className="questionLine"></div>
+            </div>
+        );
+    }
+}
+
+class Pagination extends PureComponent {
 
     constructor() {
         super();
@@ -18,18 +68,23 @@ class Pagination extends Component {
     }
 
     render() {
-        const { id, data, editPage } = this.props;
+        const { id, data, dropQuestion, editPage, connectDropTarget } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
         });
+        if (dropQuestion.hasOwnProperty('index') && dropQuestion.page === data.page) {
+            // add empty item for drop position hint
+            list.splice(dropQuestion.index, 0,
+                <DropQuestion key={data.question.length} />);
+        }
         const description = editPage.page === data.page ? editPage.description : data.description;
 
         return (
             <div className={styles.page}>
                 <div className={styles.header}>
                     <div
-                        className={styles.title}
+                        className={`${styles.title} ut-page`}
                         data-type="text"
                         onClick={this._onEditPageClick}
                     >
@@ -62,24 +117,30 @@ class Pagination extends Component {
                         />
                     </div>
                 </div>
-                <div className={styles.box}>
+                <div className={`${styles.box} ut-box`}>
                     {list}
-                    <button className={styles.addBtn} onClick={this._onAddQueClick}>
-                        + Add Question
-                    </button>
+                    {connectDropTarget(
+                        <button
+                            className={`${styles.addBtn} ut-btn`}
+                            onClick={this._onAddQueClick}
+                        >
+                            + Add Question
+                        </button>
+                    )}
                 </div>
             </div>
         );
     }
 
     _renderQuestion(question, idx) {
-        const { data, editQuestion, questionsActions,
+        const { data, dropQuestion, editQuestion, questionsActions,
             editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
             idx,
             page: data.page,
             data: question,
+            dropQuestion,
             editQuestion,
             questionsActions,
             editQuestionActions,
@@ -91,16 +152,7 @@ class Pagination extends Component {
 
     _onAddQueClick() {
         const { data, questionsActions } = this.props;
-        const question = {
-            id: Mixins.generateQuestionID(),
-            type: 'radio',
-            label: values.QUESTION_TITLE,
-            data: [
-                { value: '1', label: values.OPTION_TITLE }
-            ],
-            required: true
-        };
-        questionsActions.addQuestion(data.page, question);
+        questionsActions.addQuestion(data.page);
         // save Question
         questionsActions.saveQuestion();
     }
@@ -137,7 +189,6 @@ class Pagination extends Component {
         default:
         }
     }
-
 }
 
-export default Pagination;
+export default DropTarget(types.DRAG_QUESTION, dropTarget, dropCollect)(Pagination);

@@ -54,11 +54,12 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, editQuestion, editPage, orderPage, surveyID,
+        const { questions, dropQuestion, editQuestion, editPage, orderPage, surveyID,
             questionsActions, editQuestionActions, editPageActions,
             orderPageActions, previewActions } = this.props;
         const basicProps = {
             questions,
+            dropQuestion,
             editQuestion,
             editPage,
             surveyID,

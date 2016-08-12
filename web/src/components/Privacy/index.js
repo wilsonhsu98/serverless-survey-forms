@@ -19,9 +19,12 @@ class Privacy extends PureComponent {
             email = props.prefillData.email;
         }
         this.state = {
-            email
+            email,
+            terms: false
         };
         this._onChange = this._onChange.bind(this);
+        this._participate = this._participate.bind(this);
+        this._onToggleTerms = this._onToggleTerms.bind(this);
     }
 
     render() {
@@ -38,7 +41,11 @@ class Privacy extends PureComponent {
                 <div className={styles.terms}>
                     <div className={styles.topWrapper}>
                         <div className="checkboxItem">
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                checked={this.state.terms}
+                                onChange={this._onToggleTerms}
+                            />
                             <label
                                 className={classNames({
                                     'ut-terms': true
@@ -69,8 +76,29 @@ class Privacy extends PureComponent {
         );
     }
 
+    _onToggleTerms() {
+        this.setState({
+            terms: !this.state.terms
+        });
+    }
+
     _participate() {
-        console.log('TODO: participate callback');
+        const emailFormat = /^(?=.{5,200}$)([\w\-]+)([\w\.\-]*)@([\w\-]+)\.([\w\-]*)\w+([-.]\w+)*$/;
+        if (!this.state.terms) {
+            console.log('Please agree to terms');
+        } else if (!this.state.email || !emailFormat.test(this.state.email)) {
+            console.log('Please input correct email');
+        } else {
+            const privacyData = {
+                privacy: {
+                    input: this.state.email
+                }
+            };
+            // this.props.onChangeHandle(updatedfeedback);
+            if (!this.props.settings.preview) {
+                this.props.feedbackActions.updateFeedback(true, privacyData);
+            }
+        }
     }
 
     _onChange(e) {
