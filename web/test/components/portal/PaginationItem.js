@@ -30,6 +30,7 @@ describe('[Portal] Testing Pagination Item Component', () => {
             ],
             required: false
         },
+        dropQuestion: {},
         editQuestion: {
             id: '1A0F97AN2ABNAL',
             type: 'radio',
@@ -43,7 +44,9 @@ describe('[Portal] Testing Pagination Item Component', () => {
             ],
             required: false
         },
-        questionsActions: () => {},
+        questionsActions: {
+            setDropQuestion: () => {}
+        },
         editQuestionActions: () => {},
         moveQuestion: () => {},
         getQuestion: (val) => {
@@ -91,17 +94,17 @@ describe('[Portal] Testing Pagination Item Component', () => {
         const ItemContext = wrapInTestContext(Item);
         const contentRoot = TestUtils.renderIntoDocument(<ItemContext {...props} />);
         const backend = contentRoot.getManager().getBackend();
-        const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-item');
+        const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-question');
 
-        // Expect opacity is 1 before drag
-        expect(component.style.opacity).toEqual(1);
+        // Expect display is block before drag
+        expect(component.style.display).toEqual('block');
 
         const dragItem = TestUtils.findRenderedComponentWithType(contentRoot, Item);
         const targetItem = dragItem.decoratedComponentInstance;
         backend.simulateBeginDrag([dragItem.getHandlerId()]);
         backend.simulateHover([targetItem.getHandlerId()]);
 
-        // Expect opacity is 0.1 when hover
-        expect(component.style.opacity).toEqual(0.1);
+        // Expect display is none when hover
+        expect(component.style.display).toEqual('none');
     });
 });

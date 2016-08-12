@@ -92,7 +92,7 @@ class Item extends Component {
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
         return connectDragPreview(connectDropTarget(
             <div
-                className="questionGrp"
+                className="questionGrp ut-question"
                 style={{
                     display: isDragging ? 'none' : 'block'
                 }}
