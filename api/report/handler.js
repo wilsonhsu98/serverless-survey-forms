@@ -2,6 +2,8 @@
 let aws = require('../config/aws');
 let feedback = require('../feedback/feedback.js');
 feedback.initAWS(aws);
+let survey = require('../survey/survey.js');
+survey.initAWS(aws);
 module.exports.handler = function(event, context, callback) {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
@@ -13,7 +15,6 @@ module.exports.handler = function(event, context, callback) {
     feedback.reportFeedbacks({
       accountid: event.accountid,
       surveyid: event.surveyid,
-      startKey: event.startKey
     }, callback);
     break;
 

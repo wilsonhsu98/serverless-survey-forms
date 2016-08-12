@@ -17,15 +17,12 @@
       "authorizationType": "CUSTOM",
       "authorizerFunction": "authorize",
       "apiKeyRequired": false,
-      "requestParameters": {
-        "integration.request.querystring.integrationQueryParam": "method.request.querystring.startKey"
-      },
+      "requestParameters": {},
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "accountid": "$input.params('accountid')",
           "surveyid": "$input.params('surveyid')",
-          "startKey": "$input.params('startKey')",
           "authAccountid": "context.authorizer.principalId",
           "op": "reportFeedbacks"
         }
@@ -34,10 +31,10 @@
         "default": {
           "statusCode": "200",
           "responseParameters": {
-            "method.response.header.Content-disposition": "'attachment; filename=testing.csv'"
+            "method.response.header.Content-disposition": "'attachment; filename=Qustom.csv'"
           },
           "responseTemplates": {
-            "text/csv": "$input.body.replaceAll(\"\\\\\"\"\",\"\").replaceAll(\"\"\"\",\"\").replaceAll(\"\\\\n\",\"\n\")"
+            "text/csv": "$input.body.replaceAll(\"\"\"\",\"\").replaceAll(\"\\\u0027\",\"\"\"\").replaceAll(\"\\\\n\",\"\n\")"
           }
         }
       }

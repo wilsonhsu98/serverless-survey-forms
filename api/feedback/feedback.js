@@ -205,6 +205,7 @@ module.exports = (() => {
     let response = null;
     // validate parameters
     if (event.accountid && event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
+      const survey = require('../survey/survey.js');
       let params = {
         TableName: process.env.SERVERLESS_FEEDBACKTABLE,
         ProjectionExpression: "surveyid, clientid, feedback, #dt",
@@ -216,16 +217,12 @@ module.exports = (() => {
           ":surveyid": event.surveyid,
         },
       };
-      // turn on the limit in testing mode
-      if (event.limitTesting){
+
+      if (event.unitTest) { // for unitTest setting
         params.Limit = 1;
       }
 
       const getSurveyFormat = new Promise( (resolve, reject) => {
-        let aws = require('../config/aws');
-        let survey = require('../survey/survey.js');
-        survey.initAWS(aws);
-
         survey.getOneSurvey({
           accountid: event.accountid,
           surveyid: event.surveyid
@@ -262,6 +259,11 @@ module.exports = (() => {
                   }
                 }
               }
+            }
+            // Thankyou page
+            if (response['survey']['thankyou']['privacy']['label']) {
+              feedbackFieldNames.push(response['survey']['thankyou']['privacy']['input']);
+              feedbackField.push(`feedback.thankyou.privacy.input`);
             }
             resolve({
                 "feedbackFieldNames": feedbackFieldNames,
@@ -305,7 +307,7 @@ module.exports = (() => {
         });
       }).then( (csvData) => {
         try {
-          response = json2csv({ data: csvData.feedbacksData, fields: csvData.feedbackField, fieldNames: csvData.feedbackFieldNames});
+          response = json2csv({ data: csvData.feedbacksData, fields: csvData.feedbackField, fieldNames: csvData.feedbackFieldNames, quotes: '\''});
         } catch (err) {
           // Errors are thrown for bad options, or if the data is empty and no fields are provided.
           // Be sure to provide fields if it is possible that your data array will be empty.

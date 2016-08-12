@@ -78,13 +78,11 @@
             "PathPattern": "api/*",
             "AllowedMethods": ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"],
             "ForwardedValues": {
-              "Headers": ["Authorization", "If-Modified-Since"]
+              "Headers": ["Authorization", "If-Modified-Since"],
+              "QueryString": "true"
             },
             "Compress": "true",
             "TargetOriginId": "APIGW",
-            "ForwardedValues": {
-              "QueryString": "true"
-            },
             "ViewerProtocolPolicy": "redirect-to-https"
           }, {
             "PathPattern": "authentication/*",
@@ -100,6 +98,7 @@
             "Compress": "true",
             "TargetOriginId": "WebClientS3",
             "ForwardedValues": {
+              "Headers": ["If-Modified-Since"],
               "QueryString": "true"
             },
             "ViewerProtocolPolicy": "allow-all"
