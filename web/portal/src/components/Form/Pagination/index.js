@@ -43,7 +43,7 @@ class DropQuestion extends PureComponent {
     render() {
         // empty item for drop position hint
         return (
-            <div className="questionGrp">
+            <div className="questionGrp ut-dropped">
                 <div
                     className="questionItem edit"
                     style={{ height: 200 }}
@@ -117,7 +117,7 @@ class Pagination extends PureComponent {
                         />
                     </div>
                 </div>
-                <div className={styles.box}>
+                <div className={`${styles.box} ut-box`}>
                     {list}
                     {connectDropTarget(
                         <button

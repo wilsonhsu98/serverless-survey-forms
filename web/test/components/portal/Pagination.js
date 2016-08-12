@@ -14,6 +14,7 @@ describe('[Portal] Testing Pagination Component', () => {
 
     const props = {
         questions: [],
+        dropQuestion: { page: 1, index: 1 },
         editQuestion: {},
         editPage: {},
         surveyID: '',
@@ -77,6 +78,16 @@ describe('[Portal] Testing Pagination Component', () => {
     it('pagination edit: checked question numbers', () => {
         const item = TestUtils.scryRenderedComponentsWithType(contentRoot, Item);
         expect(item.length).toEqual(2);
+    });
+
+    it('pagination edit: checked dropped position', () => {
+        const item = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-dropped');
+        expect(item).toExist();
+        expect(item.children[0].className).toInclude('edit');
+
+        const box = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-box');
+        const list = Array.prototype.slice.call(box.children);
+        expect(list.indexOf(item)).toEqual(1);
     });
 
     it('pagination edit: add question', () => {
