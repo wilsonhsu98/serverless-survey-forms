@@ -379,3 +379,16 @@ export function getQuestion(surveyID) {
         .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }
+
+export function setDropQuestion(dropQuestion) {
+    return {
+        type: types.SET_DROP_QUESTION,
+        dropQuestion
+    };
+}
+
+export function stopDropQuestion() {
+    return {
+        type: types.STOP_DROP_QUESTION
+    };
+}
