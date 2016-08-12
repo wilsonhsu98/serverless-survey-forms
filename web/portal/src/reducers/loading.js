@@ -9,7 +9,6 @@ export default function loading(state = false, action) {
     case types.REQUEST_SURVEYS_LIST:
     case types.REQUEST_DELET_SURVEYS:
     case types.REQUEST_GET_QUESTION:
-    case types.REQUEST_SAVE_QUESTION:
         return true;
     case types.SET_SUBJECT_SUCCESS:
     case types.SET_SUBJECT_FAILURE:
@@ -19,8 +18,6 @@ export default function loading(state = false, action) {
     case types.RECIEVE_DELETE_SURVEYS_FAILURE:
     case types.RECIEVE_QUESTIONS_SUCCESS:
     case types.RECIEVE_QUESTIONS_FAILURE:
-    case types.SAVE_QUESTIONS_SUCCESS:
-    case types.SAVE_QUESTIONS_FAILURE:
         return false;
     default:
         return state;
