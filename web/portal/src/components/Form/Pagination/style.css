@@ -18,8 +18,9 @@
     .title {
         cursor: pointer;
         display: table-cell;
-        width: 620px;
+        width: 670px;
         font-size: 24px;
+        line-height: 30px;
         color: #22727F;
         letter-spacing: -0.72px;
         padding-left: 36px;
@@ -28,7 +29,11 @@
         display: table-cell;
         vertical-align: bottom;
         text-align: center;
+        line-height: 0;
         padding-left: 16px;
+        & > div {
+            margin-right: 16px;
+        }
     }
 }
 
@@ -38,11 +43,6 @@
     border-radius: 4px;
     margin-top: 8px;
     border: 1px solid #BFBFBF;
-}
-
-.btn {
-    padding: 5px 10px;
-    margin: 0 2px;
 }
 
 .addBtn {

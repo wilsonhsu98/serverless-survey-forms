@@ -9,23 +9,41 @@ When you run it with a stage or a region ```-s dev -r ap-northeast-1```, this pl
 You should regularly sync meta in these two conditions:
 
 * Right after project initialization.
-* Everytime you set variables to meta.
+* Everytime you set or unset variables to meta.
 
-## Modify to s-resources-cf.json
+## Manipulate to s-resources-cf.json
 
-If you add any new resource.
+If you add any new resource, please execute:
 
-* Execute ```sls resources deploy```.
-* Additionally you have to configure **Forward Headers** in CloudFront, please refer to detailed [instructions](issue1589.md).
+```
+sls resources deploy
+```
 
-## Modify to s-function.json
+## Manipulate to s-function.json
 
-If you add any new API endpoint.
+If you add or modify any new API endpoint, please execute:
 
-* Execute ```sls endpoint deploy -a```.
+```
+sls endpoint deploy -a
+```
 
-## Modify to Lambda functions
+## Manipulate to Lambda functions
 
-If you add any new Lambda function.
+If you add or modify any new Lambda function, please execute:
 
-* Execute ```sls function deploy```.
+```
+sls function deploy
+```
+
+## Manipulate Static Website Resources 
+
+If you add or modify any static website resources, please execute:
+
+```
+# go to web folder
+cd web
+# execute deploy script
+npm run deploy
+# deploy static web resources
+sls client deploy -s [stage]
+```

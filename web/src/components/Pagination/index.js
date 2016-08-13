@@ -24,120 +24,124 @@ class Pagination extends PureComponent {
     render() {
         const { settings, currentPage, pages } = this.props;
         return (
-            pages > 1 ?
-            (
-                <div
-                    className={classNames({
-                        [`${styles.pagination}`]: settings.type !== 'preview',
-                        [`${styles.paginationPreview}`]: settings.type === 'preview',
-                        'ut-pagination': true
-                    })}
-                >
+            <div
+                className={classNames({
+                    [`${styles.pagination}`]: settings.type !== 'preview',
+                    [`${styles.paginationPreview}`]: settings.type === 'preview',
+                    'ut-pagination': true
+                })}
+            >
 
-                    {
-                        currentPage > 1 ?
-                            <div
-                                className={
-                                    settings.type === 'preview' ?
-                                        styles.btnWrapperPrevPreview : styles.btnWrapperPrev
-                                }
-                            >
-                                <Button
-                                    string={'prev'}
-                                    onClick={this._prev}
-                                    extraClass={{
-                                        'ut-prev': true,
-                                        [`${styles.pagingBtnPrev}`]: true
-                                    }}
-                                />
-                            </div> : ''
-                    }
-                    {
-                        currentPage > 1 ?
-                            <div
-                                className={classNames({
-                                    [`${styles.prevMobile}`]: true,
-                                    'ut-prev': true
-                                })}
+                {
+                    pages > 1 && currentPage > 1 ?
+                        <div
+                            className={
+                                settings.type === 'preview' ?
+                                    styles.btnWrapperPrevPreview : styles.btnWrapperPrev
+                            }
+                        >
+                            <Button
+                                string={'prev'}
                                 onClick={this._prev}
-                            /> : ''
-                    }
-
-                    {
-                        currentPage < pages ?
-                            <div
-                                className={
-                                    settings.type === 'preview' ?
-                                        styles.btnWrapperNextPreview : styles.btnWrapperNext
-                                }
-                            >
-                                <Button
-                                    string={'next'}
-                                    onClick={this._next}
-                                    extraClass={{
-                                        'ut-next': true,
-                                        [`${styles.pagingBtnNext}`]: true
-                                    }}
-                                />
-                            </div> : ''
-                    }
-                    {
-                        currentPage < pages ?
-                            <div
-                                className={classNames({
-                                    [`${styles.nextMobile}`]: true,
-                                    'ut-next': true
-                                })}
-                                onClick={this._next}
-                            /> : ''
-                    }
-                    {
-                        currentPage === pages ?
-                            <div
-                                className={
-                                    settings.type === 'preview' ?
-                                        styles.btnWrapperNextPreview : styles.btnWrapperNext
-                                }
-                            >
-                                <Button
-                                    string={'submit'}
-                                    onClick={this._done}
-                                    extraClass={{
-                                        'ut-done': true,
-                                        [`${styles.pagingBtnNext}`]: true
-                                    }}
-                                />
-                            </div> : ''
-                    }
-                    {
-                        currentPage === pages ?
-                            <div
-                                className={classNames({
-                                    [`${styles.doneMobile}`]: true,
-                                    'ut-done': true
-                                })}
-                                onClick={this._done}
-                            /> : ''
-                    }
-                    <div
-                        className={
-                            settings.type === 'preview' ?
-                                styles.progressWrapperPreview : styles.progressWrapper
-                        }
-                    >
-                        <span className={styles.progressText}>{`${currentPage} / ${pages}`}</span>
+                                extraClass={{
+                                    'ut-prev': true,
+                                    [`${styles.pagingBtnPrev}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    pages > 1 && currentPage > 1 ?
                         <div
                             className={classNames({
-                                [`${styles.progress}`]: (currentPage / pages) !== 1,
-                                [`${styles.progressComplete}`]: (currentPage / pages) === 1
+                                [`${styles.prevMobile}`]: true,
+                                'ut-prev': true
                             })}
-                            style={{
-                                width: `${((currentPage / pages) * 100)}%`
-                            }}
-                        />
-                    </div>
-                </div>
-            ) : <div />
+                            onClick={this._prev}
+                        /> : ''
+                }
+
+                {
+                    pages > 1 && currentPage < pages ?
+                        <div
+                            className={
+                                settings.type === 'preview' ?
+                                    styles.btnWrapperNextPreview : styles.btnWrapperNext
+                            }
+                        >
+                            <Button
+                                string={'next'}
+                                onClick={this._next}
+                                extraClass={{
+                                    'ut-next': true,
+                                    [`${styles.pagingBtnNext}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    pages > 1 && currentPage < pages ?
+                        <div
+                            className={classNames({
+                                [`${styles.nextMobile}`]: true,
+                                'ut-next': true
+                            })}
+                            onClick={this._next}
+                        /> : ''
+                }
+                {
+                    currentPage === pages ?
+                        <div
+                            className={
+                                settings.type === 'preview' ?
+                                    styles.btnWrapperNextPreview : styles.btnWrapperNext
+                            }
+                        >
+                            <Button
+                                string={'submit'}
+                                onClick={this._done}
+                                extraClass={{
+                                    'ut-done': true,
+                                    [`${styles.pagingBtnNext}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    currentPage === pages ?
+                        <div
+                            className={classNames({
+                                [`${styles.doneMobile}`]: true,
+                                'ut-done': true
+                            })}
+                            onClick={this._done}
+                        /> : ''
+                }
+                {
+                    pages > 1 ?
+                        <div
+                            className={
+                                settings.type === 'preview' ?
+                                    styles.progressWrapperPreview : styles.progressWrapper
+                            }
+                        >
+                            <span
+                                className={styles.progressText}
+                            >
+                                {`${currentPage} / ${pages}`}
+                            </span>
+                            <div
+                                className={classNames({
+                                    [`${styles.progress}`]: (currentPage / pages) !== 1,
+                                    [`${styles.progressComplete}`]: (currentPage / pages) === 1
+                                })}
+                                style={{
+                                    width: `${((currentPage / pages) * 100)}%`
+                                }}
+                            />
+                        </div> : ''
+                }
+            </div>
         );
     }
 

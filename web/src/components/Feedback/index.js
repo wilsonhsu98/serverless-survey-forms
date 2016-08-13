@@ -26,6 +26,7 @@ class Feedback extends PureComponent {
         this._renderEmbedded = this._renderEmbedded.bind(this);
         this._renderThankyou = this._renderThankyou.bind(this);
         this._onChangeHandle = this._onChangeHandle.bind(this);
+        this._onClose = this._onClose.bind(this);
     }
 
     render() {
@@ -45,7 +46,7 @@ class Feedback extends PureComponent {
 
     _renderEmbedded() {
         const { settings, paging, surveyActions, feedbackActions } = this.props;
-        const { content } = this.props.survey;
+        const { subject, content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
         const { description, question } = currentPageContent;
@@ -53,28 +54,28 @@ class Feedback extends PureComponent {
             (itm, idx) => this._renderQuestion(itm, idx));
         return (
             <div className={styles.wrap}>
+                <div className={styles.header}>
+                    <h1>{subject}</h1>
+                    <div onClick={this._onClose} className={styles.close} />
+                </div>
                 <div className={styles.container}>
                     <div className={styles.contentScroll}>
                         <div className={styles.content}>
                         {
-                            description ?
+                            description && description !== 'Untitle Page' ?
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
                             <div>{list}</div>
                         </div>
                     </div>
-                    {
-                    content.length > 1 ?
-                        <Pagination
-                            pages={content.length}
-                            currentPage={paging}
-                            surveyActions={surveyActions}
-                            feedbackActions={feedbackActions}
-                            settings={settings}
-                        /> :
-                        ''
-                    }
+                    <Pagination
+                        pages={content.length}
+                        currentPage={paging}
+                        surveyActions={surveyActions}
+                        feedbackActions={feedbackActions}
+                        settings={settings}
+                    />
                 </div>
             </div>
         );
@@ -97,7 +98,7 @@ class Feedback extends PureComponent {
                     <div className={styles.contentScrollPreview}>
                         <div className={styles.content}>
                         {
-                            description ?
+                            description && description !== 'Untitle Page' ?
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
@@ -124,7 +125,7 @@ class Feedback extends PureComponent {
 
     _renderQuestion(item, idx) {
         const requiredProps = {
-            id: idx + 1,
+            id: item.order,
             key: idx,
             item: item,
             onChangeHandle: this._onChangeHandle
@@ -140,7 +141,7 @@ class Feedback extends PureComponent {
             return (<Textarea {...requiredProps} />);
         case 'select':
             return (<Select {...requiredProps} />);
-        case 'scale':
+        case 'rating':
             return (<Rating {...requiredProps} />);
         default:
             return (<div key={idx + 1}>Can't find the survey component: {item.type}</div>);
@@ -148,6 +149,7 @@ class Feedback extends PureComponent {
     }
 
     _renderThankyou() {
+        const { prefillData } = this.props;
         const { subject } = this.props.survey;
         const { description, privacy } = this.props.survey.thankyou;
         return (
@@ -156,13 +158,9 @@ class Feedback extends PureComponent {
                     this.props.settings.type === 'preview' ?
                         styles.wrapPreview : styles.wrap}
             >
-                {
-                    this.props.settings.type === 'preview' ?
-                        <div className={styles.header}>
-                            <h1>{subject}</h1>
-                        </div> : ''
-                }
-
+                <div className={styles.header}>
+                    <h1>{subject}</h1>
+                </div>
                 <div className={styles.container}>
                     <div
                         className={
@@ -175,7 +173,13 @@ class Feedback extends PureComponent {
                                 <div className={styles.description}>{description}</div> :
                                 ''
                         }
-                            <Privacy info={privacy} />
+                            <div
+                                className={
+                                    this.props.settings.type === 'preview' ?
+                                    styles.feedbackPreview : ''}
+                            >
+                                <Privacy info={privacy} prefillData={prefillData} />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -186,6 +190,13 @@ class Feedback extends PureComponent {
     _onChangeHandle(feedback) {
         // Add feedback to store
         this.props.feedbackActions.recordFeedback(feedback);
+    }
+
+    _onClose() {
+        window.parent.postMessage({
+            source: window.location.origin,
+            msg: 'close'
+        }, '*');
     }
 }
 

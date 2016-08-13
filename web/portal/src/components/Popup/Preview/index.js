@@ -65,16 +65,16 @@ class Preview extends PureComponent {
         }
 
         return (
-            <div className={styles.popup}>
-                <div className={styles.wrap}>
+            <div className={`${styles.popup} popup`}>
+                <div className={`${styles.wrap} wrap`}>
                     <button
                         type="button"
                         onClick={this._btnClickEvent}
-                        className={`${styles.close} close`}
+                        className="close"
                         data-type="cancel"
                     >×
                     </button>
-                    <div className={styles.content}>
+                    <div className={`${styles.content} content`}>
                         <div className={styles.header}>
                             <div className={styles.title}>Preview</div>
                             <div className={styles.control}>

@@ -6,14 +6,17 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import IconButton from '../../IconButton';
 
-class CreateBtn extends PureComponent {
+class ControlBtn extends PureComponent {
 
     constructor() {
         super();
+        this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
+        this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
     }
 
     render() {
+        const { selectedSurveys } = this.props;
         return (
             <div ref="root" className={styles.control}>
                 <div className={styles.wrap}>
@@ -28,8 +31,8 @@ class CreateBtn extends PureComponent {
                         string="Share"
                         i18nKey={false}
                         img="share"
-                        disabled
-                        onClick={this._onAddSurveyClick}
+                        disabled={!selectedSurveys.length}
+                        onClick={this._onPreviewSurveyClick}
                     />
                     <IconButton
                         id="reportBtn"
@@ -44,8 +47,8 @@ class CreateBtn extends PureComponent {
                         string="Delete"
                         i18nKey={false}
                         img="delete"
-                        disabled
-                        onClick={this._onAddSurveyClick}
+                        disabled={!selectedSurveys.length}
+                        onClick={this._onDeleteSurveyClick}
                     />
                 </div>
                 <div className={styles.bird}></div>
@@ -57,6 +60,16 @@ class CreateBtn extends PureComponent {
         const { editSubjectActions } = this.props;
         editSubjectActions.openEdit(true);
     }
+
+    _onDeleteSurveyClick() {
+        const { surveysActions } = this.props;
+        surveysActions.deleteSurvey();
+    }
+
+    _onPreviewSurveyClick() {
+        const { selectedSurveys, previewActions } = this.props;
+        previewActions.setPreview('embedded', selectedSurveys);
+    }
 }
 
-export default CreateBtn;
+export default ControlBtn;

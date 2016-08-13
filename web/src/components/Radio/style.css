@@ -15,6 +15,7 @@
 .radioItem input[type="radio"] + label {
     clear: none;
     cursor: pointer;
+    font-weight: normal;
 }
 
 .radioItem input[type="radio"]:disabled + label {

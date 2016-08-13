@@ -23,7 +23,7 @@ class Question extends PureComponent {
                         'ut-question': true
                     })}
                 >
-                    {`Q${id}. ${text}`}
+                    {`${id}. ${text}`}
                 </div>
                 {required ?
                     <span

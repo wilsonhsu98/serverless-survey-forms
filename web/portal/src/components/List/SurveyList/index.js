@@ -12,6 +12,7 @@ class SurveyList extends PureComponent {
         super();
         this._renderList = this._renderList.bind(this);
         this._onClickEdit = this._onClickEdit.bind(this);
+        this._toggleChange = this._toggleChange.bind(this);
     }
 
     render() {
@@ -26,21 +27,27 @@ class SurveyList extends PureComponent {
     }
 
     _renderList() {
-        const { surveys } = this.props;
+        const { surveys, selectedSurveys } = this.props;
         let list = [];
         surveys.forEach((item, idx) => {
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>
-                        <input
-                            type="checkbox"
-                            className={styles.checkbox}
-                        />
-                        <a
-                            className={styles.titleLink}
-                            data-id={item.surveyid}
-                            onClick={this._onClickEdit}
-                        >{item.subject}</a>
+                        <div className="checkboxItem ut-list">
+                            <input
+                                type="checkbox"
+                                className={styles.checkbox}
+                                value={item.surveyid}
+                                checked={item.surveyid === selectedSurveys}
+                                onChange={this._toggleChange}
+                            />
+                            <label></label>
+                            <a
+                                className="link"
+                                data-id={item.surveyid}
+                                onClick={this._onClickEdit}
+                            >{item.subject}</a>
+                        </div>
                     </td>
                     <td className={styles.response}>100</td>
                     <td className={styles.dt}>{moment(item.datetime).format('LLL')}</td>
@@ -68,6 +75,11 @@ class SurveyList extends PureComponent {
                 </tbody>
             </table>
         );
+    }
+
+    _toggleChange(e) {
+        const { surveysActions } = this.props;
+        surveysActions.toggleSelectedSurveys(e.currentTarget.value);
     }
 
     _onClickEdit(e) {

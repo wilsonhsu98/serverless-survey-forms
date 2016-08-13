@@ -8,6 +8,7 @@ import PureComponent from 'react-pure-render/component';
 import { DragSource, DropTarget } from 'react-dnd';
 
 import * as types from '../../../constants/DragTypes';
+import IconButton from '../../IconButton';
 
 const dragSource = {
     beginDrag: function beginDrag(props) {
@@ -86,16 +87,31 @@ class EditItem extends PureComponent {
                 className={`${styles.item} ut-item`}
                 style={{ opacity }}
             >
-                {data.hasOwnProperty('input') ?
-                    this._renderOptionWithText() :
-                    this._renderOption()}
-                <button
-                    className="btn"
-                    onClick={() => onDeleteHandle(id)}
-                >Del</button>
+                <div>
+                    {data.hasOwnProperty('input') ?
+                        this._renderOptionWithText() :
+                        this._renderOption()}
+                </div>
+                <div>
+                    <IconButton
+                        string="Delete"
+                        i18nKey={false}
+                        img="delete"
+                        color="black"
+                        onClick={() => onDeleteHandle(id)}
+                    />
+                </div>
 
                 {connectDragSource(
-                    <button className="btn">Drag</button>
+                    <div>
+                        <IconButton
+                            string="Drag"
+                            i18nKey={false}
+                            img="move"
+                            color="black"
+                            onClick={() => {}}
+                        />
+                    </div>
                 )}
             </div>
         ));
@@ -108,7 +124,7 @@ class EditItem extends PureComponent {
                 data-id={id}
                 data-type="label"
                 type="text"
-                className={`${styles.longText} ut-input`}
+                className={`${styles.longText} ut-input input input--medium`}
                 value={data.label}
                 placeholder="New Option"
                 onChange={onChangeHandle}
@@ -124,7 +140,7 @@ class EditItem extends PureComponent {
                     data-id={id}
                     data-type="label"
                     type="text"
-                    className={styles.shortText}
+                    className={`${styles.shortText} input input--medium`}
                     value={data.label}
                     placeholder="New Option"
                     onChange={onChangeHandle}
@@ -134,7 +150,7 @@ class EditItem extends PureComponent {
                     data-id={id}
                     data-type="input"
                     type="text"
-                    className={styles.shortText}
+                    className={`${styles.shortText} input input--medium`}
                     value={data.input}
                     placeholder="New Option"
                     onChange={onChangeHandle}

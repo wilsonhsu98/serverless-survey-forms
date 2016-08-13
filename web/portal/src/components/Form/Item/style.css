@@ -1,0 +1,11 @@
+/*
+ * Style for components/Form/Item/index.js
+ */
+
+
+.control {
+    & > div {
+        margin: 4px 0;
+        display: block;
+    }
+}

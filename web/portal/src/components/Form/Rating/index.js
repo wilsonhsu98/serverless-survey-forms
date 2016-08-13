@@ -31,7 +31,7 @@ class Rating extends Component {
                         {this._renderLabel(data.data[data.data.length - 1])}
                     </ul>
                     {
-                        data.input ?
+                        data.hasOwnProperty('input') ?
                             <input
                                 type="text"
                                 value={data.input}

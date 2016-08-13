@@ -16,7 +16,6 @@ Vagrant.configure(2) do |config|
   config.vm.box = "nghiaht/nodejs"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "serverless-survey-forms"
     vb.gui  = false
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
@@ -32,6 +31,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get install -y git
+    sudo apt-get install -y awscli
     sudo npm install serverless -g
   SHELL
 end

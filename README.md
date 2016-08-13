@@ -14,28 +14,21 @@ To create a google-style survey forms, authorized users could design surveys and
 
 * [issue#1322](https://github.com/serverless/serverless/issues/1322): After executing ```sls project init```, a lot of files are modified.
     * Work around: None.
-* [issue#1589](https://github.com/serverless/serverless/issues/1589): After executing ```sls resources deploy```, **Forward Headers** in CloudFront is not set correctly.
-    * Work around: Manually configure **Behaviors | Forward Headers** in **CloudFront Distributions** for **api/\***. Refer to detailed [instructions](issue1589.md).
 
-## Environment
+## Prerequisitions
+
+### Development Environment
 
 This project depends on the following modules, please make sure they're ready after [Installation].
 
 * NodeJS 3.7.3
 * serverless 0.5.6
-* aws-sdk 2.3.7
-* node-uuid 1.4.7
-* chai 3.5.0
-* dynalite 1.0.0
-* mocha 2.4.5
-* istanbul 0.4.3
-* serverless-authentication 0.2.2
-* serverless-authentication-facebook 0.2.0
-* serverless-cors-plugin 0.4.1
-* serverless-client-s3 2.0.0
-* serverless-meta-sync 0.1.0
 
 To prevent from poluting your local environment, you may leverage the Vagrant file to isolate your development environment.
+
+### Service FQDN
+
+You have to apply a FQDN first, survey.organization.com, for instance in the following instructions.
 
 ## First time deployment
 

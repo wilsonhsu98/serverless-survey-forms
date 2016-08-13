@@ -6,6 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
 import * as values from '../../../constants/DefaultValues';
+import Mixins from '../../../mixins/global';
 import EditItem from '../EditItem';
 
 class EditMultiOptions extends PureComponent {
@@ -45,10 +46,10 @@ class EditMultiOptions extends PureComponent {
         if (editQuestion.type !== 'rating') {
             // radio/checkbox have this button
             otherBtn = (
-                <button
-                    className={`${styles.otherBtn} btn ut-other`}
+                <a
+                    className={`${styles.otherBtn} link ut-other`}
                     onClick={this._addOption}
-                >Add "Other"</button>
+                >Add "Other"</a>
             );
         }
 
@@ -56,11 +57,11 @@ class EditMultiOptions extends PureComponent {
             <div className={styles.item}>
                 {optList}
 
-                <button
+                <a
                     data-type="other"
-                    className={`${styles.addBtn} btn ut-btn`}
+                    className={`${styles.addBtn} link ut-btn`}
                     onClick={this._addOption}
-                >+ Add Option</button>
+                >+ Add Option</a>
 
                 {otherBtn}
             </div>
@@ -73,8 +74,7 @@ class EditMultiOptions extends PureComponent {
         const type = e.target.getAttribute('data-type');
         const newData = [...editQuestion.data];
         const data = {
-            [type]: e.target.value || (type === 'label' ?
-                values.OPTION_TITLE : values.PLACEHOLDER_TITLE)
+            [type]: e.target.value
         };
         newData[idx] = Object.assign({}, newData[idx], data);
         handleChangeEvent({ data: newData });
@@ -92,12 +92,12 @@ class EditMultiOptions extends PureComponent {
         let opt;
         if (e.target.getAttribute('data-type') === 'other') {
             opt = {
-                value: editQuestion.data.length + 1,
+                value: Mixins.generateQuestionID(),
                 label: values.OPTION_TITLE
             };
         } else {
             opt = {
-                value: editQuestion.data.length + 1,
+                value: Mixins.generateQuestionID(),
                 label: values.OPTION_TITLE,
                 input: values.PLACEHOLDER_TITLE
             };

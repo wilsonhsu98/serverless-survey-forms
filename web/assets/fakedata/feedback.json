@@ -1,17 +1,77 @@
 {
-    "Q1": 2,
+    "Q1": {
+        "label": "Select title label",
+        "type": "select",
+        "data": [
+            {
+                "value": 2,
+                "label": "Select label"
+            }
+        ]
+    },
     "Q2": {
-        "3": "Input text in radio options"
+        "label": "Radio title label",
+        "type": "radio",
+        "data": [
+            {
+                "value": 3,
+                "label": "Radio label",
+                "input": "Input in radio options"
+            }
+        ]
     },
     "Q3": {
-        "1": false,
-        "5": "Input text in checkbox options"
+        "label": "Checkbox title label",
+        "type": "checkbox",
+        "data": [
+            {
+                "value": 1,
+                "label": "Checkbox label"
+            }, {
+                "value": 5,
+                "label": "Checkbox label",
+                "input": "Input in checkbox options"
+            }
+        ]
     },
-    "Q4": 4,
-    "Q5": "Single line input text",
-    "Q6": "Textarea input text",
+    "Q4": {
+        "label": "Select title label",
+        "type": "select",
+        "data": [
+            {
+                "value": 4,
+                "label": "Select label"
+            }
+        ]
+    },
+    "Q5": {
+        "label": "Input title label",
+        "type": "input",
+        "data": [
+            {
+                "input": "Single line input"
+            }
+        ]
+    },
+    "Q6":  {
+        "label": "Textarea title label",
+        "type": "textarea",
+        "data": [
+            {
+                "input": "Textarea input"
+            }
+        ]
+    },
     "Q7": {
-        "rating": 3,
-        "reason": "Input of reason"
+        "label": "Rating title label",
+        "type": "rating",
+        "data": [
+            {
+                "type": "rating",
+                "value": 1,
+                "label": "Rating label",
+                "input": "Input of reason"
+            }
+        ]
     }
 }
