@@ -1,19 +1,7 @@
 {
   "functionName": "${project}-${stage}-${name}",
   "customTemplate": {
-    "excludePatterns": [],
-    "cors": {
-      "allowOrigin": "*",
-      "allowHeaders": [
-        "If-Modified-Since",
-        "Last-Modified",
-        "Content-Type",
-        "X-Amz-Date",
-        "Authorization",
-        "X-Api-Key",
-        "Cache-Control"
-      ]
-    }
+    "excludePatterns": []
   },
   "apiRequestTemplate": {
     "httpMethod": "$context.httpMethod",
