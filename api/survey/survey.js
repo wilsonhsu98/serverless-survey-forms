@@ -101,12 +101,13 @@ module.exports = (() => {
    * accountid  Who created the survey
    * surveyid   The uuid of the survey
    * subject    The subject of the survey
+   * count      The count of total feedbacks numbers
    * datetime   The latest modified date time of the survey
    */
   const listSurveys = (event, callback) => {
     let response = null;
     // validate parameters
-    if (event.accountid  && process.env.SERVERLESS_SURVEYTABLE) {
+    if (event.accountid && process.env.SERVERLESS_SURVEYTABLE) {
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         ProjectionExpression: "accountid, #dt, subject, surveyid",
@@ -118,32 +119,51 @@ module.exports = (() => {
           ":accountId": event.accountid,
         },
       };
-
       // continue querying if we have more data
       if (event.startKey){
         params.ExclusiveStartKey = event.startKey;
       }
       // turn on the limit in testing mode
-      if (event.limitTesting){
+      if (event.unitTest){
         params.Limit = 1;
       }
 
-      docClient.query(params, function(err, data) {
-        if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-          return callback(getDynamoDBError(err), null);
-        } else {
-          // got response
-          // compose response
-          response = {};
-          response['surveys'] = data.Items;
+      const listObjectPromise = docClient.query(params).promise();
 
-          // LastEvaluatedKey
-          if(typeof data.LastEvaluatedKey != "undefined"){
-            response['LastEvaluatedKey'] = data.LastEvaluatedKey;
-          }
-          return callback(null, response);
+      const queryCountFeedbacks = ((surveyDatas) => {
+        let feedback = require('../feedback/feedback.js');
+
+        return Promise.all(
+          surveyDatas.map( (surveyData) => {
+            return new Promise((resolve, reject) => {
+              feedback.countFeedbacks({
+                surveyid :  surveyData.surveyid
+              }, (err, response) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  surveyData['count'] = response['Count'];
+                  resolve(surveyData);
+                }
+              });
+            });
+          })
+        )
+      });
+
+      listObjectPromise.then((data) => {
+        response = {};
+        // LastEvaluatedKey
+        if(typeof data.LastEvaluatedKey != "undefined") {
+          response['LastEvaluatedKey'] = data.LastEvaluatedKey;
         }
+        return queryCountFeedbacks(data.Items);
+      }).then((result) => {
+        response['surveys'] = result;
+        return callback(null, response);
+      }).catch((err) => {
+        console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+        return callback(getDynamoDBError(err), null);
       });
     }
     else {

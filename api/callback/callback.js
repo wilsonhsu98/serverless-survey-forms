@@ -12,6 +12,11 @@ let utils = slsAuth.utils;
 // Providers
 let facebook = require('serverless-authentication-facebook');
 
+const getUUID = () => {
+  let uuid = require('node-uuid');
+  return uuid.v1();
+};
+
 // Callback switch
 function callback(event, _callback) {
   let providerConfig = config(event);
@@ -28,16 +33,17 @@ function callback(event, _callback) {
         error: 'State mismatch'
       }, providerConfig, _callback);
     } else {
-      let id = profile.provider + '-' + profile.id;
+      let id = profile.provider + '-' + getUUID();
       let tokenData = {
         payload: {
           id: id,
           name: profile.name,
           email: profile.email,
-          picture: profile.picture
+          picture: profile.picture,
+          userid: profile.id
         },
         options: {
-          expiresIn: 60
+          expiresIn: '1h'   // By rauchg/ms.js
         }
       };
 
