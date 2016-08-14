@@ -29,7 +29,7 @@ class Radio extends Component {
             const input = itm.input;
             return (
                 <div
-                    className="radioItem"
+                    className="radioItem ut-radio"
                     key={idx}
                 >
                     <input type="radio" />
@@ -40,7 +40,7 @@ class Radio extends Component {
                         itm.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                className="input input--medium"
+                                className="input input--medium ut-input"
                                 placeholder={input}
                             /> :
                             ''

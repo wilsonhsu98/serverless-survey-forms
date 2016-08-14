@@ -26,8 +26,8 @@ class Pagination extends PureComponent {
         return (
             <div
                 className={classNames({
-                    [`${styles.pagination}`]: settings.type !== 'preview',
-                    [`${styles.paginationPreview}`]: settings.type === 'preview',
+                    [`${styles.pagination}`]: settings.type !== 'default',
+                    [`${styles.paginationPreview}`]: settings.type === 'default',
                     'ut-pagination': true
                 })}
             >
@@ -36,7 +36,7 @@ class Pagination extends PureComponent {
                     pages > 1 && currentPage > 1 ?
                         <div
                             className={
-                                settings.type === 'preview' ?
+                                settings.type === 'default' ?
                                     styles.btnWrapperPrevPreview : styles.btnWrapperPrev
                             }
                         >
@@ -65,7 +65,7 @@ class Pagination extends PureComponent {
                     pages > 1 && currentPage < pages ?
                         <div
                             className={
-                                settings.type === 'preview' ?
+                                settings.type === 'default' ?
                                     styles.btnWrapperNextPreview : styles.btnWrapperNext
                             }
                         >
@@ -93,7 +93,7 @@ class Pagination extends PureComponent {
                     currentPage === pages ?
                         <div
                             className={
-                                settings.type === 'preview' ?
+                                settings.type === 'default' ?
                                     styles.btnWrapperNextPreview : styles.btnWrapperNext
                             }
                         >
@@ -121,7 +121,7 @@ class Pagination extends PureComponent {
                     pages > 1 ?
                         <div
                             className={
-                                settings.type === 'preview' ?
+                                settings.type === 'default' ?
                                     styles.progressWrapperPreview : styles.progressWrapper
                             }
                         >
@@ -154,7 +154,7 @@ class Pagination extends PureComponent {
     }
 
     _next() {
-        if (this.props.settings.type !== 'preview') {
+        if (!this.props.settings.preview) {
             if (this.props.currentPage === 1) {
                 this.props.feedbackActions.saveFeedback();
             } else {
@@ -165,7 +165,7 @@ class Pagination extends PureComponent {
     }
 
     _done() {
-        if (this.props.settings.type !== 'preview') {
+        if (!this.props.settings.preview) {
             if (this.props.currentPage === 1) {
                 this.props.feedbackActions.saveFeedback();
             } else {

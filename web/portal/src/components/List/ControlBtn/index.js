@@ -4,6 +4,8 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+
+import config from '../../../config';
 import IconButton from '../../IconButton';
 
 class ControlBtn extends PureComponent {
@@ -13,6 +15,7 @@ class ControlBtn extends PureComponent {
         this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
         this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
+        this._onReportSurveyClick = this._onReportSurveyClick.bind(this);
     }
 
     render() {
@@ -40,7 +43,7 @@ class ControlBtn extends PureComponent {
                         i18nKey={false}
                         img="report"
                         disabled
-                        onClick={this._onAddSurveyClick}
+                        onClick={this._onReportSurveyClick}
                     />
                     <IconButton
                         id="delBtn"
@@ -66,9 +69,16 @@ class ControlBtn extends PureComponent {
         surveysActions.deleteSurvey();
     }
 
+    _onReportSurveyClick() {
+        const { account, selectedSurveys } = this.props;
+        const url = `${config.baseURL}/api/v1/mgnt/report/`;
+        window.open(`${url}${account.accountid}/${selectedSurveys}`, '_blank');
+    }
+
     _onPreviewSurveyClick() {
-        const { selectedSurveys, previewActions } = this.props;
-        previewActions.setPreview('embedded', selectedSurveys);
+        const { account, selectedSurveys } = this.props;
+        const url = `${config.baseURL}/feedback/index.html`;
+        window.open(`${url}?accountid=${account.accountid}&surveyid=${selectedSurveys}`, '_blank');
     }
 }
 

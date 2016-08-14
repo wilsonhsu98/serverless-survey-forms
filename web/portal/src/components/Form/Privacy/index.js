@@ -35,6 +35,7 @@ class Privacy extends PureComponent {
                             <input
                                 id="chk"
                                 type="checkbox"
+                                className="ut-chk"
                                 checked={chk}
                                 onChange={this._onChangeHandle}
                             />

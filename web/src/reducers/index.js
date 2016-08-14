@@ -16,6 +16,7 @@ import loading from './loading';
 import settings from './settings';
 import survey from './survey';
 import feedback from './feedback';
+import submit from './submit';
 import done from './done';
 import paging from './paging';
 import clientID from './clientID';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     settings,
     survey,
     feedback,
+    submit,
     done,
     paging,
     clientID,

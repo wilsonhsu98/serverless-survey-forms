@@ -29,7 +29,7 @@ class Checkbox extends Component {
             const input = itm.input;
             return (
                 <div
-                    className="checkboxItem"
+                    className="checkboxItem ut-chk"
                     key={idx}
                 >
                     <input type="checkbox" />
@@ -40,7 +40,7 @@ class Checkbox extends Component {
                         itm.hasOwnProperty('input') ?
                             <input
                                 type="text"
-                                className="input input--medium"
+                                className="input input--medium ut-input"
                                 placeholder={input}
                             /> :
                             ''

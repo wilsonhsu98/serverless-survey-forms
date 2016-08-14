@@ -32,6 +32,7 @@ function mapStateToProps(state) {
         account: state.account,
         surveyID: state.surveyID,
         questions: state.questions,
+        dropQuestion: state.dropQuestion,
         editQuestion: state.editQuestion,
         editPage: state.editPage,
         orderPage: state.orderPage,

@@ -28,15 +28,24 @@ export function finishEdit() {
     };
 }
 
-export function addQuestion(page, data) {
+export function addQuestion(page) {
     return (dispatch, getState) => {
+        const newQuestion = {
+            id: Mixins.generateQuestionID(),
+            type: 'radio',
+            label: values.QUESTION_TITLE,
+            data: [
+                { value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }
+            ],
+            required: true
+        };
         const pageIdx = page - 1;
         const newQuestions = [...getState().questions];
         // if this page already existed, edit this page content
         // object and array need copy reference
         const pageData = Object.assign({}, newQuestions[pageIdx]);
         pageData.question = [...pageData.question];
-        pageData.question.push(data);
+        pageData.question.push(newQuestion);
         newQuestions[pageIdx] = pageData;
 
         dispatch({
@@ -130,7 +139,12 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
                 newPages.question = [...obj.question];
                 if (obj.page === afPage) {
                     newPages.question.splice(bfIdx, 1);
-                    newPages.question.splice(afIdx, 0, data);
+                    if (bfIdx < afIdx) {
+                        // subtract itself
+                        newPages.question.splice(afIdx - 1, 0, data);
+                    } else {
+                        newPages.question.splice(afIdx, 0, data);
+                    }
                 }
                 newQuestions.push(newPages);
             }
@@ -243,6 +257,7 @@ function saveQuestionsFailure(err) {
 
 export function saveQuestion() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_SAVE_QUESTION });
         const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
         const genQuestions = deepClone(questions);
         // generate order number
@@ -344,8 +359,8 @@ function receiveQuestionsFailure(err) {
 
 export function getQuestion(surveyID) {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_GET_QUESTION });
         const { account } = getState();
-
         return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
             method: 'GET',
             credentials: 'same-origin',
@@ -356,10 +371,10 @@ export function getQuestion(surveyID) {
         .then(response => response.json())
         .then(data => {
             if (data.surveyid) {
-                dispatch(setSurveyID(data.surveyid));
                 dispatch(setSubject(data.subject));
-                dispatch(receiveQuestionsSuccess(data.survey.content));
                 dispatch(setSurveyPolicy(data.survey.thankyou));
+                dispatch(receiveQuestionsSuccess(data.survey.content));
+                dispatch(setSurveyID(data.surveyid));
                 // TODOS: temporarily remove router
                 // dispatch(push('/create'));
             } else {
@@ -367,5 +382,18 @@ export function getQuestion(surveyID) {
             }
         })
         .catch(err => dispatch(receiveQuestionsFailure(err)));
+    };
+}
+
+export function setDropQuestion(dropQuestion) {
+    return {
+        type: types.SET_DROP_QUESTION,
+        dropQuestion
+    };
+}
+
+export function stopDropQuestion() {
+    return {
+        type: types.STOP_DROP_QUESTION
     };
 }
