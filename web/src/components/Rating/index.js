@@ -96,7 +96,8 @@ class Rating extends PureComponent {
     _onChangeHandle(e) {
         const feedbackArray = [{
             value: e.currentTarget.getAttribute('data-value'),
-            label: e.currentTarget.title
+            label: e.currentTarget.title,
+            input: this.state.reason ? this.state.reason : ' '
         }];
         this.setState({
             selected: e.currentTarget.id,
@@ -116,13 +117,12 @@ class Rating extends PureComponent {
 
     _onChangeInput(e) {
         const feedbackArray = this.state.feedbackArray;
-
         this.setState({
             reason: e.currentTarget.value
         }, () => {
             feedbackArray.map((item) => {
                 const updatedItem = item;
-                updatedItem.input = this.state.reason;
+                updatedItem.input = this.state.reason ? this.state.reason : ' ';
                 return updatedItem;
             });
             const feedback = {
