@@ -10,6 +10,7 @@
     "url": "git://github.com/"
   },
   "dependencies": {
+    "json2csv": "^3.6.2",
     "node-uuid": "^1.4.7",
     "serverless-authentication": "^0.2.2",
     "serverless-authentication-facebook": "^0.2.0"

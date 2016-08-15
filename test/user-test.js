@@ -239,10 +239,9 @@ describe("Interface to get one user model from data store", function() {
         user.getOneUser(event, (error, response) => {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
-          response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
+          response.should.have.all.keys(['accountid', 'username', 'role']);
           response.accountid.should.have.string(accountid);
           response.username.should.have.string(username);
-          response.email.should.have.string(email);
           response.role.should.have.string(role);
           done();
         });
@@ -379,21 +378,9 @@ describe("Interface to update one user model in data store", function() {
           email: "this is true email",
           role: "this is true User",
         };
-        // chai with Promise
-        return new Promise((resolve, reject) => {
-            user.updateOneUser(event, (error, response) => {
-              expect(error).to.be.null;
-              expect(response).to.not.be.null;
-              resolve(event);
-            });
-        }).then( (event) => {
-          return user.getOneUser(event, (error, response) => {
-            response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
-            response.accountid.should.have.string(event.accountid);
-            response.username.should.have.string(event.username);
-            response.email.should.have.string(event.email);
-            response.role.should.have.string(event.role);
-          });
+        user.updateOneUser(event, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
         });
       });
     });
