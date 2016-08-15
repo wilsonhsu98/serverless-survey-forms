@@ -25,7 +25,7 @@ import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
 import NoPermission from '../../components/Popup/NoPermission';
 
-class Portal extends PureComponent {
+export class Portal extends PureComponent {
 
     constructor() {
         super();
@@ -44,10 +44,7 @@ class Portal extends PureComponent {
         };
         const subProps = { subject, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
-
-        if (loading) {
-            return (<Loading />);
-        }
+        const loadingView = loading ? <Loading /> : '';
         return (
             <div ref="root">
                 <div className={styles.wrap}>
@@ -60,6 +57,7 @@ class Portal extends PureComponent {
                 {this._checkAccountStatus()}
 
                 <Footer />
+                {loadingView}
             </div>
         );
     }

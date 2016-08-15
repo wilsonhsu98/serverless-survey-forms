@@ -18,14 +18,14 @@ class Header extends PureComponent {
         let content;
         if (surveyID) {
             content = (
-                <div className={styles.qustom}>
+                <div className={`${styles.qustom} ut-qustom`}>
                     <div
                         className={styles.back}
                         onClick={this._onBackClick}
                     ></div>
                     <div
                         id="title"
-                        className={styles.title}
+                        className={`${styles.title} ut-title`}
                         onClick={this._onEditSubject}
                     >
                         {subject}
@@ -37,7 +37,7 @@ class Header extends PureComponent {
             );
         } else {
             content = (
-                <div className={styles.trend}>
+                <div className={`${styles.trend} ut-trend`}>
                     <div className={styles.logo}></div>
                     <div className={styles.productlogo}></div>
                 </div>

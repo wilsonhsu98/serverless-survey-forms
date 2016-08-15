@@ -23,6 +23,7 @@ function receiveSurveysSuccess(data) {
 
 export function getSurveys() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_SURVEYS_LIST });
         const { account, token } = getState();
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
             method: 'GET',
@@ -72,6 +73,7 @@ function receiveDeleteSurveysSuccess() {
 
 export function deleteSurvey() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_DELET_SURVEYS });
         const { account, selectedSurveys, token } = getState();
         return fetch(
             `${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${selectedSurveys}`, {

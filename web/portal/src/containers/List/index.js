@@ -8,31 +8,28 @@ import { connect } from 'react-redux';
 import * as SurveysActions from '../../actions/surveys';
 import * as QuestionsActions from '../../actions/questions';
 import * as EditSubjectActions from '../../actions/editSubject';
-import * as PreviewActions from '../../actions/preview';
 
 import ControlBtn from '../../components/List/ControlBtn';
 import SurveyList from '../../components/List/SurveyList';
 
 class List extends PureComponent {
 
-    constructor(props) {
-        super(props);
-
-        const { surveysActions } = props;
+    componentWillMount() {
+        const { surveysActions } = this.props;
         surveysActions.getSurveys();
     }
 
     render() {
-        const { surveys, selectedSurveys,
-            surveysActions, questionsActions, editSubjectActions, previewActions } = this.props;
+        const { account, surveys, selectedSurveys,
+            surveysActions, questionsActions, editSubjectActions } = this.props;
 
         return (
             <div ref="root">
                 <ControlBtn
+                    account={account}
                     selectedSurveys={selectedSurveys}
                     editSubjectActions={editSubjectActions}
                     surveysActions={surveysActions}
-                    previewActions={previewActions}
                 />
                 <SurveyList
                     surveys={surveys}
@@ -47,6 +44,7 @@ class List extends PureComponent {
 
 function mapStateToProps(state) {
     return {
+        account: state.account,
         surveys: state.surveys,
         selectedSurveys: state.selectedSurveys
     };
@@ -56,8 +54,7 @@ function mapDispatchToProps(dispatch) {
     return {
         surveysActions: bindActionCreators(SurveysActions, dispatch),
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
-        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch),
-        previewActions: bindActionCreators(PreviewActions, dispatch)
+        editSubjectActions: bindActionCreators(EditSubjectActions, dispatch)
     };
 }
 

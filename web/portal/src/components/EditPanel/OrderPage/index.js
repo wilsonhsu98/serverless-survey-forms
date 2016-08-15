@@ -1,11 +1,11 @@
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 
 import Item from './Item';
 import Button from '../../Button';
 
-class OrderPage extends PureComponent {
+class OrderPage extends FixComponent {
 
     constructor() {
         super();

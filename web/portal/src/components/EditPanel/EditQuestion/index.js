@@ -3,7 +3,7 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
@@ -11,7 +11,7 @@ import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
 import Button from '../../Button';
 
-class EditQuestion extends PureComponent {
+class EditQuestion extends FixComponent {
 
     constructor() {
         super();
@@ -85,7 +85,7 @@ class EditQuestion extends PureComponent {
         const item = [
             { value: 'radio', label: 'Radio Button' },
             { value: 'checkbox', label: 'Checkbox' },
-            { value: 'rating', label: 'Rating (Liert Scale)' }];
+            { value: 'rating', label: 'Rating (Likert Scale)' }];
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>

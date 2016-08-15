@@ -5,6 +5,7 @@
     width: 100%;
     position: relative;
     min-height: 100%;
+    &.non-scroll { position: fixed; }
 }
 
 :global body {
@@ -30,9 +31,16 @@
     color: #1F8ECC;
     &:hover {
         color: #007ABB;
+        &.disabled, &[disabled], &:disabled {
+            color: #1F8ECC;
+        }
     }
     &:active, &:focus {
         color: rgba(0, 122 ,187, 0.5);
+    }
+    &.disabled, &[disabled], &:disabled {
+        cursor: default;
+        color: #1F8ECC;
     }
 }
 

@@ -15,7 +15,12 @@ export function setSubject(data) {
     };
 }
 
-function setSubjectError(err) {
+function setSubjectSuccess() {
+    return {
+        type: types.SET_SUBJECT_SUCCESS
+    };
+}
+function setSubjectFailure(err) {
     return (dispatch) => {
         dispatch(openEdit(false));
         dispatch(expiredToken());
@@ -28,6 +33,7 @@ function setSubjectError(err) {
 
 export function saveSubject(subject) {
     return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_SET_SUBJECT });
         const { account, surveyPolicy, token } = getState();
         const postData = {
             subject: subject,
@@ -51,11 +57,12 @@ export function saveSubject(subject) {
                 // TODOS: temporarily remove router
                 // dispatch(push('/create'));
                 dispatch(openEdit(false));
+                dispatch(setSubjectSuccess());
             } else {
-                dispatch(setSubjectError(data));
+                dispatch(setSubjectFailure(data));
             }
         })
-        .catch(err => dispatch(setSubjectError(err)));
+        .catch(err => dispatch(setSubjectFailure(err)));
     };
 }
 

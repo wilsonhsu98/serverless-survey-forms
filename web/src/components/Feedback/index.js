@@ -32,7 +32,7 @@ class Feedback extends PureComponent {
     render() {
         const { settings, done } = this.props;
         let feedbackView;
-        if (settings.type === 'preview') {
+        if (settings.type === 'default') {
             feedbackView = this._renderPreview();
         } else {
             feedbackView = this._renderEmbedded();
@@ -105,26 +105,21 @@ class Feedback extends PureComponent {
                             <div className={styles.feedbackPreview}>{list}</div>
                         </div>
                     </div>
-
                 </div>
-                {
-                    content.length > 1 ?
-                        <div className={styles.paginationPreview}>
-                            <Pagination
-                                pages={content.length}
-                                currentPage={paging}
-                                surveyActions={surveyActions}
-                                feedbackActions={feedbackActions}
-                                settings={settings}
-                            />
-                        </div> : ''
-                }
+                <Pagination
+                    pages={content.length}
+                    currentPage={paging}
+                    surveyActions={surveyActions}
+                    feedbackActions={feedbackActions}
+                    settings={settings}
+                />
             </div>
         );
     }
 
     _renderQuestion(item, idx) {
         const requiredProps = {
+            feedback: this.props.feedback,
             id: item.order,
             key: idx,
             item: item,
@@ -149,22 +144,23 @@ class Feedback extends PureComponent {
     }
 
     _renderThankyou() {
-        const { prefillData } = this.props;
+        const { settings, prefillData, submit, feedbackActions } = this.props;
         const { subject } = this.props.survey;
         const { description, privacy } = this.props.survey.thankyou;
         return (
             <div
                 className={
-                    this.props.settings.type === 'preview' ?
+                    this.props.settings.type === 'default' ?
                         styles.wrapPreview : styles.wrap}
             >
                 <div className={styles.header}>
                     <h1>{subject}</h1>
+                    <div onClick={this._onClose} className={styles.close} />
                 </div>
                 <div className={styles.container}>
                     <div
                         className={
-                            this.props.settings.type === 'preview' ?
+                            this.props.settings.type === 'default' ?
                                 styles.contentScrollPreview : styles.contentScroll}
                     >
                         <div className={styles.content}>
@@ -175,10 +171,20 @@ class Feedback extends PureComponent {
                         }
                             <div
                                 className={
-                                    this.props.settings.type === 'preview' ?
+                                    this.props.settings.type === 'default' ?
                                     styles.feedbackPreview : ''}
                             >
-                                <Privacy info={privacy} prefillData={prefillData} />
+                            {
+                                Object.keys(privacy).length !== 0 ?
+                                    <Privacy
+                                        info={privacy}
+                                        settings={settings}
+                                        prefillData={prefillData}
+                                        submit={submit}
+                                        onChangeHandle={this._onChangeHandle}
+                                        feedbackActions={feedbackActions}
+                                    /> : ''
+                            }
                             </div>
                         </div>
                     </div>

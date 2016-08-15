@@ -3,11 +3,11 @@
 import styles from './style.css';
 
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import FixComponent from '../../FixComponent';
 
 import Button from '../../Button';
 
-class EditPage extends PureComponent {
+class EditPage extends FixComponent {
 
     constructor() {
         super();
