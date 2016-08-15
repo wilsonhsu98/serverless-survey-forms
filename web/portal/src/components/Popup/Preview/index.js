@@ -5,6 +5,8 @@ import styles from './style.css';
 import React from 'react';
 import FixComponent from '../../FixComponent';
 
+import Config from '../../../config';
+import IFrame from '../../IFrame';
 import IconButton from '../../IconButton';
 import Qustom from '../../../../../src/index';
 
@@ -55,13 +57,10 @@ class Preview extends FixComponent {
                 </div>
             );
         } else {
+            const url = `${Config.baseURL}/feedback/index.html`;
             qustom = (<div className={`${styles.preview} ${styles[preview]}`}>
-                <Qustom
-                    accountid={account.accountid}
-                    surveyid={previewID}
-                    type={type}
-                    localize_path="../../../../../assets/L10N"
-                    preview
+                <IFrame
+                    url={`${url}?accountid=${account.accountid}&surveyid=${previewID}&preview=true`}
                 />
             </div>);
         }
