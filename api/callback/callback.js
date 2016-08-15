@@ -8,14 +8,9 @@ let user = require('../user/user');
 let slsAuth = require('serverless-authentication');
 let config = slsAuth.config;
 let utils = slsAuth.utils;
-
+const crypto = require('crypto');
 // Providers
 let facebook = require('serverless-authentication-facebook');
-
-const getUUID = () => {
-  let uuid = require('node-uuid');
-  return uuid.v1();
-};
 
 // Callback switch
 function callback(event, _callback) {
@@ -33,7 +28,8 @@ function callback(event, _callback) {
         error: 'State mismatch'
       }, providerConfig, _callback);
     } else {
-      let id = profile.provider + '-' + getUUID();
+      const hmac = crypto.createHmac('sha256', 'secret-for-json-web-token'); // Secret key is same as tokenSecret in s-variables.
+      let id = profile.provider + '-' + hmac.update(profile.id).digest('hex');
       let tokenData = {
         payload: {
           id: id,
