@@ -23,7 +23,7 @@
           "apigw": "$${apiRequestTemplate}",
           "accountid": "$input.params('accountid')",
           "surveyid": "$input.params('surveyid')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op": "reportFeedbacks"
         }
       },
