@@ -21,7 +21,6 @@
     },
     "websiteDomainName": {
       "Description": "Website domain name",
-      "Default": "survey.organization.com",
       "Type": "String"
     }
   },
