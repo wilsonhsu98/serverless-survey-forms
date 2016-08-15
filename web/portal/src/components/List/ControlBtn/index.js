@@ -42,7 +42,7 @@ class ControlBtn extends PureComponent {
                         string="Report"
                         i18nKey={false}
                         img="report"
-                        disabled
+                        disabled={!selectedSurveys.length}
                         onClick={this._onReportSurveyClick}
                     />
                     <IconButton
@@ -72,7 +72,7 @@ class ControlBtn extends PureComponent {
     _onReportSurveyClick() {
         const { account, selectedSurveys } = this.props;
         const url = `${config.baseURL}/api/v1/mgnt/report/`;
-        window.open(`${url}${account.accountid}/${selectedSurveys}`, '_blank');
+        window.open(`${url}${account.accountid}/${selectedSurveys}?v=${Date.now()}`, '_blank');
     }
 
     _onPreviewSurveyClick() {
