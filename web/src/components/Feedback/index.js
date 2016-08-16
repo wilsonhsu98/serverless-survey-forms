@@ -45,7 +45,7 @@ class Feedback extends PureComponent {
     }
 
     _renderEmbedded() {
-        const { settings, paging, surveyActions, feedbackActions } = this.props;
+        const { settings, paging, surveyActions, feedbackActions, pageDone } = this.props;
         const { subject, content } = this.props.survey;
 
         const currentPageContent = content[paging - 1];
@@ -71,6 +71,7 @@ class Feedback extends PureComponent {
                     </div>
                     <Pagination
                         pages={content.length}
+                        pageDone={pageDone}
                         currentPage={paging}
                         surveyActions={surveyActions}
                         feedbackActions={feedbackActions}
@@ -82,7 +83,7 @@ class Feedback extends PureComponent {
     }
 
     _renderPreview() {
-        const { settings, paging, survey, surveyActions, feedbackActions } = this.props;
+        const { settings, paging, survey, surveyActions, feedbackActions, pageDone } = this.props;
         const { subject, content } = survey;
 
         const currentPageContent = content[paging - 1];
@@ -108,6 +109,7 @@ class Feedback extends PureComponent {
                 </div>
                 <Pagination
                     pages={content.length}
+                    pageDone={pageDone}
                     currentPage={paging}
                     surveyActions={surveyActions}
                     feedbackActions={feedbackActions}
@@ -123,7 +125,9 @@ class Feedback extends PureComponent {
             id: item.order,
             key: idx,
             item: item,
-            onChangeHandle: this._onChangeHandle
+            pageDone: this.props.pageDone,
+            onChangeHandle: this._onChangeHandle,
+            feedbackActions: this.props.feedbackActions
         };
         switch (item.type) {
         case 'radio':

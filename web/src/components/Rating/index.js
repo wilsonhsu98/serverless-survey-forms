@@ -18,8 +18,10 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
+import I18Next from 'i18next';
 
 import Question from '../Question/index';
+import Error from '../Error';
 
 class Rating extends PureComponent {
 
@@ -34,6 +36,7 @@ class Rating extends PureComponent {
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
+        this._checkDone = this._checkDone.bind(this);
     }
 
     render() {
@@ -59,6 +62,7 @@ class Rating extends PureComponent {
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
+                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
                 </div>
             </div>
         );
@@ -112,6 +116,9 @@ class Rating extends PureComponent {
                 }
             };
             this.props.onChangeHandle(feedback);
+            // Update complete status
+            const done = this._checkDone();
+            this.props.feedbackActions.updateRequired(this.props.id, done);
         });
     }
 
@@ -134,6 +141,13 @@ class Rating extends PureComponent {
             };
             this.props.onChangeHandle(feedback);
         });
+    }
+
+    _checkDone() {
+        if (this.state.selected) {
+            return true;
+        }
+        return false;
     }
 }
 
