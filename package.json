@@ -25,6 +25,7 @@
     "dynalite": "^1.0.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "serverless-cors-plugin": "^0.4.1"
   }
 }

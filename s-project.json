@@ -10,6 +10,7 @@
     }
   },
   "plugins": [
+    "serverless-cors-plugin",
     "serverless-client-s3",
     "serverless-meta-sync"
   ]
