@@ -3,6 +3,9 @@ import fetch from 'isomorphic-fetch';
 import config from '../config';
 import * as feedbackAction from './feedback';
 
+
+/* eslint no-use-before-define: [2, { "functions": false }] */
+
 function requestSurvey() {
     return {
         type: types.REQUEST_SURVEY
@@ -44,6 +47,7 @@ export function fetchSurvey(accountid, surveyid) {
             });
             if (data && data.survey) {
                 dispatch(receiveSurveySuccess(survey));
+                dispatch(goToPage(1));
                 dispatch(feedbackAction.setFeedback(data.survey));
             } else {
                 dispatch(receiveSurveyFailure('Error'));
