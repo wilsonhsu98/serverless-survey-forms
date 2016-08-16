@@ -275,13 +275,13 @@ module.exports = (() => {
               reject(getDynamoDBError(err), null);
             } else {
               // got and compose response
-              let feedbacksData = data.Items;
-              allData.push(feedbacksData);
-
+              if (data.Items.length > 0) {  // For Last EvalutedKey final will return { Items: [], Count: 0, ScannedCount: 0 }
+                allData.push(data.Items);
+              }
               // continue querying if we have more data : LastEvaluatedKey
               if (typeof data.LastEvaluatedKey != "undefined") {
                 params.ExclusiveStartKey = data.LastEvaluatedKey;
-                dynamoQuery(allData);
+                resolve(dynamoQuery(allData));
               } else {
                 resolve(allData);
               }
