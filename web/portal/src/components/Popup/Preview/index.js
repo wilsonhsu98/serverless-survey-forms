@@ -57,10 +57,11 @@ class Preview extends FixComponent {
                 </div>
             );
         } else {
-            const url = `${Config.baseURL}/feedback/index.html`;
+            // to prevent cache, add Date.now() to change src
+            const url = `${Config.baseURL}/feedback/index.html?v=${Date.now()}`;
             qustom = (<div className={`${styles.preview} ${styles[preview]}`}>
                 <IFrame
-                    url={`${url}?accountid=${account.accountid}&surveyid=${previewID}&preview=true`}
+                    url={`${url}&accountid=${account.accountid}&surveyid=${previewID}&preview=true`}
                 />
             </div>);
         }
