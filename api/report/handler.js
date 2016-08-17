@@ -34,8 +34,8 @@ module.exports.handler = function(event, context, callback) {
 
   switch (event.op){
     case "reportFeedbacks":
-    // GET /api/v1/mgnt/report/{accountid}/{surveyid}
-    // Authenticated: Yes
+      // GET /api/v1/mgnt/report/{accountid}/{surveyid}
+      // Authenticated: Yes
       return authorizedJudge.then( () => {
         feedback.reportFeedbacks({
           accountid: event.accountid,
@@ -44,7 +44,7 @@ module.exports.handler = function(event, context, callback) {
       }).catch( (err) => {
         callback(err, null);
       });
-    break;
+      break;
 
     default:
       let error = new Error("400 Bad Request: " + JSON.stringify(event));

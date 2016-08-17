@@ -306,7 +306,6 @@ describe("Interface to get total feedback number in a survey from data store", f
 describe("Interface to get one feedback CSV report from data store", function() {
   let accountid = "this is dummy accountid";
   let surveyid = "this is dummy surveyid";
-  let feedback = "this is dummy feedback model";
   let subject = "this is dummy subject";
   let surveyContent = {
     "content": [
@@ -566,6 +565,12 @@ describe("Interface to get one feedback CSV report from data store", function() 
         feedbackjs.reportFeedbacks(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
+          response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'survey', 'data', 'datetime']);
+          response.accountid.should.have.string(accountid);
+          response.surveyid.should.have.string(surveyid);
+          response.subject.should.have.string(subject);
+          response.data.length.should.be.above(0);
+          response.datetime.should.be.above(0);
           done();
         });
       });
@@ -581,11 +586,16 @@ describe("Interface to get one feedback CSV report from data store", function() 
         feedbackjs.reportFeedbacks(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
+          response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'survey', 'data', 'datetime']);
+          response.accountid.should.have.string(accountid);
+          response.surveyid.should.have.string(surveyid);
+          response.subject.should.have.string(subject);
+          response.data.length.should.be.above(0);
+          response.datetime.should.be.above(0);
           done();
         });
       });
     });
-
   });
   describe("#reportFeedbacks with error", function() {
     let missingParams = [
