@@ -68,22 +68,24 @@ class Preview extends FixComponent {
 
         return (
             <div className={`${styles.popup} popup`}>
-                <div className={`${styles.wrap} wrap`}>
-                    <button
-                        type="button"
-                        onClick={this._btnClickEvent}
-                        className="close"
-                        data-type="cancel"
-                    >×
-                    </button>
-                    <div className={`${styles.content} content`}>
-                        <div className={styles.header}>
-                            <div className={styles.title}>Preview</div>
-                            <div className={styles.control}>
-                                {buttons}
+                <div className="popup_wrap">
+                    <div className={`${styles.wrap} wrap`}>
+                        <button
+                            type="button"
+                            onClick={this._btnClickEvent}
+                            className="close"
+                            data-type="cancel"
+                        >×
+                        </button>
+                        <div className={`${styles.content} content`}>
+                            <div className={styles.header}>
+                                <div className={styles.title}>Preview</div>
+                                <div className={styles.control}>
+                                    {buttons}
+                                </div>
                             </div>
+                            {qustom}
                         </div>
-                        {qustom}
                     </div>
                 </div>
             </div>

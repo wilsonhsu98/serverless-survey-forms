@@ -19,40 +19,44 @@ class Subject extends FixComponent {
         const { subject } = this.props;
         return (
             <div className={`${styles.popup} popup`}>
-                <div className={`${styles.wrap} wrap`}>
-                    <button
-                        type="button"
-                        onClick={this._btnClickEvent}
-                        className="close"
-                        data-type="cancel"
-                    >×
-                    </button>
-                    <div className={`${styles.content} content`}>
-                        <div className={styles.title}>What would you like to name this survey?</div>
-                        <input
-                            id="subject"
-                            className={`${styles.input} input input--medium`}
-                            type="text"
-                            defaultValue={subject}
-                            placeholder="Subject Name"
-                            onChange={this._handleInput}
-                        />
-                        <div id="msg" className={`${styles.input__msg} input__msg`}></div>
+                <div className="popup_wrap">
+                    <div className={`${styles.wrap} wrap`}>
+                        <button
+                            type="button"
+                            onClick={this._btnClickEvent}
+                            className="close"
+                            data-type="cancel"
+                        >×
+                        </button>
+                        <div className={`${styles.content} content`}>
+                            <div className={styles.title}>
+                                What would you like to name this survey?
+                            </div>
+                            <input
+                                id="subject"
+                                className={`${styles.input} input input--medium`}
+                                type="text"
+                                defaultValue={subject}
+                                placeholder="Subject Name"
+                                onChange={this._handleInput}
+                            />
+                            <div id="msg" className={`${styles.input__msg} input__msg`}></div>
 
-                        <div className={`bottom ${styles.bottom}`}>
-                            <Button
-                                string="Save"
-                                i18nKey={false}
-                                color="ruby"
-                                onClick={this._btnClickEvent}
-                                extraProps={{ 'data-type': 'save' }}
-                            />
-                            <Button
-                                string="Cancel"
-                                i18nKey={false}
-                                onClick={this._btnClickEvent}
-                                extraProps={{ 'data-type': 'cancel' }}
-                            />
+                            <div className={`bottom ${styles.bottom}`}>
+                                <Button
+                                    string="Save"
+                                    i18nKey={false}
+                                    color="ruby"
+                                    onClick={this._btnClickEvent}
+                                    extraProps={{ 'data-type': 'save' }}
+                                />
+                                <Button
+                                    string="Cancel"
+                                    i18nKey={false}
+                                    onClick={this._btnClickEvent}
+                                    extraProps={{ 'data-type': 'cancel' }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
