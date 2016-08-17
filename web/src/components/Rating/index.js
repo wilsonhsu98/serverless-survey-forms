@@ -17,7 +17,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import classNames from 'classnames';
 import I18Next from 'i18next';
 
 import Question from '../Question/index';
@@ -50,9 +49,7 @@ class Rating extends PureComponent {
                 />
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>
-                        {this._renderLabel(item.data[0])}
                         {this._renderRatingItem()}
-                        {this._renderLabel(item.data[item.data.length - 1])}
                     </ul>
                     {
                         item.input ?
@@ -76,16 +73,29 @@ class Rating extends PureComponent {
             const label = itm.label;
             return (
                 <li
+                    className={styles.ratingItem}
                     id={inputID}
-                    className={classNames({
-                        [`${styles.ratingItemSelected}`]: this.state.selected === inputID,
-                        [`${styles.ratingItem}`]: this.state.selected !== inputID
-                    })}
                     key={idx}
-                    title={label}
                     data-value={val}
                     onClick={this._onChangeHandle}
-                />
+                >
+                    <div className={styles.label}>{label}</div>
+                    <div
+                        className="radioItem"
+                        key={idx}
+                    >
+                        <input
+                            id={inputID}
+                            type="radio"
+                            name={id}
+                            value={val}
+                            data-label={label}
+                            checked={this.state.selected === inputID}
+                            onChange={this._onChangeHandle}
+                        />
+                        <label htmlFor={inputID} />
+                    </div>
+                </li>
             );
         });
         return items;

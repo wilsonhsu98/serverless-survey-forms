@@ -60,7 +60,7 @@ class Radio extends PureComponent {
             const input = itm.input;
             return (
                 <div
-                    className={styles.radioItem}
+                    className="radioItem"
                     key={idx}
                 >
                     <input
