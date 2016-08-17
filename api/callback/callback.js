@@ -28,7 +28,7 @@ function callback(event, _callback) {
         error: 'State mismatch'
       }, providerConfig, _callback);
     } else {
-      const hmac = crypto.createHmac('sha256', 'secret-for-json-web-token'); // Secret key is same as tokenSecret in s-variables.
+      const hmac = crypto.createHmac('sha256', process.env.TOKEN_SECRET); // Secret key is same as tokenSecret in s-variables.
       let id = profile.provider + '-' + hmac.update(profile.id).digest('hex');
       let tokenData = {
         payload: {
