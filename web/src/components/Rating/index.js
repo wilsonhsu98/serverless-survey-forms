@@ -77,6 +77,7 @@ class Rating extends PureComponent {
                     id={inputID}
                     key={idx}
                     data-value={val}
+                    data-label={label}
                     onClick={this._onChangeHandle}
                 >
                     <div className={styles.label}>{label}</div>
@@ -110,7 +111,7 @@ class Rating extends PureComponent {
     _onChangeHandle(e) {
         const feedbackArray = [{
             value: e.currentTarget.getAttribute('data-value'),
-            label: e.currentTarget.title,
+            label: e.currentTarget.getAttribute('data-label'),
             input: this.state.reason ? this.state.reason : ' '
         }];
         this.setState({
