@@ -60,9 +60,8 @@ class ControlBtn extends PureComponent {
     }
 
     _onReportSurveyClick() {
-        const { account, selectedSurveys } = this.props;
-        const url = `${config.baseURL}/api/v1/mgnt/report/`;
-        window.open(`${url}${account.accountid}/${selectedSurveys}?v=${Date.now()}`, '_blank');
+        const { surveysActions } = this.props;
+        surveysActions.exportSurvey();
     }
 
     _onPreviewSurveyClick() {
