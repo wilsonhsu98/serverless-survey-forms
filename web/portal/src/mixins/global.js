@@ -1,6 +1,7 @@
 /**
  *  Mixin for some shared methods between components
  **/
+import { saveAs } from 'file-saver';
 
 function generateRow(colArray) {
     // Temporary delimiter characters unlikely to be typed by keyboard
@@ -39,21 +40,19 @@ const mixins = {
         const rowDelim = '"\r\n"';
         const headerCSV = generateRow(header);
         const contentCSV = generateRow(content);
-
         const csv = `"${headerCSV}${rowDelim}${contentCSV}"`;
-        // For IE (tested 10+)
-        if (window.navigator.msSaveOrOpenBlob) {
-            const blob = new Blob([decodeURIComponent(encodeURI(csv))], {
-                type: 'text/csv;charset=utf-8;'
-            });
-            window.navigator.msSaveBlob(blob, filename);
-        } else {
-            const downloadLink = document.createElement('a');
-            downloadLink.href = `data:application/csv;charset=utf-8,${encodeURIComponent(csv)}`;
-            downloadLink.target = '_blank';
-            downloadLink.download = `${filename}.csv`;
-            downloadLink.click();
-        }
+
+        // Use <a> click event to download CSV
+        // The BOM will not work in Excel for Mac OS X,
+        // it will only present it with some odd characters in the beginning of the file
+        // so it need to open in Numbers for Mac OS X
+        // check this issue in FileSaver.js git issues#28
+        const downloadLink = document.createElement('a');
+        downloadLink.addEventListener('click', () => {
+            const blob = new Blob([csv], { type: 'text/csv;charset=charset=utf-8;' });
+            saveAs(blob, `${filename}.csv`);
+        });
+        downloadLink.click();
     }
 };
 
