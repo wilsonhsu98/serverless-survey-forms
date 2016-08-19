@@ -214,8 +214,14 @@ function handleReportContent(survey, privacy, feedbackAllData) {
                 }
             }
         });
-        if (privacy) body.push(feed.thankyou.privacy.input);
-        body.push(moment(feed.datetime).format('LLL'));
+        if (privacy) {
+            body.push(
+                data.hasOwnProperty('thankyou') ?
+                data.thankyou.privacy.input :
+                ''
+            );
+        }
+        body.push(moment(data.datetime).format('LLL'));
 
         content.push(body);
     }
