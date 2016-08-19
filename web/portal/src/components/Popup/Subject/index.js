@@ -77,9 +77,10 @@ class Subject extends FixComponent {
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editSubjectActions.openEdit(false);
         } else if (e.currentTarget.getAttribute('data-type') === 'save') {
+            // Error handling
             const subject = document.getElementById('subject').value;
             if (subject === '') {
-                msg.innerHTML = 'Please fill the subject';
+                msg.innerHTML = 'Please fill subject name';
             } else {
                 if (!surveyID) {
                     subjectActions.saveSubject(subject);
