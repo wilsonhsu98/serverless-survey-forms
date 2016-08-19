@@ -247,7 +247,7 @@ export function exportSurvey() {
                 });
 
                 Mixins.exportCSV(
-                    `[Qustom]${report.subject}_${Date.now()}`,
+                    `[Qustom]${report.subject}_${moment(Date.now()).format('YYYYMMDDHHmmss')}`,
                     'v1',
                     handleReportHeader(allSurvey, privacy),
                     handleReportContent(allSurvey, privacy, feedback)
