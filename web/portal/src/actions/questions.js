@@ -281,7 +281,7 @@ export function saveQuestion() {
         }
         const postData = {
             subject: subject,
-            survey: { content: genQuestions, thankyou: surveyPolicy }
+            survey: { format: Config.surveyFormat, content: genQuestions, thankyou: surveyPolicy }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
