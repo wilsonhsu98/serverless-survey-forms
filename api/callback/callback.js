@@ -50,21 +50,31 @@ function callback(event, _callback) {
       }, function(err, data) {
         if (err) {
           if (err.message.match(/404 Not Found:/gi)) {
-            // create new
-            user.addOneUser({
+            let parms = {
               accountid: id,
               username: profile.name,
               email: profile.email,
               role: "User"
-            }, function(err, data) {
+            };
+            user.countUser({},(err, response) => {
               if (err) {
                 utils.errorResponse({
                   error: err
                 }, providerConfig, _callback);
               } else {
-                utils.tokenResponse(tokenData, providerConfig, _callback);
+                parms['role'] = (response['Count'] === 0) ? "Admin" : "User"; // First user set role to Admin
+                // create new
+                user.addOneUser(parms, function(err, data) {
+                  if (err) {
+                    utils.errorResponse({
+                      error: err
+                    }, providerConfig, _callback);
+                  } else {
+                    utils.tokenResponse(tokenData, providerConfig, _callback);
+                  }
+                })
               }
-            })
+            });
           } else {
             utils.errorResponse({
               error: err

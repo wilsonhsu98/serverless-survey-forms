@@ -72,6 +72,41 @@ module.exports = (() => {
     }
   };
 
+
+  /**
+   * Parameters:
+   * Key        Description
+   * accountid  accountid with authentication provider as prefix or default system ${project}-${stage}-admin
+   *
+   * Response:
+   * Key        Description
+   * Count — the number of items that were returned in the response.
+   */
+  const countUser = (event, callback) => {
+    let response = {};
+    // validate parameters
+    if (process.env.SERVERLESS_USERTABLE) {
+      let params = {
+        TableName: process.env.SERVERLESS_USERTABLE,
+        Select: "COUNT",
+      };
+
+      docClient.scan(params, function(err, data) {
+        if (err) {
+          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
+        } else {
+          response = data;
+          return callback(null, response);
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
+  };
+
   /*
    * Parameters:
    * Key        Description
@@ -263,6 +298,7 @@ module.exports = (() => {
     initAWS: initAWS,
 
     getOneUser: getOneUser,
+    countUser: countUser,
     listUsers: listUsers,
 
     addOneUser: addOneUser,

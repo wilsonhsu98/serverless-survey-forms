@@ -366,7 +366,22 @@ describe("Interface to get list users model from data store", () => {
   });
 });
 
-
+describe("Interface to calculate user count from data store", function() {
+  describe("#countUser successfully", function() {
+    describe("When getting exist user model with complete and normal parameters", function() {
+      it("should response successfully", (done) => {
+        user.countUser({}, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys(['Count', 'ScannedCount']);
+          expect(response.Count).to.equal(2);  // Data store have two record.
+          expect(response.ScannedCount).to.equal(2);
+          done();
+        });
+      });
+    });
+  });
+});
 
 describe("Interface to update one user model in data store", function() {
   describe("#updateOneUser successfully", function() {
