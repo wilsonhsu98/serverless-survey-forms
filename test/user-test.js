@@ -5,7 +5,7 @@ let should = require('chai').should();
 
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
-let user = require('../api/user/user.js');
+let user = null;
 let dynadblib = require('./dynadb');
 let dynadb = new dynadblib();
 
@@ -27,7 +27,7 @@ before('Initial local DynamoDB', function(done) {
       endpoint: 'http://localhost:' + dynalitePort
     });
 
-    user.initAWS(aws);
+    user = require('../api/user/user.js')(aws);
 
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'

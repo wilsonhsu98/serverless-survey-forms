@@ -1,8 +1,7 @@
 'use strict';
 
 let aws = require('../config/aws');
-let user = require('./user');
-user.initAWS(aws);
+let user = require('./user')(aws);
 
 module.exports.handler = function(event, context, callback) {
   // request from API Gateway

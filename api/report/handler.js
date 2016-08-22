@@ -1,11 +1,8 @@
 'use strict';
 let aws = require('../config/aws');
-let feedback = require('../feedback/feedback.js');
-feedback.initAWS(aws);
-let survey = require('../survey/survey.js');
-survey.initAWS(aws);
-let user = require('../user/user.js');
-user.initAWS(aws);
+let feedback = require('../feedback/feedback.js')(aws);
+let survey = require('../survey/survey.js')(aws);
+let user = require('../user/user.js')(aws);
 module.exports.handler = function(event, context, callback) {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));

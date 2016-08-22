@@ -2,7 +2,7 @@
 
 // User model
 let aws = require('../config/aws');
-let user = require('../user/user');
+let user = require('../user/user')(aws);
 
 // Config
 let slsAuth = require('serverless-authentication');
@@ -44,7 +44,6 @@ function callback(event, _callback) {
       };
 
       // here can be checked if user exist in db and update properties or if not, create new etc.
-      user.initAWS(aws);
       user.getOneUser({
         accountid: id
       }, function(err, data) {

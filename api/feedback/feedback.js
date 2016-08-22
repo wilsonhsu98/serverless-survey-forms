@@ -3,12 +3,12 @@
  * Created by PHE on 2016/7/7.
  */
 
-module.exports = (() => {
-  let docClient = null;
+let docClient;
 
-  const initAWS = (AWS) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
-  };
+module.exports = ((aws) => {
+  if (!docClient && aws) {
+    docClient = new aws.DynamoDB.DocumentClient();
+  }
 
   // Convert DynamoDB error code into Error object
   const getDynamoDBError = (err) => {
@@ -202,7 +202,7 @@ module.exports = (() => {
   const reportFeedbacks = (event, callback) => {
     // validate parameters
     if (event.accountid && event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
-      const survey = require('../survey/survey.js');
+      const survey = require('../survey/survey.js')();
       let params = {
         TableName: process.env.SERVERLESS_FEEDBACKTABLE,
         ProjectionExpression: "surveyid, clientid, feedback, #dt",
@@ -413,8 +413,6 @@ module.exports = (() => {
 
 
   return {
-    initAWS: initAWS,
-
     getOneFeedback: getOneFeedback,
     listFeedbacks: listFeedbacks,
     countFeedbacks: countFeedbacks,
@@ -424,4 +422,4 @@ module.exports = (() => {
     updateOneFeedback: updateOneFeedback,
     deleteOneFeedback: deleteOneFeedback
   };
-})();
+});

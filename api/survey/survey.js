@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (() => {
-   let docClient = null;
+let docClient;
 
-  const initAWS = (AWS) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
-  };
+module.exports = ((aws) => {
+  if (!docClient && aws) {
+    docClient = new aws.DynamoDB.DocumentClient();
+  }
 
   const getUUID = () => {
     let uuid = require('node-uuid');
@@ -131,7 +131,7 @@ module.exports = (() => {
       const listObjectPromise = docClient.query(params).promise();
 
       const queryCountFeedbacks = ((response) => {
-        let feedback = require('../feedback/feedback.js');
+        let feedback = require('../feedback/feedback.js')();
         let surveyDatas = response['surveys'];
         return Promise.all(
           surveyDatas.map( (surveyData) => {
@@ -321,8 +321,6 @@ module.exports = (() => {
   };
 
   return {
-    initAWS : initAWS,
-
     getOneSurvey : getOneSurvey,
     listSurveys: listSurveys,
 
@@ -330,4 +328,4 @@ module.exports = (() => {
     updateOneSurvey : updateOneSurvey,
     deleteOneSurvey : deleteOneSurvey,
   }
-})();
+});

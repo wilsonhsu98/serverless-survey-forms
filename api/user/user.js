@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (() => {
-  let docClient = null;
+let docClient;
 
-  const initAWS = (AWS) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
-  };
+module.exports = ((aws) => {
+  if (!docClient && aws) {
+    docClient = new aws.DynamoDB.DocumentClient();
+  }
 
   // Convert DynamoDB error code into Error object
   const getDynamoDBError = (err) => {
@@ -295,8 +295,6 @@ module.exports = (() => {
 
 
   return {
-    initAWS: initAWS,
-
     getOneUser: getOneUser,
     countUser: countUser,
     listUsers: listUsers,
@@ -306,4 +304,4 @@ module.exports = (() => {
 
     deleteOneUser: deleteOneUser,
   }
-})();
+});
