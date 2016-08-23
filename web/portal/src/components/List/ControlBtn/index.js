@@ -20,40 +20,30 @@ class ControlBtn extends PureComponent {
 
     render() {
         const { selectedSurveys } = this.props;
+        const btnsData = [
+            { id: 'createBtn', string: 'Create Survey', img: '', func: this._onAddSurveyClick },
+            { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
+            { id: 'reportBtn', string: 'Report', img: 'report', func: this._onReportSurveyClick },
+            { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteSurveyClick }
+        ];
+        let btns = [];
+        btnsData.forEach((btn, idx) => {
+            if (idx === 0 || selectedSurveys !== '') {
+                btns.push(
+                    <IconButton
+                        key={idx}
+                        id={btn.id}
+                        string={btn.string}
+                        i18nKey={false}
+                        img={btn.img}
+                        onClick={btn.func}
+                    />);
+            }
+        });
+
         return (
             <div ref="root" className={styles.control}>
-                <div className={styles.wrap}>
-                    <IconButton
-                        id="createBtn"
-                        string="Create Survey"
-                        i18nKey={false}
-                        onClick={this._onAddSurveyClick}
-                    />
-                    <IconButton
-                        id="shareBtn"
-                        string="Share"
-                        i18nKey={false}
-                        img="share"
-                        disabled={!selectedSurveys.length}
-                        onClick={this._onPreviewSurveyClick}
-                    />
-                    <IconButton
-                        id="reportBtn"
-                        string="Report"
-                        i18nKey={false}
-                        img="report"
-                        disabled={!selectedSurveys.length}
-                        onClick={this._onReportSurveyClick}
-                    />
-                    <IconButton
-                        id="delBtn"
-                        string="Delete"
-                        i18nKey={false}
-                        img="delete"
-                        disabled={!selectedSurveys.length}
-                        onClick={this._onDeleteSurveyClick}
-                    />
-                </div>
+                <div className={styles.wrap}>{btns}</div>
                 <div className={styles.bird}></div>
             </div>
         );
@@ -70,9 +60,8 @@ class ControlBtn extends PureComponent {
     }
 
     _onReportSurveyClick() {
-        const { account, selectedSurveys } = this.props;
-        const url = `${config.baseURL}/api/v1/mgnt/report/`;
-        window.open(`${url}${account.accountid}/${selectedSurveys}?v=${Date.now()}`, '_blank');
+        const { surveysActions } = this.props;
+        surveysActions.exportSurvey();
     }
 
     _onPreviewSurveyClick() {

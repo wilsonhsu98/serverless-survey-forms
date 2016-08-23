@@ -17,9 +17,10 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import classNames from 'classnames';
+import I18Next from 'i18next';
 
 import Question from '../Question/index';
+import Error from '../Error';
 
 class Rating extends PureComponent {
 
@@ -34,6 +35,7 @@ class Rating extends PureComponent {
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._renderLabel = this._renderLabel.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
+        this._checkDone = this._checkDone.bind(this);
     }
 
     render() {
@@ -47,9 +49,7 @@ class Rating extends PureComponent {
                 />
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>
-                        {this._renderLabel(item.data[0])}
                         {this._renderRatingItem()}
-                        {this._renderLabel(item.data[item.data.length - 1])}
                     </ul>
                     {
                         item.input ?
@@ -59,6 +59,7 @@ class Rating extends PureComponent {
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
+                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
                 </div>
             </div>
         );
@@ -72,16 +73,30 @@ class Rating extends PureComponent {
             const label = itm.label;
             return (
                 <li
+                    className={styles.ratingItem}
                     id={inputID}
-                    className={classNames({
-                        [`${styles.ratingItemSelected}`]: this.state.selected === inputID,
-                        [`${styles.ratingItem}`]: this.state.selected !== inputID
-                    })}
                     key={idx}
-                    title={label}
                     data-value={val}
+                    data-label={label}
                     onClick={this._onChangeHandle}
-                />
+                >
+                    <div className={styles.label}>{label}</div>
+                    <div
+                        className="radioItem"
+                        key={idx}
+                    >
+                        <input
+                            id={inputID}
+                            type="radio"
+                            name={id}
+                            value={val}
+                            data-label={label}
+                            checked={this.state.selected === inputID}
+                            onChange={this._onChangeHandle}
+                        />
+                        <label htmlFor={inputID} />
+                    </div>
+                </li>
             );
         });
         return items;
@@ -96,7 +111,7 @@ class Rating extends PureComponent {
     _onChangeHandle(e) {
         const feedbackArray = [{
             value: e.currentTarget.getAttribute('data-value'),
-            label: e.currentTarget.title,
+            label: e.currentTarget.getAttribute('data-label'),
             input: this.state.reason ? this.state.reason : ' '
         }];
         this.setState({
@@ -112,6 +127,9 @@ class Rating extends PureComponent {
                 }
             };
             this.props.onChangeHandle(feedback);
+            // Update complete status
+            const done = this._checkDone();
+            this.props.feedbackActions.updateRequired(this.props.id, done);
         });
     }
 
@@ -134,6 +152,13 @@ class Rating extends PureComponent {
             };
             this.props.onChangeHandle(feedback);
         });
+    }
+
+    _checkDone() {
+        if (this.state.selected) {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -98,7 +98,7 @@
         height: 60px;
     }
     .progressWrapper, .progressWrapperPreview {
-        width: 75%;
+        width: 70%;
         margin-top: 20px;
     }
 
@@ -108,29 +108,32 @@
 
     .mobile {
         display: block;
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
         position: absolute;
-        bottom: 20px;
+        bottom: 15px;
         cursor: pointer;
     }
 
     .prevMobile {
         composes: mobile;
         left: 4px;
-        background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
+        background: url(../../../assets/images/component/ic_back_mobile_normal.png) 0 0 no-repeat;
+        background-size: 100%;
 
     }
 
     .nextMobile {
         composes: mobile;
         right: 4px;
-        background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
+        background: url(../../../assets/images/component/ic_next_mobile_normal.png) 0 0 no-repeat;
+        background-size: 100%;
     }
 
     .doneMobile {
         composes: mobile;
         right: 4px;
-        background: url(../../../assets/images/check.png) 0 0 no-repeat;
+        background: url(../../../assets/images/component/ic_next_mobile_normal.png) 0 0 no-repeat;
+        background-size: 100%;
     }
 }

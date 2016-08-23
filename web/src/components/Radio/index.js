@@ -17,8 +17,10 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+import I18Next from 'i18next';
 
 import Question from '../Question/index';
+import Error from '../Error';
 
 class Radio extends PureComponent {
 
@@ -29,6 +31,7 @@ class Radio extends PureComponent {
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
+        this._checkDone = this._checkDone.bind(this);
     }
 
     render() {
@@ -43,6 +46,7 @@ class Radio extends PureComponent {
                 <div className={styles.radioGrp}>
                     {this._renderRadioItem()}
                 </div>
+                {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
             </div>
         );
     }
@@ -56,7 +60,7 @@ class Radio extends PureComponent {
             const input = itm.input;
             return (
                 <div
-                    className={styles.radioItem}
+                    className="radioItem"
                     key={idx}
                 >
                     <input
@@ -105,6 +109,9 @@ class Radio extends PureComponent {
                 }
             };
             this.props.onChangeHandle(feedback);
+            // Update complete status
+            const done = this._checkDone();
+            this.props.feedbackActions.updateRequired(this.props.id, done);
         });
     }
 
@@ -130,6 +137,13 @@ class Radio extends PureComponent {
             };
             this.props.onChangeHandle(feedback);
         });
+    }
+
+    _checkDone() {
+        if (this.state.selected) {
+            return true;
+        }
+        return false;
     }
 }
 

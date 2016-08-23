@@ -1,6 +1,9 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import config from '../config';
+import * as surveyActions from './survey';
+
+/* eslint no-use-before-define: [2, { "functions": false }] */
 
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -16,6 +19,7 @@ export function setFeedback(survey) {
     questions.forEach((qitem) => {
         feedback[`Q${qitem.order}`] = {};
         feedback[`Q${qitem.order}`].data = qitem.data;
+        feedback[`Q${qitem.order}`].required = qitem.required;
     });
     return {
         type: types.SET_FEEDBACK_FORMAT,
@@ -103,5 +107,88 @@ export function updateFeedback(closeWhenDone, privacyData) {
             // window.parent.postMessage(`UPDATE Feedback from ${clientID}`,
                 // window.parent.location.origin);
         });
+    };
+}
+
+function setRequiredData(requiredData) {
+    return {
+        type: types.SET_REQUIRED_DATA,
+        requiredData
+
+    };
+}
+
+function setPageDone(done) {
+    return {
+        type: types.SET_PAGE_DONE,
+        done
+    };
+}
+
+export function setRequired(page = 1) {
+    return (dispatch, getState) => {
+        const requiredData = getState().survey.content[page - 1].question.map((item) => {
+            const updatedItem = {};
+            updatedItem.order = item.order;
+            updatedItem.required = item.required;
+            updatedItem.done = false;
+            return updatedItem;
+        });
+        dispatch(setRequiredData(requiredData));
+    };
+}
+
+export function checkRequired(action, page) {
+    return (dispatch, getState) => {
+        let done = true;
+        getState().requiredData.forEach((item) => {
+            if (item.required && !item.done) {
+                done = false;
+            }
+        });
+        dispatch(setPageDone(done));
+        if (done) {
+            switch (action) {
+            case 'next':
+                if (!getState().settings.preview) {
+                    if (getState().paging === 1) {
+                        dispatch(saveFeedback());
+                    } else {
+                        dispatch(updateFeedback());
+                    }
+                }
+                if (page) {
+                    dispatch(surveyActions.goToPage(page));
+                    dispatch(setRequired(page));
+                }
+                break;
+            case 'done':
+                if (!getState().settings.preview) {
+                    if (getState().paging === 1) {
+                        dispatch(saveFeedback());
+                    } else {
+                        dispatch(updateFeedback());
+                    }
+                }
+                dispatch(surveyActions.surveyDone());
+                break;
+            default:
+                break;
+            }
+        }
+    };
+}
+
+export function updateRequired(order, done) {
+    return (dispatch, getState) => {
+        const requiredData = getState().requiredData.map((item) => {
+            const updatedItem = item;
+            if (item.order === order) {
+                updatedItem.done = done;
+            }
+            return updatedItem;
+        });
+        dispatch(setRequiredData(requiredData));
+        dispatch(checkRequired());
     };
 }

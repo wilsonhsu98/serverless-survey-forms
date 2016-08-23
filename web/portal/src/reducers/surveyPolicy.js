@@ -11,6 +11,7 @@ export default function surveyPolicy(state = init, action) {
     case types.SET_SURVEY_POLICY:
         return action.surveyPolicy;
     case types.INIT_SURVEY_POLICY:
+        return init;
     default:
         return state;
     }

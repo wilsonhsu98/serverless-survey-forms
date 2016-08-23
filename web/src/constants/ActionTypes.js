@@ -19,6 +19,11 @@ export const SAVE_FEEDBACK = 'SAVE_FEEDBACK';
 export const UPDATE_FEEDBACK = 'UPDATE_FEEDBACK';
 export const SAVE_CLIENT_ID = 'SAVE_CLIENT_ID';
 
+// feedback complete status
+export const SET_REQUIRED_DATA = 'SET_REQUIRED_DATA';
+export const UPDATE_REQUIRED_DATA = 'UPDATE_REQUIRED_DATA';
+export const SET_PAGE_DONE = 'SET_PAGE_DONE';
+
 // paging
 export const GO_TO_PAGE = 'GO_TO_PAGE';
 
