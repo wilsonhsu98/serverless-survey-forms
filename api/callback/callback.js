@@ -2,7 +2,7 @@
 
 // User model
 let aws = require('../config/aws');
-let user = require('../user/user');
+let user = require('../user/user')(aws);
 
 // Config
 let slsAuth = require('serverless-authentication');
@@ -28,7 +28,7 @@ function callback(event, _callback) {
         error: 'State mismatch'
       }, providerConfig, _callback);
     } else {
-      const hmac = crypto.createHmac('sha256', 'secret-for-json-web-token'); // Secret key is same as tokenSecret in s-variables.
+      const hmac = crypto.createHmac('sha256', process.env.TOKEN_SECRET); // Secret key is same as tokenSecret in s-variables.
       let id = profile.provider + '-' + hmac.update(profile.id).digest('hex');
       let tokenData = {
         payload: {
@@ -44,27 +44,36 @@ function callback(event, _callback) {
       };
 
       // here can be checked if user exist in db and update properties or if not, create new etc.
-      user.initAWS(aws);
       user.getOneUser({
         accountid: id
       }, function(err, data) {
         if (err) {
           if (err.message.match(/404 Not Found:/gi)) {
-            // create new
-            user.addOneUser({
+            let parms = {
               accountid: id,
               username: profile.name,
               email: profile.email,
               role: "User"
-            }, function(err, data) {
+            };
+            user.countUser({},(err, response) => {
               if (err) {
                 utils.errorResponse({
                   error: err
                 }, providerConfig, _callback);
               } else {
-                utils.tokenResponse(tokenData, providerConfig, _callback);
+                parms['role'] = (response['Count'] === 0) ? "Admin" : "User"; // First user set role to Admin
+                // create new
+                user.addOneUser(parms, function(err, data) {
+                  if (err) {
+                    utils.errorResponse({
+                      error: err
+                    }, providerConfig, _callback);
+                  } else {
+                    utils.tokenResponse(tokenData, providerConfig, _callback);
+                  }
+                })
               }
-            })
+            });
           } else {
             utils.errorResponse({
               error: err

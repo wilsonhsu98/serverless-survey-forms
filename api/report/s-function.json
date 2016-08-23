@@ -23,21 +23,11 @@
           "apigw": "$${apiRequestTemplate}",
           "accountid": "$input.params('accountid')",
           "surveyid": "$input.params('surveyid')",
-          "authAccountid": "context.authorizer.principalId",
+          "authAccountid": "$context.authorizer.principalId",
           "op": "reportFeedbacks"
         }
       },
-      "responses": {
-        "default": {
-          "statusCode": "200",
-          "responseParameters": {
-            "method.response.header.Content-disposition": "'attachment; filename=Qustom.csv'"
-          },
-          "responseTemplates": {
-            "text/csv": "$input.body.replaceAll(\"\"\"\",\"\").replaceAll(\"\\\u0027\",\"\"\"\").replaceAll(\"\\\\n\",\"\n\")"
-          }
-        }
-      }
+      "responses": "$${apiResponseNonCacheTemplate}"
     }
   ],
   "events": [],

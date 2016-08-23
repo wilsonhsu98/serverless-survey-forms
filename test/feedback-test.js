@@ -7,8 +7,8 @@ let should = require('chai').should();
 
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
-let feedbackjs = require('../api/feedback/feedback.js');
-let survey = require('../api/survey/survey.js');
+let feedbackjs = null;
+let survey = null;
 let dynadblib = require('./dynadb');
 let dynadb = new dynadblib();
 
@@ -30,7 +30,8 @@ before('Initial local DynamoDB', function(done) {
       endpoint: 'http://localhost:' + dynalitePort
     });
 
-    feedbackjs.initAWS(aws);
+    feedbackjs = require('../api/feedback/feedback.js')(aws);
+    survey = require('../api/survey/survey.js')(aws);
 
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
@@ -306,7 +307,6 @@ describe("Interface to get total feedback number in a survey from data store", f
 describe("Interface to get one feedback CSV report from data store", function() {
   let accountid = "this is dummy accountid";
   let surveyid = "this is dummy surveyid";
-  let feedback = "this is dummy feedback model";
   let subject = "this is dummy subject";
   let surveyContent = {
     "content": [
@@ -490,7 +490,69 @@ describe("Interface to get one feedback CSV report from data store", function() 
         };
         feedbackjs.addOneFeedback(feedbackEvent, function(err, response) {
           if (err) throw err;
-          done();
+          let feedbackEvent2 = {
+            surveyid: data.surveyid,
+            clientid: "this is fake clientid1",
+            feedback: {
+              "Q1": {
+                "data": [
+                  {
+                    "value": "1",
+                    "label": "Radio option 1"
+                  }
+                ],
+                "label": "Radio question label",
+                "type": "radio"
+              },
+              "Q2": {
+                "data": [
+                  {
+                    "value": "1",
+                    "label": "Checkbox option 1"
+                  },
+                  {
+                    "value": "1APPGUSH054A3SE6KSBAA",
+                    "label": "Checkbox option 2"
+                  },
+                  {
+                    "value": "1APPGV16961XPC85S6NNA",
+                    "label": "Checkbox option 3"
+                  },
+                  {
+                    "value": "1APPGV6DJ5TMJ3AAB4IXO",
+                    "label": "Checkbox option 4"
+                  },
+                  {
+                    "input": "Checkbox input",
+                    "value": "1APPGVH3AKIG3DI5D63OY",
+                    "label": "Checkbo option 5 with input"
+                  }
+                ],
+                "label": "Checkbox question label",
+                "type": "checkbox"
+              },
+              "Q3": {
+                "data": [
+                  {
+                    "input": "Rating input",
+                    "value": "1",
+                    "label": "Scale 1"
+                  }
+                ],
+                "label": "Rating question label",
+                "type": "rating"
+              },
+              "thankyou": {
+                "privacy": {
+                  "input": "Thankyoupage@trend.com.tw"
+                }
+              }
+            }
+          };
+          feedbackjs.addOneFeedback(feedbackEvent2, function(err, response) {
+            if (err) throw err;
+            done();
+          });
         });
       });
     });
@@ -504,6 +566,33 @@ describe("Interface to get one feedback CSV report from data store", function() 
         feedbackjs.reportFeedbacks(event, function(error, response) {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
+          response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'survey', 'data', 'datetime']);
+          response.accountid.should.have.string(accountid);
+          response.surveyid.should.have.string(surveyid);
+          response.subject.should.have.string(subject);
+          response.data.length.should.be.above(0);
+          response.datetime.should.be.above(0);
+          done();
+        });
+      });
+    });
+
+    describe("When getting exist feedback CSV report when feedback data exceed 1MB.", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          surveyid: surveyid,
+          accountid: accountid,
+          unitTest: true,
+        };
+        feedbackjs.reportFeedbacks(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys(['accountid', 'surveyid', 'subject', 'survey', 'data', 'datetime']);
+          response.accountid.should.have.string(accountid);
+          response.surveyid.should.have.string(surveyid);
+          response.subject.should.have.string(subject);
+          response.data.length.should.be.above(0);
+          response.datetime.should.be.above(0);
           done();
         });
       });
