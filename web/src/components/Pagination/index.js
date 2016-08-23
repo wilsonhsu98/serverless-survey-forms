@@ -8,6 +8,8 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
+import classNames from 'classnames';
+import Button from '../Button';
 
 class Pagination extends PureComponent {
 
@@ -16,56 +18,129 @@ class Pagination extends PureComponent {
         this._goToPage = this._goToPage.bind(this);
         this._prev = this._prev.bind(this);
         this._next = this._next.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+        this._done = this._done.bind(this);
     }
 
     render() {
-        const { currentPage, pages } = this.props;
-        const pageItems = [];
-        for (let i = 1; i < pages + 1; i++) {
-            pageItems.push((
-                <li
-                    key={`paging${i}`}
-                    className={
-                        currentPage === i ?
-                        styles.pagingItemActive :
-                        styles.pagingItem
-                    }
-                    data-index={i}
-                    onClick={this._goToPage}
-                >
-                    {i}
-                </li>
-            ));
-        }
+        const { settings, currentPage, pages } = this.props;
         return (
-            <div>
+            <div
+                className={classNames({
+                    [`${styles.pagination}`]: settings.type !== 'default',
+                    [`${styles.paginationPreview}`]: settings.type === 'default',
+                    'ut-pagination': true
+                })}
+            >
+
                 {
-                    currentPage > 1 ?
+                    pages > 1 && currentPage > 1 ?
                         <div
-                            className={styles.prev}
-                            data-i18n="prev"
+                            className={
+                                settings.type === 'default' ?
+                                    styles.btnWrapperPrevPreview : styles.btnWrapperPrev
+                            }
+                        >
+                            <Button
+                                string={'prev'}
+                                onClick={this._prev}
+                                extraClass={{
+                                    'ut-prev': true,
+                                    [`${styles.pagingBtnPrev}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    pages > 1 && currentPage > 1 ?
+                        <div
+                            className={classNames({
+                                [`${styles.prevMobile}`]: true,
+                                'ut-prev': true
+                            })}
                             onClick={this._prev}
                         /> : ''
                 }
+
                 {
-                    currentPage < pages ?
+                    pages > 1 && currentPage < pages ?
                         <div
-                            className={styles.next}
-                            data-i18n="next"
+                            className={
+                                settings.type === 'default' ?
+                                    styles.btnWrapperNextPreview : styles.btnWrapperNext
+                            }
+                        >
+                            <Button
+                                string={'next'}
+                                onClick={this._next}
+                                extraClass={{
+                                    'ut-next': true,
+                                    [`${styles.pagingBtnNext}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    pages > 1 && currentPage < pages ?
+                        <div
+                            className={classNames({
+                                [`${styles.nextMobile}`]: true,
+                                'ut-next': true
+                            })}
                             onClick={this._next}
                         /> : ''
                 }
-                <ul className={styles.paging}>
-                    {pageItems}
-                </ul>
+                {
+                    currentPage === pages ?
+                        <div
+                            className={
+                                settings.type === 'default' ?
+                                    styles.btnWrapperNextPreview : styles.btnWrapperNext
+                            }
+                        >
+                            <Button
+                                string={'submit'}
+                                onClick={this._done}
+                                extraClass={{
+                                    'ut-done': true,
+                                    [`${styles.pagingBtnNext}`]: true
+                                }}
+                            />
+                        </div> : ''
+                }
+                {
+                    currentPage === pages ?
+                        <div
+                            className={classNames({
+                                [`${styles.doneMobile}`]: true,
+                                'ut-done': true
+                            })}
+                            onClick={this._done}
+                        /> : ''
+                }
+                {
+                    pages > 1 ?
+                        <div
+                            className={
+                                settings.type === 'default' ?
+                                    styles.progressWrapperPreview : styles.progressWrapper
+                            }
+                        >
+                            <span
+                                className={styles.progressText}
+                            >
+                                {`${currentPage} / ${pages}`}
+                            </span>
+                            <div
+                                className={classNames({
+                                    [`${styles.progress}`]: (currentPage / pages) !== 1,
+                                    [`${styles.progressComplete}`]: (currentPage / pages) === 1
+                                })}
+                                style={{
+                                    width: `${((currentPage / pages) * 100)}%`
+                                }}
+                            />
+                        </div> : ''
+                }
             </div>
         );
     }
@@ -79,7 +154,25 @@ class Pagination extends PureComponent {
     }
 
     _next() {
+        if (!this.props.settings.preview) {
+            if (this.props.currentPage === 1) {
+                this.props.feedbackActions.saveFeedback();
+            } else {
+                this.props.feedbackActions.updateFeedback();
+            }
+        }
         this.props.surveyActions.goToPage(this.props.currentPage + 1);
+    }
+
+    _done() {
+        if (!this.props.settings.preview) {
+            if (this.props.currentPage === 1) {
+                this.props.feedbackActions.saveFeedback();
+            } else {
+                this.props.feedbackActions.updateFeedback();
+            }
+        }
+        this.props.surveyActions.surveyDone();
     }
 }
 

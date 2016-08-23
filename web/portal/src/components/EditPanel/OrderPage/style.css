@@ -1,0 +1,32 @@
+/*
+ * Style for components/EditPanel/OrderPage/index.js
+ */
+
+.item {
+    margin: 10px 5px 10px 0;
+    overflow: hidden;
+    &:after {
+        content: '';
+        clear: both;
+    }
+
+    .info {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+    .drag {
+        float: left;
+    }
+    .title {
+        display: inline-block;
+        width: 270px;
+        padding: 0 8px;
+        border-style: solid;
+        border-color: #bfbfbf;
+        border-width: 1px 1px 2px 1px;
+        font-size: 14px;
+        color: #777;
+        line-height: 32px;
+        margin-left: 10px;
+    }
+}

@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (() => {
-  let docClient = null;
+let docClient;
 
-  const initAWS = (AWS) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
-  };
+module.exports = ((aws) => {
+  if (!docClient && aws) {
+    docClient = new aws.DynamoDB.DocumentClient();
+  }
 
   // Convert DynamoDB error code into Error object
   const getDynamoDBError = (err) => {
@@ -56,7 +56,6 @@ module.exports = (() => {
             response = {
               accountid: data.Item.accountid,
               username: data.Item.username,
-              email: data.Item.email,
               role: data.Item.role,
             };
             return callback(null, response);
@@ -64,6 +63,41 @@ module.exports = (() => {
             console.error("Unable to get an item with the request: ", JSON.stringify(params));
             return callback(new Error("404 Not Found: Unable to get an item with the request: " + JSON.stringify(params)), null);
           }
+        }
+      });
+    }
+    // incomplete parameters
+    else {
+      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
+    }
+  };
+
+
+  /**
+   * Parameters:
+   * Key        Description
+   * accountid  accountid with authentication provider as prefix or default system ${project}-${stage}-admin
+   *
+   * Response:
+   * Key        Description
+   * Count — the number of items that were returned in the response.
+   */
+  const countUser = (event, callback) => {
+    let response = {};
+    // validate parameters
+    if (process.env.SERVERLESS_USERTABLE) {
+      let params = {
+        TableName: process.env.SERVERLESS_USERTABLE,
+        Select: "COUNT",
+      };
+
+      docClient.scan(params, function(err, data) {
+        if (err) {
+          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+          return callback(getDynamoDBError(err), null);
+        } else {
+          response = data;
+          return callback(null, response);
         }
       });
     }
@@ -261,9 +295,8 @@ module.exports = (() => {
 
 
   return {
-    initAWS: initAWS,
-
     getOneUser: getOneUser,
+    countUser: countUser,
     listUsers: listUsers,
 
     addOneUser: addOneUser,
@@ -271,4 +304,4 @@ module.exports = (() => {
 
     deleteOneUser: deleteOneUser,
   }
-})();
+});

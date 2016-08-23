@@ -7,30 +7,104 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
+import classNames from 'classnames';
+import Button from '../Button';
 
 class Privacy extends PureComponent {
 
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+    constructor(props) {
+        super(props);
+        let email = '';
+        if (props.prefillData && props.prefillData.email) {
+            email = props.prefillData.email;
+        }
+        this.state = {
+            email,
+            terms: false
+        };
+        this._onChange = this._onChange.bind(this);
+        this._participate = this._participate.bind(this);
+        this._onToggleTerms = this._onToggleTerms.bind(this);
     }
 
     render() {
-        const { item } = this.props;
+        const { info } = this.props;
         return (
             <div ref="root" className="question">
-                <div className={styles.question}>{item.label}</div>
+                <div
+                    className={classNames({
+                        [`${styles.question}`]: true,
+                        'ut-label': true
+                    })}
+                >{info.label}
+                </div>
                 <div className={styles.terms}>
-                    <input type="checkbox" />
-                    <div className={styles.desc}>{item.terms}</div>
-                    <input type="text" placeholder={item.input} />
+                    <div className={styles.topWrapper}>
+                        <div className="checkboxItem">
+                            <input
+                                type="checkbox"
+                                checked={this.state.terms}
+                                onChange={this._onToggleTerms}
+                            />
+                            <label
+                                className={classNames({
+                                    'ut-terms': true
+                                })}
+                            >
+                            {info.terms}
+                            </label>
+                        </div>
+                    </div>
+                    <div className={styles.bottomWrapper}>
+                        <input
+                            type="text"
+                            placeholder={info.input}
+                            value={this.state.email}
+                            onChange={this._onChange}
+                        />
+                        <Button
+                            string={'participate'}
+                            onClick={this._participate}
+                            extraClass={{
+                                'ut-participate': true,
+                                [`${styles.btn}`]: true
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         );
+    }
+
+    _onToggleTerms() {
+        this.setState({
+            terms: !this.state.terms
+        });
+    }
+
+    _participate() {
+        const emailFormat = /^(?=.{5,200}$)([\w\-]+)([\w\.\-]*)@([\w\-]+)\.([\w\-]*)\w+([-.]\w+)*$/;
+        if (!this.state.terms) {
+            console.log('Please agree to terms');
+        } else if (!this.state.email || !emailFormat.test(this.state.email)) {
+            console.log('Please input correct email');
+        } else {
+            const privacyData = {
+                privacy: {
+                    input: this.state.email
+                }
+            };
+            // this.props.onChangeHandle(updatedfeedback);
+            if (!this.props.settings.preview) {
+                this.props.feedbackActions.updateFeedback(true, privacyData);
+            }
+        }
+    }
+
+    _onChange(e) {
+        this.setState({
+            email: e.target.value
+        });
     }
 
 }

@@ -5,7 +5,7 @@ let should = require('chai').should();
 
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
-let user = require('../api/user/user.js');
+let user = null;
 let dynadblib = require('./dynadb');
 let dynadb = new dynadblib();
 
@@ -27,7 +27,7 @@ before('Initial local DynamoDB', function(done) {
       endpoint: 'http://localhost:' + dynalitePort
     });
 
-    user.initAWS(aws);
+    user = require('../api/user/user.js')(aws);
 
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
@@ -239,10 +239,9 @@ describe("Interface to get one user model from data store", function() {
         user.getOneUser(event, (error, response) => {
           expect(error).to.be.null;
           expect(response).to.not.be.null;
-          response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
+          response.should.have.all.keys(['accountid', 'username', 'role']);
           response.accountid.should.have.string(accountid);
           response.username.should.have.string(username);
-          response.email.should.have.string(email);
           response.role.should.have.string(role);
           done();
         });
@@ -367,7 +366,22 @@ describe("Interface to get list users model from data store", () => {
   });
 });
 
-
+describe("Interface to calculate user count from data store", function() {
+  describe("#countUser successfully", function() {
+    describe("When getting exist user model with complete and normal parameters", function() {
+      it("should response successfully", (done) => {
+        user.countUser({}, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys(['Count', 'ScannedCount']);
+          expect(response.Count).to.equal(2);  // Data store have two record.
+          expect(response.ScannedCount).to.equal(2);
+          done();
+        });
+      });
+    });
+  });
+});
 
 describe("Interface to update one user model in data store", function() {
   describe("#updateOneUser successfully", function() {
@@ -379,21 +393,9 @@ describe("Interface to update one user model in data store", function() {
           email: "this is true email",
           role: "this is true User",
         };
-        // chai with Promise
-        return new Promise((resolve, reject) => {
-            user.updateOneUser(event, (error, response) => {
-              expect(error).to.be.null;
-              expect(response).to.not.be.null;
-              resolve(event);
-            });
-        }).then( (event) => {
-          return user.getOneUser(event, (error, response) => {
-            response.should.have.all.keys(['accountid', 'username', 'email', 'role']);
-            response.accountid.should.have.string(event.accountid);
-            response.username.should.have.string(event.username);
-            response.email.should.have.string(event.email);
-            response.role.should.have.string(event.role);
-          });
+        user.updateOneUser(event, (error, response) => {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
         });
       });
     });

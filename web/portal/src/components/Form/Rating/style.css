@@ -1,0 +1,41 @@
+/*
+ * Style for components/Rating/index.js
+ */
+
+.ratingWrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.ratingGrp {
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.ratingItem {
+    min-width: 116px;
+    height: 72px;
+    float: left;
+    margin-right: 8px;
+    display: block;
+}
+
+.label {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    line-height: 18px;
+    padding: 6px 0;
+    margin-bottom: 8px;
+}
+
+.radio {
+    text-align: center;
+}
+
+.ratingWrapper input[type=text] {
+    margin: 12px 0;
+    width: 100%;
+}

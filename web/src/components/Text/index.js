@@ -11,22 +11,22 @@
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import Question from '../Question/index';
+import styles from './style.css';
 
 class Text extends PureComponent {
 
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+    constructor(props) {
+        super(props);
+        this.state = {
+            input: false
+        };
+        this._onChangeHandle = this._onChangeHandle.bind(this);
     }
 
     render() {
-        const { id, item, onChangeHandle } = this.props;
+        const { id, item } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
@@ -34,15 +34,36 @@ class Text extends PureComponent {
                     text={item.label}
                     required={item.required}
                 />
-                <div>
+                <div className={styles.inputItem}>
                     <input
                         id={`text_${id}`}
                         type="text"
-                        onChange={onChangeHandle}
+                        onChange={this._onChangeHandle}
+                        value={this.state.input ? this.state.input : ''}
                     />
                 </div>
             </div>
         );
+    }
+
+    _onChangeHandle(e) {
+        this.setState({
+            input: e.currentTarget.value
+        }, () => {
+            const feedbackArray = [
+                {
+                    input: this.state.input ? this.state.input : false
+                }
+            ];
+            const feedback = {
+                [`Q${this.props.id}`]: {
+                    type: 'input',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 
 }

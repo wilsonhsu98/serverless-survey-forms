@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (() => {
-   let docClient = null;
+let docClient;
 
-  const initAWS = (AWS) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
-  };
+module.exports = ((aws) => {
+  if (!docClient && aws) {
+    docClient = new aws.DynamoDB.DocumentClient();
+  }
 
   const getUUID = () => {
     let uuid = require('node-uuid');
@@ -101,12 +101,13 @@ module.exports = (() => {
    * accountid  Who created the survey
    * surveyid   The uuid of the survey
    * subject    The subject of the survey
+   * count      The count of total feedbacks numbers
    * datetime   The latest modified date time of the survey
    */
   const listSurveys = (event, callback) => {
     let response = null;
     // validate parameters
-    if (event.accountid  && process.env.SERVERLESS_SURVEYTABLE) {
+    if (event.accountid && process.env.SERVERLESS_SURVEYTABLE) {
       let params = {
         TableName: process.env.SERVERLESS_SURVEYTABLE,
         ProjectionExpression: "accountid, #dt, subject, surveyid",
@@ -118,32 +119,51 @@ module.exports = (() => {
           ":accountId": event.accountid,
         },
       };
-
       // continue querying if we have more data
       if (event.startKey){
         params.ExclusiveStartKey = event.startKey;
       }
       // turn on the limit in testing mode
-      if (event.limitTesting){
+      if (event.unitTest){
         params.Limit = 1;
       }
 
-      docClient.query(params, function(err, data) {
-        if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-          return callback(getDynamoDBError(err), null);
-        } else {
-          // got response
-          // compose response
-          response = {};
-          response['surveys'] = data.Items;
+      const listObjectPromise = docClient.query(params).promise();
 
-          // LastEvaluatedKey
-          if(typeof data.LastEvaluatedKey != "undefined"){
-            response['LastEvaluatedKey'] = data.LastEvaluatedKey;
-          }
-          return callback(null, response);
+      const queryCountFeedbacks = ((response) => {
+        let feedback = require('../feedback/feedback.js')();
+        let surveyDatas = response['surveys'];
+        return Promise.all(
+          surveyDatas.map( (surveyData) => {
+            return new Promise((resolve, reject) => {
+              feedback.countFeedbacks({
+                surveyid :  surveyData.surveyid
+              }, (err, countResponse) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  surveyData['count'] = countResponse['Count'];
+                  resolve(surveyData);
+                }
+              });
+            });
+          })
+        )
+      });
+
+      listObjectPromise.then((data) => {
+        response = {};
+        response['surveys'] = data.Items;
+        // LastEvaluatedKey
+        if(typeof data.LastEvaluatedKey != "undefined") {
+          response['LastEvaluatedKey'] = data.LastEvaluatedKey;
         }
+        return response;
+      }).then(queryCountFeedbacks).then(() => {
+        return callback(null, response);
+      }).catch((err) => {
+        console.error("Error: ", err);
+        callback(getDynamoDBError(err), null);
       });
     }
     else {
@@ -301,8 +321,6 @@ module.exports = (() => {
   };
 
   return {
-    initAWS : initAWS,
-
     getOneSurvey : getOneSurvey,
     listSurveys: listSurveys,
 
@@ -310,4 +328,4 @@ module.exports = (() => {
     updateOneSurvey : updateOneSurvey,
     deleteOneSurvey : deleteOneSurvey,
   }
-})();
+});

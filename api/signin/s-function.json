@@ -27,7 +27,8 @@
       "default": {
         "statusCode": "302",
         "responseParameters": {
-          "method.response.header.Location": "integration.response.body.url"
+          "method.response.header.Location": "integration.response.body.url",
+          "method.response.header.Cache-Control": "'no-cache, no-store, must-revalidate'"
         },
         "responseModels": {},
         "responseTemplates": {
@@ -42,7 +43,7 @@
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
     "REDIRECT_URI": "${websiteDomainName}/authentication/callback/{provider}",
-    "REDIRECT_CLIENT_URI": "${redirectClientURI}",
+    "REDIRECT_CLIENT_URI": "${websiteDomainName}/portal/index.html",
     "TOKEN_SECRET": "${tokenSecret}",
     "PROVIDER_FACEBOOK_ID": "${providerFacebookId}",
     "PROVIDER_FACEBOOK_SECRET": "${providerFacebookSecret}"

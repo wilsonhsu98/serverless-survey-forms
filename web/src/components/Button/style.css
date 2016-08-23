@@ -1,0 +1,507 @@
+/* Button
+
+A button suitable for giving stars to someone.
+
+Markup:
+<button class="btn {$modifiers}">Button</button>
+
+:hover             - Subtle hover highlight.
+:active            - Subtle active status.
+.disabled          - Disabled Status
+.btn-small         - Smaller button.
+.btn-primary       - A primary button.
+.btn-primary:hover - A primary button with hover status.
+.btn-primary:active - A primary button with active status.
+.btn-primary.disabled - A primary button with disabled status.
+.btn-primary.btn-small - A primary button with smaller size.
+.btn-ruby          - A Trend Micro Branding style button, using for the major visual specific.
+.btn-ruby:hover    - A Trend Micro Branding style button with hover status.
+.btn-ruby:active   - A Trend Micro Branding style button with active status.
+.btn-ruby.disabled   - A Trend Micro Branding style button with disabled status.
+.btn-ruby.btn-small - A Trend Micro Branding style button with smaller size.
+ */
+
+$button-large-min-width: 114px;
+$button-large-padding: 18px;
+$button-small-min-width: 62px;
+$button-small-padding: 15px;
+$button-border-width: 1px;
+
+@define-mixin btn {
+    outline: none;
+    background: linear-gradient(0deg, #eee 0%, #f8f8f8 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    min-width: $button-large-min-width;
+    padding: 0 $button-large-padding;
+    color: #666;
+    text-shadow: 0 1px rgba(255, 255, 255, .8);
+    height: 42px;
+    line-height: 42px;
+    font-size: 15px;
+
+    &:hover {
+        color: #555;
+        border: 1px solid #a5a5a5;
+        background: linear-gradient(0deg, #f2f2f2 0%, #e6e6e6 100%);
+        transition-property: none;
+        background-position: center center;
+    }
+
+    &:active {
+        background: #e4e4e4;
+        border: 1px solid #a5a5a5;
+        box-shadow: inset 0 1px 0 rgba(0,0,0, 0.1);
+        background-position: center center;
+    }
+
+    &:focus {
+        transition-property: none;
+        background-position: center center;
+    }
+
+    &.btn-primary {
+        background: linear-gradient(0deg, #188bc5 0%, #0078CA 100%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255, .2);
+        border-color: #069;
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+        &:hover {
+            color: #fff;
+            background: linear-gradient(0deg, #47a3d1 0%, #2a87c3 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        &:active {
+            background: #2a87c3;
+            box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    &.btn-hero {
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        border: 1px solid #b32028;
+        background: linear-gradient(0deg, #e44e56 0%, #db3d44 100%);
+        box-shadow: -1px 0 0 0 rgba(0, 0, 0, 3), inset 0 1px 0 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+
+        &.inner-icon {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+    }
+
+    &.btn-ruby {
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0,0,0, 0.3);
+        background: linear-gradient(0deg, #db3d44 0%, #e44e56 100%);
+        border-color: #b32028;
+        &:hover {
+            color: #fff;
+            background: linear-gradient(0deg, #ee5e64 0%, #db3d44 100%);
+            box-shadow: 0 1px 2px rgba(0,0,0, 0.2);
+            border-color: #b32028;
+        }
+        &:active {
+            background: #db3d44!important;
+            box-shadow: inset 0 1px 0 rgba(0,0,0, 0.1);
+            border-color: #b32028;
+            color: #fff;
+        }
+    }
+
+    &.btn-blue {
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0,0,0, 0.3);
+        background: linear-gradient(0deg, #2A87C3 0%, #3399CC 100%);
+        border-color: #006699;
+        &:hover {
+            color: #fff;
+            background: linear-gradient(0deg, #47A3D1 0%, #2A87C3 100%);
+            box-shadow: 0 1px 2px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.2);
+            border-color: #006699;
+        }
+        &:active {
+            background: #2A87C3!important;
+            box-shadow: inset 0 1px 0 rgba(0,0,0, 0.1);
+            border-color: #006699;
+            color: #fff;
+        }
+    }
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:active {
+        color: #aaa;
+        background: #eaeaea;
+        border: 1px solid #ccc;
+    }
+
+    &.btn-small {
+        font-size: 13px;
+        min-width: $button-small-min-width;
+        padding: 0 $button-small-padding;
+        height: 30px;
+        line-height: 30px;
+    }
+}
+
+/** Ruby style block
+ *
+ * Use old fashion way to implement this block to fulfill the goddamn IE,
+ * since they cannot use border-image even in IE9 & 10.
+ *
+ * Markup example for prefix "tip":
+ * <div>
+ *     <span class="tipTL"></span>
+ *     <span class="tipTR"></span>
+ *     <span class="tipM">
+ *        text content
+ *     </span>
+ *     <span class="tipBL"></span>
+ *     <span class="tipBR"></span>
+ *  </div>
+ *
+ *  Markup example for prefix "btn":
+ *  <div>
+ *     <span class="btnTL"></span>
+ *     <span class="btnTR"></span>
+ *     <span class="btnM">
+ *        text content
+ *     </span>
+ *     <span class="btnBL"></span>
+ *     <span class="btnBR"></span>
+ *  </div>
+**/
+/*  mode: TR or BL */
+@define-mixin ruby-style-block $prefix, $mode, $width, $bg-tl, $bg-tr, $bg-m, $bg-br, $bg-bl, $color-without-alpha, $border {
+    @mixin-content;
+
+    $class-prefixTL: $(prefix)TL;
+    $class-prefixTR: $(prefix)TR;
+    $class-prefixBL: $(prefix)BL;
+    $class-prefixBR: $(prefix)BR;
+    $class-prefixM: $(prefix)M;
+
+    position: relative;
+    padding: $width 0;
+    .$(class-prefixTL) {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: $width;
+        left: 0;
+        height: $width;
+        background: $color-without-alpha;
+        background: $bg-tl;
+        border: $border;
+        border-width: 1px 0 0 1px;
+        box-sizing: border-box;
+    }
+    .$(class-prefixTR) {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: $width;
+        height: $width;
+        background: $bg-tr;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+    .$(class-prefixM) {
+        display: block;
+        border: $border;
+        border-width: 0 1px;
+        background: $color-without-alpha;
+        background: $bg-m;
+        background-size: 100%;
+    }
+    .$(class-prefixBR) {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: $width;
+        height: $width;
+        background: $color-without-alpha;
+        background: $bg-br;
+        border: $border;
+        border-width: 0 1px 1px 0;
+        box-sizing: border-box;
+    }
+    .$(class-prefixBL) {
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: $width;
+        height: $width;
+        background: $bg-bl;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+}
+
+
+/* Ruby style button
+ Will be renamed back to .btn, remove previous .btn style after all UI are completed. */
+:global .btn-diamond {
+    @mixin btn;
+    /* Extend the style from .btn, need to remove this class after refactor all .btn-diamond to .btn. */
+    &:before {
+        /* Pre-load image in hover/press state */
+        content: '';
+        background-image:
+            url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_white_normal_5.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_5.png),
+            url(../../../assets/images/component/ruby/btn_white_press_1.png),
+            url(../../../assets/images/component/ruby/btn_white_press_2.png),
+            url(../../../assets/images/component/ruby/btn_white_press_3.png),
+            url(../../../assets/images/component/ruby/btn_white_press_4.png),
+            url(../../../assets/images/component/ruby/btn_white_press_5.png);
+        visibility: hidden;
+    }
+    @mixin ruby-style-block
+        btn, TR, 10px,
+        url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+        url(../../../assets/images/component/ruby/btn_white_normal_5.png),
+        none,
+        1px solid #DEDEDE;
+    border-radius: 0;
+    box-shadow: none;
+
+    .btnM { padding: 0 15px; }
+    min-width: 78px;
+    font-size: 13px;
+    line-height: 15px;
+    text-align: center;
+
+    outline: none;
+    border: none;
+    background: none;
+    color: #555;
+    text-shadow: 0 1px rgba(255, 255, 255, .8);
+    height: auto;
+    cursor: pointer;
+
+    &:hover {
+        color: #222;
+        background: none;
+        border: none;
+        transition-property: none;
+        @mixin ruby-style-block
+            btn, TR, 10px,
+            url(../../../assets/images/component/ruby/btn_white_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_white_hover_5.png),
+            none,
+            1px solid #D6D6D6;
+    }
+
+    &:active, &:focus {
+        background: none;
+        box-shadow: none;
+        @mixin ruby-style-block
+            btn, TR, 10px,
+            url(../../../assets/images/component/ruby/btn_white_press_1.png),
+            url(../../../assets/images/component/ruby/btn_white_press_2.png),
+            url(../../../assets/images/component/ruby/btn_white_press_3.png),
+            url(../../../assets/images/component/ruby/btn_white_press_4.png),
+            url(../../../assets/images/component/ruby/btn_white_press_5.png),
+            none,
+            1px solid #D6D6D6;
+    }
+
+    &.disabled, &[disabled], &:disabled {
+        border: none;
+        background: none;
+        color: inherit;
+        opacity: 0.5;
+        background: none;
+        cursor: default;
+        &:hover, &:active, &:focus {
+            border: none;
+            background: none;
+            color: inherit;
+            @mixin ruby-style-block
+                btn, TR, 10px,
+                url(../../../assets/images/component/ruby/btn_white_normal_1.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_2.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_3.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_4.png),
+                url(../../../assets/images/component/ruby/btn_white_normal_5.png),
+                none,
+                1px solid #DEDEDE;
+        }
+    }
+
+    &.btn-diamond-primary {
+        &:before {
+            content: '';
+            background-image:
+            url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_hover_5.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_press_5.png);
+            visibility: hidden;
+        }
+        @mixin ruby-style-block
+            btn, TR, 10px,
+            url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
+            none,
+            1px solid #2695d2;
+        color: #FFF;
+        text-shadow: 0 -1px rgba(0, 0, 0, .3);
+
+        &:hover {
+            color: #FFF;
+            @mixin ruby-style-block
+                btn, TR, 10px,
+                url(../../../assets/images/component/ruby/btn_blue_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_blue_hover_5.png),
+                none,
+                1px solid #1483C4;
+        }
+
+        &:active, &:focus {
+            @mixin ruby-style-block
+                btn, TR, 10px,
+                url(../../../assets/images/component/ruby/btn_blue_press_1.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_2.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_3.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_4.png),
+                url(../../../assets/images/component/ruby/btn_blue_press_5.png),
+                none,
+                1px solid #1C7AB0;
+        }
+
+        &.disabled, &[disabled], &:disabled {
+            opacity: 0.4;
+            &:hover, &:active, &:focus {
+                @mixin ruby-style-block
+                    btn, TR, 10px,
+                    url(../../../assets/images/component/ruby/btn_blue_normal_1.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_2.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_3.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_4.png),
+                    url(../../../assets/images/component/ruby/btn_blue_normal_5.png),
+                    none,
+                    1px solid #2695d2;
+            }
+        }
+    }
+
+    &.btn-diamond-ruby {
+        &:before {
+            content: '';
+            background-image:
+                url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+                url(../../../assets/images/component/ruby/btn_red_normal_5.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_5.png),
+                url(../../../assets/images/component/ruby/btn_red_press_1.png),
+                url(../../../assets/images/component/ruby/btn_red_press_2.png),
+                url(../../../assets/images/component/ruby/btn_red_press_3.png),
+                url(../../../assets/images/component/ruby/btn_red_press_4.png),
+                url(../../../assets/images/component/ruby/btn_red_press_5.png);
+            visibility: hidden;
+        }
+        @mixin ruby-style-block
+            btn, TR, 10px,
+            url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+            url(../../../assets/images/component/ruby/btn_red_normal_5.png),
+            none,
+            1px solid #DF313B;
+        color: #FFF;
+        text-shadow: 0 -1px rgba(0, 0, 0, .3);
+
+        &:hover {
+            color: #FFF;
+            @mixin ruby-style-block
+                btn, TR, 10px,
+                url(../../../assets/images/component/ruby/btn_red_hover_1.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_2.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_3.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_4.png),
+                url(../../../assets/images/component/ruby/btn_red_hover_5.png),
+                none,
+                1px solid #C7383D;
+        }
+
+        &:active, &:focus {
+            @mixin ruby-style-block
+                btn, TR, 10px,
+                url(../../../assets/images/component/ruby/btn_red_press_1.png),
+                url(../../../assets/images/component/ruby/btn_red_press_2.png),
+                url(../../../assets/images/component/ruby/btn_red_press_3.png),
+                url(../../../assets/images/component/ruby/btn_red_press_4.png),
+                url(../../../assets/images/component/ruby/btn_red_press_5.png),
+                1px solid #BB3136;
+        }
+
+        &.disabled, &[disabled], &:disabled {
+            opacity: 0.4;
+            &:hover, &:active, &:focus {
+                @mixin ruby-style-block
+                    btn, TR, 10px,
+                    url(../../../assets/images/component/ruby/btn_red_normal_1.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_2.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_3.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_4.png),
+                    url(../../../assets/images/component/ruby/btn_red_normal_5.png),
+                    none,
+                    1px solid #DF313B;
+            }
+        }
+    }
+
+    &.btn-diamond-small {
+        .btnM { padding: 0 10px; }
+        min-width: 44px;
+        font-size: 11px;
+        line-height: 13px;
+    }
+}

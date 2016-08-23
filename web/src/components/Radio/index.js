@@ -17,7 +17,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 
 import Question from '../Question/index';
 
@@ -29,14 +28,7 @@ class Radio extends PureComponent {
             selected: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
-    }
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
+        this._onChangeInput = this._onChangeInput.bind(this);
     }
 
     render() {
@@ -72,6 +64,7 @@ class Radio extends PureComponent {
                         type="radio"
                         name={id}
                         value={val}
+                        data-label={label}
                         checked={this.state.selected === inputID}
                         onChange={this._onChangeHandle}
                     />
@@ -80,8 +73,12 @@ class Radio extends PureComponent {
                     </label>
                     {
                         input && this.state.selected === inputID ?
-                            <input type="text" placeholder={input} /> :
-                            ''
+                            <input
+                                type="text"
+                                placeholder={input}
+                                name={val}
+                                onChange={this._onChangeInput}
+                            /> : ''
                     }
                 </div>
             );
@@ -90,10 +87,49 @@ class Radio extends PureComponent {
     }
 
     _onChangeHandle(e) {
+        const feedbackArray = [];
+        const feedbackItem = {
+            value: e.currentTarget.getAttribute('value'),
+            label: e.currentTarget.getAttribute('data-label')
+        };
+        feedbackArray.push(feedbackItem);
         this.setState({
-            selected: e.target.id
+            selected: e.currentTarget.id,
+            feedbackArray
+        }, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
+            };
+            this.props.onChangeHandle(feedback);
         });
-        // TODO onChangeHandle
+    }
+
+    _onChangeInput(e) {
+        const feedbackArray = this.state.feedbackArray;
+        // Find the item, update the input
+        feedbackArray.map((item) => {
+            const updatedItem = item;
+            if (item.value === e.currentTarget.getAttribute('name')) {
+                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
+            }
+            return updatedItem;
+        });
+        this.setState({
+            feedbackArray
+        }, () => {
+            const feedback = {
+                [`Q${this.props.id}`]: {
+                    type: 'radio',
+                    label: this.props.item.label,
+                    data: feedbackArray
+                }
+            };
+            this.props.onChangeHandle(feedback);
+        });
     }
 }
 

@@ -1,53 +1,136 @@
-.paging {
-	list-style: none;
-	margin: 20px 0;
-	padding: 0;
-	overflow: hidden;
+.pagination {
     position: absolute;
-    left: 40%;
     bottom: 0;
-}
-
-.pagingItem {
-	color: #fff;
-	background: #aaa;
-	border-radius: 100%;
-	padding: 1px 8px;
-	margin-right: 10px;
-	float: left;
-	cursor: pointer;
-}
-
-.pagingItemActive {
-	color: #fff;
-	background: #0086b3;
-	border-radius: 100%;
-	padding: 1px 8px;
-	margin-right: 10px;
-	float: left;
-	cursor: pointer;
-}
-
-.btn {
-    background: #aaa;
-    padding: 10px 15px;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-}
-.btn:hover {
-    background: #0086b3;
-}
-
-.prev {
-    composes: btn;
-    bottom: 10px;
     left: 0;
+    right: 0;
+    height: 80px;
 }
 
-.next {
-    composes: btn;
-    bottom: 10px;
+.btnWrapperNext {
+    position: absolute;
+    left: 50%;
+    margin: 20px 0 20px 216px;
+}
+
+.btnWrapperPrev {
+    position: absolute;
+    right: 50%;
+    margin: 20px 216px 20px 0;
+}
+
+.pagingBtnNext {
+    float: right;
+}
+
+.pagingBtnPrev {
+    float: left;
+}
+
+.prevMobile {
+   display: none;
+}
+
+.nextMobile {
+    display: none;
+}
+
+.progressWrapper {
+    width: 400px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    background: #fff;
+    margin: 28px auto;
+    position: relative;
+}
+
+.progress {
+    height: 18px;
+    background: #1F8ECC;
+    border-radius: 10px 0 0 10px;
+}
+
+.progressComplete {
+    composes: progress;
+    border-radius: 5px;
+}
+
+.progressText {
+    position: absolute;
+    left: 20px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+/* Preview styles */
+.paginationPreview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     right: 0;
+    height: 96px;
+}
+
+.btnWrapperNextPreview {
+    position: absolute;
+    left: 50%;
+    margin: 16px 0 20px 5px;
+}
+
+.btnWrapperPrevPreview {
+    position: absolute;
+    right: 50%;
+    margin: 16px 5px 20px 0;
+}
+
+.progressWrapperPreview {
+    width: 400px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    background: #fff;
+    margin: 62px auto 0 auto;
+    position: relative;
+}
+
+@media only screen and (max-width: 639px) {
+    .pagination, .paginationPreview {
+        height: 60px;
+    }
+    .progressWrapper, .progressWrapperPreview {
+        width: 75%;
+        margin-top: 20px;
+    }
+
+    .pagingBtnNext, .pagingBtnPrev {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        bottom: 20px;
+        cursor: pointer;
+    }
+
+    .prevMobile {
+        composes: mobile;
+        left: 4px;
+        background: url(../../../assets/images/arrow_left.png) 0 0 no-repeat;
+
+    }
+
+    .nextMobile {
+        composes: mobile;
+        right: 4px;
+        background: url(../../../assets/images/arrow_right.png) 0 0 no-repeat;
+    }
+
+    .doneMobile {
+        composes: mobile;
+        right: 4px;
+        background: url(../../../assets/images/check.png) 0 0 no-repeat;
+    }
 }

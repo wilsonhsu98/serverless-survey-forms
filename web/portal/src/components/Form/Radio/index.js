@@ -1,30 +1,21 @@
 
-// CSS
-import styles from './style.css';
-
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, { Component } from 'react';
 
 import Question from '../Question';
 
-class Radio extends PureComponent {
-
-    constructor() {
-        super();
-        this._onClickQuestion = this._onClickQuestion.bind(this);
-    }
+class Radio extends Component {
 
     render() {
-        const { data } = this.props;
+        const { data, onClick } = this.props;
         return (
             <div
                 className="question"
-                onClick={this._onClickQuestion}
+                onClick={onClick}
             >
                 <Question
                     text={data.label}
                 />
-                <div className={styles.radioGrp}>
+                <div className="radioGrp">
                     {this._renderRadioItem()}
                 </div>
             </div>
@@ -38,7 +29,7 @@ class Radio extends PureComponent {
             const input = itm.input;
             return (
                 <div
-                    className={styles.radioItem}
+                    className="radioItem ut-radio"
                     key={idx}
                 >
                     <input type="radio" />
@@ -46,20 +37,18 @@ class Radio extends PureComponent {
                         {label}
                     </label>
                     {
-                        input ?
-                            <input type="text" placeholder={input} /> :
+                        itm.hasOwnProperty('input') ?
+                            <input
+                                type="text"
+                                className="input input--medium ut-input"
+                                placeholder={input}
+                            /> :
                             ''
                     }
                 </div>
             );
         });
         return items;
-    }
-
-    _onClickQuestion(e) {
-        e.stopPropagation();
-        const { data, editQuestionIDActions } = this.props;
-        editQuestionIDActions.setEditQuestionID(data.id);
     }
 }
 

@@ -5,8 +5,7 @@
 
 // setup api url
 const Config = {
-    baseURL: 'http://www.google.com/'
-    // baseURL: `${apiRoot}/${siteprefix[sitename]}/api`
+    baseURL: process.env.NODE_URL || `https://${location.hostname}`
 };
 
 export default Config;

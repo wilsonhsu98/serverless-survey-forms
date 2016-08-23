@@ -88,8 +88,12 @@ class App extends PureComponent {
         getPromise(i18nSetting, locale, props.localize_path)
         .then(() =>
             // fetch survey from API
-            store.dispatch(SurveyActions.fetchSurvey(settings.surveyid))
+            store.dispatch(SurveyActions.fetchSurvey(settings.accountid, settings.surveyid))
         );
+    }
+
+    componentWillReceiveProps(nextProps) {
+        store.dispatch(SettingsActions.settings(Object.assign({}, nextProps)));
     }
 
     render() {
@@ -102,5 +106,26 @@ class App extends PureComponent {
         );
     }
 }
+
+function receiveClientMessage(e) {
+    if (e.origin !== e.data.source) return;
+    console.log('Message received from Client!:  ', e.data);
+    // Store client prefilling info
+    if (e.data) {
+        store.dispatch(SurveyActions.savePrefill(e.data));
+    }
+}
+
+// Create IE + others compatible event handler
+const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+eventer(messageEvent, (e) => receiveClientMessage(e), false);
+
+// Tell Client that Qustom has initialized
+window.parent.postMessage({
+    source: window.location.origin,
+    msg: 'init'
+}, '*');
 
 export default App;

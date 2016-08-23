@@ -1,0 +1,22 @@
+/*
+ * Style for components/EditPanel/EditItem/index.js
+ */
+
+.item {
+    margin: 5px 0 10px;
+    overflow: hidden;
+    & > div {
+        float: left;
+    }
+    &:after {
+        content: '';
+        clear: both;
+    }
+
+    input[type="text"].longText {
+        width: 276px;
+    }
+    input[type="text"].shortText {
+        width: 132px;
+    }
+}

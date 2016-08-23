@@ -5,7 +5,7 @@ let should = require('chai').should();
 
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
-let survey = require('../api/survey/survey.js');
+let survey = null;
 let dynadblib = require('./dynadb');
 let dynadb = new dynadblib();
 
@@ -27,7 +27,7 @@ before('Initial local DynamoDB', function(done) {
       endpoint: 'http://localhost:' + dynalitePort
     });
 
-    survey.initAWS(aws);
+    survey = require('../api/survey/survey.js')(aws);
 
     let dynamodb = new aws.DynamoDB({
       apiVersion: '2012-08-10'
@@ -247,14 +247,12 @@ describe("Interface to get one survey model from data store", function() {
 
 describe("Interface to get list survey model from data store", function() {
   let accountid = "this is fake account";
-  let subject = "this is fake subject";
-  let surveyid = null;
 
   describe("#listSurveys successfully", function() {
     describe("When getting exist survey model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
         let event = {
-          accountid: accountid,
+          accountid: accountid
         };
         survey.listSurveys(event, function(error, response) {
           expect(error).to.be.null;
@@ -262,10 +260,11 @@ describe("Interface to get list survey model from data store", function() {
           response.should.have.keys('surveys');
           response.surveys.length.should.equal(2); // There are two survey model in above test case.
           response.surveys.map((obj) => {
-            obj.should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+            obj.should.have.keys(['accountid', 'surveyid', 'subject', 'count', 'datetime']);
             obj.accountid.should.exist;
             obj.surveyid.should.exist;
             obj.subject.should.exist;
+            obj.count.should.exist;
             obj.datetime.should.exist;
           });
           done();
@@ -276,7 +275,7 @@ describe("Interface to get list survey model from data store", function() {
       it("should response successfully", function(done) {
         let event = {
           accountid: accountid,
-          limitTesting: true,
+          unitTest: true
         };
         const limitTestCase = (event) => {
           survey.listSurveys(event, function(error, response) {
@@ -286,10 +285,11 @@ describe("Interface to get list survey model from data store", function() {
               response.should.have.keys(['surveys', 'LastEvaluatedKey']);
               response.surveys.length.should.equal(1); // There is one survey model because setting limit is 1.
               response.surveys.map((obj) => {
-                obj.should.have.keys(['accountid', 'surveyid', 'subject', 'datetime']);
+                obj.should.have.keys(['accountid', 'surveyid', 'subject', 'count', 'datetime']);
                 obj.surveyid.should.exist;
                 obj.accountid.should.exist;
                 obj.subject.should.exist;
+                obj.count.should.exist;
                 obj.datetime.should.exist;
               });
 

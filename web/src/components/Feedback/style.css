@@ -2,9 +2,42 @@
  * Style for components/Feedback/index.js
  */
 
+/* Interstate Fonts embeded */
+@font-face {
+    font-family: "InterstateExtraLight";
+    src: url("../../../assets/fonts/Interstate-ExtraLight-webfont.eot");
+    src: url("../../../assets/fonts/Interstate-ExtraLight-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../../../assets/fonts/Interstate-ExtraLight-webfont.woff") format("woff"),
+         url("../../../assets/fonts/Interstate-ExtraLight-webfont.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Interstate-Light";
+    src: url("../../../assets/fonts/Interstate-Light-webfont.eot");
+    src: url("../../../assets/fonts/Interstate-Light-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../../../assets/fonts/Interstate-Light-webfont.woff") format("woff"),
+         url("../../../assets/fonts/Interstate-Light-webfont.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Interstate-Regular";
+    src: url("../../../assets/fonts/Interstate-Regular-webfont.eot");
+    src: url("../../../assets/fonts/Interstate-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../../../assets/fonts/Interstate-Regular-webfont.woff") format("woff"),
+         url("../../../assets/fonts/Interstate-Regular-webfont.ttf") format("truetype");
+
+}
+:global .error {
+    font-family: "InterstateExtraLight";
+    margin: 20px;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: #d63833;
+}
+
 .wrap {
     height: 100%;
-    background: #F0F0F0;
+    background: #fff;
     overflow: hidden;
     position: absolute;
     top: 0;
@@ -13,24 +46,166 @@
     bottom: 0;
 }
 
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: #fff;
+    z-index: 1;
+
+    h1 {
+        width: 680px;
+        margin: 0 auto;
+        font-size: 32px;
+        line-height: 72px;
+        font-family: "InterstateExtraLight";
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: url(../../../assets/images/ic_popup_close.png) 0 0 no-repeat;
+        cursor: pointer;
+        &:hover {
+            background-position: 0 -40px;
+        }
+    }
+}
+
+.wrap .header:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 5px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    background-color: #e30919;
+}
+
 .title {
 	font-size: 32px;
-	margin: 20px 0;
-}
-
-.description {
-	font-size: 16px;
-	margin: 0 0 20px;
-}
-
-:global .question {
-	margin: 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #BD2A2A;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
 }
 
 .container {
-    width: 650px;
+    width: 680px;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
     height: 100%;
+    padding: 20px;
+}
+
+.contentScroll {
+    position: absolute;
+    top: 72px;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    padding: 20px 30px;
+    overflow: auto;
+}
+
+.content {
+    overflow: hidden;
+}
+
+.description {
+    font-size: 16px;
+    margin: 0 0 20px;
+}
+
+:global .question {
+    margin-bottom: 20px;
+}
+
+/* Preivew styles */
+.wrapPreview {
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: resolve("bg_cloud_top.png") center 72px no-repeat;
+}
+
+.wrapPreview .header {
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.contentScrollPreview {
+    position: absolute;
+    top: 72px;
+    bottom: 96px;
+    left: 0;
+    right: 0;
+    padding: 48px 34px;
+    overflow: auto;
+}
+
+.feedbackPreview {
+    background: #fff;
+    padding: 18px 30px 48px 30px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+.paginationPreview {
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 96px;
+}
+
+/* Tablet and Mobile Styles */
+@media only screen and (max-width: 959px) {
+    .container {
+        width: auto;
+    }
+    .header {
+        h1 {
+            width: auto;
+            padding: 0 20px;
+        }
+    }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 639px) {
+    .contentScroll, .contentScrollPreview {
+        bottom: 60px;
+        padding: 16px;
+        top: 48px;
+    }
+    .feedbackPreview {
+        padding: 24px 16px;
+    }
+    .paginationPreview {
+        height: 60px;
+    }
+    .wrapPreview {
+        background-position: center 48px;
+    }
+    .header {
+        height: 48px;
+        h1 {
+            font-size: 18px;
+            line-height: 48px;
+        }
+    }
 }

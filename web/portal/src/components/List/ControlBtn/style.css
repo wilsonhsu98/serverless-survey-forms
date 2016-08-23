@@ -1,0 +1,27 @@
+/*
+ * Style for components/List/ControlBtn/index.js
+ */
+.control {
+    position: relative;
+    margin: 80px 0 0;
+    height: 32px;
+    .wrap {
+        float: right;
+        & > div {
+            margin-right: 16px;
+        }
+        &:after {
+            content: '';
+            clear: both;
+        }
+    }
+}
+
+.bird {
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 64px;
+    height: 64px;
+    background: resolve("component/img_bird_title.png") 0 0 no-repeat;
+}

@@ -2,14 +2,9 @@
 import * as types from '../constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
 import Config from '../config';
+import { finishEdit } from './questions';
 
-function requestAccount() {
-    return {
-        type: types.REQUEST_ACCOUNT
-    };
-}
-
-function receiveAccountSuccess(data) {
+export function receiveAccountSuccess(data) {
     return {
         type: types.RECIEVE_ACCOUNT_SUCCESS,
         account: data
@@ -23,26 +18,44 @@ function receiveAccountFailure(err) {
     };
 }
 
-export function fetchAccount() {
-    return (dispatch) => {
-        dispatch(requestAccount());
-        return fetch(`${Config.baseURL}/mgnt/users`, {
-            credentials: 'same-origin'
+export function expiredToken() {
+    window.localStorage.QustomPortalTK = '';
+
+    return (dispatch, getState) => {
+        const { surveyID, subject } = getState();
+        if (surveyID || subject) dispatch(finishEdit());
+        dispatch({
+            type: types.EXPIRED_TOKEN
+        });
+    };
+}
+
+function setToken(token) {
+    window.localStorage.QustomPortalTK = token;
+    return {
+        type: types.SET_TOKEN,
+        token
+    };
+}
+
+export function verifyToken(token) {
+    return (dispatch) =>
+        fetch(`${Config.baseURL}/api/v1/mgnt/users/me`, {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                authorization: token
+            }
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(receiveAccountSuccess(data));
+            if (data.hasOwnProperty('accountid') && data.accountid) {
+                dispatch(setToken(token));
+                dispatch(receiveAccountSuccess(data));
+            } else {
+                // token no used: token expired / user doesn't have a account
+                dispatch(receiveAccountFailure(data));
+            }
         })
-        // TODOS: fetch http
-        .catch(data => {
-            const temp = {
-                accountid: 'facebook-10206181895733803',
-                username: 'jonas cheng',
-                email: 'jonas_cheng@trend.com.tw',
-                role: 'Admin'
-            };
-            dispatch(receiveAccountSuccess(temp));
-        });
-        // .catch(err => dispatch(receiveAccountFailure(err)));
-    };
+        .catch(err => dispatch(receiveAccountFailure(err)));
 }

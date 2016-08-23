@@ -1,6 +1,4 @@
 {
-    "title": "title",
-    "description": "description",
     "content": [
         {
             "page": 1,
@@ -12,11 +10,11 @@
                     "type": "select",
                     "label": "I am select question",
                     "data": [
-                        {"value": "1", "label": "option label 1"},
-                        {"value": "2", "label": "option label 2"},
-                        {"value": "3", "label": "option label 3"},
-                        {"value": "4", "label": "option label 4"},
-                        {"value": "5", "label": "option label 5"}
+                        {"value": "1AN2AL0F9BNA71", "label": "option label 1"},
+                        {"value": "1AN2AL0F92CFE2", "label": "option label 2"},
+                        {"value": "1AN2AL0F92CTR2", "label": "option label 3"},
+                        {"value": "1AN2AL0F92CQ2R", "label": "option label 4"},
+                        {"value": "1AN2ALTVDW2RE9", "label": "option label 5"}
                     ],
                     "required": true
                 },
@@ -26,9 +24,9 @@
                     "type": "radio",
                     "label": "I am radio question text",
                     "data": [
-                        {"value": "1", "label": "radio label 1"},
-                        {"value": "2", "label": "radio label 2"},
-                        {"value": "3", "label": "radio label 3 with input", "input": "Please input some text."}
+                        {"value": "UNKLAL0F9BNA71", "label": "radio label 1"},
+                        {"value": "8JB20F9BNA71QW", "label": "radio label 2"},
+                        {"value": "CDO0AL0F9BNQE1", "label": "radio label 3 with input", "input": "Please input some text."}
                     ],
                     "required": false
                 },
@@ -38,11 +36,11 @@
                     "type": "checkbox",
                     "label": "I am checkbox question text",
                     "data": [
-                        {"value": "1", "label": "checkbox label 1"},
-                        {"value": "2", "label": "checkbox label 2"},
-                        {"value": "3", "label": "checkbox label 3"},
-                        {"value": "4", "label": "checkbox label 4"},
-                        {"value": "5", "label": "checkbox label 5 with input", "input": "Please input some text."}
+                        {"value": "L0F9BNA711AN2A", "label": "checkbox label 1"},
+                        {"value": "9BNA71L0F1AN2A", "label": "checkbox label 2"},
+                        {"value": "11AN2AL0F9BNA7", "label": "checkbox label 3"},
+                        {"value": "1AAN2A11AN2A11", "label": "checkbox label 4"},
+                        {"value": "1L0F1L0F9BNA71", "label": "checkbox label 5 with input", "input": "Please input some text."}
                     ],
                     "required": true
                 }
@@ -58,16 +56,16 @@
                     "type": "select",
                     "label": "Select everything",
                     "data": [
-                        {"value": "1", "label": "option label 1"},
-                        {"value": "2", "label": "option label 2"},
-                        {"value": "3", "label": "option label 3"},
-                        {"value": "4", "label": "option label 4"},
-                        {"value": "5", "label": "option label 5"},
-                        {"value": "6", "label": "option label 6"},
-                        {"value": "7", "label": "option label 7"},
-                        {"value": "8", "label": "option label 8"},
-                        {"value": "9", "label": "option label 9"},
-                        {"value": "10", "label": "option label 10"}
+                        {"value": "1F9BNACDAN2AL0", "label": "option label 1"},
+                        {"value": "AL0F91AN2BNAQ3", "label": "option label 2"},
+                        {"value": "1AN2NACWQE13EW", "label": "option label 3"},
+                        {"value": "L0F9BN2NACQWE2", "label": "option label 4"},
+                        {"value": "VL0F92BNAQ31AN", "label": "option label 5"},
+                        {"value": "NA8RAFSD2Q4FER", "label": "option label 6"},
+                        {"value": "2NACQWE2L0F9BN", "label": "option label 7"},
+                        {"value": "D2AFSSDAQ3AQQ2", "label": "option label 8"},
+                        {"value": "AFSASDDAQ32QK7", "label": "option label 9"},
+                        {"value": "SDAAQ3QD2AFS1P", "label": "option label 10"}
                     ],
                     "required": false
                 },
@@ -90,18 +88,31 @@
         },
         {
             "page": 3,
-            "description": "Thanks for sharing your feedback with Trend Micro.",
             "question": [
                 {
-                    "id": "1AN2AL0F9B2ACD",
+                    "id": "1AN2AL0F9BNA8R",
                     "order": 7,
-                    "type": "privacy",
-                    "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
-                    "terms": "Yes, Trend Micro can reach me at this address: ",
-                    "input": "Please enter your email address.",
-                    "required": false
+                    "type": "rating",
+                    "label": "Do you satisfy about Trend Micro Email Scan?",
+                    "data": [
+                        {"value": "V1QILCJHB45A9F", "label": "Very dissatisfied"},
+                        {"value": "U1AAQ3QD2AFS1F", "label": "Dissatisfied"},
+                        {"value": "AQ5HBQ3Q39FIKL", "label": "Fair"},
+                        {"value": "QIAJSD3432Q3QD", "label": "Satisfied"},
+                        {"value": "ADQ3Q3Q97VDQKD", "label": "Very satisfied"}
+                    ],
+                    "input": "Tell us the reason why you choose this answer",
+                    "required": true
                 }
             ]
         }
-    ]
+    ],
+    "thankyou": {
+        "description": "Thanks for sharing your feedback with Trend Micro.",
+        "privacy": {
+            "label": "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
+            "terms": "Yes, Trend Micro can reach me at this address: ",
+            "input": "Please enter your email address."
+        }
+    }
 }

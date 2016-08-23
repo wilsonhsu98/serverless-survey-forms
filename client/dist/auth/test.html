@@ -12,6 +12,7 @@
 <body>
 <div class="main">
   <h1>Serverless Authentication</h1>
+  <h1> <a id="redirect" href="">Redirect localhost!</a></h1>
   <p>This is a frontend demonstration how Serverless Authentication works.</p>
   <h2>Providers</h2>
   <div class="providers">
@@ -34,4 +35,11 @@
   <p>See also <a href="http://www.serverless.com">serverless.com</a></p>
 </div>
 </body>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    var query = getQueryParams(document.location.search);
+    var token = query.token ? query.token : '';
+    document.getElementById("redirect").href="http://localhost:8080?token="+token;
+  });
+</script>
 </html>

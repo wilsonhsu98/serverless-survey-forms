@@ -1,7 +1,7 @@
-
 import * as types from '../constants/ActionTypes';
-// import fetch from 'isomorphic-fetch';
-// import config from '../config';
+import fetch from 'isomorphic-fetch';
+import config from '../config';
+import * as feedbackAction from './feedback';
 
 function requestSurvey() {
     return {
@@ -23,27 +23,38 @@ function receiveSurveyFailure(err) {
     };
 }
 
-export function fetchSurvey(surveyid) {
+export function fetchSurvey(accountid, surveyid) {
     return (dispatch) => {
         dispatch(requestSurvey());
-        // TODOS: config.baseURL and get feedback api
-        // maybe debug can keep this fakedata
-        const data = { surveyid: surveyid };
-        data.data = require('../../assets/fakedata/survey.json');
-        return new Promise(() => {
-            setTimeout(() => {
-                if (data) {
-                    dispatch(receiveSurveySuccess(data));
-                } else {
-                    dispatch(receiveSurveyFailure('Error'));
-                }
-            }, 3000);
+        return fetch(`${config.baseURL}/api/v1/surveys/${accountid}/${surveyid}`, {
+            credentials: 'same-origin',
+            headers: {
+                'Cache-Control': 'max-age=0'
+            }
+        })
+        .then((response) => {
+            if (response.status >= 400) {
+                throw new Error('Bad response from server');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const survey = Object.assign({}, data.survey, {
+                subject: data.subject
+            });
+            if (data && data.survey) {
+                dispatch(receiveSurveySuccess(survey));
+                dispatch(feedbackAction.setFeedback(data.survey));
+            } else {
+                dispatch(receiveSurveyFailure('Error'));
+            }
         });
+    };
+}
 
-        // return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/<clientid>/`, {})
-        // .then(response => response.json())
-        // .then(data => dispatch(receiveSurveySuccess(data)))
-        // .catch(err => dispatch(receiveSurveyFailure(err)));
+export function surveyDone() {
+    return {
+        type: types.SURVEY_DONE
     };
 }
 
@@ -51,5 +62,12 @@ export function goToPage(index) {
     return {
         type: types.GO_TO_PAGE,
         index
+    };
+}
+
+export function savePrefill(data) {
+    return {
+        type: types.SAVE_PREFILL_DATA,
+        data
     };
 }

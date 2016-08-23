@@ -1,0 +1,68 @@
+/*
+ * Style for containers/Popup/Preview/index.js
+ */
+
+
+.popup {
+    .wrap {
+        margin-left: -468px;
+        margin-top: -308px;
+        width: 936px;
+        min-height: 616px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+    .content {
+        margin: 12px;
+    }
+    .header {
+        position: relative;
+        padding: 8px 0 0 12px;
+
+        & > div {
+            display: table-cell;
+            vertical-align: bottom;
+        }
+    }
+    .embedded {
+        position: relative;
+        width: 888px;
+        height: 508px;
+        margin: 32px auto 12px;
+        padding: 24px;
+        background: resolve("bg_product_preview_embedded.png") 0 0 no-repeat;
+
+        .preview {
+            border: none;
+            margin: 0 auto;
+            width: 710px;
+            height: 460px;
+        }
+    }
+    .title {
+        padding-right: 32px;
+        font-size: 32px;
+        line-height: 32px;
+        color: #222;
+        letter-spacing: -1.76px;
+    }
+    .control {
+        line-height: 0;
+        & > div {
+            margin-right: 4px;
+        }
+    }
+    .preview {
+        position: relative;
+        margin: 20px auto 0;
+        height: 532px;
+        border: 12px solid #222;
+        width: 100%;
+        &.previewPhone {
+            width: 320px;
+        }
+        &.previewPad {
+            width: 640px;
+        }
+    }
+}

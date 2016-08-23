@@ -16,13 +16,16 @@
     "authorizationType": "none",
     "authorizerFunction": false,
     "apiKeyRequired": false,
-    "requestParameters": {},
+    "requestParameters": {
+      "integration.request.header.body-header": "method.request.header.If-Modified-Since"
+    },
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
         "accountid": "$input.params('accountid')",
         "surveyid": "$input.params('surveyid')",
-        "op": "getOneSurvey"
+        "op": "getOneSurvey",
+        "ifModifiedSince": "$input.params('If-Modified-Since')"
       }
     },
     "responses": "$${apiResponseTemplate}"
@@ -30,8 +33,8 @@
     "path": "api/v1/mgnt/surveys/{accountid}",
     "method": "GET",
     "type": "AWS",
-    "authorizationType": "none",
-    "authorizerFunction": false,
+    "authorizationType": "CUSTOM",
+    "authorizerFunction": "authorize",
     "apiKeyRequired": false,
     "requestParameters": {
       "integration.request.querystring.integrationQueryParam": "method.request.querystring.startKey"
@@ -39,37 +42,38 @@
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "authAccountid": "context.authorizer.principalId",
+        "authAccountid": "$context.authorizer.principalId",
         "startKey": "$input.params('startKey')",
         "accountid": "$input.params('accountid')",
         "op": "listSurveys"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
-    "path": "api/v1/mgnt/surveys",
+    "path": "api/v1/mgnt/surveys/{accountid}",
     "method": "POST",
     "type": "AWS",
-    "authorizationType": "none",
-    "authorizerFunction": false,
+    "authorizationType": "CUSTOM",
+    "authorizerFunction": "authorize",
     "apiKeyRequired": false,
     "requestParameters": {},
     "requestTemplates": {
       "application/json": {
         "apigw": "$${apiRequestTemplate}",
-        "authAccountid": "context.authorizer.principalId",
+        "accountid": "$input.params('accountid')",
+        "authAccountid": "$context.authorizer.principalId",
         "subject": "$input.json('$.subject')",
         "survey": "$input.json('$.survey')",
         "op": "addOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
     "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "PUT",
     "type": "AWS",
-    "authorizationType": "none",
-    "authorizerFunction": false,
+    "authorizationType": "CUSTOM",
+    "authorizerFunction": "authorize",
     "apiKeyRequired": false,
     "requestParameters": {},
     "requestTemplates": {
@@ -79,17 +83,17 @@
         "surveyid": "$input.params('surveyid')",
         "subject": "$input.json('$.subject')",
         "survey": "$input.json('$.survey')",
-        "authAccountid": "context.authorizer.principalId",
+        "authAccountid": "$context.authorizer.principalId",
         "op": "updateOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }, {
     "path": "api/v1/mgnt/surveys/{accountid}/{surveyid}",
     "method": "DELETE",
     "type": "AWS",
-    "authorizationType": "none",
-    "authorizerFunction": false,
+    "authorizationType": "CUSTOM",
+    "authorizerFunction": "authorize",
     "apiKeyRequired": false,
     "requestParameters": {},
     "requestTemplates": {
@@ -97,11 +101,11 @@
         "apigw": "$${apiRequestTemplate}",
         "accountid": "$input.params('accountid')",
         "surveyid": "$input.params('surveyid')",
-        "authAccountid": "context.authorizer.principalId" ,
+        "authAccountid": "$context.authorizer.principalId",
         "op": "deleteOneSurvey"
       }
     },
-    "responses": "$${apiResponseTemplate}"
+    "responses": "$${apiResponseNonCacheTemplate}"
   }],
   "events": [],
   "environment": {
@@ -110,7 +114,8 @@
     "SERVERLESS_REGION": "${region}",
     "SERVERLESS_USERTABLE": "${project}-${stage}-users",
     "SERVERLESS_SURVEYTABLE": "${project}-${stage}-surveys",
-    "SERVERLESS_FEEDBACKTABLE": "${project}-${stage}-feedbacks"
+    "SERVERLESS_FEEDBACKTABLE": "${project}-${stage}-feedbacks",
+    "TOKEN_SECRET": "${tokenSecret}"
   },
   "vpc": {
     "securityGroupIds": [],

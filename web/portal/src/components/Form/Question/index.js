@@ -6,19 +6,9 @@
 // CSS
 import styles from './style.css';
 
-import React, { PropTypes } from 'react';
-import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
+import React, { Component, PropTypes } from 'react';
 
-class Question extends PureComponent {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
-    }
+class Question extends Component {
 
     render() {
         const { text } = this.props;

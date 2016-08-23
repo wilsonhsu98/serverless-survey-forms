@@ -1,0 +1,65 @@
+
+.wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.content_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: resolve("bg_cloud_login.png") center 0 no-repeat;
+}
+
+.container {
+    width: 960px;
+    margin-right: auto;
+    margin-left: auto;
+
+    &:before {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+}
+
+.content {
+    position: relative;
+    margin: 154px 20px 90px 86px;
+    width: 490px;
+}
+
+.title {
+    font-size: 48px;
+    color: #222;
+    line-height: 50px;
+    letter-spacing: -1.44px;
+}
+.description {
+    font-size: 16px;
+    color: #444;
+    letter-spacing: -0.4px;
+    margin-top: 14px;
+    margin-bottom: 20px;
+}
+.grantBtn {
+    width: 240px;
+}
+
+.photo {
+    position: absolute;
+    top: 102px;
+    left: 50%;
+    margin-left: 116px;
+    width: 348px;
+    height: 344px;
+    background: resolve("img_bird_mian.png") 0 0 no-repeat;
+}
