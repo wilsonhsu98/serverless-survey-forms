@@ -41,7 +41,7 @@ function saveClientID(clientID) {
 export function saveFeedback() {
     const clientID = `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
     return (dispatch, getState) => {
-        const feedback = getState().feedback;
+        const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         dispatch(saveClientID(clientID));
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {

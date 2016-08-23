@@ -4,13 +4,14 @@ let aws = require('../config/aws');
 let survey = require('./survey')(aws);
 let user = require('../user/user.js')(aws);
 let feedback = require('../feedback/feedback.js')(aws);
+
 module.exports.handler = (event, context, callback) => {
   // request from API Gateway
   console.log("Dispatch request from API Gateway: ", JSON.stringify(event));
 
   // validate requester role Check if authAccountid is authorized
-  const authorizedJudge = new Promise( (resolve, reject) => {
-    if(!event.authAccountid){
+  const authorizedJudge = new Promise((resolve, reject) => {
+    if (!event.authAccountid) {
       reject(new Error("400 Bad Request: " + JSON.stringify(event)));
     } else {
       user.getOneUser({
@@ -20,7 +21,7 @@ module.exports.handler = (event, context, callback) => {
           reject(err, null);
         } else {
           // Authorized: Designer or Admin
-          if (data.role === "Admin" || data.role === "Designer" && event.accountid === event.authAccountid){
+          if (data.role === "Admin" || data.role === "Designer" && event.accountid === event.authAccountid) {
             resolve();
           } else {
             reject(new Error(`403 Unauthorized request: The role of the requester ${event.authAccountid} is ${data.role} or ${event.accountid} != ${event.authAccountid}`));
@@ -30,7 +31,7 @@ module.exports.handler = (event, context, callback) => {
     }
   });
 
-  switch(event.op) {
+  switch (event.op) {
     case "getOneSurvey":
       // GET /api/v1/surveys/<accountid>/<surveyid>/
       // Authenticated: Not necessary
@@ -58,7 +59,7 @@ module.exports.handler = (event, context, callback) => {
           accountid: event.accountid,
           startKey: event.startKey,
         }, callback);
-      }).catch( (err) => {
+      }).catch((err) => {
         callback(err, null);
       });
       break;
@@ -67,12 +68,12 @@ module.exports.handler = (event, context, callback) => {
       // POST /api/v1/mgnt/surveys/
       // Authenticated: Yes
       return authorizedJudge.then(() => {
-         survey.addOneSurvey({
+        survey.addOneSurvey({
           accountid: event.accountid,
           subject: event.subject,
           survey: event.survey
         }, callback);
-      }).catch( (err) => {
+      }).catch((err) => {
         callback(err, null);
       });
       break;
@@ -81,13 +82,13 @@ module.exports.handler = (event, context, callback) => {
       // PUT /api/v1/mgnt/surveys/
       // Authenticated: Yes
       return authorizedJudge.then(() => {
-         survey.updateOneSurvey({
+        survey.updateOneSurvey({
           accountid: event.accountid,
           subject: event.subject,
           survey: event.survey,
           surveyid: event.surveyid
         }, callback);
-      }).catch( (err) => {
+      }).catch((err) => {
         callback(err, null);
       });
       break;
@@ -100,7 +101,7 @@ module.exports.handler = (event, context, callback) => {
           accountid: event.accountid,
           surveyid: event.surveyid
         }, callback);
-      }).catch( (err) => {
+      }).catch((err) => {
         callback(err, null);
       });
       break;

@@ -32,6 +32,6 @@ Vagrant.configure(2) do |config|
     sudo apt-get update
     sudo apt-get install -y git
     sudo apt-get install -y awscli
-    sudo npm install serverless -g
+    sudo npm install serverless@0.5.6 -g
   SHELL
 end

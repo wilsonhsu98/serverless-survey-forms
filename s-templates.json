@@ -22,9 +22,6 @@
     "principalId": "$context.authorizer.principalId"
   },
   "apiResponseTemplate": {
-    "204 No Content:.*": {
-      "statusCode": "204"
-    },
     "304 Not Modified.*": {
       "statusCode": "304"
     },
@@ -58,9 +55,6 @@
     }
   },
   "apiResponseNonCacheTemplate": {
-    "204 No Content:.*": {
-      "statusCode": "204"
-    },
     "304 Not Modified.*": {
       "statusCode": "304"
     },
