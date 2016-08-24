@@ -23,6 +23,7 @@ export default function questions(state = [], action) {
         ];
 
     case types.INIT_QUESTIONS:
+        return [];
     default:
         return state;
     }

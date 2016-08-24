@@ -1,10 +1,13 @@
 
+/* eslint new-cap: ["error", { "capIsNew": false, "properties": true }] */
+
 import * as types from '../constants/ActionTypes';
 import * as values from '../constants/DefaultValues';
 
 // import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
-import deepClone from 'deep-clone';
+import Immutable from 'immutable';
+
 import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
@@ -40,17 +43,16 @@ export function addQuestion(page) {
             required: true
         };
         const pageIdx = page - 1;
-        const newQuestions = [...getState().questions];
-        // if this page already existed, edit this page content
-        // object and array need copy reference
-        const pageData = Object.assign({}, newQuestions[pageIdx]);
-        pageData.question = [...pageData.question];
-        pageData.question.push(newQuestion);
-        newQuestions[pageIdx] = pageData;
+        // Use immutable to generate immutable objects and arrays
+        const originQuestions = Immutable.fromJS(getState().questions);
+        const newQuestions = originQuestions.updateIn(
+            [pageIdx, 'question'],
+            quelist => quelist.push(newQuestion)
+        );
 
         dispatch({
             type: types.ADD_QUESTION,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -58,26 +60,27 @@ export function addQuestion(page) {
 export function updateQuestionItem() {
     return (dispatch, getState) => {
         const { questions, editQuestion } = getState();
-        const newQuestions = [];
-        for (const obj of questions) {
-            const newPages = Object.assign({}, obj);
-            newPages.question = [];
-            for (const que of obj.question) {
-                let newItems = Object.assign({}, que);
-                if (que.id === editQuestion.id) {
-                    newItems = Object.assign(newItems, editQuestion);
-                    if (!editQuestion.hasOwnProperty('input')) {
-                        delete newItems.input;
-                    }
+        const originQuestions = Immutable.fromJS(questions);
+        let newQuestions;
+        let flag = false;
+        originQuestions.find((page, pageIdx) => {
+            page.get('question').find((quelist, quelistIdx) => {
+                flag = quelist.get('id').includes(editQuestion.id);
+                if (flag) {
+                    // update question
+                    newQuestions = originQuestions.updateIn(
+                        [pageIdx, 'question', quelistIdx],
+                        () => editQuestion
+                    );
                 }
-                newPages.question.push(newItems);
-            }
-            newQuestions.push(newPages);
-        }
+                return flag;
+            });
+            return flag;
+        });
 
         dispatch({
             type: types.EDIT_QUESTION,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -86,18 +89,24 @@ export function copyQuestion(page, queId) {
     return (dispatch, getState) => {
         const { questions } = getState();
         const pageIdx = page - 1;
-        const newQuestions = deepClone(questions);
-        const duplicateQue = deepClone(newQuestions[pageIdx].question[queId]);
-        // regenerate question id
-        Object.assign(duplicateQue, { id: Mixins.generateQuestionID() });
-        duplicateQue.data.forEach((item) => {
+        const originQuestions = Immutable.fromJS(questions);
+        let newQuestion = originQuestions.getIn([pageIdx, 'question', queId]);
+        newQuestion.get('data').forEach((optlist, optlistIdx) => {
             // regenerate options id
-            Object.assign(item, { value: Mixins.generateQuestionID() });
+            newQuestion = newQuestion.updateIn(
+                ['data', optlistIdx, 'value'],
+                () => Mixins.generateQuestionID()
+            );
         });
-        newQuestions[pageIdx].question.splice(queId + 1, 0, duplicateQue);
+        const newQuestions = originQuestions.updateIn(
+            [pageIdx, 'question'],
+            // regenerate question id
+            quelist => quelist.push(newQuestion.set('id', Mixins.generateQuestionID()))
+        );
+
         dispatch({
             type: types.COPY_QUESTION,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -106,14 +115,11 @@ export function deleteQuestion(page, queId) {
     return (dispatch, getState) => {
         const { questions } = getState();
         const pageIdx = page - 1;
-        const newQuestions = [...questions];
-        newQuestions[pageIdx] = Object.assign({}, questions[pageIdx]);
-        newQuestions[pageIdx].question = [...questions[pageIdx].question];
-        newQuestions[pageIdx].question.splice(queId, 1);
-
+        const originQuestions = Immutable.fromJS(questions);
+        const newQuestions = originQuestions.deleteIn([pageIdx, 'question', queId]);
         dispatch({
             type: types.DELETE_QUESTION,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -121,38 +127,24 @@ export function deleteQuestion(page, queId) {
 export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
     return (dispatch, getState) => {
         const { questions } = getState();
-        const newQuestions = [];
-        if (bfPage !== afPage) {
-            for (const obj of questions) {
-                const newPages = Object.assign({}, obj);
-                newPages.question = [...obj.question];
-                if (obj.page === bfPage) {
-                    newPages.question.splice(bfIdx, 1);
-                } else if (obj.page === afPage) {
-                    newPages.question.splice(afIdx, 0, data);
+        const originQuestions = Immutable.fromJS(questions);
+        let newQuestions = originQuestions.deleteIn([bfPage - 1, 'question', bfIdx]);
+        const len = newQuestions.getIn([afPage - 1, 'question']).size;
+        // subtract itself
+        const afterIndex = (bfPage === afPage && bfIdx < afIdx) ? afIdx - 1 : afIdx;
+
+        newQuestions = newQuestions.updateIn(
+            [afPage - 1, 'question'],
+            quelist => {
+                if (afterIndex < len) {
+                    return quelist.insert(afterIndex, data);
                 }
-                newQuestions.push(newPages);
-            }
-        } else {
-            for (const obj of questions) {
-                const newPages = Object.assign({}, obj);
-                newPages.question = [...obj.question];
-                if (obj.page === afPage) {
-                    newPages.question.splice(bfIdx, 1);
-                    if (bfIdx < afIdx) {
-                        // subtract itself
-                        newPages.question.splice(afIdx - 1, 0, data);
-                    } else {
-                        newPages.question.splice(afIdx, 0, data);
-                    }
-                }
-                newQuestions.push(newPages);
-            }
-        }
+                return quelist.push(data);
+            });
 
         dispatch({
             type: types.EXCHANGE_QUESTION,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -172,23 +164,28 @@ export function addPage(page) {
 
 export function copyPage(pageId) {
     return (dispatch, getState) => {
-        const newQuestions = deepClone(getState().questions);
-        const newPage = deepClone(newQuestions[pageId - 1]);
-        newPage.question.forEach((que) => {
-            // regenerate question id
-            Object.assign(que, { id: Mixins.generateQuestionID() });
-            que.data.forEach((item) => {
+        const originQuestions = Immutable.fromJS(getState().questions);
+        let newPage = originQuestions.get(pageId - 1);
+        newPage.get('question').forEach((que, queIdx) => {
+            newPage = newPage.updateIn(
+                ['question', queIdx, 'id'],
+                () => Mixins.generateQuestionID()
+            );
+            que.get('data').forEach((optlist, optlistIdx) => {
                 // regenerate options id
-                Object.assign(item, { value: Mixins.generateQuestionID() });
+                newPage = newPage.updateIn(
+                    ['question', queIdx, 'data', optlistIdx, 'value'],
+                    () => Mixins.generateQuestionID()
+                );
             });
         });
-        newQuestions.splice(pageId, 0, newPage);
-        newQuestions.forEach((page, idx) => {
-            Object.assign(page, { page: idx + 1 });
+        let newQuestions = originQuestions.push(newPage);
+        newQuestions.map((page, pageIdx) => {
+            newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
         });
         dispatch({
             type: types.COPY_PAGE,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -196,28 +193,27 @@ export function copyPage(pageId) {
 export function editPageTitle() {
     return (dispatch, getState) => {
         const { page, description } = getState().editPage;
-        const newQuestions = [...getState().questions];
-        newQuestions[page - 1] = Object.assign({}, newQuestions[page - 1],
-            { description: description });
+        let newQuestions = Immutable.fromJS(getState().questions);
+        newQuestions = newQuestions.setIn([page - 1, 'description'], description);
 
         dispatch({
             type: types.EDIT_PAGE_TITLE,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
 
 export function deletePage(pageId) {
     return (dispatch, getState) => {
-        const newQuestions = [...getState().questions];
-        newQuestions.splice(pageId - 1, 1);
-        newQuestions.forEach((page, idx) => {
-            Object.assign(page, { page: idx + 1 });
+        let newQuestions = Immutable.fromJS(getState().questions);
+        newQuestions = newQuestions.delete(pageId - 1);
+        newQuestions.map((page, pageIdx) => {
+            newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
         });
 
         dispatch({
             type: types.DELETE_PAGE,
-            questions: newQuestions
+            questions: newQuestions.toJS()
         });
     };
 }
@@ -227,9 +223,9 @@ export function exchangePage() {
         const { questions, orderPage } = getState();
         const newQuestions = [];
         orderPage.forEach((pageNum, idx) => {
-            const page = Object.assign({}, questions[pageNum - 1]);
-            page.page = idx + 1;
-            newQuestions.push(page);
+            newQuestions.push(
+                Object.assign({}, questions[pageNum - 1], { page: idx + 1 })
+            );
         });
 
         dispatch({
@@ -259,29 +255,46 @@ export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
         const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
-        const genQuestions = deepClone(questions);
+        let genQuestions = Immutable.fromJS(questions);
         // generate order number
         let idx = 0;
-        for (const page of genQuestions) {
-            if (page.description === '') Object.assign(page, { description: values.PAGE_TITLE });
-            for (const que of page.question) {
-                idx ++;
-                if (que.label === '') Object.assign(que, { label: values.QUESTION_TITLE });
-                if (que.hasOwnProperty('input') && que.input === '') {
-                    Object.assign(que, { input: values.PLACEHOLDER_TITLE });
-                }
-                Object.assign(que, { order: idx });
-                for (const opt of que.data) {
-                    if (opt.label === '') Object.assign(opt, { label: values.OPTION_TITLE });
-                    if (opt.hasOwnProperty('input') && opt.input === '') {
-                        Object.assign(opt, { input: values.PLACEHOLDER_TITLE });
-                    }
-                }
+        genQuestions.forEach((page, pageIdx) => {
+            if (page.get('description') === '') {
+                genQuestions = genQuestions.setIn([pageIdx, 'description'], values.PAGE_TITLE);
             }
-        }
+            page.get('question').forEach((que, queIdx) => {
+                idx ++;
+                if (que.get('label') === '') {
+                    genQuestions = genQuestions.setIn(
+                        [pageIdx, 'question', queIdx, 'label'],
+                        values.QUESTION_TITLE);
+                }
+                if (que.has('input') && que.get('input') === '') {
+                    genQuestions = genQuestions.setIn(
+                        [pageIdx, 'question', queIdx, 'input'],
+                        values.PLACEHOLDER_TITLE);
+                }
+                genQuestions = genQuestions.setIn([pageIdx, 'question', queIdx, 'order'], idx);
+                que.get('data').forEach((opt, optIdx) => {
+                    if (opt.get('label') === '') {
+                        genQuestions = genQuestions.setIn(
+                            [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
+                            values.OPTION_TITLE);
+                    }
+                    if (opt.has('input') && opt.get('input') === '') {
+                        genQuestions = genQuestions.setIn(
+                            [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
+                            values.PLACEHOLDER_TITLE);
+                    }
+                });
+            });
+        });
         const postData = {
             subject: subject,
-            survey: { content: genQuestions, thankyou: surveyPolicy }
+            survey: {
+                format: Config.surveyFormat,
+                content: genQuestions.toJS(),
+                thankyou: surveyPolicy }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
@@ -298,7 +311,7 @@ export function saveQuestion() {
             if (data.datetime) {
                 dispatch({
                     type: types.UPDATE_QUESTIONS,
-                    questions: genQuestions
+                    questions: genQuestions.toJS()
                 });
                 dispatch(saveQuestionsSuccess());
             } else {
@@ -317,11 +330,10 @@ function setSurveyPolicy(data) {
 }
 
 export function editSurveyPolicy(flag) {
-    const data = Object.assign({},
-        {
-            description: 'Thanks for sharing your feedback with Trend Micro.',
-            privacy: {}
-        });
+    const data = {
+        description: 'Thanks for sharing your feedback with Trend Micro.',
+        privacy: {}
+    };
 
     if (flag) {
         const label = 'If Trend Micro has a follow-up survey on the Email Scan,'

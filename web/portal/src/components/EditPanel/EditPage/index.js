@@ -3,8 +3,9 @@
 import styles from './style.css';
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
 
+import * as values from '../../../constants/DefaultValues';
+import FixComponent from '../../FixComponent';
 import Button from '../../Button';
 
 class EditPage extends FixComponent {
@@ -14,6 +15,7 @@ class EditPage extends FixComponent {
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
+        this._handleFocusEvent = this._handleFocusEvent.bind(this);
     }
 
     render() {
@@ -25,13 +27,18 @@ class EditPage extends FixComponent {
                     <div className="edit">
                         <div className="editContent">
                             <div className={styles.item}>
-                                Page {editPage.page}:
-                                <input
-                                    type="text"
-                                    value={editPage.description}
-                                    onChange={this._handleChangeEvent}
-                                    className={`${styles.input} input input--medium`}
-                                />
+                                <div className={styles.title}>Page {editPage.page}:</div>
+                                <div className={styles.field}>
+                                    <input
+                                        id="pageTxt"
+                                        type="text"
+                                        value={editPage.description}
+                                        onChange={this._handleChangeEvent}
+                                        onFocus={this._handleFocusEvent}
+                                        className={`${styles.input} input input--medium`}
+                                    />
+                                    <div className="input__msg js-msg"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -57,13 +64,22 @@ class EditPage extends FixComponent {
 
     _btnClickEvent(e) {
         const { editPageActions, questionsActions } = this.props;
+        const msg = document.getElementsByClassName('js-msg')[0];
+        msg.innerHTML = '';
+
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editPageActions.stopEditPage();
         } else if (e.currentTarget.getAttribute('data-type') === 'save') {
-            // save editPage to Question
-            questionsActions.editPageTitle();
-            questionsActions.saveQuestion();
-            editPageActions.stopEditPage();
+            // Error handling
+            const pageTxt = document.getElementById('pageTxt');
+            if (pageTxt.value === '') {
+                msg.innerHTML = 'Please fill page title';
+            } else {
+                // save editPage to Question
+                questionsActions.editPageTitle();
+                questionsActions.saveQuestion();
+                editPageActions.stopEditPage();
+            }
         }
     }
 
@@ -71,6 +87,13 @@ class EditPage extends FixComponent {
         const { editPageActions } = this.props;
         const data = { description: e.target.value };
         editPageActions.setEditPage(data);
+    }
+
+    _handleFocusEvent(e) {
+        const target = e.target;
+        if (target.value === values.PAGE_TITLE) {
+            target.value = '';
+        }
     }
 }
 

@@ -20,8 +20,10 @@ import styles from './style.css';
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
+import I18Next from 'i18next';
 
 import Question from '../Question/index';
+import Error from '../Error';
 
 class Checkbox extends PureComponent {
 
@@ -34,9 +36,11 @@ class Checkbox extends PureComponent {
         });
         this.state = state;
         this.state.feedback = {};
+        this.state.selected = [];
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
         this._feedback = this._feedback.bind(this);
+        this._checkDone = this._checkDone.bind(this);
     }
     componentDidMount() {
         $(this.refs.root).localize();
@@ -58,6 +62,7 @@ class Checkbox extends PureComponent {
                 <div className="checkboxGrp">
                     {this._renderCheckboxItem()}
                 </div>
+                {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
             </div>
         );
     }
@@ -103,19 +108,28 @@ class Checkbox extends PureComponent {
 
     _onChangeHandle(e) {
         const feedback = this.state.feedback;
+        const selected = this.state.selected.filter((item) =>
+            item !== e.currentTarget.getAttribute('value'));
+        console.log(selected);
+
         feedback[e.currentTarget.getAttribute('value')] = {};
-        if (e.target.checked) {
+        if (e.currentTarget.checked) {
             feedback[e.currentTarget.getAttribute('value')].label =
             e.currentTarget.getAttribute('data-label');
+            selected.push(e.currentTarget.getAttribute('value'));
         } else {
             feedback[e.currentTarget.getAttribute('value')].label = false;
         }
 
         this.setState({
             [`${e.currentTarget.id}`]: !this.state[e.currentTarget.id],
-            feedback
+            feedback,
+            selected
         }, () => {
             this._feedback();
+            // Update complete status
+            const done = this._checkDone();
+            this.props.feedbackActions.updateRequired(this.props.id, done);
         });
     }
 
@@ -161,6 +175,12 @@ class Checkbox extends PureComponent {
         this.props.onChangeHandle(updatedfeedback);
     }
 
+    _checkDone() {
+        if (this.state.selected.length >= 1) {
+            return true;
+        }
+        return false;
+    }
 }
 
 Checkbox.PropTypes = {

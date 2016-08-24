@@ -19,18 +19,20 @@ class Unauthorize extends FixComponent {
     render() {
         return (
             <div className={`${styles.popup} popup`}>
-                <div className={`${styles.wrap} wrap`}>
-                    <div className={`${styles.content} content`}>
-                        <div className={styles.title}>
-                            Time out. To continue using Qustom, please log in again.
-                        </div>
-                        <div className={`bottom ${styles.bottom}`}>
-                            <Button
-                                string="Log In"
-                                i18nKey={false}
-                                color="ruby"
-                                onClick={this._btnClickEvent}
-                            />
+                <div className="popup_wrap">
+                    <div className={`${styles.wrap} wrap`}>
+                        <div className={`${styles.content} content`}>
+                            <div className={styles.title}>
+                                Time out. To continue using Qustom, please log in again.
+                            </div>
+                            <div className={`bottom ${styles.bottom}`}>
+                                <Button
+                                    string="Log In"
+                                    i18nKey={false}
+                                    color="ruby"
+                                    onClick={this._btnClickEvent}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

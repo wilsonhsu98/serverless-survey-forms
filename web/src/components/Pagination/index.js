@@ -7,7 +7,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 import classNames from 'classnames';
 import Button from '../Button';
 
@@ -15,7 +14,6 @@ class Pagination extends PureComponent {
 
     constructor() {
         super();
-        this._goToPage = this._goToPage.bind(this);
         this._prev = this._prev.bind(this);
         this._next = this._next.bind(this);
         this._done = this._done.bind(this);
@@ -145,34 +143,16 @@ class Pagination extends PureComponent {
         );
     }
 
-    _goToPage(e) {
-        this.props.surveyActions.goToPage($(e.target).data('index'));
-    }
-
     _prev() {
         this.props.surveyActions.goToPage(this.props.currentPage - 1);
     }
 
     _next() {
-        if (!this.props.settings.preview) {
-            if (this.props.currentPage === 1) {
-                this.props.feedbackActions.saveFeedback();
-            } else {
-                this.props.feedbackActions.updateFeedback();
-            }
-        }
-        this.props.surveyActions.goToPage(this.props.currentPage + 1);
+        this.props.feedbackActions.checkRequired('next', this.props.currentPage + 1);
     }
 
     _done() {
-        if (!this.props.settings.preview) {
-            if (this.props.currentPage === 1) {
-                this.props.feedbackActions.saveFeedback();
-            } else {
-                this.props.feedbackActions.updateFeedback();
-            }
-        }
-        this.props.surveyActions.surveyDone();
+        this.props.feedbackActions.checkRequired('done');
     }
 }
 

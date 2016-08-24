@@ -3,10 +3,10 @@
 import styles from './style.css';
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
 import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
+import FixComponent from '../../FixComponent';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
 import Button from '../../Button';
@@ -25,6 +25,7 @@ class EditQuestion extends FixComponent {
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._onAdvanceChangeHandle = this._onAdvanceChangeHandle.bind(this);
+        this._handleFocusEvent = this._handleFocusEvent.bind(this);
     }
 
     render() {
@@ -73,8 +74,10 @@ class EditQuestion extends FixComponent {
                         type="text"
                         value={editQuestion.label}
                         onChange={this._onTitleChange}
+                        onFocus={this._handleFocusEvent}
                         rows="2"
                     ></textarea>
+                    <div className="input__msg js-title-msg"></div>
                 </div>
             </div>
         );
@@ -152,13 +155,45 @@ class EditQuestion extends FixComponent {
 
     _btnClickEvent(e) {
         const { questionsActions, editQuestionActions } = this.props;
+        // Clear all error msg
+        $('.js-title-msg, .js-opt-msg, .js-optInput-msg').html('');
+
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editQuestionActions.stopEditQuestion();
         } else if (e.currentTarget.getAttribute('data-type') === 'save') {
-            // save editQuestion to Question
-            questionsActions.updateQuestionItem();
-            questionsActions.saveQuestion();
-            editQuestionActions.stopEditQuestion();
+            // Error handling
+            let flag = false;
+            let opt;
+            // Check question
+            const questionTxt = document.getElementById('editQuestion');
+            if (questionTxt.value === '') {
+                $('.js-title-msg').html('Please fill question');
+                flag = true;
+            }
+            // Check options
+            opt = $('input[type=text].js-opt');
+            Object.keys(opt).forEach((key) => {
+                if (!isNaN(key) && opt[key].value === '') {
+                    $('.js-opt-msg').eq(key).html('Please fill option');
+                    flag = true;
+                }
+            });
+            // Check options with inputs
+            opt = $('input[type=text].js-optInput');
+            const optInput = $('input[type=text].js-optInput-input');
+            Object.keys(opt).forEach((key) => {
+                if (!isNaN(key) && (opt[key].value === '') || (optInput[key].value === '')) {
+                    $('.js-optInput-msg').eq(key).html('Please fill option or input');
+                    flag = true;
+                }
+            });
+
+            if (!flag) {
+                // save editQuestion to Question
+                questionsActions.updateQuestionItem();
+                questionsActions.saveQuestion();
+                editQuestionActions.stopEditQuestion();
+            }
         }
     }
 
@@ -187,6 +222,14 @@ class EditQuestion extends FixComponent {
         } else {
             delete newData.input;
             editQuestionActions.deleteRatingInput();
+        }
+    }
+
+    _handleFocusEvent(e) {
+        const { editQuestion } = this.props;
+        const target = e.target;
+        if (editQuestion.label === values.QUESTION_TITLE) {
+            target.value = '';
         }
     }
 }
