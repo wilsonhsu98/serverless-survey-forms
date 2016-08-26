@@ -410,20 +410,29 @@
     left: 0;
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.6);
+    .popup_wrap {
+        text-align: center;
+        height: 100%;
+        &:before {
+            content: "";
+            height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    .wrap {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 640px;
+        min-height: 150px;
+        background-color: #FFF;
+    }
     .close {
         position: absolute;
         top: 0;
         right: 0;
-    }
-    .wrap {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        margin-left: -320px;
-        margin-top: -100px;
-        width: 640px;
-        height: 200px;
-        background-color: #FFF;
     }
     .content {
         position: relative;

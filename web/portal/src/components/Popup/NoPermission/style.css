@@ -4,7 +4,6 @@
 
 .popup {
     .wrap {
-        margin-top: -75px;
         height: 150px;
         &:before {
             content: '';

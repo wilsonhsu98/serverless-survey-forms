@@ -7,6 +7,7 @@ import { findDOMNode } from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import { DragSource, DropTarget } from 'react-dnd';
 
+import * as values from '../../../constants/DefaultValues';
 import * as types from '../../../constants/DragTypes';
 import IconButton from '../../IconButton';
 
@@ -75,6 +76,7 @@ class EditItem extends PureComponent {
 
         this._renderOption = this._renderOption.bind(this);
         this._renderOptionWithText = this._renderOptionWithText.bind(this);
+        this._handleFocusEvent = this._handleFocusEvent.bind(this);
     }
 
     render() {
@@ -120,43 +122,56 @@ class EditItem extends PureComponent {
     _renderOption() {
         const { id, data, onChangeHandle } = this.props;
         return (
-            <input
-                data-id={id}
-                data-type="label"
-                type="text"
-                className={`${styles.longText} ut-input input input--medium`}
-                value={data.label}
-                placeholder="New Option"
-                onChange={onChangeHandle}
-            />
+            <div>
+                <input
+                    data-id={id}
+                    data-type="label"
+                    type="text"
+                    className={`${styles.longText} js-opt ut-input input input--medium`}
+                    value={data.label}
+                    onChange={onChangeHandle}
+                    onFocus={this._handleFocusEvent}
+                />
+                <div className="input__msg js-opt-msg"></div>
+            </div>
         );
     }
 
     _renderOptionWithText() {
         const { id, data, onChangeHandle } = this.props;
         return (
-            <span>
+            <div>
                 <input
                     data-id={id}
                     data-type="label"
                     type="text"
-                    className={`${styles.shortText} input input--medium`}
+                    className={`${styles.shortText} js-optInput input input--medium`}
                     value={data.label}
-                    placeholder="New Option"
                     onChange={onChangeHandle}
+                    onFocus={this._handleFocusEvent}
                 />
                 <span> - </span>
                 <input
                     data-id={id}
                     data-type="input"
                     type="text"
-                    className={`${styles.shortText} input input--medium`}
+                    className={`${styles.shortText} js-optInput-input input input--medium`}
                     value={data.input}
-                    placeholder="New Option"
                     onChange={onChangeHandle}
+                    onFocus={this._handleFocusEvent}
                 />
-            </span>
+                <div className="input__msg js-optInput-msg"></div>
+            </div>
         );
+    }
+
+    _handleFocusEvent(e) {
+        const target = e.target;
+        const compareStr = target.getAttribute('data-type') === 'label' ?
+            values.OPTION_TITLE : values.PLACEHOLDER_TITLE;
+        if (target.value === compareStr) {
+            target.value = '';
+        }
     }
 }
 

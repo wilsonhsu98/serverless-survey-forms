@@ -4,6 +4,7 @@
 
 .popup {
     .wrap {
+        min-height: 200px;
         &:before {
             content: '';
             display: block;
