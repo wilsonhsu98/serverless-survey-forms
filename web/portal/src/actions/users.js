@@ -84,3 +84,10 @@ export function changeUserRole(idx, role) {
         .catch(err => dispatch(changeUserRoleFailure(err)));
     };
 }
+
+export function setSelectedUser(data) {
+    return {
+        type: types.SET_SELECTED_USER,
+        selectedUser: data
+    };
+}

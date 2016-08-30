@@ -32,7 +32,7 @@ class UserList extends PureComponent {
             const name = (
                 <a
                     className="link ut-name"
-                    data-id={idx}
+                    data-id={user.accountid}
                     onClick={this._onNameClick}
                 >{user.username}</a>);
             const tr = (
@@ -81,7 +81,7 @@ class UserList extends PureComponent {
     }
 
     _onNameClick(e) {
-        console.log(e.currentTarget.getAttribute('data-id'));
+        this.props.usersActions.setSelectedUser(e.currentTarget.getAttribute('data-id'));
     }
 
     _onChangeRoleClick(e) {

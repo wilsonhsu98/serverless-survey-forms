@@ -33,6 +33,7 @@
     preview: 'embedded/previewPhone/previewPad/previewDesktop',
     previewID: '',
     users: [],
+    selectedUser: ''
     webpage: 'index'
  }
 **/
@@ -56,6 +57,7 @@ import surveyPolicy from './surveyPolicy';
 import preview from './preview';
 import previewID from './previewID';
 import users from './users';
+import selectedUser from './selectedUser';
 import webpage from './webpage';
 
 const rootReducer = combineReducers({
@@ -76,6 +78,7 @@ const rootReducer = combineReducers({
     preview,
     previewID,
     users,
+    selectedUser,
     webpage,
     routing: routerReducer
 });
