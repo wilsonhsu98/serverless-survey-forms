@@ -16,17 +16,29 @@ let facebook = require('serverless-authentication-facebook');
 function callback(event, _callback) {
   let providerConfig = config(event);
 
+  const decryption = (state) => {
+    const decipher = crypto.createDecipher('aes256', process.env.TOKEN_SECRET);
+    let decryptedState;
+    try {
+      decryptedState = decipher.update(state, 'hex', 'utf8');
+      decryptedState += decipher.final('utf8');
+      decryptedState = decryptedState.split('/')[0];
+      return decryptedState;
+    } catch (ex) {
+      console.error(`Decryption Failed: ${ex}`);
+      decryptedState = 'State mismatch';
+      return decryptedState;
+    }
+  };
+
   let handleResponse = (err, profile, state) => {
     if (err) {
       utils.errorResponse({
         error: 'Unauthorized'
       }, providerConfig, _callback);
     } else {
-      const decipher = crypto.createDecipher('aes256', process.env.TOKEN_SECRET);
-      let decryptedState = decipher.update(state, 'hex', 'utf8');
-      decryptedState += decipher.final('utf8');
-      decryptedState = decryptedState.split('/')[0];
-      if (decryptedState !== 'state-' + profile.provider) {
+      const decryptionState = decryption(state);
+      if (decryptionState !== 'state-' + profile.provider) {
         // here you should compare if the state returned from provider exist in dynamo db
         // and then expire it
         utils.errorResponse({
