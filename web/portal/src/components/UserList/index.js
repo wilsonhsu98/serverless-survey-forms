@@ -11,6 +11,7 @@ class UserList extends PureComponent {
         super();
         this._renderList = this._renderList.bind(this);
         this._onNameClick = this._onNameClick.bind(this);
+        this._onChangeRoleClick = this._onChangeRoleClick.bind(this);
     }
 
     render() {
@@ -31,7 +32,7 @@ class UserList extends PureComponent {
             const name = (
                 <a
                     className="link ut-name"
-                    data-id={user.accountid}
+                    data-id={idx}
                     onClick={this._onNameClick}
                 >{user.username}</a>);
             const tr = (
@@ -40,7 +41,11 @@ class UserList extends PureComponent {
                         {name}
                     </td>
                     <td className={`${styles.role} ut-role`}>
-                        <div className={styles.roleBtn}>
+                        <div
+                            className={styles.roleBtn}
+                            onClick={this._onChangeRoleClick}
+                            data-id={idx}
+                        >
                             <span className={user.role === 'Admin' ? styles.active : ''}>
                                 admin
                             </span>
@@ -77,6 +82,12 @@ class UserList extends PureComponent {
 
     _onNameClick(e) {
         console.log(e.currentTarget.getAttribute('data-id'));
+    }
+
+    _onChangeRoleClick(e) {
+        const idx = e.currentTarget.getAttribute('data-id');
+        const role = e.target.innerHTML.replace(/[a-z]/, (a) => a.toUpperCase());
+        this.props.usersActions.changeUserRole(idx, role);
     }
 }
 

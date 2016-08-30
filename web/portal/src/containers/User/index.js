@@ -17,12 +17,13 @@ class User extends PureComponent {
     }
 
     render() {
-        const { users } = this.props;
+        const { users, usersActions } = this.props;
 
         return (
             <div ref="root">
                 <UserList
                     users={users}
+                    usersActions={usersActions}
                 />
             </div>
         );
