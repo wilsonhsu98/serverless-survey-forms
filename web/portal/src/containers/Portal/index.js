@@ -13,12 +13,14 @@ import * as SubjectActions from '../../actions/subject';
 import * as QuestionsActions from '../../actions/questions';
 import * as PreviewActions from '../../actions/preview';
 import * as AccountActions from '../../actions/account';
+import * as WebpageActions from '../../actions/webpage';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 import Create from '../../containers/Create/';
+import User from '../../containers/User';
 import List from '../../containers/List/';
 import Subject from '../../components/Popup/Subject';
 import Preview from '../../components/Popup/Preview';
@@ -35,13 +37,14 @@ export class Portal extends PureComponent {
     render() {
         const { account, loading, subject, surveyID, preview, previewID, webpage,
             editSubject, editSubjectActions, subjectActions,
-            questionsActions, previewActions } = this.props;
+            questionsActions, previewActions, webpageActions } = this.props;
         const headProps = {
             account,
             subject,
             webpage,
             editSubjectActions,
-            questionsActions
+            questionsActions,
+            webpageActions
         };
         const subProps = { subject, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
@@ -90,7 +93,7 @@ export class Portal extends PureComponent {
         let children;
         switch (webpage) {
         case 'user':
-            // children = <Create />;
+            children = <User />;
             break;
         case 'create':
             children = <Create />;
@@ -131,7 +134,8 @@ function mapDispatchToProps(dispatch) {
         subjectActions: bindActionCreators(SubjectActions, dispatch),
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
         previewActions: bindActionCreators(PreviewActions, dispatch),
-        accountActions: bindActionCreators(AccountActions, dispatch)
+        accountActions: bindActionCreators(AccountActions, dispatch),
+        webpageActions: bindActionCreators(WebpageActions, dispatch)
     };
 }
 

@@ -16,6 +16,7 @@ class Header extends PureComponent {
         this._onEditSubject = this._onEditSubject.bind(this);
         this._onBackClick = this._onBackClick.bind(this);
         this._toggleAdminMenu = this._toggleAdminMenu.bind(this);
+        this._AdminMenuClick = this._AdminMenuClick.bind(this);
     }
 
     componentDidMount() {
@@ -73,7 +74,7 @@ class Header extends PureComponent {
                     >
                         <div className={styles.menuArrow}></div>
                         <ul className={styles.menulist}>
-                            <li>Administration</li>
+                            <li onClick={this._AdminMenuClick}>Administration</li>
                         </ul>
                     </div>);
             }
@@ -112,6 +113,13 @@ class Header extends PureComponent {
     _toggleAdminMenu() {
         this.setState({
             isMenuOpen: !this.state.isMenuOpen
+        });
+    }
+
+    _AdminMenuClick() {
+        this.props.webpageActions.setWebpage('user');
+        this.setState({
+            isMenuOpen: false
         });
     }
 }
