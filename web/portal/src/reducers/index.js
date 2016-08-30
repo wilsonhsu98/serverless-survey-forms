@@ -31,7 +31,8 @@
         }
     },
     preview: 'embedded/previewPhone/previewPad/previewDesktop',
-    previewID: ''
+    previewID: '',
+    webpage: 'index'
  }
 **/
 
@@ -53,6 +54,7 @@ import selectedSurveys from './selectedSurveys';
 import surveyPolicy from './surveyPolicy';
 import preview from './preview';
 import previewID from './previewID';
+import webpage from './webpage';
 
 const rootReducer = combineReducers({
     loading,
@@ -71,6 +73,7 @@ const rootReducer = combineReducers({
     surveyPolicy,
     preview,
     previewID,
+    webpage,
     routing: routerReducer
 });
 
