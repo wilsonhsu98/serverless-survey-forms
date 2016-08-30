@@ -11,8 +11,13 @@ describe('[Portal] Testing Header Component', () => {
     jsdom({ skipWindowCheck: true });
 
     const props = {
+        account: {
+            accountid: 'facebook-xxxxx',
+            role: 'Designer',
+            username: 'User TM'
+        },
         subject: '',
-        surveyID: '',
+        webpage: 'index',
         editSubjectActions: () => {},
         questionsActions: () => {},
         questionsActions: () => {}
@@ -30,7 +35,7 @@ describe('[Portal] Testing Header Component', () => {
         const editProps = Object.assign({}, props,
             {
                 subject: 'New questionnaire',
-                surveyID: 'N97ABN2A1A0FAL'
+                webpage: 'create'
             });
         const content = TestUtils.renderIntoDocument(<Header {...editProps} />);
         const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
