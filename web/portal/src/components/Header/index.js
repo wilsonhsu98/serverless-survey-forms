@@ -19,27 +19,27 @@ class Header extends PureComponent {
         this._AdminMenuClick = this._AdminMenuClick.bind(this);
     }
 
-    componentDidMount() {
-        const { account } = this.props;
-        if (account.role === 'Admin') {
-            const admin = this.refs.admin;
-            admin.addEventListener('click', this._toggleAdminMenu);
-        }
-    }
-
-    componentWillUnmount() {
-        const { account } = this.props;
-        if (account.role === 'Admin') {
-            const admin = this.refs.admin;
-            admin.removeEventListener('click', this._toggleAdminMenu);
-        }
-    }
-
     render() {
         const { account, subject, webpage } = this.props;
         const { isMenuOpen } = this.state;
         let content;
-        if (webpage === 'create') {
+        let profile;
+        let menu;
+        switch (webpage) {
+        case 'user':
+            content = (
+                <div className={`${styles.qustom} ut-qustom`}>
+                    <div
+                        className={styles.back}
+                        onClick={this._onBackClick}
+                    ></div>
+                    <div className={`${styles.title} ut-title`}>
+                        Administration
+                    </div>
+                </div>
+            );
+            break;
+        case 'create':
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
                     <div
@@ -58,15 +58,19 @@ class Header extends PureComponent {
                     </div>
                 </div>
             );
-        } else {
-            let profile;
-            let menu;
+            break;
+        default:
             if (account.role === 'Admin') {
-                profile = (<div ref="admin" className={styles.profile}>
-                    <div className={styles.profileImg}></div>
-                    <div className={styles.name}>{account.username}</div>
-                    <div className={styles.arrow}></div>
-                </div>);
+                profile = (
+                    <div
+                        ref="admin"
+                        className={styles.profile}
+                        onClick={this._toggleAdminMenu}
+                    >
+                        <div className={styles.profileImg}></div>
+                        <div className={styles.name}>{account.username}</div>
+                        <div className={styles.arrow}></div>
+                    </div>);
                 menu = (
                     <div
                         className={styles.menu}
@@ -88,10 +92,11 @@ class Header extends PureComponent {
             );
         }
 
+        const edit = webpage === 'create' || webpage === 'user' ? styles.edit : '';
         return (
             <div
                 id="header"
-                className={`${styles.header} ${webpage === 'create' ? styles.edit : ''}`}
+                className={`${styles.header} ${edit}`}
             >
                 <div className={styles.container}>
                     {content}
@@ -106,8 +111,12 @@ class Header extends PureComponent {
     }
 
     _onBackClick() {
-        const { questionsActions } = this.props;
-        questionsActions.finishEdit('');
+        const { webpage, questionsActions, webpageActions } = this.props;
+        if (webpage === 'create') {
+            questionsActions.finishEdit('');
+        } else {
+            webpageActions.setWebpage('index');
+        }
     }
 
     _toggleAdminMenu() {
