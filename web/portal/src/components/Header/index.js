@@ -35,10 +35,10 @@ class Header extends PureComponent {
     }
 
     render() {
-        const { account, subject, surveyID } = this.props;
+        const { account, subject, webpage } = this.props;
         const { isMenuOpen } = this.state;
         let content;
-        if (surveyID) {
+        if (webpage === 'create') {
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
                     <div
@@ -88,7 +88,10 @@ class Header extends PureComponent {
         }
 
         return (
-            <div id="header" className={`${styles.header} ${surveyID ? styles.edit : ''}`}>
+            <div
+                id="header"
+                className={`${styles.header} ${webpage === 'create' ? styles.edit : ''}`}
+            >
                 <div className={styles.container}>
                     {content}
                 </div>

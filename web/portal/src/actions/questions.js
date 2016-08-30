@@ -12,6 +12,7 @@ import Config from '../config';
 import Mixins from '../mixins/global';
 import { setSubject } from './subject';
 import { expiredToken } from './account';
+import { setWebpage } from './webpage';
 
 export function setSurveyID(data) {
     return {
@@ -28,6 +29,7 @@ export function finishEdit() {
         dispatch({ type: types.INIT_SURVEY_POLICY });
         // TODOS: temporarily remove router
         // dispatch(push('/'));
+        dispatch(setWebpage('index'));
     };
 }
 
@@ -389,6 +391,7 @@ export function getQuestion(surveyID) {
                 dispatch(setSurveyID(data.surveyid));
                 // TODOS: temporarily remove router
                 // dispatch(push('/create'));
+                dispatch(setWebpage('create'));
             } else {
                 dispatch(receiveQuestionsFailure(data));
             }

@@ -33,13 +33,13 @@ export class Portal extends PureComponent {
     }
 
     render() {
-        const { account, loading, subject, surveyID, preview, previewID,
+        const { account, loading, subject, surveyID, preview, previewID, webpage,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions } = this.props;
         const headProps = {
             account,
             subject,
-            surveyID,
+            webpage,
             editSubjectActions,
             questionsActions
         };
@@ -75,7 +75,7 @@ export class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { account, surveyID } = this.props;
+        const { account, webpage } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid')) {
@@ -86,9 +86,20 @@ export class Portal extends PureComponent {
         // if user has a account and the account role is Designer or Admin
         body.classList.add('bg');
 
-
         // TODOS: temporarily remove router
-        const children = surveyID ? <Create /> : <List />;
+        let children;
+        switch (webpage) {
+        case 'user':
+            // children = <Create />;
+            break;
+        case 'create':
+            children = <Create />;
+            break;
+        case 'index':
+        default:
+            children = <List />;
+        }
+
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
@@ -106,10 +117,10 @@ function mapStateToProps(state) {
         token: state.token,
         account: state.account,
         subject: state.subject,
-        surveyID: state.surveyID,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
+        webpage: state.webpage,
         routing: state.routing
     };
 }
