@@ -33,7 +33,7 @@
     preview: 'embedded/previewPhone/previewPad/previewDesktop',
     previewID: '',
     users: [],
-    selectedUser: ''
+    selectedUser: {}
     webpage: 'index'
  }
 **/

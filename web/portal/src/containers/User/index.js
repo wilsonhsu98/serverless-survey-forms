@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 // Actions
 import * as UsersActions from '../../actions/users';
+import * as WebpageActions from '../../actions/webpage';
 
 import UserList from '../../components/UserList';
 
@@ -17,13 +18,14 @@ class User extends PureComponent {
     }
 
     render() {
-        const { users, usersActions } = this.props;
+        const { users, usersActions, webpageActions } = this.props;
 
         return (
             <div ref="root">
                 <UserList
                     users={users}
                     usersActions={usersActions}
+                    webpageActions={webpageActions}
                 />
             </div>
         );
@@ -38,7 +40,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        usersActions: bindActionCreators(UsersActions, dispatch)
+        usersActions: bindActionCreators(UsersActions, dispatch),
+        webpageActions: bindActionCreators(WebpageActions, dispatch)
     };
 }
 
