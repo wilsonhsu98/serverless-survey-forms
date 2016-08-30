@@ -37,6 +37,7 @@ export class Portal extends PureComponent {
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions } = this.props;
         const headProps = {
+            account,
             subject,
             surveyID,
             editSubjectActions,
