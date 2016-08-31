@@ -23,7 +23,7 @@ class Unauthorize extends FixComponent {
                     <div className={`${styles.wrap} wrap`}>
                         <div className={`${styles.content} content`}>
                             <div className={styles.title}>
-                                Time out. To continue using Qustom, please log in again.
+                                To keep using Qustom, you must sign in again.
                             </div>
                             <div className={`bottom ${styles.bottom}`}>
                                 <Button

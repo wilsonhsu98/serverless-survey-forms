@@ -21,13 +21,13 @@ class FBLogin extends PureComponent {
                 <div className={styles.content_bg}></div>
                 <div className={styles.container}>
                     <div className={styles.content}>
-                        <div className={styles.title}>The survey form you ever need</div>
+                        <div className={styles.title}>Thanks for Participating</div>
                         <div className={styles.description}>
-                            Create customized questionnaire at your fingertip.
+                            Ready to get started?
                         </div>
                         <div className={styles.grantBtn}>
                             <Button
-                                string="Log in with your Facebook"
+                                string="Sign in with Facebook"
                                 i18nKey={false}
                                 color="ruby"
                                 size="medium"

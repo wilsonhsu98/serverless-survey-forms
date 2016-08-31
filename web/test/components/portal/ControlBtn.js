@@ -13,6 +13,7 @@ describe('[Portal] Testing ControlBtn Component', () => {
 
     const props = {
         selectedSurveys: '',
+        selectedUser: {},
         editSubjectActions: () => {},
         surveysActions: () => {},
         previewActions: () => {}
@@ -34,5 +35,20 @@ describe('[Portal] Testing ControlBtn Component', () => {
         );
         const btn = TestUtils.scryRenderedComponentsWithType(content, IconButton);
         expect(btn.length).toEqual(4);
+    });
+
+    it('survey list control button: no create btn in admin mode', () => {
+        props.selectedSurveys = '';
+        props.selectedUser = {
+            accountid: 'facebook-xxxxx',
+            role: 'Admin',
+            username: 'Admin TM'
+        };
+
+        const content = TestUtils.renderIntoDocument(
+            <ControlBtn {...props} />
+        );
+        const btn = TestUtils.scryRenderedComponentsWithType(content, IconButton);
+        expect(btn.length).toEqual(0);
     });
 });
