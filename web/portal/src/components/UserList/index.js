@@ -83,7 +83,7 @@ class UserList extends PureComponent {
     _onNameClick(e) {
         const { users, usersActions, webpageActions } = this.props;
         usersActions.setSelectedUser(users[e.currentTarget.getAttribute('data-id')]);
-        webpageActions.setWebpage('index');
+        webpageActions.setWebpage('userSurvey');
     }
 
     _onChangeRoleClick(e) {

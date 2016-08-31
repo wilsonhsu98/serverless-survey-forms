@@ -20,7 +20,7 @@ class Header extends PureComponent {
     }
 
     render() {
-        const { account, subject, webpage } = this.props;
+        const { account, subject, selectedUser, webpage } = this.props;
         const { isMenuOpen } = this.state;
         let content;
         let profile;
@@ -35,6 +35,19 @@ class Header extends PureComponent {
                     ></div>
                     <div className={`${styles.title} ut-title`}>
                         Administration
+                    </div>
+                </div>
+            );
+            break;
+        case 'userSurvey':
+            content = (
+                <div className={`${styles.qustom} ut-qustom`}>
+                    <div
+                        className={styles.back}
+                        onClick={this._onBackClick}
+                    ></div>
+                    <div className={`${styles.title} ut-title`}>
+                        {selectedUser.username}'s Survey
                     </div>
                 </div>
             );
@@ -111,9 +124,12 @@ class Header extends PureComponent {
     }
 
     _onBackClick() {
-        const { webpage, questionsActions, webpageActions } = this.props;
+        const { webpage, questionsActions, usersActions, webpageActions } = this.props;
         if (webpage === 'create') {
             questionsActions.finishEdit('');
+        } else if (webpage === 'userSurvey') {
+            usersActions.emptySelectedUser();
+            webpageActions.setWebpage('user');
         } else {
             webpageActions.setWebpage('index');
         }

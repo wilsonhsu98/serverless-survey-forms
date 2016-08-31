@@ -20,7 +20,7 @@ class List extends PureComponent {
     }
 
     render() {
-        const { account, surveys, selectedSurveys,
+        const { account, surveys, selectedSurveys, selectedUser,
             surveysActions, questionsActions, editSubjectActions } = this.props;
 
         return (
@@ -34,6 +34,7 @@ class List extends PureComponent {
                 <SurveyList
                     surveys={surveys}
                     selectedSurveys={selectedSurveys}
+                    selectedUser={selectedUser}
                     questionsActions={questionsActions}
                     surveysActions={surveysActions}
                 />
@@ -46,7 +47,8 @@ function mapStateToProps(state) {
     return {
         account: state.account,
         surveys: state.surveys,
-        selectedSurveys: state.selectedSurveys
+        selectedSurveys: state.selectedSurveys,
+        selectedUser: state.selectedUser
     };
 }
 

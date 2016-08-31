@@ -13,6 +13,7 @@ import * as SubjectActions from '../../actions/subject';
 import * as QuestionsActions from '../../actions/questions';
 import * as PreviewActions from '../../actions/preview';
 import * as AccountActions from '../../actions/account';
+import * as UsersActions from '../../actions/users';
 import * as WebpageActions from '../../actions/webpage';
 
 import Header from '../../components/Header';
@@ -35,15 +36,18 @@ export class Portal extends PureComponent {
     }
 
     render() {
-        const { account, loading, subject, surveyID, preview, previewID, webpage,
+        const { account, loading, subject, surveyID, preview, previewID,
+            selectedUser, webpage,
             editSubject, editSubjectActions, subjectActions,
-            questionsActions, previewActions, webpageActions } = this.props;
+            questionsActions, previewActions, usersActions, webpageActions } = this.props;
         const headProps = {
             account,
             subject,
+            selectedUser,
             webpage,
             editSubjectActions,
             questionsActions,
+            usersActions,
             webpageActions
         };
         const subProps = { subject, surveyID, editSubjectActions, subjectActions };
@@ -98,6 +102,7 @@ export class Portal extends PureComponent {
         case 'create':
             children = <Create />;
             break;
+        case 'userSurvey':
         case 'index':
         default:
             children = <List />;
@@ -123,6 +128,7 @@ function mapStateToProps(state) {
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
+        selectedUser: state.selectedUser,
         webpage: state.webpage,
         routing: state.routing
     };
@@ -135,6 +141,7 @@ function mapDispatchToProps(dispatch) {
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
         previewActions: bindActionCreators(PreviewActions, dispatch),
         accountActions: bindActionCreators(AccountActions, dispatch),
+        usersActions: bindActionCreators(UsersActions, dispatch),
         webpageActions: bindActionCreators(WebpageActions, dispatch)
     };
 }

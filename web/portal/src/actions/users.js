@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 import * as types from '../constants/ActionTypes';
 import Config from '../config';
 import { expiredToken } from './account';
+import { receiveSurveysSuccess } from './surveys';
 
 function requestUsersFailure(err) {
     return (dispatch) => {
@@ -89,5 +90,12 @@ export function setSelectedUser(data) {
     return {
         type: types.SET_SELECTED_USER,
         selectedUser: data
+    };
+}
+
+export function emptySelectedUser() {
+    return (dispatch) => {
+        dispatch(receiveSurveysSuccess([]));
+        dispatch(setSelectedUser({}));
     };
 }
