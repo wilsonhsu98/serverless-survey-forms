@@ -13,10 +13,11 @@ describe('[Portal] Testing Header Component', () => {
     const props = {
         account: {
             accountid: 'facebook-xxxxx',
-            role: 'Designer',
+            role: 'Admin',
             username: 'User TM'
         },
         subject: '',
+        selectedUser: {},
         webpage: 'index',
         editSubjectActions: () => {},
         questionsActions: () => {},
@@ -24,11 +25,25 @@ describe('[Portal] Testing Header Component', () => {
     };
 
     it('header: normal mode', () => {
-        const content = TestUtils.renderIntoDocument(<Header {...props} />);
+        const normalProps = Object.assign({}, props,
+            {
+                account: {
+                    accountid: 'facebook-xxxxx',
+                    role: 'Designer',
+                    username: 'User TM'
+                }
+            });
+        const content = TestUtils.renderIntoDocument(<Header {...normalProps} />);
         const trend = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-trend');
         expect(trend).toExist();
         const qustom = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-qustom');
         expect(qustom).toEqual([]);
+    });
+
+    it('header: admin mode', () => {
+        const content = TestUtils.renderIntoDocument(<Header {...props} />);
+        const admin = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-admin');
+        expect(admin).toExist();
     });
 
     it('header: edit survey mode', () => {
@@ -45,5 +60,40 @@ describe('[Portal] Testing Header Component', () => {
 
         const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
         expect(title.textContent).toEqual(editProps.subject);
+    });
+
+    it('header: admin mode for user list', () => {
+        const adminProps = Object.assign({}, props,
+            {
+                webpage: 'user'
+            });
+        const content = TestUtils.renderIntoDocument(<Header {...adminProps} />);
+        const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
+        expect(trend).toEqual([]);
+        const qustom = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-qustom');
+        expect(qustom).toExist();
+
+        const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
+        expect(title.textContent).toEqual('Administration');
+    });
+
+    it('header: admin mode for user\' survey list', () => {
+        const adminProps = Object.assign({}, props,
+            {
+                selectedUser: {
+                    accountid: 'facebook-yyyy',
+                    role: 'Designer',
+                    username: 'Trend TM'
+                },
+                webpage: 'userSurvey'
+            });
+        const content = TestUtils.renderIntoDocument(<Header {...adminProps} />);
+        const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
+        expect(trend).toEqual([]);
+        const qustom = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-qustom');
+        expect(qustom).toExist();
+
+        const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
+        expect(title.textContent).toEqual(`${adminProps.selectedUser.username}'s Survey`);
     });
 });

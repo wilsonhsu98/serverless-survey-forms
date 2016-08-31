@@ -77,8 +77,7 @@ class Header extends PureComponent {
             if (account.role === 'Admin') {
                 profile = (
                     <div
-                        ref="admin"
-                        className={styles.profile}
+                        className={`${styles.profile} ut-admin`}
                         onClick={this._toggleAdminMenu}
                     >
                         <div className={styles.profileImg}></div>
