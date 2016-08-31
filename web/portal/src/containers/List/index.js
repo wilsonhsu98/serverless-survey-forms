@@ -28,6 +28,7 @@ class List extends PureComponent {
                 <ControlBtn
                     account={account}
                     selectedSurveys={selectedSurveys}
+                    selectedUser={selectedUser}
                     editSubjectActions={editSubjectActions}
                     surveysActions={surveysActions}
                 />
