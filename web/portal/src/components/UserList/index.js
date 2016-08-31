@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import classNames from 'classnames';
 
 class UserList extends PureComponent {
 
@@ -46,13 +47,15 @@ class UserList extends PureComponent {
                             onClick={this._onChangeRoleClick}
                             data-id={idx}
                         >
-                            <span className={user.role === 'Admin' ? styles.active : ''}>
+                            <span className={classNames(this._generateClass('Admin', user.role))}>
                                 admin
                             </span>
-                            <span className={user.role === 'Designer' ? styles.active : ''}>
+                            <span
+                                className={classNames(this._generateClass('Designer', user.role))}
+                            >
                                 designer
                             </span>
-                            <span className={user.role === 'User' ? styles.active : ''}>
+                            <span className={classNames(this._generateClass('User', user.role))}>
                                 user
                             </span>
                         </div>
@@ -78,6 +81,13 @@ class UserList extends PureComponent {
                 </tbody>
             </table>
         );
+    }
+
+    _generateClass(_role, _userRole) {
+        return {
+            [`ut-${_role.toLowerCase()}`]: true,
+            [`${styles.active}`]: _userRole === _role
+        };
     }
 
     _onNameClick(e) {
