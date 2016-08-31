@@ -8,7 +8,7 @@
     .icon {
         display: table-cell;
         width: 32px;
-        line-height: 32px;
+        height: 32px;
         background-image: resolve("component/ic_add_blue.png");
     }
     .txt {
@@ -16,6 +16,7 @@
         color: #049EB7;
         font-size: 14px;
         line-height: 32px;
+        vertical-align: middle;
     }
     &.disabled, &[disabled], &:disabled {
         cursor: default;
