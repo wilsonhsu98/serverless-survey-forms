@@ -105,7 +105,8 @@ class Header extends PureComponent {
             );
         }
 
-        const edit = webpage === 'create' || webpage === 'user' ? styles.edit : '';
+        const edit = webpage === 'create' || webpage === 'userCreate'
+            || webpage === 'user' ? styles.edit : '';
         return (
             <div
                 id="header"
