@@ -53,6 +53,7 @@ class Header extends PureComponent {
             );
             break;
         case 'create':
+        case 'userCreate':
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
                     <div
@@ -130,6 +131,8 @@ class Header extends PureComponent {
         } else if (webpage === 'userSurvey') {
             usersActions.emptySelectedUser();
             webpageActions.setWebpage('user');
+        } else if (webpage === 'userCreate') {
+            questionsActions.finishEdit('');
         } else {
             webpageActions.setWebpage('index');
         }

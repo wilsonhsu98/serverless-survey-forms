@@ -100,6 +100,7 @@ export class Portal extends PureComponent {
             children = <User />;
             break;
         case 'create':
+        case 'userCreate':
             children = <Create />;
             break;
         case 'userSurvey':

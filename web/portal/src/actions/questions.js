@@ -22,14 +22,19 @@ export function setSurveyID(data) {
 }
 
 export function finishEdit() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const { selectedUser } = getState();
         dispatch(setSurveyID(''));
         dispatch(setSubject(''));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
         // TODOS: temporarily remove router
         // dispatch(push('/'));
-        dispatch(setWebpage('index'));
+        if (selectedUser.hasOwnProperty('accountid')) {
+            dispatch(setWebpage('userSurvey'));
+        } else {
+            dispatch(setWebpage('index'));
+        }
     };
 }
 
@@ -256,7 +261,11 @@ function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
-        const { account, surveyID, subject, questions, surveyPolicy, token } = getState();
+        const { account, surveyID, subject, questions,
+            surveyPolicy, selectedUser, token } = getState();
+        // save question by selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
         let genQuestions = Immutable.fromJS(questions);
         // generate order number
         let idx = 0;
@@ -299,7 +308,7 @@ export function saveQuestion() {
                 thankyou: surveyPolicy }
         };
 
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, {
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
@@ -374,8 +383,11 @@ function receiveQuestionsFailure(err) {
 export function getQuestion(surveyID) {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_GET_QUESTION });
-        const { account } = getState();
-        return fetch(`${Config.baseURL}/api/v1/surveys/${account.accountid}/${surveyID}`, {
+        const { account, selectedUser } = getState();
+        // get question by selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
+        return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -391,7 +403,11 @@ export function getQuestion(surveyID) {
                 dispatch(setSurveyID(data.surveyid));
                 // TODOS: temporarily remove router
                 // dispatch(push('/create'));
-                dispatch(setWebpage('create'));
+                if (selectedUser.hasOwnProperty('accountid')) {
+                    dispatch(setWebpage('create'));
+                } else {
+                    dispatch(setWebpage('userCreate'));
+                }
             } else {
                 dispatch(receiveQuestionsFailure(data));
             }

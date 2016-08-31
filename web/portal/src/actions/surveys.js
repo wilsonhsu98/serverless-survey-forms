@@ -26,6 +26,7 @@ export function receiveSurveysSuccess(data) {
 
 export function getSurveys() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REMOVE_SELECTED_SURVEYS });
         dispatch({ type: types.REQUEST_SURVEYS_LIST });
         const { account, selectedUser, token } = getState();
         // fetch selected user account or user's account
