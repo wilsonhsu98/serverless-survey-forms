@@ -44,7 +44,7 @@ class Subject extends FixComponent {
 
                             <div className={`bottom ${styles.bottom}`}>
                                 <Button
-                                    string="Save"
+                                    string="Start"
                                     i18nKey={false}
                                     color="ruby"
                                     onClick={this._btnClickEvent}
