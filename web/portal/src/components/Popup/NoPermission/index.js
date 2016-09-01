@@ -22,11 +22,11 @@ class NoPermission extends FixComponent {
                     <div className={`${styles.wrap} wrap`}>
                         <div className={`${styles.content} content`}>
                             <div className={styles.title}>
-                                Your application of using Qustom is under evaluation.&nbsp;
-                                We’ll inform you once it’s done.&nbsp;
-                                Want to accelerate the process?&nbsp;
+                                <p>You will soon receive a confirmation message&nbsp;
+                                when you have been approved.</p>
+                                Want to speed things up?
                                 <a className="link" onClick={this._btnClickEvent}>
-                                    Contact system admin.
+                                    Click here.
                                 </a>
                             </div>
                         </div>

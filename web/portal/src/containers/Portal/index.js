@@ -13,12 +13,15 @@ import * as SubjectActions from '../../actions/subject';
 import * as QuestionsActions from '../../actions/questions';
 import * as PreviewActions from '../../actions/preview';
 import * as AccountActions from '../../actions/account';
+import * as UsersActions from '../../actions/users';
+import * as WebpageActions from '../../actions/webpage';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import FBLogin from '../../components/FBLogin';
 import Loading from '../../components/Loading';
 import Create from '../../containers/Create/';
+import User from '../../containers/User';
 import List from '../../containers/List/';
 import Subject from '../../components/Popup/Subject';
 import Preview from '../../components/Popup/Preview';
@@ -34,13 +37,18 @@ export class Portal extends PureComponent {
 
     render() {
         const { account, loading, subject, surveyID, preview, previewID,
+            selectedUser, webpage,
             editSubject, editSubjectActions, subjectActions,
-            questionsActions, previewActions } = this.props;
+            questionsActions, previewActions, usersActions, webpageActions } = this.props;
         const headProps = {
+            account,
             subject,
-            surveyID,
+            selectedUser,
+            webpage,
             editSubjectActions,
-            questionsActions
+            questionsActions,
+            usersActions,
+            webpageActions
         };
         const subProps = { subject, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
@@ -74,7 +82,7 @@ export class Portal extends PureComponent {
     }
 
     _checkUserLogin() {
-        const { account, surveyID } = this.props;
+        const { account, webpage } = this.props;
         const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid')) {
@@ -85,9 +93,22 @@ export class Portal extends PureComponent {
         // if user has a account and the account role is Designer or Admin
         body.classList.add('bg');
 
-
         // TODOS: temporarily remove router
-        const children = surveyID ? <Create /> : <List />;
+        let children;
+        switch (webpage) {
+        case 'user':
+            children = <User />;
+            break;
+        case 'create':
+        case 'userCreate':
+            children = <Create />;
+            break;
+        case 'userSurvey':
+        case 'index':
+        default:
+            children = <List />;
+        }
+
         return (
             <div className={styles.content}>
                 <div className={styles.content_bg}></div>
@@ -105,10 +126,11 @@ function mapStateToProps(state) {
         token: state.token,
         account: state.account,
         subject: state.subject,
-        surveyID: state.surveyID,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
+        selectedUser: state.selectedUser,
+        webpage: state.webpage,
         routing: state.routing
     };
 }
@@ -119,7 +141,9 @@ function mapDispatchToProps(dispatch) {
         subjectActions: bindActionCreators(SubjectActions, dispatch),
         questionsActions: bindActionCreators(QuestionsActions, dispatch),
         previewActions: bindActionCreators(PreviewActions, dispatch),
-        accountActions: bindActionCreators(AccountActions, dispatch)
+        accountActions: bindActionCreators(AccountActions, dispatch),
+        usersActions: bindActionCreators(UsersActions, dispatch),
+        webpageActions: bindActionCreators(WebpageActions, dispatch)
     };
 }
 

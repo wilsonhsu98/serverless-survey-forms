@@ -42,6 +42,8 @@ If you add or modify any static website resources, please execute:
 ```
 # go to web folder
 cd web
+# if you modify package.json or npm-shrinkwrap.json, please execute:
+npm install
 # execute deploy script
 npm run deploy
 # deploy static web resources
