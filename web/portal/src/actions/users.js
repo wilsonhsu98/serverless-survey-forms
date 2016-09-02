@@ -61,6 +61,22 @@ export function changeUserRole(idx, role) {
         dispatch({ type: types.REQUEST_CHANGE_ROLE });
         const { users, token } = getState();
         const user = users[idx];
+        // check if this user is Admin, is there any Admin
+        if (user.role === 'Admin') {
+            let flag = true;
+            for (const oneUser of users) {
+                if (oneUser.accountid !== user.accountid && oneUser.role === 'Admin') {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                alert('You can\'t change the last Admin\'s role.');
+                dispatch(changeUserRoleFailure('this is the last Admin'));
+                return;
+            }
+        }
+
         const postData = {
             accountid: user.accountid,
             username: user.username,
