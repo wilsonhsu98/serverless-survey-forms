@@ -98,51 +98,52 @@ module.exports = ((aws) => {
    * clientid   an unique identify for client app, or browser.
    * datetime   The latest modified date time of the feedback.
    */
-  const listFeedbacks = (event, callback) => {
+  const listFeedbacks = event => {
     let response = null;
-    // validate parameters
-    if (event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
-      let params = {
-        TableName: process.env.SERVERLESS_FEEDBACKTABLE,
-        ProjectionExpression: "surveyid, clientid, #dt",
-        KeyConditionExpression: "surveyid = :surveyid",
-        ExpressionAttributeNames: {
-          "#dt": "datetime",
-        },
-        ExpressionAttributeValues: {
-          ":surveyid": event.surveyid,
-        },
-      };
+    return new Promise((resolve, reject) => {
+      // validate parameters
+      if (event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
+        let params = {
+          TableName: process.env.SERVERLESS_FEEDBACKTABLE,
+          ProjectionExpression: "surveyid, clientid, #dt",
+          KeyConditionExpression: "surveyid = :surveyid",
+          ExpressionAttributeNames: {
+            "#dt": "datetime",
+          },
+          ExpressionAttributeValues: {
+            ":surveyid": event.surveyid,
+          },
+        };
 
-      // continue querying if we have more data
-      if (event.startKey){
-        params.ExclusiveStartKey = event.startKey;
-      }
-      // turn on the limit in testing mode
-      if (event.limitTesting){
-        params.Limit = 1;
-      }
-
-      docClient.query(params, function(err, data) {
-        if (err) {
-          console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-          return callback(getDynamoDBError(err), null);
-        } else {
-          // got and compose response
-          response = {};
-          response['feedbacks'] = data.Items;
-
-          // LastEvaluatedKey
-          if(typeof data.LastEvaluatedKey != "undefined"){
-            response['LastEvaluatedKey'] = data.LastEvaluatedKey;
-          }
-          return callback(null, response);
+        // continue querying if we have more data
+        if (event.startKey) {
+          params.ExclusiveStartKey = event.startKey;
         }
-      });
-    }
-    else {
-      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
-    }
+        // turn on the limit in testing mode
+        if (event.limitTesting) {
+          params.Limit = 1;
+        }
+
+        docClient.query(params, function(err, data) {
+          if (err) {
+            console.error("Unable to get an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            reject(getDynamoDBError(err));
+          } else {
+            // got and compose response
+            response = {};
+            response['feedbacks'] = data.Items;
+
+            // LastEvaluatedKey
+            if (typeof data.LastEvaluatedKey !== "undefined") {
+              response['LastEvaluatedKey'] = data.LastEvaluatedKey;
+            }
+            resolve(response);
+          }
+        });
+      } else {
+        reject(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)));
+      }
+    });
   };
 
   /**
@@ -385,41 +386,49 @@ module.exports = ((aws) => {
    * Response:
    * None
    */
-  const deleteOneFeedback = (event, callback) => {
-    let response = {};
-    // validate parameters
-    if (event.surveyid  && event.clientid && process.env.SERVERLESS_FEEDBACKTABLE) {
-      let params = {
-        TableName: process.env.SERVERLESS_FEEDBACKTABLE,
-        Key:{
-          clientid: event.clientid,
-          surveyid: event.surveyid
-        },
-      };
-      docClient.delete(params, function(err, data) {
-        if (err) {
-          console.error("Unable to delete an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-          return callback(getDynamoDBError(err), null);
-        } else {
-          return callback(null, response); // Response will be an HTTP 200 with no content.
-        }
-      });
-    }
-    // incomplete parameters
-    else {
-      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
-    }
+  const deleteFeedbacks = event => {
+    let params = {};
+    return new Promise((resolve, reject) => {
+      // validate parameters
+      if (event.surveyid  && event.clientid && process.env.SERVERLESS_FEEDBACKTABLE) {
+        params = {
+          TableName: process.env.SERVERLESS_FEEDBACKTABLE,
+          Key: {
+            clientid: event.clientid,
+            surveyid: event.surveyid,
+          },
+        };
+        docClient.delete(params, function(err, data) {
+          if (err) {
+            console.error("Unable to delete an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            reject(getDynamoDBError(err));
+          } else {
+            resolve({}); // Response will be HTTP 200.
+          }
+        });
+      } else if (event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
+        listFeedbacks(event).then(response => {
+          Promise.all(response.feedbacks.map(item => deleteFeedbacks(item))).then(() => {
+            resolve({});
+          });
+        }).catch(err => {
+          reject(err, null);
+        });
+      } else { // incomplete parameters
+        reject(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)));
+      }
+    });
   };
 
 
   return {
-    getOneFeedback: getOneFeedback,
-    listFeedbacks: listFeedbacks,
-    countFeedbacks: countFeedbacks,
-    reportFeedbacks: reportFeedbacks,
+    getOneFeedback,
+    listFeedbacks,
+    countFeedbacks,
+    reportFeedbacks,
 
-    addOneFeedback: addOneFeedback,
-    updateOneFeedback: updateOneFeedback,
-    deleteOneFeedback: deleteOneFeedback
+    addOneFeedback,
+    updateOneFeedback,
+    deleteFeedbacks,
   };
 });
