@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 // Config
 let slsAuth = require('serverless-authentication');
 let config = slsAuth.config;
@@ -14,13 +16,14 @@ function signin(event, callback) {
   // This is just a demo state, in real application you could
   // create a hash and save it to dynamo db and then compare it
   // in the callback
-  let state = 'state-' + event.provider;
-
+  const cipher = crypto.createCipher('aes256', process.env.TOKEN_SECRET);
+  let encryptedState = cipher.update(`state-${event.provider}/${new Date()}`, 'utf8', 'hex');
+  encryptedState += cipher.final('hex');
   switch (event.provider) {
     case 'facebook':
       facebook.signin(providerConfig, {
         scope: 'email',
-        state: state
+        state: encryptedState
       }, callback);
       break;
     default:

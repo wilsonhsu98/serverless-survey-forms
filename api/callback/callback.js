@@ -16,74 +16,92 @@ let facebook = require('serverless-authentication-facebook');
 function callback(event, _callback) {
   let providerConfig = config(event);
 
+  const decryption = (state) => {
+    const decipher = crypto.createDecipher('aes256', process.env.TOKEN_SECRET);
+    let decryptedState;
+    try {
+      decryptedState = decipher.update(state, 'hex', 'utf8');
+      decryptedState += decipher.final('utf8');
+      decryptedState = decryptedState.split('/')[0];
+      return decryptedState;
+    } catch (ex) {
+      console.error(`Decryption Failed: ${ex}`);
+      decryptedState = 'State mismatch';
+      return decryptedState;
+    }
+  };
+
   let handleResponse = (err, profile, state) => {
     if (err) {
       utils.errorResponse({
         error: 'Unauthorized'
       }, providerConfig, _callback);
-    } else if (state !== 'state-' + profile.provider) {
-      // here you should compare if the state returned from provider exist in dynamo db
-      // and then expire it
-      utils.errorResponse({
-        error: 'State mismatch'
-      }, providerConfig, _callback);
     } else {
-      const hmac = crypto.createHmac('sha256', process.env.TOKEN_SECRET); // Secret key is same as tokenSecret in s-variables.
-      let id = profile.provider + '-' + hmac.update(profile.id).digest('hex');
-      let tokenData = {
-        payload: {
-          id: id,
-          name: profile.name,
-          email: profile.email,
-          picture: profile.picture,
-          userid: profile.id
-        },
-        options: {
-          expiresIn: '1h'   // By rauchg/ms.js
-        }
-      };
-
-      // here can be checked if user exist in db and update properties or if not, create new etc.
-      user.getOneUser({
-        accountid: id
-      }, function(err, data) {
-        if (err) {
-          if (err.message.match(/404 Not Found:/gi)) {
-            let parms = {
-              accountid: id,
-              username: profile.name,
-              email: profile.email,
-              role: "User"
-            };
-            user.countUser({},(err, response) => {
-              if (err) {
-                utils.errorResponse({
-                  error: err
-                }, providerConfig, _callback);
-              } else {
-                parms['role'] = (response['Count'] === 0) ? "Admin" : "User"; // First user set role to Admin
-                // create new
-                user.addOneUser(parms, function(err, data) {
-                  if (err) {
-                    utils.errorResponse({
-                      error: err
-                    }, providerConfig, _callback);
-                  } else {
-                    utils.tokenResponse(tokenData, providerConfig, _callback);
-                  }
-                })
-              }
-            });
-          } else {
-            utils.errorResponse({
-              error: err
-            }, providerConfig, _callback);
+      const decryptionState = decryption(state);
+      if (decryptionState !== 'state-' + profile.provider) {
+        // here you should compare if the state returned from provider exist in dynamo db
+        // and then expire it
+        utils.errorResponse({
+          error: 'State mismatch'
+        }, providerConfig, _callback);
+      } else {
+        const hmac = crypto.createHmac('sha256', process.env.TOKEN_SECRET);
+        let id = profile.provider + '-' + hmac.update(profile.id).digest('hex');
+        let tokenData = {
+          payload: {
+            id: id,
+            name: profile.name,
+            email: profile.email,
+            picture: profile.picture,
+            userid: profile.id
+          },
+          options: {
+            expiresIn: '1h'   // By rauchg/ms.js
           }
-        } else {
-          // update properties if needed
-          utils.tokenResponse(tokenData, providerConfig, _callback);
-        }
-      });
+        };
+
+        // here can be checked if user exist in db and update properties or if not, create new etc.
+        user.getOneUser({
+          accountid: id
+        }, function(err, data) {
+          if (err) {
+            if (err.message.match(/404 Not Found:/gi)) {
+              let parms = {
+                accountid: id,
+                username: profile.name,
+                email: profile.email,
+                role: "User"
+              };
+              user.countUser({},(err, response) => {
+                if (err) {
+                  utils.errorResponse({
+                    error: err
+                  }, providerConfig, _callback);
+                } else {
+                  parms['role'] = (response['Count'] === 0) ? "Admin" : "User"; // First user set role to Admin
+                  // create new
+                  user.addOneUser(parms, function(err, data) {
+                    if (err) {
+                      utils.errorResponse({
+                        error: err
+                      }, providerConfig, _callback);
+                    } else {
+                      utils.tokenResponse(tokenData, providerConfig, _callback);
+                    }
+                  })
+                }
+              });
+            } else {
+              utils.errorResponse({
+                error: err
+              }, providerConfig, _callback);
+            }
+          } else {
+            // update properties if needed
+            utils.tokenResponse(tokenData, providerConfig, _callback);
+          }
+        });
+      }
     }
   };
 
