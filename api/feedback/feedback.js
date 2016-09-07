@@ -407,9 +407,34 @@ module.exports = ((aws) => {
           }
         });
       } else if (event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
+        params = {
+          RequestItems: {},
+        };
+        params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE] = [];
         listFeedbacks(event).then(response => {
-          Promise.all(response.feedbacks.map(item => deleteFeedbacks(item))).then(() => {
-            resolve({});
+          response.feedbacks.map(item => {
+            params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE].push({
+              DeleteRequest: {
+                Key: {
+                  clientid: item.clientid,
+                  surveyid: item.surveyid,
+                },
+              }
+            });
+          });
+          if (params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE].length === 0) {
+            // Dont need to access DDB without any request.
+            resolve({}); // Response will be HTTP 200.
+          }
+          return params;
+        }).then(params => {
+          docClient.batchWrite(params, function(err, data) {
+            if (err) {
+              console.error("Unable to delete all item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+              reject(getDynamoDBError(err));
+            } else {
+              resolve({}); // Response will be HTTP 200.
+            }
           });
         }).catch(err => {
           reject(err, null);
