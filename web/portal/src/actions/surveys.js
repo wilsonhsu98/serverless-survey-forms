@@ -17,7 +17,7 @@ function requestSurveysFailure(err) {
     };
 }
 
-function receiveSurveysSuccess(data) {
+export function receiveSurveysSuccess(data) {
     return {
         type: types.RECIEVE_SURVEYS_SUCCESS,
         surveys: data
@@ -26,9 +26,14 @@ function receiveSurveysSuccess(data) {
 
 export function getSurveys() {
     return (dispatch, getState) => {
+        dispatch({ type: types.REMOVE_SELECTED_SURVEYS });
         dispatch({ type: types.REQUEST_SURVEYS_LIST });
-        const { account, token } = getState();
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}`, {
+        const { account, selectedUser, token } = getState();
+        // fetch selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
+
+        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -77,9 +82,12 @@ function receiveDeleteSurveysSuccess() {
 export function deleteSurvey() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_DELET_SURVEYS });
-        const { account, selectedSurveys, token } = getState();
+        const { account, selectedUser, selectedSurveys, token } = getState();
+        // delete selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
         return fetch(
-            `${Config.baseURL}/api/v1/mgnt/surveys/${account.accountid}/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${selectedSurveys}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
                 headers: {
@@ -232,9 +240,12 @@ function handleReportContent(survey, privacy, feedbackAllData) {
 export function exportSurvey() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_REPORT });
-        const { account, selectedSurveys, token } = getState();
+        const { account, selectedUser, selectedSurveys, token } = getState();
+        // export selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
         return fetch(
-            `${Config.baseURL}/api/v1/mgnt/report/${account.accountid}/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/mgnt/report/${accountid}/${selectedSurveys}`, {
                 method: 'GET',
                 credentials: 'same-origin',
                 headers: {

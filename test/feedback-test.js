@@ -665,8 +665,7 @@ describe("Interface to get list feedback model from data store", function() {
         let event = {
           surveyid: surveyid,
         };
-        feedbackjs.listFeedbacks(event, function(error, response) {
-          expect(error).to.be.null;
+        feedbackjs.listFeedbacks(event).then(function(response) {
           expect(response).to.not.be.null;
           response.should.have.keys('feedbacks');
           response.feedbacks.length.should.equal(2); // There are 2 feedback model in above test case.
@@ -687,9 +686,8 @@ describe("Interface to get list feedback model from data store", function() {
           limitTesting: true,
         };
         const limitTestCase = (event) => {
-          feedbackjs.listFeedbacks(event, function(error, response) {
+          feedbackjs.listFeedbacks(event).then(function(response) {
             if(typeof response.LastEvaluatedKey != "undefined"){
-              expect(error).to.be.null;
               expect(response).to.not.be.null;
               response.should.have.keys(['feedbacks', 'LastEvaluatedKey']);
               response.feedbacks.length.should.equal(1); // There is one feedback model because setting limit is 1.
@@ -727,9 +725,8 @@ describe("Interface to get list feedback model from data store", function() {
     missingParams.forEach(function(test) {
       describe("When getting list feedback model " + test.desc, function() {
         it("should response error", function(done) {
-          feedbackjs.listFeedbacks(test.event, function(error, response) {
+          feedbackjs.listFeedbacks(test.event).catch(function(error) {
             expect(error).to.not.be.null;
-            expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
             done();
           });
@@ -839,7 +836,7 @@ describe("Interface to get list feedback model from data store", function() {
 });
 
 
-describe("Interface to delete one feedback model from data store", function() {
+describe("Interface to delete feedback model from data store", function() {
   describe("#deleteOneFeedback successfully", function() {
     describe("When deleting exist feedback model with complete and normal parameters", function() {
       it("should response successfully", function(done) {
@@ -849,8 +846,7 @@ describe("Interface to delete one feedback model from data store", function() {
           clientid: clientid,
           surveyid: surveyid
         };
-        feedbackjs.deleteOneFeedback(event, function(error, response) {
-          expect(error).to.be.null;
+        feedbackjs.deleteFeedbacks(event).then(function(response) {
           expect(response).to.not.be.null;
           done();
         });
@@ -862,8 +858,33 @@ describe("Interface to delete one feedback model from data store", function() {
           clientid: 'non-exist clientid',
           surveyid: 'non-exist surveyid'
         };
-        feedbackjs.deleteOneFeedback(event, function(error, response) {
-          expect(error).to.be.null;
+        feedbackjs.deleteFeedbacks(event).then(function(response) {
+          expect(response).to.not.be.null;
+          done();
+        });
+      });
+    });
+  });
+
+  describe("#deleteAllFeedbacks successfully", function() {
+    describe("When deleting exist feedbacks with a surveyid", function() {
+      it("should response successfully", function(done) {
+        let surveyid = "this is fake surveyid";
+        let event = {
+          surveyid: surveyid,
+        };
+        feedbackjs.deleteFeedbacks(event).then(function(response) {
+          expect(response).to.not.be.null;
+          done();
+        });
+      });
+    });
+    describe("When deleting non-exist feedbacks with a non-exist surveyid", function() {
+      it("should response successfully", function(done) {
+        let event = {
+          surveyid: 'non-exist surveyid',
+        };
+        feedbackjs.deleteFeedbacks(event).then(function(response) {
           expect(response).to.not.be.null;
           done();
         });
@@ -881,12 +902,6 @@ describe("Interface to delete one feedback model from data store", function() {
           clientid: "this is fake clientid",
         },
         expect: /Error: 400 Bad Request/
-      }, {
-        desc: "with missing event.clientid",
-        event: {
-          surveyid: "this is fake survey model"
-        },
-        expect: /Error: 400 Bad Request/
       },
       // all parameters
       {
@@ -899,9 +914,8 @@ describe("Interface to delete one feedback model from data store", function() {
     missingParams.forEach(function(test) {
       describe("When deleting one feedback model " + test.desc, function() {
         it("should response error", function(done) {
-          feedbackjs.deleteOneFeedback(test.event, function(error, response) {
+          feedbackjs.deleteFeedbacks(test.event).catch(function(error) {
             expect(error).to.not.be.null;
-            expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
             done();
           });

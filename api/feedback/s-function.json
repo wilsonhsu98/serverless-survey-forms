@@ -103,7 +103,24 @@
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
           "clientid": "$input.params('clientid')",
-          "op" : "deleteOneFeedback"
+          "op" : "deleteFeedbacks"
+        }
+      },
+      "responses": "$${apiResponseNonCacheTemplate}"
+    },
+    {
+      "path": "api/v1/feedbacks/{surveyid}",
+      "method": "DELETE",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": {
+          "apigw": "$${apiRequestTemplate}",
+          "surveyid": "$input.params('surveyid')",
+          "op": "deleteFeedbacks"
         }
       },
       "responses": "$${apiResponseNonCacheTemplate}"

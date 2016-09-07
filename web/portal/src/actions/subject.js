@@ -7,6 +7,7 @@ import Config from '../config';
 import { openEdit } from './editSubject';
 import { setSurveyID, saveQuestion } from './questions';
 import { expiredToken } from './account';
+import { setWebpage } from './webpage';
 
 export function setSubject(data) {
     return {
@@ -54,10 +55,11 @@ export function saveSubject(subject) {
         .then(data => {
             if (data.surveyid) {
                 dispatch(setSurveyID(data.surveyid));
-                // TODOS: temporarily remove router
-                // dispatch(push('/create'));
                 dispatch(openEdit(false));
                 dispatch(setSubjectSuccess());
+                // TODOS: temporarily remove router
+                // dispatch(push('/create'));
+                dispatch(setWebpage('create'));
             } else {
                 dispatch(setSubjectFailure(data));
             }

@@ -49,6 +49,9 @@ const mixins = {
         // check this issue in FileSaver.js git issues#28
         const downloadLink = document.createElement('a');
         downloadLink.addEventListener('click', () => {
+            if (navigator.userAgent.match(/Version\/([0-9\._]+).*Safari/)) {
+                alert('Safari is unsupported this. Please manually press command + S.');
+            }
             const blob = new Blob([csv], { type: 'text/csv;charset=charset=utf-8;' });
             saveAs(blob, `${filename}.csv`);
         });

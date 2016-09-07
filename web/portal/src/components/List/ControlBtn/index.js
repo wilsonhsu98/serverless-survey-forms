@@ -19,7 +19,7 @@ class ControlBtn extends PureComponent {
     }
 
     render() {
-        const { selectedSurveys } = this.props;
+        const { selectedSurveys, selectedUser } = this.props;
         const btnsData = [
             { id: 'createBtn', string: 'Create Survey', img: '', func: this._onAddSurveyClick },
             { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
@@ -28,7 +28,8 @@ class ControlBtn extends PureComponent {
         ];
         let btns = [];
         btnsData.forEach((btn, idx) => {
-            if (idx === 0 || selectedSurveys !== '') {
+            if ((idx === 0 && !selectedUser.hasOwnProperty('accountid'))
+                || (idx !== 0 && selectedSurveys !== '')) {
                 btns.push(
                     <IconButton
                         key={idx}
@@ -65,9 +66,12 @@ class ControlBtn extends PureComponent {
     }
 
     _onPreviewSurveyClick() {
-        const { account, selectedSurveys } = this.props;
+        const { account, selectedSurveys, selectedUser } = this.props;
         const url = `${config.baseURL}/feedback/index.html`;
-        window.open(`${url}?accountid=${account.accountid}&surveyid=${selectedSurveys}`, '_blank');
+        // selected user account or user's account
+        const accountid = selectedUser.hasOwnProperty('accountid') ?
+            selectedUser.accountid : account.accountid;
+        window.open(`${url}?accountid=${accountid}&surveyid=${selectedSurveys}`, '_blank');
     }
 }
 
