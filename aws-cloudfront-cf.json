@@ -97,6 +97,7 @@
           }],
           "DefaultCacheBehavior": {
             "Compress": "true",
+            "DefaultTTL": 3600,
             "TargetOriginId": "WebClientS3",
             "ForwardedValues": {
               "Headers": ["If-Modified-Since"],
