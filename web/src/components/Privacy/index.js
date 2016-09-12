@@ -9,6 +9,7 @@ import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
 import Button from '../Button';
+import I18Next from 'i18next';
 
 class Privacy extends PureComponent {
 
@@ -28,7 +29,7 @@ class Privacy extends PureComponent {
     }
 
     render() {
-        const { info } = this.props;
+        const { info, prefillData } = this.props;
         return (
             <div ref="root" className="question">
                 <div
@@ -62,6 +63,15 @@ class Privacy extends PureComponent {
                             value={this.state.email}
                             onChange={this._onChange}
                         />
+                        {
+                            prefillData.privacy_policy_url ?
+                                <p
+                                    dangerouslySetInnerHTML={{ __html: I18Next.t('privacy_policy', {
+                                        url: prefillData.privacy_policy_url })
+                                    }}
+                                >
+                                </p> : ''
+                        }
                         <Button
                             string={'participate'}
                             onClick={this._participate}
