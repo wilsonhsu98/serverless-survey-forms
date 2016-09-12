@@ -23,6 +23,12 @@
     padding: 5px 8px;
 }
 
+.terms input[type="text"]:disabled {
+    border: 1px solid #ddd;
+    color: #aaa;
+    background-color: #f0f0f0;
+}
+
 .btn {
     float: right;
 }
