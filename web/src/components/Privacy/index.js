@@ -69,6 +69,7 @@ class Privacy extends PureComponent {
                         {
                             prefillData.privacy_policy_url ?
                                 <p
+                                    className="ut-privacy-policy"
                                     dangerouslySetInnerHTML={{ __html: I18Next.t('privacy_policy', {
                                         url: prefillData.privacy_policy_url })
                                     }}
