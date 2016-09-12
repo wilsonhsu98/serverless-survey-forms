@@ -154,6 +154,11 @@ export function checkRequired(action, page) {
                         dispatch(updateFeedback());
                     }
                 }
+                // Send 'next' msg to client
+                window.parent.postMessage({
+                    source: window.location.origin,
+                    msg: 'next'
+                }, '*');
                 if (page) {
                     dispatch(surveyActions.goToPage(page));
                     dispatch(setRequired(page));
