@@ -125,6 +125,11 @@ class Privacy extends PureComponent {
             if (!this.props.settings.preview) {
                 this.props.feedbackActions.updateFeedback(true, privacyData);
             }
+            // Send 'participate' msg to client
+            window.parent.postMessage({
+                source: window.location.origin,
+                msg: 'participate'
+            }, '*');
         }
     }
 

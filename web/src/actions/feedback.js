@@ -103,9 +103,6 @@ export function updateFeedback(closeWhenDone, privacyData) {
                     msg: 'close'
                 }, '*');
             }
-            // TODO: postMessage to client
-            // window.parent.postMessage(`UPDATE Feedback from ${clientID}`,
-                // window.parent.location.origin);
         });
     };
 }
