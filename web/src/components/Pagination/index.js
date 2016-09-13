@@ -29,36 +29,6 @@ class Pagination extends PureComponent {
                     'ut-pagination': true
                 })}
             >
-
-                {
-                    pages > 1 && currentPage > 1 ?
-                        <div
-                            className={
-                                settings.type === 'default' ?
-                                    styles.btnWrapperPrevPreview : styles.btnWrapperPrev
-                            }
-                        >
-                            <Button
-                                string={'prev'}
-                                onClick={this._prev}
-                                extraClass={{
-                                    'ut-prev': true,
-                                    [`${styles.pagingBtnPrev}`]: true
-                                }}
-                            />
-                        </div> : ''
-                }
-                {
-                    pages > 1 && currentPage > 1 ?
-                        <div
-                            className={classNames({
-                                [`${styles.prevMobile}`]: true,
-                                'ut-prev': true
-                            })}
-                            onClick={this._prev}
-                        /> : ''
-                }
-
                 {
                     pages > 1 && currentPage < pages ?
                         <div
