@@ -144,7 +144,7 @@ class Pagination extends PureComponent {
     }
 
     _prev() {
-        this.props.surveyActions.goToPage(this.props.currentPage - 1);
+        this.props.feedbackActions.checkRequired('prev', this.props.currentPage - 1);
     }
 
     _next() {

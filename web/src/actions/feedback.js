@@ -144,8 +144,14 @@ export function checkRequired(action, page) {
             }
         });
         dispatch(setPageDone(done));
-        if (done) {
+        if (done || action === 'prev') {
             switch (action) {
+            case 'prev':
+                if (page) {
+                    dispatch(surveyActions.goToPage(page));
+                    dispatch(setRequired(page));
+                }
+                break;
             case 'next':
                 if (!getState().settings.preview) {
                     if (getState().paging === 1) {
