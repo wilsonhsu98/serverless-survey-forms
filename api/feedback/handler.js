@@ -51,13 +51,15 @@ module.exports.handler = function(event, context, callback) {
     case "listFeedbacks":
       // GET /api/v1/mgnt/feedbacks/<surveyid>[?startKey=<startKey>]
       // Authenticated: Yes
-      return authorizedJudge.then( () => {
-        feedback.listFeedbacks({
+      authorizedJudge.then(() => {
+        return feedback.listFeedbacks({
           surveyid: event.surveyid,
-          startKey: event.startKey
-        }, callback);
-      }).catch( (err) => {
-        callback(err, null);
+          clientid: event.clientid,
+        });
+      }).then(response => {
+        return callback(null, response);
+      }).catch(err => {
+        return callback(err, null);
       });
       break;
 
@@ -79,12 +81,16 @@ module.exports.handler = function(event, context, callback) {
       }, callback);
       break;
 
-    case "deleteOneFeedback":
+    case "deleteFeedbacks":
       // DELETE /api/v1/feedbacks/<surveyid>/<clientid>/
-      return feedback.deleteOneFeedback({
-        surveyid : event.surveyid,
-        clientid : event.clientid
-      }, callback);
+      feedback.deleteFeedbacks({
+        surveyid: event.surveyid,
+        clientid: event.clientid,
+      }).then(response => {
+        return callback(null, response);
+      }).catch(err => {
+        return callback(err, null);
+      });
       break;
 
     default:
