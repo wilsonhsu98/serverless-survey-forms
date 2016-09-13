@@ -100,7 +100,8 @@ export function updateFeedback(closeWhenDone, privacyData) {
             if (closeWhenDone) {
                 window.parent.postMessage({
                     source: window.location.origin,
-                    msg: 'close'
+                    msg: 'close',
+                    page: getState().paging
                 }, '*');
             }
         });
@@ -163,7 +164,8 @@ export function checkRequired(action, page) {
                 // Send 'next' msg to client
                 window.parent.postMessage({
                     source: window.location.origin,
-                    msg: 'next'
+                    msg: 'next',
+                    page: getState().paging
                 }, '*');
                 if (page) {
                     dispatch(surveyActions.goToPage(page));
@@ -178,6 +180,12 @@ export function checkRequired(action, page) {
                         dispatch(updateFeedback());
                     }
                 }
+                // Send 'done' msg to client
+                window.parent.postMessage({
+                    source: window.location.origin,
+                    msg: 'done',
+                    page: getState().paging
+                }, '*');
                 dispatch(surveyActions.surveyDone());
                 break;
             default:
