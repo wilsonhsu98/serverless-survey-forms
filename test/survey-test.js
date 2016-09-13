@@ -5,6 +5,7 @@ let should = require('chai').should();
 
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
+let feedbackjs = null;
 let survey = null;
 let dynadblib = require('./dynadb');
 let dynadb = new dynadblib();
@@ -27,6 +28,7 @@ before('Initial local DynamoDB', function(done) {
       endpoint: 'http://localhost:' + dynalitePort
     });
 
+    feedbackjs = require('../api/feedback/feedback.js')(aws);
     survey = require('../api/survey/survey.js')(aws);
 
     let dynamodb = new aws.DynamoDB({
@@ -330,7 +332,6 @@ describe("Interface to get list survey model from data store", function() {
       });
     });
   });
-
 });
 
 describe("Interface to update one survey model in data store", function() {
@@ -455,7 +456,7 @@ describe("Interface to delete one survey model from data store", function() {
   let surveymodel = "this is fake survey model";
   let surveyid = null;
 
-  before("Insert one dummy record", function(done) {
+  before("Insert one dummy record && 30 dummy feebacks", function(done) {
     let event = {
       accountid: accountid,
       subject: subject,
@@ -464,8 +465,26 @@ describe("Interface to delete one survey model from data store", function() {
     survey.addOneSurvey(event, function(err, data) {
       if (err) throw err;
       surveyid = data.surveyid;
-      done();
+
+      // Add 30 dummy feebacks
+      let success = 0
+      for (var i = 0; i < 30; i++) {
+        let event = {
+          surveyid: data.surveyid,
+          clientid: "this is fake clientid" + i,
+          feedback: "this is fake feedback model",
+        };
+        feedbackjs.addOneFeedback(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys('datetime');
+          response.datetime.should.be.above(0);
+          success += 1;
+          if (success === 30) done();
+        });
+      }
     });
+
   });
 
   describe("#deleteOneSurvey successfully", function() {
@@ -475,9 +494,18 @@ describe("Interface to delete one survey model from data store", function() {
           accountid: accountid,
           surveyid: surveyid
         };
-        survey.deleteOneSurvey(event, function(error, response) {
-          expect(error).to.be.null;
+        feedbackjs.listFeedbacks(event).then(function(response) {
           expect(response).to.not.be.null;
+          response.should.have.keys('feedbacks');
+          response.feedbacks.length.should.equal(30); // There are 30 feedbacks model in above test case.
+          return survey.deleteOneSurvey(event);
+        }).then(function(response) {
+          expect(response).to.not.be.null;
+          return feedbackjs.listFeedbacks(event);
+        }).then(function(response) {
+          expect(response).to.not.be.null;
+          response.should.have.keys('feedbacks');
+          response.feedbacks.length.should.equal(0); // There are 0 feedbacks model in above test case.
           done();
         });
       });
@@ -488,8 +516,7 @@ describe("Interface to delete one survey model from data store", function() {
           accountid: 'non-exist accountid',
           surveyid: 'non-exist surveyid'
         };
-        survey.deleteOneSurvey(event, function(error, response) {
-          expect(error).to.be.null;
+        survey.deleteOneSurvey(event).then(function(response) {
           expect(response).to.not.be.null;
           done();
         });
@@ -525,9 +552,8 @@ describe("Interface to delete one survey model from data store", function() {
     missingParams.forEach(function(test) {
       describe("When deleting one survey model " + test.desc, function() {
         it("should response error", function(done) {
-          survey.deleteOneSurvey(test.event, function(error, response) {
+          survey.deleteOneSurvey(test.event).catch(function(error) {
             expect(error).to.not.be.null;
-            expect(response).to.be.null;
             error.should.match(RegExp(test.expect));
             done();
           });

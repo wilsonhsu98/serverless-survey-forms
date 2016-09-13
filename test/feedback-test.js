@@ -73,7 +73,6 @@ before('Initial local DynamoDB', function(done) {
   /////////////////////////////////////////////////////////////////////
 });
 
-
 after('Uninitial local DynamoDB', function(done) {
   dynadb.close(done);
 });
@@ -165,7 +164,6 @@ describe("Interface to add one new feedback model into data store", function() {
     });
   });
 });
-
 
 describe("Interface to get one feedback model from data store", function() {
   let feedback = "this is dummy feedback model";
@@ -835,7 +833,6 @@ describe("Interface to get list feedback model from data store", function() {
   });
 });
 
-
 describe("Interface to delete feedback model from data store", function() {
   describe("#deleteOneFeedback successfully", function() {
     describe("When deleting exist feedback model with complete and normal parameters", function() {
@@ -867,14 +864,42 @@ describe("Interface to delete feedback model from data store", function() {
   });
 
   describe("#deleteAllFeedbacks successfully", function() {
+    before("Insert 30 dummy feebacks", function(done) {
+      let success = 0
+      for (var i = 0; i < 30; i++) {
+        let event = {
+          surveyid: "this is fake surveyid",
+          clientid: "this is fake clientid" + i,
+          feedback: "this is fake feedback model",
+        };
+        feedbackjs.addOneFeedback(event, function(error, response) {
+          expect(error).to.be.null;
+          expect(response).to.not.be.null;
+          response.should.have.all.keys('datetime');
+          response.datetime.should.be.above(0);
+          success += 1;
+          if (success === 30) done();
+        });
+      }
+    });
     describe("When deleting exist feedbacks with a surveyid", function() {
       it("should response successfully", function(done) {
         let surveyid = "this is fake surveyid";
         let event = {
           surveyid: surveyid,
         };
-        feedbackjs.deleteFeedbacks(event).then(function(response) {
+        feedbackjs.listFeedbacks(event).then(function(response) {
           expect(response).to.not.be.null;
+          response.should.have.keys('feedbacks');
+          response.feedbacks.length.should.equal(31); // There are 31 feedbacks model in above test case. (include previous added)
+          return feedbackjs.deleteFeedbacks(event);
+        }).then(function(response) {
+          expect(response).to.not.be.null;
+          return feedbackjs.listFeedbacks(event);
+        }).then(function(response) {
+          expect(response).to.not.be.null;
+          response.should.have.keys('feedbacks');
+          response.feedbacks.length.should.equal(0); // There are 0 feedbacks model in above test case.
           done();
         });
       });
