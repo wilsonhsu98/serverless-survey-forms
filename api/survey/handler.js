@@ -94,15 +94,17 @@ module.exports.handler = (event, context, callback) => {
       break;
 
     case "deleteOneSurvey":
-      // DELETE /api/v1/mgnt/surveys/<surveyid>
+      // DELETE /api/v1/mgnt/surveys/<accountid>/<surveyid>
       // Authenticated: Yes
-      return authorizedJudge.then(() => {
-        survey.deleteOneSurvey({
+      authorizedJudge.then(() => {
+        return survey.deleteOneSurvey({
           accountid: event.accountid,
-          surveyid: event.surveyid
-        }, callback);
-      }).catch((err) => {
-        callback(err, null);
+          surveyid: event.surveyid,
+        });
+      }).then(response => {
+        return callback(null, response);
+      }).catch(err => {
+        return callback(err, null);
       });
       break;
 

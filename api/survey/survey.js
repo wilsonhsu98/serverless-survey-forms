@@ -294,30 +294,33 @@ module.exports = ((aws) => {
    * Response:
    * None
    */
-  const deleteOneSurvey = (event, callback) => {
-    let response = {};
-    // validate parameters
-    if (event.accountid  && event.surveyid && process.env.SERVERLESS_SURVEYTABLE) {
-      let params = {
-        TableName: process.env.SERVERLESS_SURVEYTABLE,
-        Key:{
-          accountid: event.accountid,
-          surveyid: event.surveyid
-        },
-      };
-      docClient.delete(params, function(err, data) {
-        if (err) {
-          console.error("Unable to delete an item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-          return callback(getDynamoDBError(err), null);
-        } else {
-          return callback(null, response); // Response will be an HTTP 200 with no content.
-        }
-      });
-    }
-    // incomplete parameters
-    else {
-      return callback(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)), null);
-    }
+  const deleteOneSurvey = event => {
+    return new Promise((resolve, reject) => {
+      // validate parameters
+      if (event.accountid && event.surveyid && process.env.SERVERLESS_SURVEYTABLE) {
+        let feedback = require('../feedback/feedback.js')(),
+            params = {
+              RequestItems: {
+                [process.env.SERVERLESS_SURVEYTABLE]: [{
+                  DeleteRequest: {
+                    Key: {
+                      accountid: event.accountid,
+                      surveyid: event.surveyid,
+                    },
+                  },
+                }],
+              },
+            };
+        // Invoke deleteFeedbacks and pass the parameter of deleteOneSurvey, to excute batchWrite().
+        feedback.deleteFeedbacks(event, params).then(() => {
+          resolve({}); // Response will be HTTP 200.
+        }).catch(err => {
+          reject(err);
+        });
+      } else { // incomplete parameters
+        reject(new Error("400 Bad Request: Missing parameters: " + JSON.stringify(event)));
+      }
+    });
   };
 
   return {
