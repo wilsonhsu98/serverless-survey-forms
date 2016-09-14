@@ -82,7 +82,8 @@ module.exports.handler = function(event, context, callback) {
       break;
 
     case "deleteFeedbacks":
-      // DELETE /api/v1/feedbacks/<surveyid>/<clientid>/
+      // DELETE /api/v1/feedbacks/<surveyid>/<clientid>
+      // DELETE /api/v1/feedbacks/<surveyid>
       feedback.deleteFeedbacks({
         surveyid: event.surveyid,
         clientid: event.clientid,

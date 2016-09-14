@@ -43,7 +43,7 @@
     "default": {
       "statusCode": "200",
       "responseParameters": {
-        "method.response.header.Cache-Control": "'public, max-age=86400'",
+        "method.response.header.Cache-Control": "'public, max-age=3600'",
         "method.response.header.Last-Modified": "integration.response.body.datetime"
       },
       "responseModels": {
