@@ -386,7 +386,7 @@ module.exports = ((aws) => {
    * Response:
    * None
    */
-  const deleteFeedbacks = event => {
+  const deleteFeedbacks = (event, otherParams) => {
     let params = {};
     return new Promise((resolve, reject) => {
       // validate parameters
@@ -408,9 +408,10 @@ module.exports = ((aws) => {
         });
       } else if (event.surveyid && process.env.SERVERLESS_FEEDBACKTABLE) {
         params = {
-          RequestItems: {},
+          RequestItems: {
+            [process.env.SERVERLESS_FEEDBACKTABLE]: [],
+          },
         };
-        params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE] = [];
         listFeedbacks(event).then(response => {
           response.feedbacks.map(item => {
             params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE].push({
@@ -422,20 +423,16 @@ module.exports = ((aws) => {
               }
             });
           });
-          if (params.RequestItems[process.env.SERVERLESS_FEEDBACKTABLE].length === 0) {
+          if (otherParams) {
+            params = processBatchWrite(params, otherParams);
+          }
+          if (Object.keys(params.RequestItems).length === 0) {
             // Dont need to access DDB without any request.
             resolve({}); // Response will be HTTP 200.
           }
           return params;
-        }).then(params => {
-          docClient.batchWrite(params, function(err, data) {
-            if (err) {
-              console.error("Unable to delete all item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
-              reject(getDynamoDBError(err));
-            } else {
-              resolve({}); // Response will be HTTP 200.
-            }
-          });
+        }).then(excuteBatchWrite).then(() => {
+          resolve({}); // Response will be HTTP 200.
         }).catch(err => {
           reject(err, null);
         });
@@ -445,6 +442,93 @@ module.exports = ((aws) => {
     });
   };
 
+  /**
+   * This function will combine two parameters in one for batchWrite()
+   * but will not export out of this module
+   * 1. Concat each request actions if they are for same table
+   * 2. Extend the parameter object if other request actions is from different table
+   * 3. Delete object key if its request actions is empty
+   *
+   * Response:
+   * Valid parameter for batchWrite()
+   */
+  const processBatchWrite = (param1, param2) => {
+    Object.keys(param2.RequestItems).forEach(key => {
+      if (param1.RequestItems.hasOwnProperty(key) && Array.isArray(param1.RequestItems[key])) {
+        param1.RequestItems[key] = param1.RequestItems[key].concat(param2.RequestItems[key]);
+      } else {
+        param1.RequestItems[key] = param2.RequestItems[key];
+      }
+    });
+    Object.keys(param1.RequestItems).forEach(key => {
+      if (Array.isArray(param1.RequestItems[key]) && param1.RequestItems[key].length === 0) {
+        delete param1.RequestItems[key];
+      }
+    });
+    return param1;
+  };
+
+  /**
+   * This function will excute batchWrite() with 25 request actions limitation
+   * So currently not yet support batchWrite() with transaction
+   * This function will not export out of this module
+   *
+   * Response:
+   * Promise object for all excutions
+   */
+  const excuteBatchWrite = params => {
+    const objKeys = Object.keys(params.RequestItems),
+          total = objKeys.map(key => { return params.RequestItems[key].length; }).reduce((a, b) => { return a + b; }, 0);
+    let excuteArr = [],
+        task = {RequestItems: {}},
+        i = 0,
+        tableIndex = 0,
+        tableName = objKeys[tableIndex],
+        itemIndex = 0;
+
+    if (!task.RequestItems[tableName]) {
+      task.RequestItems[tableName] = [];
+    }
+
+    while (i < total) {
+      task.RequestItems[tableName].push(params.RequestItems[tableName][itemIndex]);
+
+      if (itemIndex + 1 === params.RequestItems[tableName].length) {
+        tableIndex += 1;
+        itemIndex = 0;
+        tableName = objKeys[tableIndex];
+        if (tableName && !task.RequestItems[tableName]) {
+          task.RequestItems[tableName] = [];
+        }
+      } else {
+        itemIndex += 1;
+      }
+
+      if (i + 1 === 25 || i + 1 === total) {
+        excuteArr.push(task);
+        task = {RequestItems: {}};
+        if (!task.RequestItems[tableName]) {
+          task.RequestItems[tableName] = [];
+        }
+      }
+      i += 1;
+    }
+
+    excuteArr = excuteArr.map(params => {
+      return new Promise((resolve, reject) => {
+        docClient.batchWrite(params, function(err, data) {
+          if (err) {
+            console.error("Unable to delete all item with the request: ", JSON.stringify(params), " along with error: ", JSON.stringify(err));
+            reject(getDynamoDBError(err));
+          } else {
+            resolve({}); // Response will be HTTP 200.
+          }
+        });
+      });
+    });
+
+    return Promise.all(excuteArr);
+  };
 
   return {
     getOneFeedback,
