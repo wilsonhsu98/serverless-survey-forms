@@ -229,7 +229,7 @@ function handleReportContent(survey, privacy, feedbackAllData) {
                 ''
             );
         }
-        body.push(moment(data.datetime).format('LLL'));
+        body.push(moment(feed.datetime).format('LLL'));
 
         content.push(body);
     }
