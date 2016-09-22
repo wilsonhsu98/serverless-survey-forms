@@ -23,7 +23,8 @@ class Privacy extends PureComponent {
         this.state = {
             email,
             terms: false,
-            error: ''
+            error: '',
+            participate: false
         };
         this._onChange = this._onChange.bind(this);
         this._participate = this._participate.bind(this);
@@ -33,63 +34,70 @@ class Privacy extends PureComponent {
     render() {
         const { info, prefillData } = this.props;
         return (
-            <div ref="root" className="question">
-                <div
-                    className={classNames({
-                        [`${styles.question}`]: true,
-                        'ut-label': true
-                    })}
-                >{info.label}
-                </div>
-                <div className={styles.terms}>
-                    <div className={styles.topWrapper}>
-                        <div className="checkboxItem">
-                            <input
-                                type="checkbox"
-                                checked={this.state.terms}
-                                onChange={this._onToggleTerms}
-                            />
-                            <label
-                                className={classNames({
-                                    'ut-terms': true
-                                })}
-                            >
-                            {info.terms}
-                            </label>
+            <div>
+            {
+                !this.state.participate ?
+                    <div ref="root" className="question">
+                        <div
+                            className={classNames({
+                                [`${styles.question}`]: true,
+                                'ut-label': true
+                            })}
+                        >{info.label}
                         </div>
-                    </div>
-                    <div className={styles.bottomWrapper}>
-                        <input
-                            type="text"
-                            placeholder={info.input}
-                            value={this.state.email}
-                            onChange={this._onChange}
-                            disabled={!this.state.terms}
-                        />
-                        {
-                            prefillData.privacy_policy_url ?
-                                <p
-                                    className="ut-privacy-policy"
-                                    dangerouslySetInnerHTML={{ __html: I18Next.t('privacy_policy', {
-                                        url: prefillData.privacy_policy_url })
+                        <div className={styles.terms}>
+                            <div className={styles.topWrapper}>
+                                <div className="checkboxItem">
+                                    <input
+                                        type="checkbox"
+                                        checked={this.state.terms}
+                                        onChange={this._onToggleTerms}
+                                    />
+                                    <label
+                                        className={classNames({
+                                            'ut-terms': true
+                                        })}
+                                    >
+                                    {info.terms}
+                                    </label>
+                                </div>
+                            </div>
+                            <div className={styles.bottomWrapper}>
+                                <input
+                                    type="text"
+                                    placeholder={info.input}
+                                    value={this.state.email}
+                                    onChange={this._onChange}
+                                    disabled={!this.state.terms}
+                                />
+                                {
+                                    prefillData.privacy_policy_url ?
+                                        <p
+                                            className="ut-privacy-policy"
+                                            dangerouslySetInnerHTML={{
+                                                __html: I18Next.t('privacy_policy', {
+                                                    url: prefillData.privacy_policy_url
+                                                })
+                                            }}
+                                        >
+                                        </p> : ''
+                                }
+                                <Button
+                                    string={'participate'}
+                                    onClick={this._participate}
+                                    extraClass={{
+                                        'ut-participate': true,
+                                        [`${styles.btn}`]: true
                                     }}
-                                >
-                                </p> : ''
-                        }
-                        <Button
-                            string={'participate'}
-                            onClick={this._participate}
-                            extraClass={{
-                                'ut-participate': true,
-                                [`${styles.btn}`]: true
-                            }}
-                        />
-                        {
-                            this.state.error ?
-                                <Error msg={I18Next.t(this.state.error)} /> : ''
-                        }
-                    </div>
-                </div>
+                                />
+                                {
+                                    this.state.error ?
+                                        <Error msg={I18Next.t(this.state.error)} /> : ''
+                                }
+                            </div>
+                        </div>
+                    </div> : ''
+            }
             </div>
         );
     }
@@ -116,7 +124,8 @@ class Privacy extends PureComponent {
             });
         } else {
             this.setState({
-                error: ''
+                error: '',
+                participate: true
             });
             const privacyData = {
                 privacy: {
