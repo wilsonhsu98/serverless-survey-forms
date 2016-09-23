@@ -7,7 +7,7 @@ import Pagination from '../../../src/components/Pagination';
 
 DomMock('<html><body></body></html>');
 
-describe('Testing Pagination Component', () => {
+describe('[Feedback] Testing Pagination Component', () => {
     jsdom({ skipWindowCheck: true });
 
     it('check total pages < 1: Only submit button', () => {

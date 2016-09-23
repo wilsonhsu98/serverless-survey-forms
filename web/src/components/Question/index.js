@@ -8,7 +8,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import I18Next from 'i18next';
 import classNames from 'classnames';
 
 class Question extends PureComponent {
@@ -17,23 +16,16 @@ class Question extends PureComponent {
         const { id, text, required } = this.props;
         return (
             <div ref="root">
-                <div
+                <span
                     className={classNames({
                         [`${styles.question}`]: true,
-                        'ut-question': true
+                        [`${styles.required}`]: required,
+                        'ut-question': true,
+                        'ut-required': required
                     })}
                 >
                     {`${id}. ${text}`}
-                </div>
-                {required ?
-                    <span
-                        className={classNames({
-                            [`${styles.required}`]: true,
-                            'ut-required': true
-                        })}
-                    >
-                        {I18Next.t('basic.required')}
-                    </span> : ''}
+                </span>
             </div>
         );
     }
