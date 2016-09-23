@@ -7,7 +7,7 @@ import Privacy from '../../../src/components/Privacy';
 
 DomMock('<html><body></body></html>');
 
-describe('Testing Privacy Component', () => {
+describe('[Feedback] Testing Privacy Component', () => {
     jsdom({ skipWindowCheck: true });
     const info = {
         label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',

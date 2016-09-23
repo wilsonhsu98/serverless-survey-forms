@@ -7,7 +7,7 @@ import Question from '../../../src/components/Question';
 
 DomMock('<html><body></body></html>');
 
-describe('Testing Question Component', () => {
+describe('[Feedback] Testing Question Component', () => {
     jsdom({ skipWindowCheck: true });
 
     it('should contain correct question id and text', () => {
@@ -19,12 +19,12 @@ describe('Testing Question Component', () => {
         expect(question.textContent).toEqual('2. Question 2');
     });
 
-    it('should contain *required tag', () => {
+    it('should contain ut-required', () => {
         const content = TestUtils.renderIntoDocument(
             <Question required={true} />
         );
-        const requiredTag = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-required');
+        const requiredElement = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-required');
 
-        expect(requiredTag.textContent).toEqual('*required');
+        expect(requiredElement.length).toEqual(1);
     });
 });

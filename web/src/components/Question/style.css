@@ -8,7 +8,15 @@
 	margin: 0 20px 15px 0;
 }
 
-.required {
-	color: #D63833;
+.question.required {
+    padding-left: 20px;
+    &:before {
+        content: '*';
+        color: #D63833;
+        display: block;
+        float: left;
+        margin-left: -15px;
+    }
 }
+
 
