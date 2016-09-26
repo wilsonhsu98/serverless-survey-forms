@@ -26,6 +26,16 @@ export function postSurvey(accountid, postData, token) {
     });
 }
 
+export function getOneSurvey(accountid, surveyID) {
+    return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Cache-Control': 'max-age=0'
+        }
+    });
+}
+
 export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
@@ -399,13 +409,7 @@ export function getQuestion(surveyID) {
         // get question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
-        return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'Cache-Control': 'max-age=0'
-            }
-        })
+        return getOneSurvey(accountid, surveyID)
         .then(response => response.json())
         .then(data => {
             if (data.surveyid) {
