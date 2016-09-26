@@ -40,7 +40,7 @@ class SurveyList extends PureComponent {
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>
-                        <div className="checkboxItem ut-list">
+                        <div className={`${styles.checkboxItem} checkboxItem ut-list`}>
                             <input
                                 type="checkbox"
                                 className={styles.checkbox}
