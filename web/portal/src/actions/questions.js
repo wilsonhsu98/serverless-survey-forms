@@ -14,6 +14,18 @@ import { setSubject } from './subject';
 import { expiredToken } from './account';
 import { setWebpage } from './webpage';
 
+export function postSurvey(accountid, postData, token) {
+    return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token
+        },
+        body: JSON.stringify(postData)
+    });
+}
+
 export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
