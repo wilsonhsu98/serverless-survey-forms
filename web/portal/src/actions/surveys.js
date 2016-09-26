@@ -42,7 +42,12 @@ export function getSurveys() {
         })
         .then(response => response.json())
         .then(data => {
-            dispatch(receiveSurveysSuccess(data.surveys));
+            const surveys = data.surveys.sort((a, b) => {
+                if (a.datetime < b.datetime) return 1;
+                if (a.datetime > b.datetime) return -1;
+                return 0;
+            });
+            dispatch(receiveSurveysSuccess(surveys));
         })
         .catch(err => dispatch(requestSurveysFailure(err)));
     };
