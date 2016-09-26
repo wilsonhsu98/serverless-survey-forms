@@ -12,6 +12,7 @@ export default function loading(state = false, action) {
     case types.REQUEST_REPORT:
     case types.REQUEST_USERS_LIST:
     case types.REQUEST_CHANGE_ROLE:
+    case types.REQUEST_COPY_SURVEY:
         return true;
     case types.SET_SUBJECT_SUCCESS:
     case types.SET_SUBJECT_FAILURE:
@@ -27,6 +28,8 @@ export default function loading(state = false, action) {
     case types.RECIEVE_USERS_FAILURE:
     case types.RECIEVE_CHANGE_ROLE_SUCCESS:
     case types.RECIEVE_CHANGE_ROLE_FAILURE:
+    case types.POST_COPIEDSURVEY_SUCCESS:
+    case types.POST_COPIEDSURVEY_FAILURE:
         return false;
     default:
         return state;

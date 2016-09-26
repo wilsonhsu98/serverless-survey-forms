@@ -13,6 +13,7 @@ class ControlBtn extends PureComponent {
     constructor() {
         super();
         this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
+        this._onCopySurveyClick = this._onCopySurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
         this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
         this._onReportSurveyClick = this._onReportSurveyClick.bind(this);
@@ -24,6 +25,7 @@ class ControlBtn extends PureComponent {
             { id: 'createBtn', string: 'Create Survey', img: '', func: this._onAddSurveyClick },
             { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
             { id: 'reportBtn', string: 'Report', img: 'report', func: this._onReportSurveyClick },
+            { id: 'copyBtn', string: 'Duplicate', img: 'delete', func: this._onCopySurveyClick },
             { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteSurveyClick }
         ];
         let btns = [];
@@ -58,6 +60,11 @@ class ControlBtn extends PureComponent {
     _onDeleteSurveyClick() {
         const { surveysActions } = this.props;
         surveysActions.deleteSurvey();
+    }
+
+    _onCopySurveyClick() {
+        const { surveysActions } = this.props;
+        surveysActions.copySurvey();
     }
 
     _onReportSurveyClick() {

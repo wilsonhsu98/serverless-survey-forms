@@ -6,6 +6,7 @@ import * as types from '../constants/ActionTypes';
 import Config from '../config';
 import Mixins from '../mixins/global';
 import { expiredToken } from './account';
+import { getOneSurvey, postSurvey, receiveQuestionsFailure } from './questions';
 
 function requestSurveysFailure(err) {
     return (dispatch) => {
@@ -277,5 +278,58 @@ export function exportSurvey() {
                 dispatch(receiveReportSuccess());
             })
             .catch(err => dispatch(receiveReportFailure(err)));
+    };
+}
+
+function postCopiedSurveySuccess() {
+    return {
+        type: types.POST_COPIEDSURVEY_SUCCESS
+    };
+}
+
+function postCopiedSurveyFailure(err) {
+    return {
+        type: types.POST_COPIEDSURVEY_FAILURE,
+        errorMsg: err
+    };
+}
+
+function postCopiedSurvey(questions) {
+    return (dispatch, getState) => {
+        const { account, token } = getState();
+        const postData = {
+            subject: questions.subject,
+            survey: questions.survey
+        };
+
+        return postSurvey(account.accountid, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.surveyid) {
+                    dispatch(postCopiedSurveySuccess());
+                    dispatch(getSurveys());
+                } else {
+                    dispatch(postCopiedSurveyFailure(data));
+                }
+            })
+            .catch(err => dispatch(postCopiedSurveyFailure(err)));
+    };
+}
+
+export function copySurvey() {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_COPY_SURVEY });
+        const { account, selectedSurveys } = getState();
+
+        return getOneSurvey(account.accountid, selectedSurveys)
+            .then(response => response.json())
+            .then(data => {
+                if (data.surveyid) {
+                    dispatch(postCopiedSurvey(data));
+                } else {
+                    dispatch(receiveQuestionsFailure(data));
+                }
+            })
+            .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }

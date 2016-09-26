@@ -392,7 +392,7 @@ function receiveQuestionsSuccess(data) {
     };
 }
 
-function receiveQuestionsFailure(err) {
+export function receiveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -410,25 +410,25 @@ export function getQuestion(surveyID) {
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
         return getOneSurvey(accountid, surveyID)
-        .then(response => response.json())
-        .then(data => {
-            if (data.surveyid) {
-                dispatch(setSubject(data.subject));
-                dispatch(setSurveyPolicy(data.survey.thankyou));
-                dispatch(receiveQuestionsSuccess(data.survey.content));
-                dispatch(setSurveyID(data.surveyid));
-                // TODOS: temporarily remove router
-                // dispatch(push('/create'));
-                if (selectedUser.hasOwnProperty('accountid')) {
-                    dispatch(setWebpage('create'));
+            .then(response => response.json())
+            .then(data => {
+                if (data.surveyid) {
+                    dispatch(setSubject(data.subject));
+                    dispatch(setSurveyPolicy(data.survey.thankyou));
+                    dispatch(receiveQuestionsSuccess(data.survey.content));
+                    dispatch(setSurveyID(data.surveyid));
+                    // TODOS: temporarily remove router
+                    // dispatch(push('/create'));
+                    if (selectedUser.hasOwnProperty('accountid')) {
+                        dispatch(setWebpage('create'));
+                    } else {
+                        dispatch(setWebpage('userCreate'));
+                    }
                 } else {
-                    dispatch(setWebpage('userCreate'));
+                    dispatch(receiveQuestionsFailure(data));
                 }
-            } else {
-                dispatch(receiveQuestionsFailure(data));
-            }
-        })
-        .catch(err => dispatch(receiveQuestionsFailure(err)));
+            })
+            .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }
 
