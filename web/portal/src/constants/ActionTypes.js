@@ -102,3 +102,7 @@ export const SET_SELECTED_USER = 'SET_SELECTED_USER';
 
 // webpage
 export const SET_WEBPAGE = 'SET_WEBPAGE';
+
+// popup
+export const SET_POPUP = 'SET_POPUP';
+export const CLOSE_POPUP = 'CLOSE_POPUP';
