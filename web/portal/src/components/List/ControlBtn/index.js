@@ -58,8 +58,8 @@ class ControlBtn extends PureComponent {
     }
 
     _onDeleteSurveyClick() {
-        const { surveysActions } = this.props;
-        surveysActions.deleteSurvey();
+        const { popupActions } = this.props;
+        popupActions.setPopup('deleteOneSurvey');
     }
 
     _onCopySurveyClick() {

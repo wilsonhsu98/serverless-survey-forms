@@ -15,6 +15,8 @@ import * as PreviewActions from '../../actions/preview';
 import * as AccountActions from '../../actions/account';
 import * as UsersActions from '../../actions/users';
 import * as WebpageActions from '../../actions/webpage';
+import * as SurveysActions from '../../actions/surveys';
+import * as PopupActions from '../../actions/popup';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -26,6 +28,7 @@ import List from '../../containers/List/';
 import Subject from '../../components/Popup/Subject';
 import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
+import Confirm from '../../components/Popup/Confirm';
 import NoPermission from '../../components/Popup/NoPermission';
 
 export class Portal extends PureComponent {
@@ -37,9 +40,10 @@ export class Portal extends PureComponent {
 
     render() {
         const { account, loading, subject, surveyID, preview, previewID,
-            selectedUser, webpage,
+            selectedUser, webpage, popup,
             editSubject, editSubjectActions, subjectActions,
-            questionsActions, previewActions, usersActions, webpageActions } = this.props;
+            questionsActions, previewActions, usersActions,
+            webpageActions, surveysActions, popupActions } = this.props;
         const headProps = {
             account,
             subject,
@@ -52,6 +56,7 @@ export class Portal extends PureComponent {
         };
         const subProps = { subject, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
+        const confirmProps = { popup, popupActions, surveysActions };
         const loadingView = loading ? <Loading /> : '';
         return (
             <div ref="root">
@@ -62,6 +67,7 @@ export class Portal extends PureComponent {
 
                 {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
+                {popup ? <Confirm {...confirmProps} /> : ''}
                 {this._checkAccountStatus()}
 
                 <Footer />
@@ -131,6 +137,7 @@ function mapStateToProps(state) {
         previewID: state.previewID,
         selectedUser: state.selectedUser,
         webpage: state.webpage,
+        popup: state.popup,
         routing: state.routing
     };
 }
@@ -143,7 +150,9 @@ function mapDispatchToProps(dispatch) {
         previewActions: bindActionCreators(PreviewActions, dispatch),
         accountActions: bindActionCreators(AccountActions, dispatch),
         usersActions: bindActionCreators(UsersActions, dispatch),
-        webpageActions: bindActionCreators(WebpageActions, dispatch)
+        webpageActions: bindActionCreators(WebpageActions, dispatch),
+        surveysActions: bindActionCreators(SurveysActions, dispatch),
+        popupActions: bindActionCreators(PopupActions, dispatch)
     };
 }
 
