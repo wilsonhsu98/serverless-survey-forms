@@ -25,7 +25,7 @@ class ControlBtn extends PureComponent {
             { id: 'createBtn', string: 'Create Survey', img: '', func: this._onAddSurveyClick },
             { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
             { id: 'reportBtn', string: 'Report', img: 'report', func: this._onReportSurveyClick },
-            { id: 'copyBtn', string: 'Duplicate', img: 'delete', func: this._onCopySurveyClick },
+            { id: 'copyBtn', string: 'Duplicate', img: 'report', func: this._onCopySurveyClick },
             { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteSurveyClick }
         ];
         let btns = [];
