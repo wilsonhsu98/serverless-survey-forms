@@ -30,17 +30,32 @@ class ControlBtn extends PureComponent {
         ];
         let btns = [];
         btnsData.forEach((btn, idx) => {
-            if ((idx === 0 && !selectedUser.hasOwnProperty('accountid'))
-                || (idx !== 0 && selectedSurveys !== '')) {
-                btns.push(
-                    <IconButton
-                        key={idx}
-                        id={btn.id}
-                        string={btn.string}
-                        i18nKey={false}
-                        img={btn.img}
-                        onClick={btn.func}
-                    />);
+            if (selectedUser.hasOwnProperty('accountid')) {
+                // selectedUser means it is Admin mode
+                // in Admin mode, administrator can't create / duplicate survey
+                if (idx !== 0 && idx !== 3 && selectedSurveys !== '') {
+                    btns.push(
+                        <IconButton
+                            key={idx}
+                            id={btn.id}
+                            string={btn.string}
+                            i18nKey={false}
+                            img={btn.img}
+                            onClick={btn.func}
+                        />);
+                }
+            } else {
+                if (idx === 0 || (idx !== 0 && selectedSurveys !== '')) {
+                    btns.push(
+                        <IconButton
+                            key={idx}
+                            id={btn.id}
+                            string={btn.string}
+                            i18nKey={false}
+                            img={btn.img}
+                            onClick={btn.func}
+                        />);
+                }
             }
         });
 
