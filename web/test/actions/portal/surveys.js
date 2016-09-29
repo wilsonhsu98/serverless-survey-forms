@@ -176,4 +176,52 @@ describe('[Portal] surveys action', () => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
     });
+
+    it('should create an action to duplicate survey', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        const subject = 'Hello';
+        const selectedSurveys = '1111-2222-3333';
+        const questions = [{
+            page: 1,
+            description: 'I am Page 1',
+            question: [{
+                id: '1AN2AL0F9BNA7A',
+                type: 'rating',
+                label: 'Testing question text',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                input: 'Tell us the reason why you choose this answer',
+                required: false
+            }]
+        }];
+
+        nock(Config.baseURL, {
+            reqheaders: { 'Cache-Control': 'max-age=0' }
+        })
+        .get(`/api/v1/surveys/${account.accountid}/${selectedSurveys}`)
+        .reply(200, {
+            surveyid: selectedSurveys,
+            subject,
+            survey: {
+                content: questions,
+                thankyou: {}
+            }
+        });
+
+        const store = mockStore({ account, selectedSurveys });
+        const expectedActions = [
+            { type: types.REQUEST_COPY_SURVEY }
+        ];
+
+        return store.dispatch(actions.copySurvey())
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
 });
