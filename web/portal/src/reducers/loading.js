@@ -7,7 +7,7 @@ export default function loading(state = false, action) {
         return action.loading;
     case types.REQUEST_SET_SUBJECT:
     case types.REQUEST_SURVEYS_LIST:
-    case types.REQUEST_DELET_SURVEYS:
+    case types.REQUEST_DELETE_SURVEYS:
     case types.REQUEST_GET_QUESTION:
     case types.REQUEST_REPORT:
     case types.REQUEST_USERS_LIST:

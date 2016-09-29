@@ -87,7 +87,7 @@ function receiveDeleteSurveysSuccess() {
 
 export function deleteSurvey() {
     return (dispatch, getState) => {
-        dispatch({ type: types.REQUEST_DELET_SURVEYS });
+        dispatch({ type: types.REQUEST_DELETE_SURVEYS });
         const { account, selectedUser, selectedSurveys, token } = getState();
         // delete selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?

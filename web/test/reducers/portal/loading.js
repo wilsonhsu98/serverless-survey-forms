@@ -13,7 +13,7 @@ describe('[Portal] loading reducer', () => {
         ).toEqual(true);
 
         expect(
-            loading(false, { type: types.REQUEST_DELET_SURVEYS })
+            loading(false, { type: types.REQUEST_DELETE_SURVEYS })
         ).toEqual(true);
 
         expect(

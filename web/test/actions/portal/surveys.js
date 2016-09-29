@@ -118,7 +118,7 @@ describe('[Portal] surveys action', () => {
             token
         });
         const expectedActions = [
-            { type: types.REQUEST_DELET_SURVEYS },
+            { type: types.REQUEST_DELETE_SURVEYS },
             { type: types.RECIEVE_DELETE_SURVEYS_SUCCESS },
             { type: types.REMOVE_SELECTED_SURVEYS },
             { type: types.REMOVE_SELECTED_SURVEYS },
