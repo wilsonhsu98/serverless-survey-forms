@@ -14,6 +14,28 @@ import { setSubject } from './subject';
 import { expiredToken } from './account';
 import { setWebpage } from './webpage';
 
+export function postSurvey(accountid, postData, token) {
+    return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token
+        },
+        body: JSON.stringify(postData)
+    });
+}
+
+export function getOneSurvey(accountid, surveyID) {
+    return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Cache-Control': 'max-age=0'
+        }
+    });
+}
+
 export function setSurveyID(data) {
     return {
         type: types.SET_SURVEYID,
@@ -370,7 +392,7 @@ function receiveQuestionsSuccess(data) {
     };
 }
 
-function receiveQuestionsFailure(err) {
+export function receiveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -387,32 +409,26 @@ export function getQuestion(surveyID) {
         // get question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
-        return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'Cache-Control': 'max-age=0'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.surveyid) {
-                dispatch(setSubject(data.subject));
-                dispatch(setSurveyPolicy(data.survey.thankyou));
-                dispatch(receiveQuestionsSuccess(data.survey.content));
-                dispatch(setSurveyID(data.surveyid));
-                // TODOS: temporarily remove router
-                // dispatch(push('/create'));
-                if (selectedUser.hasOwnProperty('accountid')) {
-                    dispatch(setWebpage('create'));
+        return getOneSurvey(accountid, surveyID)
+            .then(response => response.json())
+            .then(data => {
+                if (data.surveyid) {
+                    dispatch(setSubject(data.subject));
+                    dispatch(setSurveyPolicy(data.survey.thankyou));
+                    dispatch(receiveQuestionsSuccess(data.survey.content));
+                    dispatch(setSurveyID(data.surveyid));
+                    // TODOS: temporarily remove router
+                    // dispatch(push('/create'));
+                    if (selectedUser.hasOwnProperty('accountid')) {
+                        dispatch(setWebpage('create'));
+                    } else {
+                        dispatch(setWebpage('userCreate'));
+                    }
                 } else {
-                    dispatch(setWebpage('userCreate'));
+                    dispatch(receiveQuestionsFailure(data));
                 }
-            } else {
-                dispatch(receiveQuestionsFailure(data));
-            }
-        })
-        .catch(err => dispatch(receiveQuestionsFailure(err)));
+            })
+            .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }
 

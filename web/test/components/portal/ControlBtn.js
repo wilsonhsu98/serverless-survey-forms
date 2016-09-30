@@ -34,7 +34,7 @@ describe('[Portal] Testing ControlBtn Component', () => {
             <ControlBtn {...props} />
         );
         const btn = TestUtils.scryRenderedComponentsWithType(content, IconButton);
-        expect(btn.length).toEqual(4);
+        expect(btn.length).toEqual(5);
     });
 
     it('survey list control button: no create btn in admin mode', () => {
