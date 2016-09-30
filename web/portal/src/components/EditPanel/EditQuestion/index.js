@@ -3,15 +3,16 @@
 import styles from './style.css';
 
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
-import FixComponent from '../../FixComponent';
+import Mixins from '../../../mixins/global';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
 import Button from '../../Button';
 
-class EditQuestion extends FixComponent {
+class EditQuestion extends PureComponent {
 
     constructor() {
         super();
@@ -26,6 +27,14 @@ class EditQuestion extends FixComponent {
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._onAdvanceChangeHandle = this._onAdvanceChangeHandle.bind(this);
         this._handleFocusEvent = this._handleFocusEvent.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
     }
 
     render() {

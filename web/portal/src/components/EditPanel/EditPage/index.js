@@ -3,12 +3,14 @@
 import styles from './style.css';
 
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
-import FixComponent from '../../FixComponent';
+import Mixins from '../../../mixins/global';
 import Button from '../../Button';
 
-class EditPage extends FixComponent {
+class EditPage extends PureComponent {
 
     constructor() {
         super();
@@ -16,6 +18,14 @@ class EditPage extends FixComponent {
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._handleFocusEvent = this._handleFocusEvent.bind(this);
+    }
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
+    }
     }
 
     render() {

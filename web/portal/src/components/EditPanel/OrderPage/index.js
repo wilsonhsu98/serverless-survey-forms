@@ -1,17 +1,27 @@
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
+import Mixins from '../../../mixins/global';
 import Item from './Item';
 import Button from '../../Button';
 
-class OrderPage extends FixComponent {
+class OrderPage extends PureComponent {
 
     constructor() {
         super();
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._moveItem = this._moveItem.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
     }
 
     render() {
