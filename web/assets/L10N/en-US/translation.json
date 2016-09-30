@@ -5,7 +5,7 @@
     "next"                      : "Next",
     "submit"                    : "Submit",
     "participate"               : "participate",
-    "error_required"            : "This question required your anwser.",
+    "error_required"            : "This question required your answer.",
     "error_agree_terms"         : "Please select the checkbox and provide your email address.",
     "error_email_required"      : "Please provide your email address.",
     "error_email_incorrect"     : "Please type an email address in the correct format.",

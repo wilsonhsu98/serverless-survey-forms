@@ -122,7 +122,7 @@ class EditQuestion extends FixComponent {
     _renderAdvance() {
         const { editQuestion } = this.props;
         const flag = editQuestion.hasOwnProperty('input');
-        const input = flag ? editQuestion.input : '';
+        const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
 
         return (
             <div className={`${styles.editSection} ut-advance`}>
@@ -144,10 +144,11 @@ class EditQuestion extends FixComponent {
                         type="text"
                         value={input}
                         className={`${styles.input__why} input input--medium`}
-                        placeholder={values.PLACEHOLDER_TITLE}
                         onChange={this._onAdvanceChangeHandle}
+                        onFocus={this._handleFocusEvent}
                         readOnly={!flag}
                     />
+                    <div className={`${styles.whyInput} input__msg js-whyInput-msg`}></div>
                 </div>
             </div>
         );
@@ -156,7 +157,7 @@ class EditQuestion extends FixComponent {
     _btnClickEvent(e) {
         const { questionsActions, editQuestionActions } = this.props;
         // Clear all error msg
-        $('.js-title-msg, .js-opt-msg, .js-optInput-msg').html('');
+        $('.js-title-msg, .js-opt-msg, .js-optInput-msg, .js-whyInput-msg').html('');
 
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editQuestionActions.stopEditQuestion();
@@ -187,6 +188,11 @@ class EditQuestion extends FixComponent {
                     flag = true;
                 }
             });
+            // Check advanced input in rating
+            if ($('#chk').is(':checked') && document.getElementById('why').value === '') {
+                $('.js-whyInput-msg').html('Please fill "Tell Me Why" input\'s placeholder');
+                flag = true;
+            }
 
             if (!flag) {
                 // save editQuestion to Question
@@ -228,8 +234,15 @@ class EditQuestion extends FixComponent {
     _handleFocusEvent(e) {
         const { editQuestion } = this.props;
         const target = e.target;
-        if (editQuestion.label === values.QUESTION_TITLE) {
-            target.value = '';
+        if (target.getAttribute('id') === 'why') {
+            if (editQuestion.hasOwnProperty('input')
+                && editQuestion.input === values.PLACEHOLDER_TITLE) {
+                target.value = '';
+            }
+        } else {
+            if (editQuestion.label === values.QUESTION_TITLE) {
+                target.value = '';
+            }
         }
     }
 }

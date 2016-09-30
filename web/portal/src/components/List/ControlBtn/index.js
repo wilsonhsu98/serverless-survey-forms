@@ -13,6 +13,7 @@ class ControlBtn extends PureComponent {
     constructor() {
         super();
         this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
+        this._onCopySurveyClick = this._onCopySurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
         this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
         this._onReportSurveyClick = this._onReportSurveyClick.bind(this);
@@ -24,21 +25,37 @@ class ControlBtn extends PureComponent {
             { id: 'createBtn', string: 'Create Survey', img: '', func: this._onAddSurveyClick },
             { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
             { id: 'reportBtn', string: 'Report', img: 'report', func: this._onReportSurveyClick },
+            { id: 'copyBtn', string: 'Duplicate', img: 'report', func: this._onCopySurveyClick },
             { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteSurveyClick }
         ];
         let btns = [];
         btnsData.forEach((btn, idx) => {
-            if ((idx === 0 && !selectedUser.hasOwnProperty('accountid'))
-                || (idx !== 0 && selectedSurveys !== '')) {
-                btns.push(
-                    <IconButton
-                        key={idx}
-                        id={btn.id}
-                        string={btn.string}
-                        i18nKey={false}
-                        img={btn.img}
-                        onClick={btn.func}
-                    />);
+            if (selectedUser.hasOwnProperty('accountid')) {
+                // selectedUser means it is Admin mode
+                // in Admin mode, administrator can't create / duplicate survey
+                if (idx !== 0 && idx !== 3 && selectedSurveys !== '') {
+                    btns.push(
+                        <IconButton
+                            key={idx}
+                            id={btn.id}
+                            string={btn.string}
+                            i18nKey={false}
+                            img={btn.img}
+                            onClick={btn.func}
+                        />);
+                }
+            } else {
+                if (idx === 0 || (idx !== 0 && selectedSurveys !== '')) {
+                    btns.push(
+                        <IconButton
+                            key={idx}
+                            id={btn.id}
+                            string={btn.string}
+                            i18nKey={false}
+                            img={btn.img}
+                            onClick={btn.func}
+                        />);
+                }
             }
         });
 
@@ -56,8 +73,13 @@ class ControlBtn extends PureComponent {
     }
 
     _onDeleteSurveyClick() {
+        const { popupActions } = this.props;
+        popupActions.setPopup('deleteOneSurvey');
+    }
+
+    _onCopySurveyClick() {
         const { surveysActions } = this.props;
-        surveysActions.deleteSurvey();
+        surveysActions.copySurvey();
     }
 
     _onReportSurveyClick() {

@@ -36,6 +36,6 @@
 }
 
 .ratingWrapper input[type=text] {
-    margin: 12px 0;
-    width: 100%;
+    margin: 20px;
+    width: 90%;
 }

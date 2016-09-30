@@ -31,7 +31,7 @@ class Privacy extends PureComponent {
                     <hr className={styles.separate} />
                     <div className={styles.lower}>
                         <div className={styles.lower_txt}>Post Survey Options</div>
-                        <div className="checkboxItem">
+                        <div className={`${styles.checkboxItem} checkboxItem`}>
                             <input
                                 id="chk"
                                 type="checkbox"
@@ -39,7 +39,7 @@ class Privacy extends PureComponent {
                                 checked={chk}
                                 onChange={this._onChangeHandle}
                             />
-                            <label>
+                            <label htmlFor="chk">
                                 Let Trend Micro follow up later
                             </label>
                         </div>

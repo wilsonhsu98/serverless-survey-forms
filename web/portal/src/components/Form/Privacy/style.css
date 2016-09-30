@@ -34,6 +34,10 @@
     .lower {
         padding: 36px;
         color: #222;
+
+        .checkboxItem {
+            margin-left: 20px;
+        }
     }
     .lower_txt {
         font-size: 18px;

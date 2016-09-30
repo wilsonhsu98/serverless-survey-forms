@@ -34,7 +34,8 @@
     previewID: '',
     users: [],
     selectedUser: {}
-    webpage: 'index'
+    webpage: 'index',
+    popup: ''
  }
 **/
 
@@ -59,6 +60,7 @@ import previewID from './previewID';
 import users from './users';
 import selectedUser from './selectedUser';
 import webpage from './webpage';
+import popup from './popup';
 
 const rootReducer = combineReducers({
     loading,
@@ -80,6 +82,7 @@ const rootReducer = combineReducers({
     users,
     selectedUser,
     webpage,
+    popup,
     routing: routerReducer
 });
 

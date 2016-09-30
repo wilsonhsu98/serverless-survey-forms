@@ -13,7 +13,7 @@ describe('[Portal] loading reducer', () => {
         ).toEqual(true);
 
         expect(
-            loading(false, { type: types.REQUEST_DELET_SURVEYS })
+            loading(false, { type: types.REQUEST_DELETE_SURVEYS })
         ).toEqual(true);
 
         expect(
@@ -30,6 +30,10 @@ describe('[Portal] loading reducer', () => {
 
         expect(
             loading(false, { type: types.REQUEST_CHANGE_ROLE })
+        ).toEqual(true);
+
+        expect(
+            loading(false, { type: types.REQUEST_COPY_SURVEY })
         ).toEqual(true);
     });
 
@@ -61,6 +65,10 @@ describe('[Portal] loading reducer', () => {
         expect(
             loading(true, { type: types.RECIEVE_CHANGE_ROLE_SUCCESS })
         ).toEqual(false);
+
+        expect(
+            loading(true, { type: types.POST_COPIEDSURVEY_SUCCESS })
+        ).toEqual(false);
     });
 
     it('should handle loading state when receive API fail', () => {
@@ -90,6 +98,10 @@ describe('[Portal] loading reducer', () => {
 
         expect(
             loading(true, { type: types.RECIEVE_CHANGE_ROLE_FAILURE })
+        ).toEqual(false);
+
+        expect(
+            loading(true, { type: types.POST_COPIEDSURVEY_FAILURE })
         ).toEqual(false);
     });
 });
