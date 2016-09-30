@@ -132,6 +132,7 @@ function mapStateToProps(state) {
         token: state.token,
         account: state.account,
         subject: state.subject,
+        surveyID: state.surveyID,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
