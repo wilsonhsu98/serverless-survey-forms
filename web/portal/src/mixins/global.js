@@ -56,6 +56,24 @@ const mixins = {
             saveAs(blob, `${filename}.csv`);
         });
         downloadLink.click();
+    },
+
+    fixScrollbar() {
+        const html = document.getElementsByTagName('html')[0];
+        const scrollTop = (document.documentElement && document.documentElement.scrollTop)
+            || document.body.scrollTop;
+        html.style.top = `${0 - scrollTop}px`;
+        html.classList.add('non-scroll');
+    },
+
+    freeScrollbar() {
+        const html = document.getElementsByTagName('html')[0];
+        const scrollTop = html.style.top.replace(/px/g, '');
+        const body = document.documentElement && document.documentElement.scrollTop ?
+            document.documentElement : document.body;
+        html.style.top = '';
+        html.classList.remove('non-scroll');
+        body.scrollTop = 0 - scrollTop;
     }
 };
 

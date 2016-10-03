@@ -3,14 +3,15 @@
 import styles from './style.css';
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
 
 import Config from '../../../config';
+import Mixins from '../../../mixins/global';
 import IFrame from '../../IFrame';
 import IconButton from '../../IconButton';
 import Qustom from '../../../../../src/index';
 
-class Preview extends FixComponent {
+class Preview extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -21,6 +22,14 @@ class Preview extends FixComponent {
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._onChangePreviewType = this._onChangePreviewType.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
     }
 
     render() {

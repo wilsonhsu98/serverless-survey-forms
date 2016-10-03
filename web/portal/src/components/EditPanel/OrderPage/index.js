@@ -1,17 +1,40 @@
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
+import Mixins from '../../../mixins/global';
 import Item from './Item';
 import Button from '../../Button';
 
-class OrderPage extends FixComponent {
+class OrderPage extends PureComponent {
 
     constructor() {
         super();
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._moveItem = this._moveItem.bind(this);
+        this._handleEditModeClick = this._handleEditModeClick.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+        $('#editModal').on('click', this._handleEditModeClick);
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
+        $('#editModal').off('click', this._handleEditModeClick);
+    }
+
+    _handleEditModeClick(e) {
+        const target = e.target;
+        const hint = document.getElementsByClassName('js-hint');
+        if (target.getAttribute('id') === 'editModal') {
+            hint[0].style.display = 'block';
+        } else {
+            hint[0].style.display = 'none';
+        }
     }
 
     render() {
@@ -30,7 +53,7 @@ class OrderPage extends FixComponent {
             );
         });
         return (
-            <div className="modalEditPanel">
+            <div id="editModal" className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
                     <div className="edit">
                         <div className="editContent">
@@ -39,6 +62,9 @@ class OrderPage extends FixComponent {
                     </div>
 
                     <div className="bottom">
+                        <div className="edit-hint shake js-hint" style={{ display: 'none' }}>
+                            Please confirm your change
+                        </div>
                         <Button
                             string="Save"
                             i18nKey={false}
