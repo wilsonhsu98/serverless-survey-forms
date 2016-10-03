@@ -19,6 +19,7 @@ class EditQuestion extends PureComponent {
 
         this._renderType = this._renderType.bind(this);
         this._renderTitle = this._renderTitle.bind(this);
+        this._renderRequired = this._renderRequired.bind(this);
         this._renderOptions = this._renderOptions.bind(this);
         this._renderAdvance = this._renderAdvance.bind(this);
         this._onTitleChange = this._onTitleChange.bind(this);
@@ -27,6 +28,7 @@ class EditQuestion extends PureComponent {
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._onAdvanceChangeHandle = this._onAdvanceChangeHandle.bind(this);
         this._handleFocusEvent = this._handleFocusEvent.bind(this);
+        this._onRequiredChangeHandle = this._onRequiredChangeHandle.bind(this);
         this._handleEditModeClick = this._handleEditModeClick.bind(this);
     }
 
@@ -60,6 +62,7 @@ class EditQuestion extends PureComponent {
                         <div className="editContent">
                             {this._renderType()}
                             {this._renderTitle()}
+                            {this._renderRequired()}
                             {this._renderOptions()}
                             {editQuestion.type === 'rating' ? this._renderAdvance() : ''}
                         </div>
@@ -106,6 +109,26 @@ class EditQuestion extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    _renderRequired() {
+        const { editQuestion } = this.props;
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>Is this question required?</div>
+                <div className={`${styles.checkboxItem} checkboxItem`}>
+                    <input
+                        id="required"
+                        type="checkbox"
+                        className="ut-required"
+                        checked={editQuestion.required}
+                        onChange={this._onRequiredChangeHandle}
+                    />
+                    <label htmlFor="required">
+                        Yes, it is a required question.
+                    </label>
+                </div>
+            </div>);
     }
 
     _renderType() {
@@ -269,6 +292,13 @@ class EditQuestion extends PureComponent {
                 target.value = '';
             }
         }
+    }
+
+    _onRequiredChangeHandle() {
+        const { editQuestion } = this.props;
+        const newData = Object.assign({},
+            editQuestion, { required: $('#required').is(':checked') });
+        this._handleChangeEvent(newData);
     }
 }
 
