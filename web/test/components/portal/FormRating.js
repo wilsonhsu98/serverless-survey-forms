@@ -16,6 +16,7 @@ describe('[Portal] Testing Form Rating Component', () => {
             id: '97AN2A1A0FBNAL',
             type: 'rating',
             label: 'Question title',
+            order: 1,
             data: [
                 { value: '1A0F97AN2ABAGR', label: 'Very dissatisfied' },
                 { value: '1A0F97AN2A3FEF', label: 'Dissatisfied' },
@@ -23,7 +24,7 @@ describe('[Portal] Testing Form Rating Component', () => {
                 { value: '1A0F97AN25H69O', label: 'Very satisfied' }
             ],
             input: 'Tell me the reason.',
-            required: false
+            required: true
         },
         onClick: () => {}
     };
@@ -35,6 +36,7 @@ describe('[Portal] Testing Form Rating Component', () => {
         const que = TestUtils.scryRenderedComponentsWithType(content, Question);
         expect(que.length).toEqual(1);
         expect(que[0].props.text).toEqual(props.data.label);
+        expect(que[0].props.required).toEqual(true);
     });
 
     it('rating: option numbers', () => {

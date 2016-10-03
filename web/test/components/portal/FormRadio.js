@@ -16,6 +16,7 @@ describe('[Portal] Testing Form Radio Component', () => {
             id: '97AN2A1A0FBNAL',
             type: 'radio',
             label: 'Question title',
+            order: 1,
             data: [
                 { value: '1A0F97AN2ABAGR', label: 'Option A' },
                 { value: '1A0F97AN2A6E3V', label: 'Option B' },
@@ -33,6 +34,7 @@ describe('[Portal] Testing Form Radio Component', () => {
         const que = TestUtils.scryRenderedComponentsWithType(content, Question);
         expect(que.length).toEqual(1);
         expect(que[0].props.text).toEqual(props.data.label);
+        expect(que[0].props.required).toEqual(false);
     });
 
     it('radio: option numbers', () => {
