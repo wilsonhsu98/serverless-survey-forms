@@ -96,7 +96,11 @@ class Privacy extends PureComponent {
                                 }
                             </div>
                         </div>
-                    </div> : ''
+                    </div> :
+                    <div
+                        className={this.props.settings.type === 'default' ?
+                            styles.done : styles.doneEmbedded}
+                    />
             }
             </div>
         );
