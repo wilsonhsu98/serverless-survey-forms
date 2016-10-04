@@ -81,6 +81,9 @@
         letter-spacing: -1.76px;
         min-width: 100px;
         padding: 16px 0;
+        &.editable:hover {
+            text-decoration: underline;
+        }
     }
     .build {
         clear: both;

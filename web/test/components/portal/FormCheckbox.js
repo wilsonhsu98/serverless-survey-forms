@@ -16,6 +16,7 @@ describe('[Portal] Testing Form Checkbox Component', () => {
             id: '1A0F97AN2ABNAL',
             type: 'checkbox',
             label: 'Question title',
+            order: 1,
             data: [
                 { value: '1A0F97AN2ABAGR', label: 'Very dissatisfied' },
                 { value: '1A0F97AN2A3FEF', label: 'Dissatisfied' },
@@ -23,7 +24,7 @@ describe('[Portal] Testing Form Checkbox Component', () => {
                 { value: '1A0F97AN25H69O', label: 'Very satisfied' },
                 { value: '1A0F97AN2AO03T', label: 'Other', input: 'Placeholder..' }
             ],
-            required: false
+            required: true
         },
         onClick: () => {}
     };
@@ -35,6 +36,7 @@ describe('[Portal] Testing Form Checkbox Component', () => {
         const que = TestUtils.scryRenderedComponentsWithType(content, Question);
         expect(que.length).toEqual(1);
         expect(que[0].props.text).toEqual(props.data.label);
+        expect(que[0].props.required).toEqual(true);
     });
 
     it('checkbox: option numbers', () => {

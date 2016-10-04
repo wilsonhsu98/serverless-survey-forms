@@ -16,7 +16,9 @@ class Rating extends Component {
                 onClick={onClick}
             >
                 <Question
+                    id={data.order}
                     text={data.label}
+                    required={data.required}
                 />
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>
