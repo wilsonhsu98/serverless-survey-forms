@@ -71,6 +71,10 @@
     min-width: 320px;
 }
 
+:global .radioItem input[type="text"]:-ms-input-placeholder {
+    color: #aaa;
+}
+
 @media only screen and (max-width: 639px) {
     :global .radioItem input[type="text"] {
         min-width: 90%;
