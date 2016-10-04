@@ -3,12 +3,14 @@
 import styles from './style.css';
 
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
+import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
-import FixComponent from '../../FixComponent';
+import Mixins from '../../../mixins/global';
 import Button from '../../Button';
 
-class EditPage extends FixComponent {
+class EditPage extends PureComponent {
 
     constructor() {
         super();
@@ -16,13 +18,34 @@ class EditPage extends FixComponent {
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._handleFocusEvent = this._handleFocusEvent.bind(this);
+        this._handleEditModeClick = this._handleEditModeClick.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+        $('#editModal').on('click', this._handleEditModeClick);
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
+        $('#editModal').off('click', this._handleEditModeClick);
+    }
+
+    _handleEditModeClick(e) {
+        const target = e.target;
+        const hint = document.getElementsByClassName('js-hint');
+        if (target.getAttribute('id') === 'editModal') {
+            hint[0].style.display = 'block';
+        } else {
+            hint[0].style.display = 'none';
+        }
     }
 
     render() {
         const { editPage } = this.props;
 
         return (
-            <div className="modalEditPanel">
+            <div id="editModal" className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
                     <div className="edit">
                         <div className="editContent">
@@ -43,6 +66,9 @@ class EditPage extends FixComponent {
                         </div>
                     </div>
                     <div className="bottom">
+                        <div className="edit-hint shake js-hint" style={{ display: 'none' }}>
+                            Please confirm your change
+                        </div>
                         <Button
                             string="Save"
                             i18nKey={false}

@@ -33,3 +33,20 @@
     float: right;
 }
 
+.done {
+    width: 80px;
+    height: 80px;
+    background: url(../../../assets/images/ic_done.png) center center no-repeat;
+    margin: 30px auto;
+}
+
+.doneEmbedded {
+    composes: done;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+

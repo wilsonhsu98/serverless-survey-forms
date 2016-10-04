@@ -3,16 +3,25 @@
 import styles from './style.css';
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
 
+import Mixins from '../../../mixins/global';
 import Button from '../../Button';
 
-class Subject extends FixComponent {
+class Subject extends PureComponent {
 
     constructor() {
         super();
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
     }
 
     render() {

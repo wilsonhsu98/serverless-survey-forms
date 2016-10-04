@@ -15,12 +15,13 @@ describe('[Portal] Testing EditQuestion Component', () => {
         id: '1AN2AL0F9BNA7A',
         type: 'rating',
         label: 'Testing question text',
+        order: 1,
         data: [
             { value: 1, label: 'Very dissatisfied' },
             { value: 2, label: 'Very satisfied' }
         ],
         input: 'Tell us the reason why you choose this answe',
-        required: false
+        required: true
     };
     const props = {
         editQuestion: fakeData,
@@ -35,6 +36,12 @@ describe('[Portal] Testing EditQuestion Component', () => {
         const textarea = TestUtils.scryRenderedDOMComponentsWithClass(contentRoot, 'ut-editQuestion');
         // Expect component
         expect(textarea[0].textContent).toEqual(fakeData.label);
+    });
+
+    it('show question editor: question is required', () => {
+        const input = TestUtils.scryRenderedDOMComponentsWithClass(contentRoot, 'ut-required');
+        // Expect component
+        expect(input[0].checked).toEqual(true);
     });
 
     it('show question editor: question advance', () => {

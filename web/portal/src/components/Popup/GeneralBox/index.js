@@ -3,9 +3,19 @@
 import styles from './style.css';
 
 import React, { PropTypes } from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
 
-class GeneralBox extends FixComponent {
+import Mixins from '../../../mixins/global';
+
+class GeneralBox extends PureComponent {
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
+    }
 
     render() {
         const { id, renderText, renderFooter, closeHandler } = this.props;
