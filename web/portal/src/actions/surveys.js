@@ -206,6 +206,7 @@ function handleReportContent(survey, privacy, feedbackAllData) {
                 switch (que.type) {
                 case 'checkbox':
                     que.data.forEach((opt) => {
+                        body.push('');
                         if (opt.hasOwnProperty('input')) {
                             body.push('');
                         }
