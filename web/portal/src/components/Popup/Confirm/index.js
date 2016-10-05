@@ -1,11 +1,11 @@
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
-import GeneralBox from '../GeneralBox';
+import PureComponent from 'react-pure-render/component';
 
+import GeneralBox from '../GeneralBox';
 import Button from '../../Button';
 
-class Confirm extends FixComponent {
+class Confirm extends PureComponent {
 
     constructor() {
         super();

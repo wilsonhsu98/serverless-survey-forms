@@ -62,7 +62,7 @@ class Header extends PureComponent {
                     ></div>
                     <div
                         id="title"
-                        className={`${styles.title} ut-title`}
+                        className={`${styles.title} ${styles.editable} ut-title`}
                         onClick={this._onEditSubject}
                     >
                         {subject}

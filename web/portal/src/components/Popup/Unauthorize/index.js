@@ -1,12 +1,12 @@
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
-import GeneralBox from '../GeneralBox';
+import PureComponent from 'react-pure-render/component';
 
+import GeneralBox from '../GeneralBox';
 import Config from '../../../config';
 import Button from '../../Button';
 
-class Unauthorize extends FixComponent {
+class Unauthorize extends PureComponent {
 
     constructor() {
         super();

@@ -84,7 +84,7 @@ class Pagination extends PureComponent {
             <div className={styles.page}>
                 <div className={styles.header}>
                     <div
-                        className={`${styles.title} ut-page`}
+                        className={`${styles.title} ${styles.editable} ut-page`}
                         data-type="text"
                         onClick={this._onEditPageClick}
                     >

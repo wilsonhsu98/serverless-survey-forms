@@ -1,11 +1,11 @@
 
 import React from 'react';
-import FixComponent from '../../FixComponent';
-import GeneralBox from '../GeneralBox';
+import PureComponent from 'react-pure-render/component';
 
+import GeneralBox from '../GeneralBox';
 import Config from '../../../config';
 
-class NoPermission extends FixComponent {
+class NoPermission extends PureComponent {
 
     constructor() {
         super();

@@ -3,14 +3,19 @@
  */
 
 .question {
-    font-size: 18px;
-    line-height: 24px;
-    padding: 8px 0;
-    color: #222;
-    margin-bottom: 8px;
+    font-size: 16px;
+    display: inline-block;
+    margin: 0 20px 15px 0;
 }
 
-.required {
-	color: #D63833;
+.question.required {
+    padding-left: 20px;
+    &:before {
+        content: '*';
+        color: #D63833;
+        display: block;
+        float: left;
+        margin-left: -15px;
+    }
 }
 

@@ -13,7 +13,9 @@ class Radio extends Component {
                 onClick={onClick}
             >
                 <Question
+                    id={data.order}
                     text={data.label}
+                    required={data.required}
                 />
                 <div className="radioGrp">
                     {this._renderRadioItem()}
