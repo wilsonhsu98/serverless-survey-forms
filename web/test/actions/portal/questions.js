@@ -282,6 +282,26 @@ describe('[Portal] questions action', () => {
         }]);
     });
 
+    it('should create an action to save questions success', () => {
+        expect(
+            actions.saveQuestionsSuccess()
+        ).toEqual({
+            type: types.SAVE_QUESTIONS_SUCCESS
+        });
+    });
+
+    it('should create an action to save questions failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.SAVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.saveQuestionsFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
     it('should create an action to save questions', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -340,6 +360,19 @@ describe('[Portal] questions action', () => {
             });
     });
 
+    it('should create an action to set survey policy', () => {
+        const surveyPolicy = {
+            description: 'Thanks for sharing your feedback with Trend Micro.',
+            privacy: {}
+        };
+        expect(
+            actions.setSurveyPolicy(surveyPolicy)
+        ).toEqual({
+            type: types.SET_SURVEY_POLICY,
+            surveyPolicy
+        });
+    });
+
     it('should create an action to edit survey policy', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -372,6 +405,27 @@ describe('[Portal] questions action', () => {
         }, { type: types.REQUEST_SAVE_QUESTION }]);
     });
 
+    it('should create an action to get questions success', () => {
+        expect(
+            actions.receiveQuestionsSuccess(questions)
+        ).toEqual({
+            type: types.RECIEVE_QUESTIONS_SUCCESS,
+            questions
+        });
+    });
+
+    it('should create an action to get questions failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.RECIEVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.receiveQuestionsFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
     it('should create an action to get questions', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -400,7 +454,7 @@ describe('[Portal] questions action', () => {
             { type: types.REQUEST_GET_QUESTION },
             { type: types.SET_SUBJECT, subject },
             { type: types.SET_SURVEY_POLICY, surveyPolicy: {} },
-            { type: types.RECIEVE_QUESTIONS_SUCCESS, questions: questions },
+            { type: types.RECIEVE_QUESTIONS_SUCCESS, questions },
             { type: types.SET_SURVEYID, surveyID },
             { type: types.SET_WEBPAGE, webpage: 'userCreate' }
         ];

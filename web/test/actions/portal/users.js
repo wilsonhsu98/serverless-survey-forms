@@ -14,6 +14,44 @@ describe('[Portal] users action', () => {
         nock.cleanAll();
     });
 
+    it('should create an action to get users failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.RECIEVE_USERS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.requestUsersFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('should create an action to get users success', () => {
+        const users = [
+            {
+                accountid: 'facebook-XXXXXX',
+                username: 'Mr. Cheng',
+                email: 'cheng@trend.com.tw',
+                role: 'User'
+            }, {
+                accountid: 'facebook-YYYYYY',
+                username: 'Mr. Wang',
+                email: 'wang@trend.com.tw',
+                role: 'Designer'
+            }, {
+                accountid: 'facebook-ZZZZZZZ',
+                username: 'Miss Lin',
+                email: 'lin@trend.com.tw',
+                role: 'Admin'
+            }];
+        expect(
+            actions.receiveUsersSuccess(users)
+        ).toEqual({
+            type: types.RECIEVE_USERS_SUCCESS,
+            users: users
+        });
+    });
+
     it('should create an action to get users', () => {
         const token = 'xxxxxxx';
         const users = [
@@ -50,6 +88,41 @@ describe('[Portal] users action', () => {
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
+    });
+
+    it('should create an action to change user\'s role failure', () => {
+        expect(
+            actions.changeUserRoleFailure('Error')
+        ).toEqual({
+            type: types.RECIEVE_CHANGE_ROLE_FAILURE,
+            errorMsg: 'Error'
+        });
+    });
+
+    it('should create an action to change user\'s role success', () => {
+        const users = [
+            {
+                accountid: 'facebook-XXXXXX',
+                username: 'Mr. Cheng',
+                email: 'cheng@trend.com.tw',
+                role: 'User'
+            }, {
+                accountid: 'facebook-YYYYYY',
+                username: 'Mr. Wang',
+                email: 'wang@trend.com.tw',
+                role: 'Designer'
+            }, {
+                accountid: 'facebook-ZZZZZZZ',
+                username: 'Miss Lin',
+                email: 'lin@trend.com.tw',
+                role: 'Admin'
+            }];
+        expect(
+            actions.changeUserRoleSuccess(users)
+        ).toEqual({
+            type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
+            users: users
+        });
     });
 
     it('should create an action to change user\'s role', () => {
@@ -108,6 +181,35 @@ describe('[Portal] users action', () => {
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
+    });
+
+    it('should create an action to change user\'s role when he is the last Admin', () => {
+        const token = 'xxxxxxx';
+        const users = [
+            {
+                accountid: 'facebook-ZZZZZZZ',
+                username: 'Miss Lin',
+                email: 'lin@trend.com.tw',
+                role: 'Admin'
+            }, {
+                accountid: 'facebook-YYYYYY',
+                username: 'Mr. Wang',
+                email: 'wang@trend.com.tw',
+                role: 'Designer'
+            }];
+        const store = mockStore({ users, token });
+        const expectedActions = [
+            { type: types.REQUEST_CHANGE_ROLE },
+            {
+                type: types.RECIEVE_CHANGE_ROLE_FAILURE,
+                errorMsg: 'this is the last Admin'
+            }
+        ];
+
+        store.dispatch(actions.changeUserRole(0, 'Designer'))
+        expect(
+            store.getActions()
+        ).toEqual(expectedActions);
     });
 
     it('should create an action to set selected user', () => {

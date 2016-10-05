@@ -264,13 +264,13 @@ export function exchangePage() {
     };
 }
 
-function saveQuestionsSuccess() {
+export function saveQuestionsSuccess() {
     return {
         type: types.SAVE_QUESTIONS_SUCCESS
     };
 }
 
-function saveQuestionsFailure(err) {
+export function saveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -355,7 +355,7 @@ export function saveQuestion() {
     };
 }
 
-function setSurveyPolicy(data) {
+export function setSurveyPolicy(data) {
     return {
         type: types.SET_SURVEY_POLICY,
         surveyPolicy: data
@@ -385,7 +385,7 @@ export function editSurveyPolicy(flag) {
     };
 }
 
-function receiveQuestionsSuccess(data) {
+export function receiveQuestionsSuccess(data) {
     return {
         type: types.RECIEVE_QUESTIONS_SUCCESS,
         questions: data

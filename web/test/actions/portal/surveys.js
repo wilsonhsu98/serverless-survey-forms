@@ -16,7 +16,19 @@ describe('[Portal] surveys action', () => {
         nock.cleanAll();
     });
 
-    it('should create an action to save surveys', () => {
+    it('should create an action to save surveys failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.RECIEVE_SURVEYS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.requestSurveysFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('should create an action to save surveys success', () => {
         expect(
             actions.receiveSurveysSuccess([])
         ).toEqual({
@@ -95,6 +107,24 @@ describe('[Portal] surveys action', () => {
         );
     });
 
+    it('should create an action to delete surveys failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.RECIEVE_DELETE_SURVEYS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.requestDeleteSurveysFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('should create an action to delete surveys success', () => {
+        expect(
+            actions.receiveDeleteSurveysSuccess()
+        ).toEqual({ type: types.RECIEVE_DELETE_SURVEYS_SUCCESS });
+    });
+
     it('should create an action to delete survey', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -131,6 +161,171 @@ describe('[Portal] surveys action', () => {
             });
     });
 
+    it('should create an action to export surveys failure', () => {
+        expect(
+            actions.receiveReportFailure('Error')
+        ).toEqual({ type: types.RECIEVE_REPORT_FAILURE, errorMsg: 'Error' });
+    });
+
+    it('should create an action to export surveys success', () => {
+        expect(
+            actions.receiveReportSuccess()
+        ).toEqual({ type: types.RECIEVE_REPORT_SUCCESS });
+    });
+
+    it('should create an action to handle export surveys header', () => {
+        const question = [
+            {
+                id: '1AN2AL0F9BNA7A',
+                type: 'rating',
+                label: 'Question 1',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                input: 'Please input the reason',
+                required: false
+            }, {
+                id: '1AN2AL0F9AQ7AC',
+                type: 'checkbox',
+                label: 'Question 2',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'option A' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'option B', input: 'Tell me' }
+                ],
+                required: false
+            }, {
+                id: '1AN2AL0F9BNABC',
+                type: 'radio',
+                label: 'Question 3',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied', input: 'Why' }
+                ],
+                required: false
+            }];
+        expect(
+            actions.handleReportHeader(question, true)
+        ).toEqual([
+            ['Client ID', 'Question 1', 'Please input the reason',
+            'Question 2', 'option A', 'option B', 'Tell me', 'Question 3', 'Why', 'Privacy email', 'Feedback time']
+        ]);
+    });
+
+    it('should create an action to handle export surveys content', () => {
+        const question = [
+            {
+                id: '1AN2AL0F9BNA7A',
+                type: 'rating',
+                label: 'Question 1',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                input: 'the reason',
+                required: false
+            }, {
+                id: '1AN2AL0F9AQ7AC',
+                type: 'checkbox',
+                label: 'Question 2',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'option A' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'option B', input: 'Why' }
+                ],
+                required: false
+            }, {
+                id: '1AN2AL0F9BNABC',
+                type: 'radio',
+                label: 'Question 3',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied', input: 'Why' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                required: false
+            }];
+        const feedback = [{
+            clientid: '11112222',
+            datetime: 1475233633672,
+            feedback: {
+                Q1: {
+                    label: 'Question 1',
+                    type: 'rating',
+                    data: [{
+                        value: '1APPJND2CYBHCD9V0FEBA',
+                        label: 'Satisfied',
+                        input: 'the reason'
+                    }],
+                },
+                Q2: {
+                    label: 'Question 2',
+                    type: 'checkbox',
+                    data: [
+                        { value: '1APPJND2CYA3FQEBJ3K7O', label: 'option A' },
+                        { value: '1APPJND2CYBHCD9V0FEBA', label: 'option B', input: 'option B\'s input' }
+                    ]
+                },
+                Q3: {
+                    label: 'Question 3',
+                    type: 'radio',
+                    data: [{
+                        value: '1APPJND2CYA3FQEBJ3K7O',
+                        label: 'Dissatisfied',
+                        input: 'radio\'s input'
+                    }]
+                }
+            }
+        }];
+        expect(
+            actions.handleReportContent(question, false, feedback)
+        ).toEqual([
+            ['11112222\b', 'Satisfied', 'the reason', '2', 'option A',
+            'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input', 'September 30, 2016 7:07 PM']
+        ]);
+    });
+
+    it('should create an action to handle export surveys content when no data', () => {
+        const question = [
+            {
+                id: '1AN2AL0F9BNA7A',
+                type: 'rating',
+                label: 'Question 1',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                input: 'Why',
+                required: false
+            }, {
+                id: '1AN2AL0F9AQ7AC',
+                type: 'checkbox',
+                label: 'Question 2',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'option A' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'option B', input: 'Why' }
+                ],
+                required: false
+            }, {
+                id: '1AN2AL0F9BNABC',
+                type: 'radio',
+                label: 'Question 3',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied', input: 'Why' }
+                ],
+                required: false
+            }];
+        const feedback = [{
+            clientid: '11112222',
+            datetime: 1475233633672,
+            feedback: {}
+        }];
+        expect(
+            actions.handleReportContent(question, true, feedback)
+        ).toEqual([
+            ['11112222\b', '', '', '', '', '', '', '', '', '', 'September 30, 2016 7:07 PM']
+        ]);
+    });
+
     it('should create an action to export survey', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -151,7 +346,23 @@ describe('[Portal] surveys action', () => {
             subject: 'Hello World',
             datetime: Date.now(),
             survey: {
-                content: [],
+                content: [
+                    {
+                        page: 1,
+                        description: 'I am Page 1',
+                        question: [{
+                            id: '1AN2AL0F9BNA7A',
+                            type: 'rating',
+                            label: 'Testing question text',
+                            data: [
+                                { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                                { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                            ],
+                            input: 'Tell us the reason why you choose this answer',
+                            required: false
+                        }]
+                    }
+                ],
                 thankyou: {
                     privacy: {}
                 },
@@ -175,6 +386,18 @@ describe('[Portal] surveys action', () => {
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
+    });
+
+    it('should create an action to duplicate surveys failure', () => {
+        expect(
+            actions.postCopiedSurveyFailure('Error')
+        ).toEqual({ type: types.POST_COPIEDSURVEY_FAILURE, errorMsg: 'Error' });
+    });
+
+    it('should create an action to duplicate surveys success', () => {
+        expect(
+            actions.postCopiedSurveySuccess()
+        ).toEqual({ type: types.POST_COPIEDSURVEY_SUCCESS });
     });
 
     it('should create an action to duplicate survey', () => {
