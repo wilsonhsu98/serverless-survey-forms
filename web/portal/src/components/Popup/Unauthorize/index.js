@@ -1,43 +1,37 @@
 
-// CSS
-import styles from './style.css';
-
 import React from 'react';
-import FixComponent from '../../FixComponent';
+import PureComponent from 'react-pure-render/component';
 
+import GeneralBox from '../GeneralBox';
 import Config from '../../../config';
 import Button from '../../Button';
 
-class Unauthorize extends FixComponent {
+class Unauthorize extends PureComponent {
 
     constructor() {
         super();
 
+        this._renderText = this._renderText.bind(this);
+        this._renderFooter = this._renderFooter.bind(this);
         this._btnClickEvent = this._btnClickEvent.bind(this);
     }
 
     render() {
+        return <GeneralBox renderText={this._renderText} renderFooter={this._renderFooter} />;
+    }
+
+    _renderText() {
+        return (<div>To keep using Qustom, you must sign in again.</div>);
+    }
+
+    _renderFooter() {
         return (
-            <div className={`${styles.popup} popup`}>
-                <div className="popup_wrap">
-                    <div className={`${styles.wrap} wrap`}>
-                        <div className={`${styles.content} content`}>
-                            <div className={styles.title}>
-                                To keep using Qustom, you must sign in again.
-                            </div>
-                            <div className={`bottom ${styles.bottom}`}>
-                                <Button
-                                    string="Log In"
-                                    i18nKey={false}
-                                    color="ruby"
-                                    onClick={this._btnClickEvent}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+            <Button
+                string="Log In"
+                i18nKey={false}
+                color="ruby"
+                onClick={this._btnClickEvent}
+            />);
     }
 
     _btnClickEvent() {

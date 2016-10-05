@@ -24,6 +24,9 @@
         color: #22727F;
         letter-spacing: -0.72px;
         padding-left: 36px;
+        &.editable:hover {
+            text-decoration: underline;
+        }
     }
     .control {
         display: table-cell;

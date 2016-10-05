@@ -7,14 +7,22 @@
 import styles from './style.css';
 
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 class Question extends Component {
 
     render() {
-        const { text } = this.props;
+        const { id, text, required } = this.props;
         return (
             <div ref="root">
-                <div className={styles.question}>{text}</div>
+                <span
+                    className={classNames({
+                        [`${styles.question}`]: true,
+                        [`${styles.required}`]: required
+                    })}
+                >
+                    {`${id}. ${text}`}
+                </span>
             </div>
         );
     }
@@ -22,7 +30,9 @@ class Question extends Component {
 }
 
 Question.PropTypes = {
-    text: PropTypes.string
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string,
+    required: PropTypes.bool
 };
 
 Question.defaultProps = {};

@@ -3,21 +3,23 @@
 import styles from './style.css';
 
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import $ from 'jquery';
 
 import * as values from '../../../constants/DefaultValues';
-import FixComponent from '../../FixComponent';
+import Mixins from '../../../mixins/global';
 import Select from '../../Select';
 import EditMultiOptions from '../EditMultiOptions';
 import Button from '../../Button';
 
-class EditQuestion extends FixComponent {
+class EditQuestion extends PureComponent {
 
     constructor() {
         super();
 
         this._renderType = this._renderType.bind(this);
         this._renderTitle = this._renderTitle.bind(this);
+        this._renderRequired = this._renderRequired.bind(this);
         this._renderOptions = this._renderOptions.bind(this);
         this._renderAdvance = this._renderAdvance.bind(this);
         this._onTitleChange = this._onTitleChange.bind(this);
@@ -26,23 +28,49 @@ class EditQuestion extends FixComponent {
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
         this._onAdvanceChangeHandle = this._onAdvanceChangeHandle.bind(this);
         this._handleFocusEvent = this._handleFocusEvent.bind(this);
+        this._onRequiredChangeHandle = this._onRequiredChangeHandle.bind(this);
+        this._handleEditModeClick = this._handleEditModeClick.bind(this);
+    }
+
+    componentDidMount() {
+        Mixins.fixScrollbar();
+        $('#editModal').on('click', this._handleEditModeClick);
+    }
+
+    componentWillUnmount() {
+        Mixins.freeScrollbar();
+        $('#editModal').off('click', this._handleEditModeClick);
+    }
+
+    _handleEditModeClick(e) {
+        const target = e.target;
+        const hint = document.getElementsByClassName('js-hint');
+        if (target.getAttribute('id') === 'editModal') {
+            hint[0].style.display = 'block';
+        } else {
+            hint[0].style.display = 'none';
+        }
     }
 
     render() {
         const { editQuestion } = this.props;
 
         return (
-            <div className="modalEditPanel">
+            <div id="editModal" className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
                     <div className="edit">
                         <div className="editContent">
                             {this._renderType()}
                             {this._renderTitle()}
+                            {this._renderRequired()}
                             {this._renderOptions()}
                             {editQuestion.type === 'rating' ? this._renderAdvance() : ''}
                         </div>
                     </div>
                     <div className="bottom">
+                        <div className="edit-hint shake js-hint" style={{ display: 'none' }}>
+                            Please confirm your change
+                        </div>
                         <Button
                             string="Save"
                             i18nKey={false}
@@ -81,6 +109,26 @@ class EditQuestion extends FixComponent {
                 </div>
             </div>
         );
+    }
+
+    _renderRequired() {
+        const { editQuestion } = this.props;
+        return (
+            <div className={styles.editSection}>
+                <div className={styles.title}>Is this question required?</div>
+                <div className={`${styles.checkboxItem} checkboxItem`}>
+                    <input
+                        id="required"
+                        type="checkbox"
+                        className="ut-required"
+                        checked={editQuestion.required}
+                        onChange={this._onRequiredChangeHandle}
+                    />
+                    <label htmlFor="required">
+                        Yes, it is a required question.
+                    </label>
+                </div>
+            </div>);
     }
 
     _renderType() {
@@ -122,7 +170,7 @@ class EditQuestion extends FixComponent {
     _renderAdvance() {
         const { editQuestion } = this.props;
         const flag = editQuestion.hasOwnProperty('input');
-        const input = flag ? editQuestion.input : '';
+        const input = flag ? editQuestion.input : values.PLACEHOLDER_TITLE;
 
         return (
             <div className={`${styles.editSection} ut-advance`}>
@@ -144,10 +192,11 @@ class EditQuestion extends FixComponent {
                         type="text"
                         value={input}
                         className={`${styles.input__why} input input--medium`}
-                        placeholder={values.PLACEHOLDER_TITLE}
                         onChange={this._onAdvanceChangeHandle}
+                        onFocus={this._handleFocusEvent}
                         readOnly={!flag}
                     />
+                    <div className={`${styles.whyInput} input__msg js-whyInput-msg`}></div>
                 </div>
             </div>
         );
@@ -156,7 +205,7 @@ class EditQuestion extends FixComponent {
     _btnClickEvent(e) {
         const { questionsActions, editQuestionActions } = this.props;
         // Clear all error msg
-        $('.js-title-msg, .js-opt-msg, .js-optInput-msg').html('');
+        $('.js-title-msg, .js-opt-msg, .js-optInput-msg, .js-whyInput-msg').html('');
 
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editQuestionActions.stopEditQuestion();
@@ -187,6 +236,11 @@ class EditQuestion extends FixComponent {
                     flag = true;
                 }
             });
+            // Check advanced input in rating
+            if ($('#chk').is(':checked') && document.getElementById('why').value === '') {
+                $('.js-whyInput-msg').html('Please fill "Tell Me Why" input\'s placeholder');
+                flag = true;
+            }
 
             if (!flag) {
                 // save editQuestion to Question
@@ -228,9 +282,23 @@ class EditQuestion extends FixComponent {
     _handleFocusEvent(e) {
         const { editQuestion } = this.props;
         const target = e.target;
-        if (editQuestion.label === values.QUESTION_TITLE) {
-            target.value = '';
+        if (target.getAttribute('id') === 'why') {
+            if (editQuestion.hasOwnProperty('input')
+                && editQuestion.input === values.PLACEHOLDER_TITLE) {
+                target.value = '';
+            }
+        } else {
+            if (editQuestion.label === values.QUESTION_TITLE) {
+                target.value = '';
+            }
         }
+    }
+
+    _onRequiredChangeHandle() {
+        const { editQuestion } = this.props;
+        const newData = Object.assign({},
+            editQuestion, { required: $('#required').is(':checked') });
+        this._handleChangeEvent(newData);
     }
 }
 

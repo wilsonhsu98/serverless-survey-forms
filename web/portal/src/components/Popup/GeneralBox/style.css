@@ -1,10 +1,11 @@
 /*
- * Style for components/Popup/Unauthorize/index.js
+ * Style for components/Popup/GeneralBox/index.js
  */
 
 .popup {
     .wrap {
-        height: 150px;
+        height: auto;
+        min-height: auto;
         &:before {
             content: '';
             display: block;
@@ -20,7 +21,6 @@
         font-size: 18px;
         font-family: Arial;
         color: #222;
-        margin-bottom: 20px;
     }
     .bottom {
         text-align: center;
