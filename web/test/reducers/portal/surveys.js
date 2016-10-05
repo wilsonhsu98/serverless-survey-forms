@@ -3,6 +3,12 @@ import surveys from '../../../portal/src/reducers/surveys';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] surveys reducer', () => {
+    it('should handle surveys state for default value', () => {
+        expect(
+            surveys(undefined, { type: '' })
+        ).toEqual([]);
+    });
+
     it('should handle surveys state', () => {
         expect(
             surveys([], {

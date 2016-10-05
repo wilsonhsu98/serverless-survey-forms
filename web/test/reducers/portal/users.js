@@ -3,6 +3,12 @@ import users from '../../../portal/src/reducers/users';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] users reducer', () => {
+    it('should handle users state for default value', () => {
+        expect(
+            users(undefined, { type: '' })
+        ).toEqual([]);
+    });
+
     it('should handle users state', () => {
         expect(
             users({}, {

@@ -3,6 +3,22 @@ import loading from '../../../portal/src/reducers/loading';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] loading reducer', () => {
+    it('should handle loading state for default value', () => {
+        expect(
+            loading(undefined, { type: '' })
+        ).toEqual(false);
+    });
+
+    it('should handle loading state when set loading', () => {
+        expect(
+            loading(false, { type: types.SET_LOADING, loading: true })
+        ).toEqual(true);
+
+        expect(
+            loading(true, { type: types.SET_LOADING, loading: false })
+        ).toEqual(false);
+    });
+
     it('should handle loading state when request API', () => {
         expect(
             loading(false, { type: types.REQUEST_SET_SUBJECT })

@@ -19,6 +19,12 @@ describe('[Portal] questions reducer', () => {
             } ]
         } ];
 
+    it('should handle questions state for default value', () => {
+        expect(
+            questions(undefined, { type: '' })
+        ).toEqual([]);
+    });
+
     it('should handle questions state when add question', () => {
         expect(
             questions([], {
