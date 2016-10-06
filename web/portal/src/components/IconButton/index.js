@@ -27,6 +27,10 @@ class IconButton extends PureComponent {
             [styles[`btn-icon-${color}`]]: color,
             [styles[`btn-icon-${img}`]]: img
         };
+        const txt = string !== '' ?
+            (<span className={styles.txt}>
+                {!i18nKey ? string : I18Next.t(string)}
+            </span>) : '';
 
         return (
             <div
@@ -37,9 +41,7 @@ class IconButton extends PureComponent {
                 {...extraProps}
             >
                 <span className={styles.icon}></span>
-                <span className={styles.txt}>
-                {!i18nKey ? string : I18Next.t(string)}
-                </span>
+                {txt}
             </div>
         );
     }
