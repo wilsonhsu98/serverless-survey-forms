@@ -203,7 +203,7 @@ class EditQuestion extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { questionsActions, editQuestionActions } = this.props;
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
         // Clear all error msg
         $('.js-title-msg, .js-opt-msg, .js-optInput-msg, .js-whyInput-msg').html('');
 
@@ -237,7 +237,9 @@ class EditQuestion extends PureComponent {
                 }
             });
             // Check advanced input in rating
-            if ($('#chk').is(':checked') && document.getElementById('why').value === '') {
+            if (editQuestion.type === 'rating'
+                && $('#chk').is(':checked')
+                && document.getElementById('why').value === '') {
                 $('.js-whyInput-msg').html('Please fill "Tell Me Why" input\'s placeholder');
                 flag = true;
             }
