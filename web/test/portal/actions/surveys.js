@@ -400,6 +400,47 @@ describe('[Portal] surveys action', () => {
         ).toEqual({ type: types.POST_COPIEDSURVEY_SUCCESS });
     });
 
+    it('should create an action to post copied survey', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        const subject = 'Hello World';
+        const surveyID = '1111-2222-3333';
+        const surveyPolicy = {};
+        const token = 'xxxxxxx';
+        const postData = {
+            subject: subject,
+            survey: { content: [], thankyou: surveyPolicy }
+        };
+
+        nock(Config.baseURL, {
+            reqheaders: { 'authorization': token }
+        })
+        .post(`/api/v1/mgnt/surveys/${account.accountid}`, JSON.stringify(postData))
+        .reply(200, {
+            surveyid: surveyID,
+            datetime: Date.now()
+        });
+        const store = mockStore({
+            account,
+            surveyPolicy,
+            selectedUser: {},
+            token
+        });
+        const expectedActions = [
+            { type: types.POST_COPIEDSURVEY_SUCCESS },
+            { type: types.REMOVE_SELECTED_SURVEYS },
+            { type: types.REQUEST_SURVEYS_LIST }
+        ];
+
+        return store.dispatch(actions.postCopiedSurvey({ subject, survey: { content: [], thankyou: surveyPolicy } }))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
     it('should create an action to duplicate survey', () => {
         const account = {
             accountid: 'facebook-xxxxxx',

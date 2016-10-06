@@ -132,7 +132,7 @@ describe('[Portal] users action', () => {
                 accountid: 'facebook-XXXXXX',
                 username: 'Mr. Cheng',
                 email: 'cheng@trend.com.tw',
-                role: 'User'
+                role: 'Admin'
             }, {
                 accountid: 'facebook-YYYYYY',
                 username: 'Mr. Wang',
@@ -206,7 +206,7 @@ describe('[Portal] users action', () => {
             }
         ];
 
-        store.dispatch(actions.changeUserRole(0, 'Designer'))
+        store.dispatch(actions.changeUserRole(0, 'Designer'));
         expect(
             store.getActions()
         ).toEqual(expectedActions);

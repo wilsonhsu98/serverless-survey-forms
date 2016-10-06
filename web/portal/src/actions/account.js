@@ -11,7 +11,7 @@ export function receiveAccountSuccess(data) {
     };
 }
 
-function receiveAccountFailure(err) {
+export function receiveAccountFailure(err) {
     return {
         type: types.RECIEVE_ACCOUNT_FAILURE,
         errorMsg: err
@@ -30,7 +30,7 @@ export function expiredToken() {
     };
 }
 
-function setToken(token) {
+export function setToken(token) {
     window.localStorage.QustomPortalTK = token;
     return {
         type: types.SET_TOKEN,
