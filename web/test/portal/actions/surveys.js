@@ -275,11 +275,14 @@ describe('[Portal] surveys action', () => {
                 }
             }
         }];
+
+        const result = actions.handleReportContent(question, false, feedback);
+        result[0].pop();
         expect(
-            actions.handleReportContent(question, false, feedback)
+            result
         ).toEqual([
             ['11112222\b', 'Satisfied', 'the reason', '2', 'option A',
-            'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input', 'September 30, 2016 7:07 PM']
+            'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input']
         ]);
     });
 
@@ -319,10 +322,12 @@ describe('[Portal] surveys action', () => {
             datetime: 1475233633672,
             feedback: {}
         }];
+        const result = actions.handleReportContent(question, true, feedback);
+        result[0].pop();
         expect(
-            actions.handleReportContent(question, true, feedback)
+            result
         ).toEqual([
-            ['11112222\b', '', '', '', '', '', '', '', '', '', 'September 30, 2016 7:07 PM']
+            ['11112222\b', '', '', '', '', '', '', '', '', '']
         ]);
     });
 
