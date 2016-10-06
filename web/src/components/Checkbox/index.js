@@ -58,11 +58,12 @@ class Checkbox extends PureComponent {
                     id={id}
                     text={item.label}
                     required={item.required}
-                />
+                >
+                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                </Question>
                 <div className="checkboxGrp">
                     {this._renderCheckboxItem()}
                 </div>
-                {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
             </div>
         );
     }
