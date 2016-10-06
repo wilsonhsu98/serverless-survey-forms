@@ -1,7 +1,8 @@
 
 /***** Global Component *****/
 :global html {
-    overflow-x: hidden;
+    overflow-x: auto;
+    min-width: 1000px;
     width: 100%;
     position: relative;
     min-height: 100%;
@@ -9,7 +10,8 @@
 }
 
 :global body {
-    overflow-x: hidden;
+    overflow-x: auto;
+    min-width: 1000px;
     width: 100%;
     min-height: 100%;
     line-height: 20px;
