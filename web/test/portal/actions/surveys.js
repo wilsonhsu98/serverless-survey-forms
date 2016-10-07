@@ -203,12 +203,25 @@ describe('[Portal] surveys action', () => {
                     { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied', input: 'Why' }
                 ],
                 required: false
+            }, {
+                id: '1AN2AL0F9BGG1A',
+                type: 'text',
+                label: 'Question 4',
+                input: 'Please type here',
+                required: false
+            }, {
+                id: '1AN2AL0F9BAREA',
+                type: 'textarea',
+                label: 'Question 5',
+                input: 'Please type here',
+                required: false
             }];
         expect(
             actions.handleReportHeader(question, true)
         ).toEqual([
             ['Client ID', 'Question 1', 'Please input the reason',
-            'Question 2', 'option A', 'option B', 'Tell me', 'Question 3', 'Why', 'Privacy email', 'Feedback time']
+            'Question 2', 'option A', 'option B', 'Tell me', 'Question 3', 'Why', 'Question 4', 'Question 5',
+            'Privacy email', 'Feedback time']
         ]);
     });
 
@@ -242,6 +255,18 @@ describe('[Portal] surveys action', () => {
                     { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
                 ],
                 required: false
+            }, {
+                id: '1AN2AL0F9BGG1A',
+                type: 'text',
+                label: 'Question 4',
+                input: 'Please type here',
+                required: false
+            }, {
+                id: '1AN2AL0F9BAREA',
+                type: 'textarea',
+                label: 'Question 5',
+                input: 'Please type here',
+                required: false
             }];
         const feedback = [{
             clientid: '11112222',
@@ -272,6 +297,20 @@ describe('[Portal] surveys action', () => {
                         label: 'Dissatisfied',
                         input: 'radio\'s input'
                     }]
+                },
+                Q4: {
+                    label: 'Question 4',
+                    type: 'text',
+                    data: [{
+                        input: 'Single line input'
+                    }]
+                },
+                Q5: {
+                    label: 'Question 5',
+                    type: 'textarea',
+                    data: [{
+                        input: 'Multiline input'
+                    }]
                 }
             }
         }];
@@ -282,7 +321,8 @@ describe('[Portal] surveys action', () => {
             result
         ).toEqual([
             ['11112222\b', 'Satisfied', 'the reason', '2', 'option A',
-            'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input']
+            'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input',
+            'Single line input', 'Multiline input']
         ]);
     });
 
@@ -316,6 +356,18 @@ describe('[Portal] surveys action', () => {
                     { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied', input: 'Why' }
                 ],
                 required: false
+            }, {
+                id: '1AN2AL0F9BGG1A',
+                type: 'text',
+                label: 'Question 4',
+                input: 'Please type here',
+                required: false
+            }, {
+                id: '1AN2AL0F9BAREA',
+                type: 'textarea',
+                label: 'Question 5',
+                input: 'Please type here',
+                required: false
             }];
         const feedback = [{
             clientid: '11112222',
@@ -327,7 +379,7 @@ describe('[Portal] surveys action', () => {
         expect(
             result
         ).toEqual([
-            ['11112222\b', '', '', '', '', '', '', '', '', '']
+            ['11112222\b', '', '', '', '', '', '', '', '', '', '', '']
         ]);
     });
 
