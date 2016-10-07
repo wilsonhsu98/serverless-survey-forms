@@ -133,10 +133,12 @@ class EditQuestion extends PureComponent {
 
     _renderType() {
         const { editQuestion } = this.props;
+        // Once add new question, it should add a select option
         const item = [
             { value: 'radio', label: 'Radio Button' },
             { value: 'checkbox', label: 'Checkbox' },
-            { value: 'rating', label: 'Rating (Likert Scale)' }];
+            { value: 'rating', label: 'Rating (Likert Scale)' },
+            { value: 'text', label: 'Single line text' }];
         return (
             <div className={styles.editSection}>
                 <div className={styles.title}>Question Type</div>
@@ -158,10 +160,12 @@ class EditQuestion extends PureComponent {
             editQuestion,
             handleChangeEvent: this._handleChangeEvent
         };
+        const sectionTitle = editQuestion.type === 'text' ?
+            'Placeholder Settings' : 'Multiple Choice Options';
 
         return (
             <div className={styles.editSection}>
-                <div className={styles.title}>Multiple Choice Options</div>
+                <div className={styles.title}>{sectionTitle}</div>
                 {<EditMultiOptions {...props} />}
             </div>
         );
@@ -267,21 +271,30 @@ class EditQuestion extends PureComponent {
             type,
             label: editQuestion.label,
             order: editQuestion.order,
-            required: editQuestion.required,
-            data: []
+            required: editQuestion.required
         });
+        // Once add new question, it should add case content
         // keep advanced question content by question type
         switch (type) {
         case 'radio':
         case 'checkbox':
-            newQuestion.data = [...editQuestion.data];
+            newQuestion.data = typeof editQuestion.data === 'string' ?
+                [{ value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }] :
+                [...editQuestion.data];
             break;
         case 'rating':
-            newQuestion.data = [...editQuestion.data];
-            // rating's options should not have input
-            editQuestion.data.forEach((opt, idx) => {
-                if (opt.hasOwnProperty('input')) delete newQuestion.data[idx].input;
-            });
+            newQuestion.data = typeof editQuestion.data === 'string' ?
+                [{ value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }] :
+                [...editQuestion.data];
+            if (typeof editQuestion.data !== 'string') {
+                // rating's options should not have input
+                editQuestion.data.forEach((opt, idx) => {
+                    if (opt.hasOwnProperty('input')) delete newQuestion.data[idx].input;
+                });
+            }
+            break;
+        case 'text':
+            newQuestion.data = values.PLACEHOLDER_TITLE;
             break;
         default:
         }

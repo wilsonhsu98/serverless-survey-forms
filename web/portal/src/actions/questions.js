@@ -308,18 +308,26 @@ export function saveQuestion() {
                         values.PLACEHOLDER_TITLE);
                 }
                 genQuestions = genQuestions.setIn([pageIdx, 'question', queIdx, 'order'], idx);
-                que.get('data').forEach((opt, optIdx) => {
-                    if (opt.get('label') === '') {
+                if (typeof que.get('data') === 'string') {
+                    if (que.get('data') === '') {
                         genQuestions = genQuestions.setIn(
-                            [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
-                            values.OPTION_TITLE);
+                                [pageIdx, 'question', queIdx, 'data'],
+                                values.PLACEHOLDER_TITLE);
                     }
-                    if (opt.has('input') && opt.get('input') === '') {
-                        genQuestions = genQuestions.setIn(
-                            [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
-                            values.PLACEHOLDER_TITLE);
-                    }
-                });
+                } else {
+                    que.get('data').forEach((opt, optIdx) => {
+                        if (opt.get('label') === '') {
+                            genQuestions = genQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
+                                values.OPTION_TITLE);
+                        }
+                        if (opt.has('input') && opt.get('input') === '') {
+                            genQuestions = genQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
+                                values.PLACEHOLDER_TITLE);
+                        }
+                    });
+                }
             });
         });
         dispatch({
