@@ -322,6 +322,10 @@ export function saveQuestion() {
                 });
             });
         });
+        dispatch({
+            type: types.UPDATE_QUESTIONS,
+            questions: genQuestions.toJS()
+        });
         const postData = {
             subject: subject,
             survey: {
@@ -342,10 +346,6 @@ export function saveQuestion() {
         .then(response => response.json())
         .then(data => {
             if (data.datetime) {
-                dispatch({
-                    type: types.UPDATE_QUESTIONS,
-                    questions: genQuestions.toJS()
-                });
                 dispatch(saveQuestionsSuccess());
             } else {
                 dispatch(saveQuestionsFailure(data));
