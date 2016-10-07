@@ -411,22 +411,31 @@ describe('[Portal] questions action', () => {
         };
         const selectedUser = {};
         const token = 'xxxxxxx';
+        const oneQuestion = Object.assign({}, questions[0].question[0], { order: 1 });
+        const newQuestions = [Object.assign({}, questions[0], { question: [oneQuestion] })];
 
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         store.dispatch(actions.editSurveyPolicy(true));
         expect(
             store.getActions()
-        ).toEqual([{
-            type: types.SET_SURVEY_POLICY,
-            surveyPolicy: {
-                description: 'Thanks for sharing your feedback with Trend Micro.',
-                privacy: {
-                    label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-                    terms: 'Yes, Trend Micro can reach me at this address: ',
-                    input: 'Please enter your email address.'
+        ).toEqual([
+            {
+                type: types.SET_SURVEY_POLICY,
+                surveyPolicy: {
+                    description: 'Thanks for sharing your feedback with Trend Micro.',
+                    privacy: {
+                        label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
+                        terms: 'Yes, Trend Micro can reach me at this address: ',
+                        input: 'Please enter your email address.'
+                    }
                 }
+            },
+            { type: types.REQUEST_SAVE_QUESTION },
+            {
+                type: types.UPDATE_QUESTIONS,
+                questions: newQuestions
             }
-        }, { type: types.REQUEST_SAVE_QUESTION }]);
+        ]);
     });
 
     it('should create an action to get questions success', () => {

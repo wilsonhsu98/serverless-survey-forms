@@ -121,7 +121,11 @@ describe('[Portal] subject action', () => {
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
             { type: types.SET_SUBJECT, subject },
-            { type: types.REQUEST_SAVE_QUESTION }
+            { type: types.REQUEST_SAVE_QUESTION },
+            {
+                type: types.UPDATE_QUESTIONS,
+                questions: questions
+            }
         ];
 
         store.dispatch(actions.editSubject(subject));
