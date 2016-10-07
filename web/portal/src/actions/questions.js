@@ -308,13 +308,7 @@ export function saveQuestion() {
                         values.PLACEHOLDER_TITLE);
                 }
                 genQuestions = genQuestions.setIn([pageIdx, 'question', queIdx, 'order'], idx);
-                if (typeof que.get('data') === 'string') {
-                    if (que.get('data') === '') {
-                        genQuestions = genQuestions.setIn(
-                                [pageIdx, 'question', queIdx, 'data'],
-                                values.PLACEHOLDER_TITLE);
-                    }
-                } else {
+                if (que.has('data')) {
                     que.get('data').forEach((opt, optIdx) => {
                         if (opt.get('label') === '') {
                             genQuestions = genQuestions.setIn(

@@ -25,7 +25,7 @@ class Text extends PureComponent {
                     <input
                         type="text"
                         className="input input--medium ut-input"
-                        placeholder={data.data}
+                        placeholder={data.input}
                     />
                 </div>
             </div>

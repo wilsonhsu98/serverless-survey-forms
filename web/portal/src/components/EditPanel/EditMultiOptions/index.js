@@ -50,7 +50,7 @@ class EditMultiOptions extends PureComponent {
                         data-type="input"
                         type="text"
                         className={`${styles.longText} js-opt ut-input input input--medium`}
-                        value={data}
+                        value={editQuestion.input}
                         onChange={this._onChangeHandle}
                         onFocus={this._handleFocusEvent}
                     />
@@ -104,16 +104,17 @@ class EditMultiOptions extends PureComponent {
         const idx = e.target.getAttribute('data-id');
         const type = e.target.getAttribute('data-type');
         let newData;
-        if (typeof editQuestion.data === 'string') {
+        if (!editQuestion.hasOwnProperty('data')) {
             newData = e.target.value;
+            handleChangeEvent({ input: newData });
         } else {
             newData = [...editQuestion.data];
             const data = {
                 [type]: e.target.value
             };
             newData[idx] = Object.assign({}, newData[idx], data);
+            handleChangeEvent({ data: newData });
         }
-        handleChangeEvent({ data: newData });
     }
 
     _onDeleteHandle(idx) {

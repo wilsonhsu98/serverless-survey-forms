@@ -278,15 +278,15 @@ class EditQuestion extends PureComponent {
         switch (type) {
         case 'radio':
         case 'checkbox':
-            newQuestion.data = typeof editQuestion.data === 'string' ?
+            newQuestion.data = !editQuestion.hasOwnProperty('data') ?
                 [{ value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }] :
                 [...editQuestion.data];
             break;
         case 'rating':
-            newQuestion.data = typeof editQuestion.data === 'string' ?
+            newQuestion.data = !editQuestion.hasOwnProperty('data') ?
                 [{ value: Mixins.generateQuestionID(), label: values.OPTION_TITLE }] :
                 [...editQuestion.data];
-            if (typeof editQuestion.data !== 'string') {
+            if (editQuestion.hasOwnProperty('data')) {
                 // rating's options should not have input
                 editQuestion.data.forEach((opt, idx) => {
                     if (opt.hasOwnProperty('input')) delete newQuestion.data[idx].input;
@@ -294,7 +294,7 @@ class EditQuestion extends PureComponent {
             }
             break;
         case 'text':
-            newQuestion.data = values.PLACEHOLDER_TITLE;
+            newQuestion.input = values.PLACEHOLDER_TITLE;
             break;
         default:
         }
