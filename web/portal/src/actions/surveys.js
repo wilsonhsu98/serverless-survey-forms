@@ -149,6 +149,8 @@ export function handleReportHeader(survey, privacy) {
                 header.push(que.input);
             }
             break;
+        case 'text':
+        case 'textarea':
         default:
         }
     });
@@ -198,6 +200,10 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                             feedbackQue.data[0].input : '');
                     }
                     break;
+                case 'text':
+                case 'textarea':
+                    body.push(feedbackQue.data[0].input);
+                    break;
                 default:
                 }
             } else {
@@ -225,6 +231,8 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                         body.push('');
                     }
                     break;
+                case 'text':
+                case 'textarea':
                 default:
                 }
             }
