@@ -3,6 +3,16 @@ import surveyPolicy from '../../../portal/src/reducers/surveyPolicy';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] surveyPolicy reducer', () => {
+    it('should handle surveyPolicy state for default value', () => {
+        const init = {
+            description: 'Thanks for sharing your feedback with Trend Micro.',
+            privacy: {}
+        };
+        expect(
+            surveyPolicy(undefined, { type: '' })
+        ).toEqual(init);
+    });
+
     it('should handle surveyPolicy state', () => {
         expect(
             surveyPolicy({}, {

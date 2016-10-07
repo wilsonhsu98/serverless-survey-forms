@@ -203,7 +203,7 @@ class EditQuestion extends PureComponent {
     }
 
     _btnClickEvent(e) {
-        const { questionsActions, editQuestionActions } = this.props;
+        const { editQuestion, questionsActions, editQuestionActions } = this.props;
         // Clear all error msg
         $('.js-title-msg, .js-opt-msg, .js-optInput-msg, .js-whyInput-msg').html('');
 
@@ -237,7 +237,9 @@ class EditQuestion extends PureComponent {
                 }
             });
             // Check advanced input in rating
-            if ($('#chk').is(':checked') && document.getElementById('why').value === '') {
+            if (editQuestion.type === 'rating'
+                && $('#chk').is(':checked')
+                && document.getElementById('why').value === '') {
                 $('.js-whyInput-msg').html('Please fill "Tell Me Why" input\'s placeholder');
                 flag = true;
             }
@@ -257,8 +259,33 @@ class EditQuestion extends PureComponent {
     }
 
     _onTypeChange(e) {
-        const data = { type: e.currentTarget.getAttribute('data-value') || 'radio' };
-        this._handleChangeEvent(data);
+        const { editQuestion, editQuestionActions } = this.props;
+        const type = e.currentTarget.getAttribute('data-value') || 'radio';
+        // keep basic question content
+        const newQuestion = Object.assign({}, {
+            id: editQuestion.id,
+            type,
+            label: editQuestion.label,
+            order: editQuestion.order,
+            required: editQuestion.required,
+            data: []
+        });
+        // keep advanced question content by question type
+        switch (type) {
+        case 'radio':
+        case 'checkbox':
+            newQuestion.data = [...editQuestion.data];
+            break;
+        case 'rating':
+            newQuestion.data = [...editQuestion.data];
+            // rating's options should not have input
+            editQuestion.data.forEach((opt, idx) => {
+                if (opt.hasOwnProperty('input')) delete newQuestion.data[idx].input;
+            });
+            break;
+        default:
+        }
+        editQuestionActions.updateEditQuestion(newQuestion);
     }
 
     _handleChangeEvent(data) {

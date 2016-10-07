@@ -126,6 +126,7 @@
         font-size: 13px;
         line-height: 20px;
         color: #555;
+        vertical-align: middle;
     }
     .arrow {
         display: table-cell;

@@ -3,6 +3,12 @@ import previewID from '../../../portal/src/reducers/previewID';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] previewID reducer', () => {
+    it('should handle previewID state for default value', () => {
+        expect(
+            previewID(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle previewID state', () => {
         expect(
             previewID('', {

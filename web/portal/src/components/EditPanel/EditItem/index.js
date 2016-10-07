@@ -2,9 +2,8 @@
 // CSS
 import styles from './style.css';
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import PureComponent from 'react-pure-render/component';
 import { DragSource, DropTarget } from 'react-dnd';
 
 import * as values from '../../../constants/DefaultValues';
@@ -69,7 +68,7 @@ function dropCollect(connect, monitor) {
     };
 }
 
-class EditItem extends PureComponent {
+class EditItem extends Component {
 
     constructor() {
         super();

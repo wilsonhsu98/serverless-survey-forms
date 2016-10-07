@@ -1,4 +1,5 @@
 .error {
-    padding: 10px 0;
+    padding: 10px 0 10px 10px;
     color: #D63833;
+    font-size: 14px;
 }

@@ -8,7 +8,7 @@ import Mixins from '../mixins/global';
 import { expiredToken } from './account';
 import { getOneSurvey, postSurvey, receiveQuestionsFailure } from './questions';
 
-function requestSurveysFailure(err) {
+export function requestSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -69,7 +69,7 @@ export function toggleSelectedSurveys(data) {
     };
 }
 
-function requestDeleteSurveysFailure(err) {
+export function requestDeleteSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -79,7 +79,7 @@ function requestDeleteSurveysFailure(err) {
     };
 }
 
-function receiveDeleteSurveysSuccess() {
+export function receiveDeleteSurveysSuccess() {
     return {
         type: types.RECIEVE_DELETE_SURVEYS_SUCCESS
     };
@@ -110,20 +110,20 @@ export function deleteSurvey() {
     };
 }
 
-function receiveReportSuccess() {
+export function receiveReportSuccess() {
     return {
         type: types.RECIEVE_REPORT_SUCCESS
     };
 }
 
-function receiveReportFailure(err) {
+export function receiveReportFailure(err) {
     return {
         type: types.RECIEVE_REPORT_FAILURE,
         errorMsg: err
     };
 }
 
-function handleReportHeader(survey, privacy) {
+export function handleReportHeader(survey, privacy) {
     const header = ['Client ID'];
     survey.forEach((que) => {
         header.push(que.label);
@@ -158,7 +158,7 @@ function handleReportHeader(survey, privacy) {
     return [header];
 }
 
-function handleReportContent(survey, privacy, feedbackAllData) {
+export function handleReportContent(survey, privacy, feedbackAllData) {
     const content = [];
     for (const feed of feedbackAllData) {
         const data = feed.feedback;
@@ -282,20 +282,20 @@ export function exportSurvey() {
     };
 }
 
-function postCopiedSurveySuccess() {
+export function postCopiedSurveySuccess() {
     return {
         type: types.POST_COPIEDSURVEY_SUCCESS
     };
 }
 
-function postCopiedSurveyFailure(err) {
+export function postCopiedSurveyFailure(err) {
     return {
         type: types.POST_COPIEDSURVEY_FAILURE,
         errorMsg: err
     };
 }
 
-function postCopiedSurvey(questions) {
+export function postCopiedSurvey(questions) {
     return (dispatch, getState) => {
         const { account, token } = getState();
         const postData = {

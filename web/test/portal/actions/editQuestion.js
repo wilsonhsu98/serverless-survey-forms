@@ -37,6 +37,27 @@ describe('[Portal] editQuestion action', () => {
         ).toEqual(expectedActions);
     });
 
+    it('should create an action to update edit question', () => {
+        const editQuestion = {
+            id: '1AN2AL0F9BNA8R',
+            type: 'radio',
+            label: 'I am title',
+            order: 1,
+            data: [
+                { value: 1, label: 'Dissatisfied' },
+                { value: 2, label: 'Satisfied' }
+            ],
+            required: false
+        };
+
+        expect(
+            actions.updateEditQuestion(editQuestion)
+        ).toEqual({
+            type: types.UPDATE_EDITQUESTION,
+            editQuestion
+        });
+    });
+
     it('should create an action to delete edit question\'s input', () => {
         const editQuestion = {
             label: 'Updated title',

@@ -3,6 +3,12 @@ import token from '../../../portal/src/reducers/token';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] token reducer', () => {
+    it('should handle token state for default value', () => {
+        expect(
+            token(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle token state', () => {
         expect(
             token('', {

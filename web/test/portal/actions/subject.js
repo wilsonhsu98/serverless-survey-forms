@@ -25,6 +25,29 @@ describe('[Portal] subject action', () => {
         });
     });
 
+    it('should create an action to set subject success', () => {
+        expect(
+            actions.setSubjectSuccess()
+        ).toEqual({
+            type: types.SET_SUBJECT_SUCCESS
+        });
+    });
+
+    it('should create an action to set subject failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EDIT_SUBJECT, editSubject: false },
+            { type: types.EXPIRED_TOKEN },
+            { type: types.SET_SUBJECT_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.setSubjectFailure('Error'));
+        expect(
+            store.getActions()
+        ).toEqual(expectedActions);
+    });
+
     it('should create an action to save subject', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -98,7 +121,11 @@ describe('[Portal] subject action', () => {
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
             { type: types.SET_SUBJECT, subject },
-            { type: types.REQUEST_SAVE_QUESTION }
+            { type: types.REQUEST_SAVE_QUESTION },
+            {
+                type: types.UPDATE_QUESTIONS,
+                questions: questions
+            }
         ];
 
         store.dispatch(actions.editSubject(subject));
