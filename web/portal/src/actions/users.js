@@ -6,7 +6,7 @@ import Config from '../config';
 import { expiredToken } from './account';
 import { receiveSurveysSuccess } from './surveys';
 
-function requestUsersFailure(err) {
+export function requestUsersFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -16,7 +16,7 @@ function requestUsersFailure(err) {
     };
 }
 
-function receiveUsersSuccess(data) {
+export function receiveUsersSuccess(data) {
     return {
         type: types.RECIEVE_USERS_SUCCESS,
         users: data
@@ -42,14 +42,14 @@ export function getUsers() {
     };
 }
 
-function changeUserRoleFailure(err) {
+export function changeUserRoleFailure(err) {
     return {
         type: types.RECIEVE_CHANGE_ROLE_FAILURE,
         errorMsg: err
     };
 }
 
-function changeUserRoleSuccess(data) {
+export function changeUserRoleSuccess(data) {
     return {
         type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
         users: data

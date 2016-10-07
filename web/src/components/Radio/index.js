@@ -42,11 +42,12 @@ class Radio extends PureComponent {
                     id={id}
                     text={item.label}
                     required={item.required}
-                />
+                >
+                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                </Question>
                 <div className={styles.radioGrp}>
                     {this._renderRadioItem()}
                 </div>
-                {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
             </div>
         );
     }

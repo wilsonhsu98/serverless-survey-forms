@@ -240,6 +240,25 @@ describe('[Portal] questions action', () => {
     });
 
     it('should create an action to delete page', () => {
+        questions = [{
+            page: 1,
+            description: 'I am Page 1',
+            question: [{
+                id: '1AN2AL0F9BNA7A',
+                type: 'rating',
+                label: 'Testing question text',
+                data: [
+                    { value: '1APPJND2CYA3FQEBJ3K7O', label: 'Dissatisfied' },
+                    { value: '1APPJND2CYBHCD9V0FEBA', label: 'Satisfied' }
+                ],
+                input: 'Tell us the reason why you choose this answer',
+                required: false
+            }]
+        }, {
+            page: 2,
+            description: 'I am Page 2',
+            question: []
+        }];
         const store = mockStore({ questions });
 
         store.dispatch(actions.deletePage(1));
@@ -247,7 +266,11 @@ describe('[Portal] questions action', () => {
             store.getActions()
         ).toEqual([{
             type: types.DELETE_PAGE,
-            questions: []
+            questions: [{
+                page: 1,
+                description: 'I am Page 2',
+                question: []
+            }]
         }]);
     });
 
@@ -282,6 +305,26 @@ describe('[Portal] questions action', () => {
         }]);
     });
 
+    it('should create an action to save questions success', () => {
+        expect(
+            actions.saveQuestionsSuccess()
+        ).toEqual({
+            type: types.SAVE_QUESTIONS_SUCCESS
+        });
+    });
+
+    it('should create an action to save questions failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.SAVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.saveQuestionsFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
     it('should create an action to save questions', () => {
         const account = {
             accountid: 'facebook-xxxxxx',
@@ -298,7 +341,7 @@ describe('[Portal] questions action', () => {
         const token = 'xxxxxxx';
         questions = [{
             page: 1,
-            description: 'I am Page 1',
+            description: '',
             question: [{
                 id: '1AN2AL0F9BNA7A',
                 order: 1,
@@ -312,11 +355,12 @@ describe('[Portal] questions action', () => {
                 required: false
             }]
         }];
+        const newQuestions = [Object.assign({}, questions[0], { description: values.PAGE_TITLE })];
         const postData = {
             subject: subject,
             survey: {
                 format: Config.surveyFormat,
-                content: questions,
+                content: newQuestions,
                 thankyou: surveyPolicy
             }
         };
@@ -330,7 +374,7 @@ describe('[Portal] questions action', () => {
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
             { type: types.REQUEST_SAVE_QUESTION },
-            { type: types.UPDATE_QUESTIONS, questions },
+            { type: types.UPDATE_QUESTIONS, questions: newQuestions },
             { type: types.SAVE_QUESTIONS_SUCCESS }
         ];
 
@@ -338,6 +382,19 @@ describe('[Portal] questions action', () => {
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
+    });
+
+    it('should create an action to set survey policy', () => {
+        const surveyPolicy = {
+            description: 'Thanks for sharing your feedback with Trend Micro.',
+            privacy: {}
+        };
+        expect(
+            actions.setSurveyPolicy(surveyPolicy)
+        ).toEqual({
+            type: types.SET_SURVEY_POLICY,
+            surveyPolicy
+        });
     });
 
     it('should create an action to edit survey policy', () => {
@@ -354,22 +411,52 @@ describe('[Portal] questions action', () => {
         };
         const selectedUser = {};
         const token = 'xxxxxxx';
+        const oneQuestion = Object.assign({}, questions[0].question[0], { order: 1 });
+        const newQuestions = [Object.assign({}, questions[0], { question: [oneQuestion] })];
 
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         store.dispatch(actions.editSurveyPolicy(true));
         expect(
             store.getActions()
-        ).toEqual([{
-            type: types.SET_SURVEY_POLICY,
-            surveyPolicy: {
-                description: 'Thanks for sharing your feedback with Trend Micro.',
-                privacy: {
-                    label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-                    terms: 'Yes, Trend Micro can reach me at this address: ',
-                    input: 'Please enter your email address.'
+        ).toEqual([
+            {
+                type: types.SET_SURVEY_POLICY,
+                surveyPolicy: {
+                    description: 'Thanks for sharing your feedback with Trend Micro.',
+                    privacy: {
+                        label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
+                        terms: 'Yes, Trend Micro can reach me at this address: ',
+                        input: 'Please enter your email address.'
+                    }
                 }
+            },
+            { type: types.REQUEST_SAVE_QUESTION },
+            {
+                type: types.UPDATE_QUESTIONS,
+                questions: newQuestions
             }
-        }, { type: types.REQUEST_SAVE_QUESTION }]);
+        ]);
+    });
+
+    it('should create an action to get questions success', () => {
+        expect(
+            actions.receiveQuestionsSuccess(questions)
+        ).toEqual({
+            type: types.RECIEVE_QUESTIONS_SUCCESS,
+            questions
+        });
+    });
+
+    it('should create an action to get questions failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.RECIEVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.receiveQuestionsFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
     });
 
     it('should create an action to get questions', () => {
@@ -400,7 +487,7 @@ describe('[Portal] questions action', () => {
             { type: types.REQUEST_GET_QUESTION },
             { type: types.SET_SUBJECT, subject },
             { type: types.SET_SURVEY_POLICY, surveyPolicy: {} },
-            { type: types.RECIEVE_QUESTIONS_SUCCESS, questions: questions },
+            { type: types.RECIEVE_QUESTIONS_SUCCESS, questions },
             { type: types.SET_SURVEYID, surveyID },
             { type: types.SET_WEBPAGE, webpage: 'userCreate' }
         ];

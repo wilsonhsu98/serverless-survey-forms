@@ -14,12 +14,13 @@ export function setSubject(data) {
     };
 }
 
-function setSubjectSuccess() {
+export function setSubjectSuccess() {
     return {
         type: types.SET_SUBJECT_SUCCESS
     };
 }
-function setSubjectFailure(err) {
+
+export function setSubjectFailure(err) {
     return (dispatch) => {
         dispatch(openEdit(false));
         dispatch(expiredToken());

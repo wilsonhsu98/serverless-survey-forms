@@ -8,6 +8,10 @@ var folder = process.env.NODE_FOLDER ? process.env.NODE_FOLDER : 'portal';
 
 var webpackConfig = Object.create(config);
 webpackConfig.entry = [
+    "html5shiv",
+    "es5-shim/es5-shim",
+    "es5-shim/es5-sham",
+    "babel-polyfill",
     path.resolve(__dirname, folder + '/src/entry.js'),
     'webpack-hot-middleware/client?reload=true'
 ];

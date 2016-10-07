@@ -3,6 +3,12 @@ import selectedUser from '../../../portal/src/reducers/selectedUser';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] selectedUser reducer', () => {
+    it('should handle selectedUser state for default value', () => {
+        expect(
+            selectedUser(undefined, { type: '' })
+        ).toEqual({});
+    });
+
     it('should handle selectedUser state', () => {
         expect(
             selectedUser({}, {

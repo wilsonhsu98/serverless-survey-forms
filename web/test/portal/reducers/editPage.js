@@ -3,6 +3,12 @@ import editPage from '../../../portal/src/reducers/editPage';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] editPage reducer', () => {
+    it('should handle editPage state for default value', () => {
+        expect(
+            editPage(undefined, { type: '' })
+        ).toEqual({});
+    });
+
     it('should handle editPage state', () => {
         expect(
             editPage({}, {

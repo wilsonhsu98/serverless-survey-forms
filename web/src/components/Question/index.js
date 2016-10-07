@@ -25,6 +25,7 @@ class Question extends PureComponent {
                     })}
                 >
                     {`${id}. ${text}`}
+                    {this.props.children}
                 </span>
             </div>
         );

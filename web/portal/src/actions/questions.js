@@ -264,13 +264,13 @@ export function exchangePage() {
     };
 }
 
-function saveQuestionsSuccess() {
+export function saveQuestionsSuccess() {
     return {
         type: types.SAVE_QUESTIONS_SUCCESS
     };
 }
 
-function saveQuestionsFailure(err) {
+export function saveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -322,6 +322,10 @@ export function saveQuestion() {
                 });
             });
         });
+        dispatch({
+            type: types.UPDATE_QUESTIONS,
+            questions: genQuestions.toJS()
+        });
         const postData = {
             subject: subject,
             survey: {
@@ -342,10 +346,6 @@ export function saveQuestion() {
         .then(response => response.json())
         .then(data => {
             if (data.datetime) {
-                dispatch({
-                    type: types.UPDATE_QUESTIONS,
-                    questions: genQuestions.toJS()
-                });
                 dispatch(saveQuestionsSuccess());
             } else {
                 dispatch(saveQuestionsFailure(data));
@@ -355,7 +355,7 @@ export function saveQuestion() {
     };
 }
 
-function setSurveyPolicy(data) {
+export function setSurveyPolicy(data) {
     return {
         type: types.SET_SURVEY_POLICY,
         surveyPolicy: data
@@ -385,7 +385,7 @@ export function editSurveyPolicy(flag) {
     };
 }
 
-function receiveQuestionsSuccess(data) {
+export function receiveQuestionsSuccess(data) {
     return {
         type: types.RECIEVE_QUESTIONS_SUCCESS,
         questions: data

@@ -3,6 +3,12 @@ import subject from '../../../portal/src/reducers/subject';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] subject reducer', () => {
+    it('should handle subject state for default value', () => {
+        expect(
+            subject(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle subject state', () => {
         expect(
             subject('', {

@@ -3,6 +3,12 @@ import dropQuestion from '../../../portal/src/reducers/dropQuestion';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] dropQuestion reducer', () => {
+    it('should handle dropQuestion state for default value', () => {
+        expect(
+            dropQuestion(undefined, { type: '' })
+        ).toEqual({});
+    });
+
     it('should handle dropQuestion state', () => {
         expect(
             dropQuestion({}, {

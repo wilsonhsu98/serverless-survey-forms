@@ -14,9 +14,9 @@ class Error extends PureComponent {
     render() {
         const { msg } = this.props;
         return (
-            <div ref="root" className={styles.error}>
+            <span ref="root" className={styles.error}>
                 {msg}
-            </div>
+            </span>
         );
     }
 }
