@@ -75,6 +75,7 @@
                     "order": 5,
                     "type": "text",
                     "label": "I am single line text",
+                    "data": "Placeholder",
                     "required": false
                 },
                 {

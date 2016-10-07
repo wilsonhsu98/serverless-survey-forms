@@ -10,6 +10,7 @@ import * as types from '../../../constants/DragTypes';
 import Radio from '../Radio';
 import Checkbox from '../Checkbox';
 import Rating from '../Rating';
+import Text from '../Text';
 import IconButton from '../../IconButton';
 
 const dragSource = {
@@ -145,6 +146,9 @@ class Item extends Component {
             break;
         case 'rating':
             obj = (<Rating data={itemData} onClick={this._onClickItem} />);
+            break;
+        case 'text':
+            obj = (<Text data={itemData} onClick={this._onClickItem} />);
             break;
         default:
             obj = (<div>{JSON.stringify(itemData)}</div>);
