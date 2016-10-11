@@ -49,12 +49,28 @@ class EditMultiOptions extends PureComponent {
                         data-id={1}
                         data-type="input"
                         type="text"
-                        className={`${styles.longText} js-opt ut-input input input--medium`}
+                        className={`${styles.longText} js-text ut-input input input--medium`}
                         value={editQuestion.input}
                         onChange={this._onChangeHandle}
                         onFocus={this._handleFocusEvent}
                     />
-                    <div className="input__msg js-opt-msg"></div>
+                    <div className="input__msg js-text-msg"></div>
+                </div>);
+            break;
+        case 'textarea':
+            optList.push(
+                <div key={1}>
+                    <textarea
+                        data-id={1}
+                        data-type="input"
+                        className="textarea js-text"
+                        type="text"
+                        value={editQuestion.input}
+                        onChange={this._onChangeHandle}
+                        onFocus={this._handleFocusEvent}
+                        rows={editQuestion.rows}
+                    ></textarea>
+                    <div className="input__msg js-text-msg"></div>
                 </div>);
             break;
         default:

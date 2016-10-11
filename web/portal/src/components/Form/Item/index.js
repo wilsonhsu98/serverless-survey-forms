@@ -11,6 +11,7 @@ import Radio from '../Radio';
 import Checkbox from '../Checkbox';
 import Rating from '../Rating';
 import Text from '../Text';
+import Textarea from '../Textarea';
 import IconButton from '../../IconButton';
 
 const dragSource = {
@@ -137,6 +138,8 @@ class Item extends Component {
         const { data, editQuestion } = this.props;
         const itemData = data.id === editQuestion.id ? editQuestion : data;
         let obj;
+
+        // Once add new question, it should add case content
         switch (itemData.type) {
         case 'radio':
             obj = (<Radio data={itemData} onClick={this._onClickItem} />);
@@ -149,6 +152,9 @@ class Item extends Component {
             break;
         case 'text':
             obj = (<Text data={itemData} onClick={this._onClickItem} />);
+            break;
+        case 'textarea':
+            obj = (<Textarea data={itemData} onClick={this._onClickItem} />);
             break;
         default:
             obj = (<div>{JSON.stringify(itemData)}</div>);
