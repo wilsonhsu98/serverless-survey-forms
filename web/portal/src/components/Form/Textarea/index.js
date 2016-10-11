@@ -25,7 +25,7 @@ class Textarea extends PureComponent {
                 <div className={styles.textareaItem}>
                     <textarea
                         rows={rows}
-                        className="textarea"
+                        className="textarea ut-input"
                         placeholder={data.input}
                     />
                 </div>
