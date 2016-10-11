@@ -98,7 +98,7 @@ class EditQuestion extends PureComponent {
                 <div>
                     <textarea
                         id="editQuestion"
-                        className="ut-editQuestion teaxarea"
+                        className="ut-editQuestion textarea"
                         type="text"
                         value={editQuestion.label}
                         onChange={this._onTitleChange}

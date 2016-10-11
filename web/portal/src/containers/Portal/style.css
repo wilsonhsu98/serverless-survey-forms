@@ -46,7 +46,7 @@
     }
 }
 
-:global .teaxarea,
+:global .textarea,
 :global .input,
 :global .inputItem input[type="text"].input,
 :global .checkboxItem input[type="text"].input,
@@ -78,7 +78,7 @@
     }
 }
 
-:global .teaxarea {
+:global .textarea {
     padding: 8px;
     resize: none;
 }
