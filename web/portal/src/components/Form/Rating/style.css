@@ -15,11 +15,20 @@
 }
 
 .ratingItem {
-    min-width: 116px;
+    min-width: 100px;
     height: 72px;
     float: left;
     margin-right: 8px;
     display: block;
+    text-align: center;
+}
+
+.ratingItem :global .radioItem input[type="radio"] {
+    margin: 0;
+}
+
+.ratingItem :global .radioItem input[type="radio"] + label  {
+    padding-left: 0;
 }
 
 .label {
