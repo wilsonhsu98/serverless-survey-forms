@@ -175,7 +175,8 @@ class Feedback extends PureComponent {
                         }
                             <div
                                 className={
-                                    this.props.settings.type === 'default' ?
+                                    this.props.settings.type === 'default' &&
+                                    Object.keys(privacy).length !== 0 ?
                                     styles.feedbackPreview : ''}
                             >
                             {
