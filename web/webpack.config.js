@@ -94,6 +94,7 @@ var webpackConfig = {
 
 // Plugins for different environment
 if (process.env.NODE_ENV === 'production') {
+    webpackConfig.devtool = "cheap-module-source-map";
     webpackConfig.plugins = [
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -122,7 +123,7 @@ if (process.env.NODE_ENV === 'production') {
         )
     ];
 } else {
-    webpackConfig.devtool = "source-map";
+    webpackConfig.devtool = "cheap-module-eval-source-map";
     webpackConfig.plugins = [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
