@@ -3,6 +3,12 @@ import preview from '../../../portal/src/reducers/preview';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] preview reducer', () => {
+    it('should handle preview state for default value', () => {
+        expect(
+            preview(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle preview state', () => {
         expect(
             preview('', {

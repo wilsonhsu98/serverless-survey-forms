@@ -15,7 +15,7 @@ export function stopEditQuestion() {
     };
 }
 
-function updateEditQuestion(data) {
+export function updateEditQuestion(data) {
     // for replace all properties
     return {
         type: types.UPDATE_EDITQUESTION,

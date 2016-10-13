@@ -3,6 +3,12 @@ import editQuestion from '../../../portal/src/reducers/editQuestion';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] editQuestion reducer', () => {
+    it('should handle editQuestion state for default value', () => {
+        expect(
+            editQuestion(undefined, { type: '' })
+        ).toEqual({});
+    });
+
     it('should handle editQuestion state', () => {
         expect(
             editQuestion({

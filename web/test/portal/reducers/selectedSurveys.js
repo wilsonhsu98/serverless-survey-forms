@@ -3,6 +3,12 @@ import selectedSurveys from '../../../portal/src/reducers/selectedSurveys';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] selectedSurveys reducer', () => {
+    it('should handle selectedSurveys state for default value', () => {
+        expect(
+            selectedSurveys(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle selectedSurveys state', () => {
         expect(
             selectedSurveys('', {

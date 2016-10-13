@@ -46,7 +46,9 @@ class Rating extends PureComponent {
                     id={id}
                     text={item.label}
                     required={item.required}
-                />
+                >
+                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                </Question>
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>
                         {this._renderRatingItem()}
@@ -59,7 +61,6 @@ class Rating extends PureComponent {
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
-                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
                 </div>
             </div>
         );

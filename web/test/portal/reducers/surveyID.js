@@ -3,6 +3,12 @@ import surveyID from '../../../portal/src/reducers/surveyID';
 import * as types from '../../../portal/src/constants/ActionTypes';
 
 describe('[Portal] surveyID reducer', () => {
+    it('should handle surveyID state for default value', () => {
+        expect(
+            surveyID(undefined, { type: '' })
+        ).toEqual('');
+    });
+
     it('should handle surveyID state', () => {
         expect(
             surveyID('', {

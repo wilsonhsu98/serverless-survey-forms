@@ -21,6 +21,38 @@ describe('[Portal] account action', () => {
         nock.cleanAll();
     });
 
+    it('should create an action to receive account failure', () => {
+        expect(
+            actions.receiveAccountFailure('Error')
+        ).toEqual({
+            type: types.RECIEVE_ACCOUNT_FAILURE,
+            errorMsg: 'Error'
+        });
+    });
+
+    it('should create an action to receive account success', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        expect(
+            actions.receiveAccountSuccess(account)
+        ).toEqual({
+            type: types.RECIEVE_ACCOUNT_SUCCESS,
+            account
+        });
+    });
+
+    it('should create an action to set token', () => {
+        expect(
+            actions.setToken('token')
+        ).toEqual({
+            type: types.SET_TOKEN,
+            token: 'token'
+        });
+    });
+
     it('should create an action to handle token expired', () => {
         const expectedActions = [
             { type: types.EXPIRED_TOKEN }

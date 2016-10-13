@@ -1,7 +1,8 @@
 
 /***** Global Component *****/
 :global html {
-    overflow-x: hidden;
+    overflow-x: auto;
+    min-width: 1000px;
     width: 100%;
     position: relative;
     min-height: 100%;
@@ -9,7 +10,8 @@
 }
 
 :global body {
-    overflow-x: hidden;
+    overflow-x: auto;
+    min-width: 1000px;
     width: 100%;
     min-height: 100%;
     line-height: 20px;
@@ -48,7 +50,7 @@
 :global .input,
 :global .checkboxItem input[type="text"].input,
 :global .radioItem input[type="text"].input {
-    padding: 0 8px;
+    padding: 5px 8px 4px;
     border-style: solid;
     border-color: #bfbfbf;
     border-width: 1px 1px 2px 1px;
@@ -62,17 +64,12 @@
     }
 
     &.input--small {
-        line-height: 24px;
-    }
-
-    &.input--medium {
-        line-height: 32px;
+        padding: 1px 8px 1px;
     }
 
     &.input--large {
-        font-size: 28px;
-        line-height: 40px;
-        padding: 0 10px;
+        font-size: 22px;
+        padding: 6px 10px 5px;
     }
 
     &.input--error {
