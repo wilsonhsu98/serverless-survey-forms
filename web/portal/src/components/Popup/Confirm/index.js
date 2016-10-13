@@ -29,7 +29,8 @@ class Confirm extends PureComponent {
         // message is an object records every confirmed action
         // its key should correspond with 'popup'
         const message = {
-            deleteOneSurvey: 'Do you really want to delete this survey?'
+            deleteOneSurvey: 'Do you really want to delete this survey?',
+            deleteAllFeedbacks: 'Do you really want to clear all feedbacks in this survey?'
         };
         return (<div>{message[popup]}</div>);
     }
@@ -60,6 +61,9 @@ class Confirm extends PureComponent {
         const { popup, popupActions, surveysActions } = this.props;
         if (popup === 'deleteOneSurvey') {
             surveysActions.deleteSurvey();
+            popupActions.closePopup();
+        } else if (popup === 'deleteAllFeedbacks') {
+            surveysActions.deleteAllFeedbacks();
             popupActions.closePopup();
         }
     }

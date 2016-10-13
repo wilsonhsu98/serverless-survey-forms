@@ -342,3 +342,42 @@ export function copySurvey() {
             .catch(err => dispatch(receiveQuestionsFailure(err)));
     };
 }
+
+export function requestDeleteAllFeedbacksFailure(err) {
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.DELETE_ALLFEEDBACKS_FAILURE,
+            errorMsg: err
+        });
+    };
+}
+
+export function receiveDeleteAllFeedbacksSuccess() {
+    return {
+        type: types.DELETE_ALLFEEDBACKS_SUCCESS
+    };
+}
+
+export function deleteAllFeedbacks() {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_DELETE_ALLFEEDBACKS });
+        const { selectedSurveys, token } = getState();
+        return fetch(
+            // `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/feedbacks/${selectedSurveys}`, {
+                method: 'DELETE',
+                credentials: 'same-origin',
+                headers: {
+                    authorization: token
+                }
+            })
+            .then(response => response.json())
+            .then(() => {
+                dispatch(receiveDeleteAllFeedbacksSuccess());
+                dispatch(toggleSelectedSurveys(selectedSurveys));
+                dispatch(getSurveys());
+            })
+            .catch(err => dispatch(requestDeleteAllFeedbacksFailure(err)));
+    };
+}
