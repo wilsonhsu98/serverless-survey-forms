@@ -545,4 +545,72 @@ describe('[Portal] surveys action', () => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
     });
+
+    it('should create an action to delete all feedbacks failure', () => {
+        global.window = { localStorage: {} };
+        const store = mockStore({ surveyID: '', subject: '' });
+        const expectedActions = [
+            { type: types.EXPIRED_TOKEN },
+            { type: types.DELETE_ALLFEEDBACKS_FAILURE, errorMsg: 'Error' }
+        ];
+
+        store.dispatch(actions.requestDeleteAllFeedbacksFailure('Error'));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('should create an action to delete all feedbacks success', () => {
+        expect(
+            actions.receiveDeleteAllFeedbacksSuccess()
+        ).toEqual({ type: types.DELETE_ALLFEEDBACKS_SUCCESS });
+    });
+
+    it('should create an action to delete all feedbacks', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        const selectedUser = {};
+        const token = 'xxxxxxx';
+        const surveys = [
+            {
+                accountid: 'facebook-00000',
+                subject: 'I am Questionnaire',
+                surveyid: '11111-0000-2222-3333',
+                datetime: 1470380181870,
+                count: 10
+            },{
+                accountid: 'facebook-00000',
+                subject: 'TODOS',
+                surveyid: '2222-3333-4444-0000',
+                datetime: 1470301920229,
+                count: 0
+            } ];
+        const selectedSurveys = '11111-0000-2222-3333';
+
+        nock(Config.baseURL, {
+            reqheaders: { 'authorization': token }
+        })
+        .intercept(`/api/v1/feedbacks/${selectedSurveys}`, 'DELETE')
+        .reply(200, {});
+
+        const store = mockStore(
+            {
+                account,
+                selectedSurveys,
+                selectedUser,
+                token
+            });
+        const expectedActions = [
+            { type: types.REQUEST_DELETE_ALLFEEDBACKS },
+            { type: types.DELETE_ALLFEEDBACKS_SUCCESS },
+            { type: types.REMOVE_SELECTED_SURVEYS },
+            { type: types.REQUEST_SURVEYS_LIST }
+        ];
+
+        return store.dispatch(actions.deleteAllFeedbacks())
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
 });

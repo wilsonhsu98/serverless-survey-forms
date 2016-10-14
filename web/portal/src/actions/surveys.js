@@ -375,7 +375,6 @@ export function deleteAllFeedbacks() {
             .then(response => response.json())
             .then(() => {
                 dispatch(receiveDeleteAllFeedbacksSuccess());
-                dispatch(toggleSelectedSurveys(selectedSurveys));
                 dispatch(getSurveys());
             })
             .catch(err => dispatch(requestDeleteAllFeedbacksFailure(err)));
