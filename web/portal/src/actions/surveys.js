@@ -202,7 +202,7 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                     break;
                 case 'text':
                 case 'textarea':
-                    body.push(feedbackQue.data[0].input);
+                    body.push(feedbackQue.data[0].input || '');
                     break;
                 default:
                 }
