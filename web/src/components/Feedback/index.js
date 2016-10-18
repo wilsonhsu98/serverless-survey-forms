@@ -123,9 +123,11 @@ class Feedback extends PureComponent {
         const requiredProps = {
             feedback: this.props.feedback,
             id: item.order,
+            itemID: item.id,
             key: idx,
             item: item,
             pageDone: this.props.pageDone,
+            requiredData: this.props.requiredData,
             onChangeHandle: this._onChangeHandle,
             feedbackActions: this.props.feedbackActions
         };
@@ -175,7 +177,8 @@ class Feedback extends PureComponent {
                         }
                             <div
                                 className={
-                                    this.props.settings.type === 'default' ?
+                                    this.props.settings.type === 'default' &&
+                                    Object.keys(privacy).length !== 0 ?
                                     styles.feedbackPreview : ''}
                             >
                             {

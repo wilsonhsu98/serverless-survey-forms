@@ -39,7 +39,7 @@ class Rating extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, itemID, item, feedbackActions, pageDone } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
@@ -47,7 +47,8 @@ class Rating extends PureComponent {
                     text={item.label}
                     required={item.required}
                 >
-                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                    {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
+                        <Error msg={I18Next.t('error_required')} /> : ''}
                 </Question>
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>

@@ -86,11 +86,16 @@ class Select extends PureComponent {
     }
 
     _onClickCallback(e) {
-        this.setState({
-            isOpen: false,
-            selectedValue: e.currentTarget.getAttribute('data-value')
-        });
-        this.props.onChangeHandle(e);
+        const newValue = e.currentTarget.getAttribute('data-value');
+        if (this.state.selectedValue === newValue) {
+            this.setState({ isOpen: false });
+        } else {
+            this.setState({
+                isOpen: false,
+                selectedValue: newValue
+            });
+            this.props.onChangeHandle(e);
+        }
     }
 
     _handleDocumentClick(e) {

@@ -31,7 +31,7 @@ var webpackConfig = {
         path.resolve(__dirname, folder + '/src/entry.js')
     ],
     output: {
-        filename: `index.js?v=${Date.now()}`,
+        filename: 'index.js?[hash]',
         path: path.resolve(__dirname, '../client/dist/' + folder)
     },
     module: {
@@ -94,10 +94,11 @@ var webpackConfig = {
 
 // Plugins for different environment
 if (process.env.NODE_ENV === 'production') {
+    webpackConfig.devtool = "cheap-module-source-map";
     webpackConfig.plugins = [
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new ExtractTextPlugin(`styles.css?v=${Date.now()}`, { allChunks: true }),
+        new ExtractTextPlugin('styles.css?[hash]', { allChunks: true }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -122,7 +123,7 @@ if (process.env.NODE_ENV === 'production') {
         )
     ];
 } else {
-    webpackConfig.devtool = "source-map";
+    webpackConfig.devtool = "cheap-module-eval-source-map";
     webpackConfig.plugins = [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),

@@ -11,8 +11,10 @@
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+import I18Next from 'i18next';
 
 import Question from '../Question/index';
+import Error from '../Error';
 import styles from './style.css';
 
 class Text extends PureComponent {
@@ -23,20 +25,25 @@ class Text extends PureComponent {
             input: false
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
+        this._checkDone = this._checkDone.bind(this);
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, item, itemID, feedbackActions, pageDone } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
                     text={item.label}
                     required={item.required}
-                />
+                >
+                    {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
+                        <Error msg={I18Next.t('error_required')} /> : ''}
+                </Question>
                 <div className={styles.inputItem}>
                     <input
                         id={`text_${id}`}
+                        placeholder={item.input}
                         type="text"
                         onChange={this._onChangeHandle}
                         value={this.state.input ? this.state.input : ''}
@@ -63,7 +70,17 @@ class Text extends PureComponent {
                 }
             };
             this.props.onChangeHandle(feedback);
+            // Update complete status
+            const done = this._checkDone();
+            this.props.feedbackActions.updateRequired(this.props.id, done);
         });
+    }
+
+    _checkDone() {
+        if (this.state.input) {
+            return true;
+        }
+        return false;
     }
 
 }

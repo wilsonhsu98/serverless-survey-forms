@@ -35,7 +35,7 @@ class Radio extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, itemID, item, feedbackActions, pageDone } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
@@ -43,7 +43,8 @@ class Radio extends PureComponent {
                     text={item.label}
                     required={item.required}
                 >
-                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                    {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
+                        <Error msg={I18Next.t('error_required')} /> : ''}
                 </Question>
                 <div className={styles.radioGrp}>
                     {this._renderRadioItem()}

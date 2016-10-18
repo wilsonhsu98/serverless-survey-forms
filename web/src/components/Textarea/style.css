@@ -3,11 +3,13 @@
  */
 
 .textarea {
-    color: #aaa;
-    font-size: 17px;
     background-color: #fff;
-    border: 1px solid #bbb;
-    margin: 0;
+    border: 1px solid #aaa;
     padding: 6px 13px;
-    width: 320px;
+    width: 90%;
+    margin-left: 20px;
+}
+
+.textarea input[type="text"]:-ms-input-placeholder {
+    color: #aaa;
 }
