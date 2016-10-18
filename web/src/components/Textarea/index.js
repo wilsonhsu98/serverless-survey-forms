@@ -43,6 +43,7 @@ class Textarea extends PureComponent {
                 <div>
                     <textarea
                         id={`textarea_${id}`}
+                        placeholder={item.input}
                         rows={rows}
                         className={styles.textarea}
                         onChange={this._onChangeHandle}

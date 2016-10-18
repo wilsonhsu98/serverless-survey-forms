@@ -43,6 +43,7 @@ class Text extends PureComponent {
                 <div className={styles.inputItem}>
                     <input
                         id={`text_${id}`}
+                        placeholder={item.input}
                         type="text"
                         onChange={this._onChangeHandle}
                         value={this.state.input ? this.state.input : ''}
