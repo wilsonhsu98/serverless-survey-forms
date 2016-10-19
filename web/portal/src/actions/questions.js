@@ -447,13 +447,13 @@ export function stopDropQuestion() {
     };
 }
 
-export function setQuestionEditable(n) {
-    if (parseInt(n, 10) > 0) {
+export function setQuestionEditable(flag) {
+    if (flag) {
         return {
-            type: types.SET_NOT_EDITABLE
+            type: types.SET_EDITABLE
         };
     }
     return {
-        type: types.SET_EDITABLE
+        type: types.SET_NOT_EDITABLE
     };
 }

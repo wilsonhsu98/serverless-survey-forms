@@ -520,10 +520,10 @@ describe('[Portal] questions action', () => {
 
     it('should create an action to set question editable or not', () => {
         expect(
-            actions.setQuestionEditable(1)
+            actions.setQuestionEditable(false)
         ).toEqual({ type: types.SET_NOT_EDITABLE });
         expect(
-            actions.setQuestionEditable(0)
+            actions.setQuestionEditable(true)
         ).toEqual({ type: types.SET_EDITABLE });
     });
 });

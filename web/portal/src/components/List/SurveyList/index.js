@@ -88,7 +88,9 @@ class SurveyList extends PureComponent {
     _onClickEdit(e) {
         const { questionsActions } = this.props;
         const obj = e.currentTarget;
-        questionsActions.setQuestionEditable(obj.getAttribute('data-num'));
+        // change string to number
+        // if the feedback number is zero, change editable to true
+        questionsActions.setQuestionEditable(!+obj.getAttribute('data-num'));
         questionsActions.getQuestion(obj.getAttribute('data-id'));
     }
 }
