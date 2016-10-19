@@ -33,10 +33,12 @@ class Design extends PureComponent {
     }
 
     render() {
-        const { surveyPolicy, questionsActions } = this.props;
+        const { surveyPolicy, surveyEditable, questionsActions } = this.props;
         return (
             <div ref="root">
-                {this._renderEdit()}
+                {surveyEditable ?
+                    this._renderEdit() :
+                    <div className={styles.notEditable}></div>}
                 <div>{this._renderPage()}</div>
 
                 <div className={styles.control}>

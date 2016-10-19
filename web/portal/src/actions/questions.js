@@ -446,3 +446,14 @@ export function stopDropQuestion() {
         type: types.STOP_DROP_QUESTION
     };
 }
+
+export function setQuestionEditable(n) {
+    if (parseInt(n, 10) > 0) {
+        return {
+            type: types.SET_NOT_EDITABLE
+        };
+    }
+    return {
+        type: types.SET_EDITABLE
+    };
+}
