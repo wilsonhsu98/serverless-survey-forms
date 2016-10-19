@@ -517,4 +517,13 @@ describe('[Portal] questions action', () => {
             actions.stopDropQuestion()
         ).toEqual({ type: types.STOP_DROP_QUESTION });
     });
+
+    it('should create an action to set question editable or not', () => {
+        expect(
+            actions.setQuestionEditable(1)
+        ).toEqual({ type: types.SET_NOT_EDITABLE });
+        expect(
+            actions.setQuestionEditable(0)
+        ).toEqual({ type: types.SET_EDITABLE });
+    });
 });
