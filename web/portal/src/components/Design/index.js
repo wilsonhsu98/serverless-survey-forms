@@ -21,6 +21,7 @@ class Design extends PureComponent {
         this._moveQuestion = this._moveQuestion.bind(this);
         this._getQuestion = this._getQuestion.bind(this);
         this._onAddPageClick = this._onAddPageClick.bind(this);
+        this._onNotEditableClick = this._onNotEditableClick.bind(this);
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class Design extends PureComponent {
             <div ref="root">
                 {surveyEditable ?
                     this._renderEdit() :
-                    <div className={styles.notEditable}></div>}
+                    <div className={styles.notEditable} onClick={this._onNotEditableClick}></div>}
                 <div>{this._renderPage()}</div>
 
                 <div className={styles.control}>
@@ -175,6 +176,11 @@ class Design extends PureComponent {
         questionsActions.addPage(page);
         // save Question
         questionsActions.saveQuestion();
+    }
+
+    _onNotEditableClick() {
+        const { popupActions } = this.props;
+        popupActions.setPopup('notEditableSurvey');
     }
 }
 

@@ -30,13 +30,28 @@ class Confirm extends PureComponent {
         // its key should correspond with 'popup'
         const message = {
             deleteOneSurvey: 'Do you really want to delete this survey?',
-            deleteAllFeedbacks: 'Do you really want to clear all feedbacks in this survey?'
+            deleteAllFeedbacks: 'Do you really want to clear all feedbacks in this survey?',
+            notEditableSurvey: 'Because there are some feedback in this survey, you can\'t edit it.'
         };
         return (<div>{message[popup]}</div>);
     }
 
     _renderFooter() {
+        const { popup } = this.props;
         const style = { margin: '0 4px', display: 'inline-block' };
+        if (popup === 'notEditableSurvey') {
+            return (
+                <div style={{ margin: '0', display: 'block' }}>
+                    <Button
+                        string="OK"
+                        i18nKey={false}
+                        color="ruby"
+                        onClick={this._btnNoHandler}
+                        extraProps={{ style: style }}
+                    />
+                </div>
+            );
+        }
         return (
             <div style={{ margin: '0', display: 'block' }}>
                 <Button
