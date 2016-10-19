@@ -33,7 +33,7 @@ class Confirm extends PureComponent {
             deleteAllFeedbacks: 'Do you really want to clear all feedbacks in this survey?',
             notEditableSurvey: 'Because there are some feedback in this survey, you can\'t edit it.'
         };
-        return (<div>{message[popup]}</div>);
+        return (<div className="ut-title">{message[popup]}</div>);
     }
 
     _renderFooter() {
