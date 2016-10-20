@@ -112,7 +112,6 @@ function setRequiredData(requiredData) {
     return {
         type: types.SET_REQUIRED_DATA,
         requiredData
-
     };
 }
 
@@ -127,12 +126,14 @@ export function setRequired(page = 1) {
     return (dispatch, getState) => {
         const requiredData = getState().survey.content[page - 1].question.map((item) => {
             const updatedItem = {};
+            updatedItem.id = item.id;
             updatedItem.order = item.order;
             updatedItem.required = item.required;
             updatedItem.done = false;
             return updatedItem;
         });
         dispatch(setRequiredData(requiredData));
+        dispatch(setPageDone('init'));
     };
 }
 
@@ -205,6 +206,19 @@ export function updateRequired(order, done) {
             return updatedItem;
         });
         dispatch(setRequiredData(requiredData));
-        dispatch(checkRequired());
+    };
+}
+
+export function checkDone(id) {
+    return (dispatch, getState) => {
+        let done = true;
+        if (Object.keys(getState().requiredData).length !== 0) {
+            getState().requiredData.forEach((item) => {
+                if (item.id === id && item.required && !item.done) {
+                    done = false;
+                }
+            });
+        }
+        return done;
     };
 }

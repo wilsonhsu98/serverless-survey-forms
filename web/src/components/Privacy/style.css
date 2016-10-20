@@ -23,6 +23,10 @@
     padding: 5px 8px;
 }
 
+.terms input[type="text"]:-ms-input-placeholder {
+    color: #aaa;
+}
+
 .terms input[type="text"]:disabled {
     border: 1px solid #ddd;
     color: #aaa;

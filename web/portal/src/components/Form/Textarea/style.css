@@ -1,0 +1,8 @@
+/*
+ * Style for components/Textarea/index.js
+ */
+
+.textareaItem textarea{
+    margin: 20px;
+    width: 90%;
+}

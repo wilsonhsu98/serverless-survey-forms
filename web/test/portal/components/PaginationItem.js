@@ -8,6 +8,8 @@ import Item from '../../../portal/src/components/Form/Item';
 import Radio from '../../../portal/src/components/Form/Radio';
 import Checkbox from '../../../portal/src/components/Form/Checkbox';
 import Rating from '../../../portal/src/components/Form/Rating';
+import Text from '../../../portal/src/components/Form/Text';
+import Textarea from '../../../portal/src/components/Form/Textarea';
 
 DomMock('<html><body></body></html>');
 
@@ -87,6 +89,41 @@ describe('[Portal] Testing Pagination Item Component', () => {
         const rating = TestUtils.findRenderedComponentWithType(contentRoot, Rating);
         expect(
             TestUtils.isCompositeComponentWithType(rating, Rating)
+        ).toBe(true);
+    });
+
+    it('pagination item edit: text item', () => {
+        const textProps = Object.assign({}, props);
+        textProps.editQuestion = {
+            id: '1A0F97AN2ABNAL',
+            type: 'text',
+            label: 'Testing',
+            input: 'Please type here',
+            required: false
+        };
+        const ItemContext = wrapInTestContext(Item);
+        const contentRoot = TestUtils.renderIntoDocument(<ItemContext {...textProps} />);
+        const text = TestUtils.findRenderedComponentWithType(contentRoot, Text);
+        expect(
+            TestUtils.isCompositeComponentWithType(text, Text)
+        ).toBe(true);
+    });
+
+    it('pagination item edit: textarea item', () => {
+        const textProps = Object.assign({}, props);
+        textProps.editQuestion = {
+            id: '1A0F97AN2ABNAL',
+            type: 'textarea',
+            label: 'Testing',
+            input: 'Please type as many words as you can',
+            rows: 3,
+            required: false
+        };
+        const ItemContext = wrapInTestContext(Item);
+        const contentRoot = TestUtils.renderIntoDocument(<ItemContext {...textProps} />);
+        const text = TestUtils.findRenderedComponentWithType(contentRoot, Textarea);
+        expect(
+            TestUtils.isCompositeComponentWithType(text, Textarea)
         ).toBe(true);
     });
 
