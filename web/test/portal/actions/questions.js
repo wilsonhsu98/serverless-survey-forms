@@ -52,6 +52,7 @@ describe('[Portal] questions action', () => {
         const expectedActions = [
             { type: types.SET_SURVEYID, surveyID: '' },
             { type: types.SET_SUBJECT, subject: '' },
+            { type: types.SET_EDITABLE },
             { type: types.INIT_QUESTIONS },
             { type: types.INIT_SURVEY_POLICY },
             { type: types.SET_WEBPAGE, webpage: 'index' }

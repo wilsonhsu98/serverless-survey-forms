@@ -43,11 +43,23 @@ export function setSurveyID(data) {
     };
 }
 
+export function setQuestionEditable(flag) {
+    if (flag) {
+        return {
+            type: types.SET_EDITABLE
+        };
+    }
+    return {
+        type: types.SET_NOT_EDITABLE
+    };
+}
+
 export function finishEdit() {
     return (dispatch, getState) => {
         const { selectedUser } = getState();
         dispatch(setSurveyID(''));
         dispatch(setSubject(''));
+        dispatch(setQuestionEditable(true));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
         // TODOS: temporarily remove router
@@ -444,16 +456,5 @@ export function setDropQuestion(dropQuestion) {
 export function stopDropQuestion() {
     return {
         type: types.STOP_DROP_QUESTION
-    };
-}
-
-export function setQuestionEditable(flag) {
-    if (flag) {
-        return {
-            type: types.SET_EDITABLE
-        };
-    }
-    return {
-        type: types.SET_NOT_EDITABLE
     };
 }
