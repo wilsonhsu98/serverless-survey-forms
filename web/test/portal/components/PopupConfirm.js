@@ -49,4 +49,15 @@ describe('[Portal] Testing Confirm Component', () => {
         const btn = TestUtils.scryRenderedComponentsWithType(content, Button);
         expect(btn.length).toEqual(1);
     });
+
+    it('confirm popup for notEditableAdmin', () => {
+        const popProps = Object.assign({}, props, { popup: 'notEditableAdmin' });
+        const content = TestUtils.renderIntoDocument(<Confirm {...popProps} />);
+
+        const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
+        expect(title.textContent).toEqual('You can\'t edit survey in Admin mode.');
+
+        const btn = TestUtils.scryRenderedComponentsWithType(content, Button);
+        expect(btn.length).toEqual(1);
+    });
 });
