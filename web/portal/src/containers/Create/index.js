@@ -38,7 +38,8 @@ function mapStateToProps(state) {
         editPage: state.editPage,
         orderPage: state.orderPage,
         surveyEditable: state.surveyEditable,
-        surveyPolicy: state.surveyPolicy
+        surveyPolicy: state.surveyPolicy,
+        selectedUser: state.selectedUser
     };
 }
 

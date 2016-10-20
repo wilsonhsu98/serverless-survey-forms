@@ -36,7 +36,7 @@ class ControlBtn extends PureComponent {
             if (selectedUser.hasOwnProperty('accountid')) {
                 // selectedUser means it is Admin mode
                 // in Admin mode, administrator can't create / duplicate survey
-                if (idx !== 0 && idx !== 3 && selectedSurveys !== '') {
+                if ((idx === 1 || idx === 2) && selectedSurveys !== '') {
                     btns.push(
                         <IconButton
                             key={idx}

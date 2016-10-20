@@ -179,8 +179,12 @@ class Design extends PureComponent {
     }
 
     _onNotEditableClick() {
-        const { popupActions } = this.props;
-        popupActions.setPopup('notEditableSurvey');
+        const { selectedUser, popupActions } = this.props;
+        if (selectedUser.hasOwnProperty('accountid')) {
+            popupActions.setPopup('notEditableAdmin');
+        } else {
+            popupActions.setPopup('notEditableSurvey');
+        }
     }
 }
 

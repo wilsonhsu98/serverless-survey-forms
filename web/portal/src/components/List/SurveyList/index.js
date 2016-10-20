@@ -86,11 +86,16 @@ class SurveyList extends PureComponent {
     }
 
     _onClickEdit(e) {
-        const { questionsActions } = this.props;
+        const { selectedUser, questionsActions } = this.props;
         const obj = e.currentTarget;
-        // change string to number
-        // if the feedback number is zero, change editable to true
-        questionsActions.setQuestionEditable(!+obj.getAttribute('data-num'));
+        if (selectedUser.hasOwnProperty('accountid')) {
+            // Admin cannot edit other designer's survey
+            questionsActions.setQuestionEditable(false);
+        } else {
+            // change string to number
+            // if the feedback number is zero, change editable to true
+            questionsActions.setQuestionEditable(!+obj.getAttribute('data-num'));
+        }
         questionsActions.getQuestion(obj.getAttribute('data-id'));
     }
 }
