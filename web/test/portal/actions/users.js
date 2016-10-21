@@ -15,7 +15,6 @@ describe('[Portal] users action', () => {
     });
 
     it('should create an action to get users failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },

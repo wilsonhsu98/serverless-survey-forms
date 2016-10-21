@@ -34,7 +34,6 @@ describe('[Portal] subject action', () => {
     });
 
     it('should create an action to set subject failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EDIT_SUBJECT, editSubject: false },

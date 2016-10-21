@@ -12,12 +12,7 @@ DomMock('<html><body></body></html>');
 const mockStore = configureStore([thunkMiddleware]);
 
 describe('[Portal] account action', () => {
-    beforeEach(() => {
-        global.window = { localStorage: {} };
-    });
-
     afterEach(() => {
-        global.window = document.defaultView;
         nock.cleanAll();
     });
 

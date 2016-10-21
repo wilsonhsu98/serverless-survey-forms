@@ -17,7 +17,6 @@ describe('[Portal] surveys action', () => {
     });
 
     it('should create an action to save surveys failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
@@ -108,7 +107,6 @@ describe('[Portal] surveys action', () => {
     });
 
     it('should create an action to delete surveys failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
@@ -547,7 +545,6 @@ describe('[Portal] surveys action', () => {
     });
 
     it('should create an action to delete all feedbacks failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },

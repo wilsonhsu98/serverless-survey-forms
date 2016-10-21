@@ -5,6 +5,7 @@ if (typeof document !== 'undefined') return;
 
     global.document = jsdom(markup || '');
     global.window = document.defaultView;
+    global.window.localStorage = {};
     global.navigator = {
         userAgent: 'node.js'
     };

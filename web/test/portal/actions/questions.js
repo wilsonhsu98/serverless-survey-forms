@@ -315,7 +315,6 @@ describe('[Portal] questions action', () => {
     });
 
     it('should create an action to save questions failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
@@ -449,7 +448,6 @@ describe('[Portal] questions action', () => {
     });
 
     it('should create an action to get questions failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
