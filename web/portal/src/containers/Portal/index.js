@@ -89,6 +89,7 @@ export class Portal extends PureComponent {
 
     _checkUserLogin() {
         const { account, webpage } = this.props;
+        const webpageArray = webpage.split('/');
         const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid')) {
@@ -101,7 +102,7 @@ export class Portal extends PureComponent {
 
         // TODOS: temporarily remove router
         let children;
-        switch (webpage) {
+        switch (webpageArray[0]) {
         case 'user':
             children = <User />;
             break;

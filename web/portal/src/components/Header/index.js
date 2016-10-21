@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import classNames from 'classnames';
 
 class Header extends PureComponent {
 
@@ -17,6 +18,7 @@ class Header extends PureComponent {
         this._onBackClick = this._onBackClick.bind(this);
         this._toggleAdminMenu = this._toggleAdminMenu.bind(this);
         this._AdminMenuClick = this._AdminMenuClick.bind(this);
+        this._changeTabClick = this._changeTabClick.bind(this);
     }
 
     render() {
@@ -25,7 +27,10 @@ class Header extends PureComponent {
         let content;
         let profile;
         let menu;
-        switch (webpage) {
+        const webpageArray = webpage.split('/');
+        let classSetBuild;
+        let classSetL10N;
+        switch (webpageArray[0]) {
         case 'user':
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
@@ -54,6 +59,14 @@ class Header extends PureComponent {
             break;
         case 'create':
         case 'userCreate':
+            classSetBuild = {
+                [`${styles.status}`]: true,
+                [`${styles.current}`]: webpageArray.length <= 1 || webpageArray[1] === 'build'
+            };
+            classSetL10N = {
+                [`${styles.status}`]: true,
+                [`${styles.current}`]: webpageArray[1] === 'l10n'
+            };
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
                     <div
@@ -67,8 +80,21 @@ class Header extends PureComponent {
                     >
                         {subject}
                     </div>
-                    <div className={styles.build}>
-                        <div className={styles.status}>Build</div>
+                    <div className={styles.tab}>
+                        <div className={styles.build}>
+                            <div
+                                className={classNames(classSetBuild)}
+                                data-type="build"
+                                onClick={this._changeTabClick}
+                            >Build</div>
+                        </div>
+                        <div className={styles.build}>
+                            <div
+                                className={classNames(classSetL10N)}
+                                data-type="l10n"
+                                onClick={this._changeTabClick}
+                            >L10N</div>
+                        </div>
                     </div>
                 </div>
             );
@@ -105,8 +131,8 @@ class Header extends PureComponent {
             );
         }
 
-        const edit = webpage === 'create' || webpage === 'userCreate'
-            || webpage === 'user' ? styles.edit : '';
+        const edit = webpageArray[0] === 'create' || webpageArray[0] === 'userCreate'
+            || webpageArray[0] === 'user' ? styles.edit : '';
         return (
             <div
                 id="header"
@@ -126,14 +152,19 @@ class Header extends PureComponent {
 
     _onBackClick() {
         const { webpage, questionsActions, usersActions, webpageActions } = this.props;
-        if (webpage === 'create') {
+        const webpageArray = webpage.split('/');
+        switch (webpageArray[0]) {
+        case 'create':
             questionsActions.finishEdit('');
-        } else if (webpage === 'userSurvey') {
+            break;
+        case 'userSurvey':
             usersActions.emptySelectedUser();
             webpageActions.setWebpage('user');
-        } else if (webpage === 'userCreate') {
+            break;
+        case 'userCreate':
             questionsActions.finishEdit('');
-        } else {
+            break;
+        default:
             webpageActions.setWebpage('index');
         }
     }
@@ -146,6 +177,16 @@ class Header extends PureComponent {
 
     _AdminMenuClick() {
         this.props.webpageActions.setWebpage('user');
+        this.setState({
+            isMenuOpen: false
+        });
+    }
+
+    _changeTabClick(e) {
+        const { webpage, webpageActions } = this.props;
+        const type = e.currentTarget.getAttribute('data-type');
+        const webpageArray = webpage.split('/');
+        webpageActions.setWebpage(`${webpageArray[0]}/${type}`);
         this.setState({
             isMenuOpen: false
         });

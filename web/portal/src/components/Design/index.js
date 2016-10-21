@@ -34,7 +34,14 @@ class Design extends PureComponent {
     }
 
     render() {
-        const { surveyPolicy, surveyEditable, questionsActions } = this.props;
+        const { surveyPolicy, surveyEditable, questionsActions, webpage } = this.props;
+        const webpageArray = webpage.split('/');
+
+        if (webpageArray[1] && webpageArray[1] === 'l10n') {
+            return (
+                <div ref="root">
+                </div>);
+        }
         return (
             <div ref="root">
                 {surveyEditable ?
