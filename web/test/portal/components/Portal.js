@@ -21,6 +21,7 @@ describe('[Portal] Testing Portal Component', () => {
         editSubject: false,
         preview: '',
         previewID: '',
+        webpage: 'index',
         routing: {},
         editSubjectActions: () => {},
         subjectActions: () => {},
