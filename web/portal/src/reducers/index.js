@@ -35,7 +35,7 @@
     previewID: '',
     users: [],
     selectedUser: {}
-    webpage: 'index',
+    webpage: 'index', or 'create/build' or 'create/l10n
     popup: ''
  }
 **/
