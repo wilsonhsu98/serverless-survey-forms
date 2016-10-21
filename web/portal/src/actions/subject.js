@@ -1,6 +1,7 @@
 
 import * as types from '../constants/ActionTypes';
 
+import Config from '../config';
 // import { push } from 'react-router-redux';
 import { openEdit } from './editSubject';
 import { postSurvey, setSurveyID, saveQuestion } from './questions';
@@ -37,7 +38,7 @@ export function saveSubject(subject) {
         const { account, surveyPolicy, token } = getState();
         const postData = {
             subject: subject,
-            survey: { content: [], thankyou: surveyPolicy }
+            survey: { format: Config.surveyFormat, content: [], thankyou: surveyPolicy }
         };
 
         dispatch(setSubject(subject));

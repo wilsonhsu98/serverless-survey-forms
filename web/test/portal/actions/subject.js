@@ -59,7 +59,10 @@ describe('[Portal] subject action', () => {
         const token = 'xxxxxxx';
         const postData = {
             subject: subject,
-            survey: { content: [], thankyou: surveyPolicy }
+            survey: {
+                format: Config.surveyFormat,
+                content: [],
+                thankyou: surveyPolicy }
         };
 
         nock(Config.baseURL, {
