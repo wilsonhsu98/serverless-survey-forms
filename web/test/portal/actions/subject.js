@@ -17,11 +17,13 @@ describe('[Portal] subject action', () => {
 
     it('should create an action to set subject', () => {
         const subject = 'Hello World';
+        const lang = 'en-US';
         expect(
             actions.setSubject(subject)
         ).toEqual({
             type: types.SET_SUBJECT,
-            subject
+            subject,
+            lang
         });
     });
 
@@ -54,6 +56,7 @@ describe('[Portal] subject action', () => {
             role: 'Admin'
         };
         const subject = 'Hello World';
+        const lang = 'en-US';
         const surveyID = '1111-2222-3333';
         const surveyPolicy = {};
         const token = 'xxxxxxx';
@@ -62,7 +65,11 @@ describe('[Portal] subject action', () => {
             survey: {
                 format: Config.surveyFormat,
                 content: [],
-                thankyou: surveyPolicy }
+                thankyou: surveyPolicy
+            },
+            l10n: {
+                basic: lang
+            }
         };
 
         nock(Config.baseURL, {
@@ -81,14 +88,14 @@ describe('[Portal] subject action', () => {
         });
         const expectedActions = [
             { type: types.REQUEST_SET_SUBJECT },
-            { type: types.SET_SUBJECT, subject },
+            { type: types.SET_SUBJECT, subject, lang },
             { type: types.SET_SURVEYID, surveyID },
             { type: types.EDIT_SUBJECT, editSubject: false },
             { type: types.SET_SUBJECT_SUCCESS },
             { type: types.SET_WEBPAGE, webpage: 'create' }
         ];
 
-        return store.dispatch(actions.saveSubject(subject))
+        return store.dispatch(actions.saveSubject(subject, lang))
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
@@ -102,6 +109,7 @@ describe('[Portal] subject action', () => {
         };
         const surveyID = '1111-2222-3333';
         const subject = 'Hello World';
+        const lang = 'en-US';
         const questions = [ {
                 page: 1,
                 description: 'I am Page 1',
@@ -117,12 +125,15 @@ describe('[Portal] subject action', () => {
                 format: Config.surveyFormat,
                 content: questions,
                 thankyou: surveyPolicy
+            },
+            l10n: {
+                basic: lang
             }
         };
 
         const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
-            { type: types.SET_SUBJECT, subject },
+            { type: types.SET_SUBJECT, subject, lang },
             { type: types.REQUEST_SAVE_QUESTION },
             {
                 type: types.UPDATE_QUESTIONS,
@@ -130,7 +141,7 @@ describe('[Portal] subject action', () => {
             }
         ];
 
-        store.dispatch(actions.editSubject(subject));
+        store.dispatch(actions.editSubject(subject, lang));
         expect(
             store.getActions()
         ).toEqual(expectedActions);

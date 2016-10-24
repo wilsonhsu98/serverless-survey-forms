@@ -51,7 +51,7 @@ describe('[Portal] questions action', () => {
         });
         const expectedActions = [
             { type: types.SET_SURVEYID, surveyID: '' },
-            { type: types.SET_SUBJECT, subject: '' },
+            { type: types.SET_SUBJECT, subject: '', lang: '' },
             { type: types.SET_EDITABLE },
             { type: types.INIT_QUESTIONS },
             { type: types.INIT_SURVEY_POLICY },
@@ -333,6 +333,7 @@ describe('[Portal] questions action', () => {
         };
         const surveyID = '1111-2222-3333';
         const subject = 'Hello World';
+        const lang = 'en-US';
         const surveyPolicy = {
             description: 'Thanks for sharing your feedback with Trend Micro.',
             privacy: {}
@@ -362,6 +363,9 @@ describe('[Portal] questions action', () => {
                 format: Config.surveyFormat,
                 content: newQuestions,
                 thankyou: surveyPolicy
+            },
+            l10n: {
+                basic: lang
             }
         };
 
@@ -371,7 +375,7 @@ describe('[Portal] questions action', () => {
         .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
         .reply(200, { datetime: Date.now() });
 
-        const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
+        const store = mockStore({ account, surveyID, subject, lang, questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
             { type: types.REQUEST_SAVE_QUESTION },
             { type: types.UPDATE_QUESTIONS, questions: newQuestions },
@@ -466,6 +470,7 @@ describe('[Portal] questions action', () => {
         };
         const selectedUser = {};
         const subject = 'Hello';
+        const lang = 'en-US';
         const surveyID = '1111-2222-3333';
 
         nock(Config.baseURL, {
@@ -484,7 +489,7 @@ describe('[Portal] questions action', () => {
         const store = mockStore({ account, selectedUser });
         const expectedActions = [
             { type: types.REQUEST_GET_QUESTION },
-            { type: types.SET_SUBJECT, subject },
+            { type: types.SET_SUBJECT, subject, lang },
             { type: types.SET_SURVEY_POLICY, surveyPolicy: {} },
             { type: types.RECIEVE_QUESTIONS_SUCCESS, questions },
             { type: types.SET_SURVEYID, surveyID },
