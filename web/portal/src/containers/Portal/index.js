@@ -39,7 +39,7 @@ export class Portal extends PureComponent {
     }
 
     render() {
-        const { account, loading, subject, surveyID, preview, previewID,
+        const { account, loading, subject, lang, surveyID, preview, previewID,
             selectedUser, webpage, popup,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions, usersActions,
@@ -54,7 +54,7 @@ export class Portal extends PureComponent {
             usersActions,
             webpageActions
         };
-        const subProps = { subject, surveyID, editSubjectActions, subjectActions };
+        const subProps = { subject, lang, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
         const confirmProps = { popup, popupActions, surveysActions };
         const loadingView = loading ? <Loading /> : '';
@@ -133,6 +133,7 @@ function mapStateToProps(state) {
         token: state.token,
         account: state.account,
         subject: state.subject,
+        lang: state.lang,
         surveyID: state.surveyID,
         editSubject: state.editSubject,
         preview: state.preview,

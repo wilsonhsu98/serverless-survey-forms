@@ -11,10 +11,10 @@ import Select from '../../Select';
 
 class Subject extends PureComponent {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         // set initial states
-        this.state = { selectedLang: 'en-US' };
+        this.state = { selectedLang: props.lang || 'en-US' };
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._onLanguageChange = this._onLanguageChange.bind(this);
     }
