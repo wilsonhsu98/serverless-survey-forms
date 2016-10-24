@@ -1,3 +1,5 @@
+'use strict';
+
 // require testing target and set up necessary information
 let aws = require('aws-sdk');
 let dynadblib = require('./dynadb');
