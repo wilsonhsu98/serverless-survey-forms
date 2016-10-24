@@ -126,6 +126,7 @@ class Feedback extends PureComponent {
             itemID: item.id,
             key: idx,
             item: item,
+            paging: this.props.paging,
             pageDone: this.props.pageDone,
             requiredData: this.props.requiredData,
             onChangeHandle: this._onChangeHandle,

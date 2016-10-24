@@ -38,6 +38,17 @@ class Rating extends PureComponent {
         this._checkDone = this._checkDone.bind(this);
     }
 
+    componentWillUpdate(prevProps) {
+        if (prevProps.paging !== this.props.paging) {
+            this.setState({
+                selected: false,
+                rating: undefined,
+                reason: false,
+                feedbackArray: []
+            });
+        }
+    }
+
     render() {
         const { id, itemID, item, feedbackActions, pageDone } = this.props;
         return (
