@@ -58,7 +58,7 @@ export function finishEdit() {
     return (dispatch, getState) => {
         const { selectedUser } = getState();
         dispatch(setSurveyID(''));
-        dispatch(setSubject(''));
+        dispatch(setSubject('', ''));
         dispatch(setQuestionEditable(true));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
@@ -295,7 +295,7 @@ export function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
-        const { account, surveyID, subject, questions,
+        const { account, surveyID, subject, lang, questions,
             surveyPolicy, selectedUser, token } = getState();
         // save question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
@@ -345,7 +345,10 @@ export function saveQuestion() {
             survey: {
                 format: Config.surveyFormat,
                 content: genQuestions.toJS(),
-                thankyou: surveyPolicy }
+                thankyou: surveyPolicy },
+            l10n: {
+                basic: lang
+            }
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {

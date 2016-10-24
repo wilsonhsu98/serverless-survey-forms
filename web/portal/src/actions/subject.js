@@ -8,10 +8,11 @@ import { postSurvey, setSurveyID, saveQuestion } from './questions';
 import { expiredToken } from './account';
 import { setWebpage } from './webpage';
 
-export function setSubject(data) {
+export function setSubject(data, lang = 'en-US') {
     return {
         type: types.SET_SUBJECT,
-        subject: data
+        subject: data,
+        lang: lang
     };
 }
 
@@ -32,16 +33,19 @@ export function setSubjectFailure(err) {
     };
 }
 
-export function saveSubject(subject) {
+export function saveSubject(subject, lang) {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SET_SUBJECT });
         const { account, surveyPolicy, token } = getState();
         const postData = {
             subject: subject,
-            survey: { format: Config.surveyFormat, content: [], thankyou: surveyPolicy }
+            survey: { format: Config.surveyFormat, content: [], thankyou: surveyPolicy },
+            l10n: {
+                basic: lang
+            }
         };
 
-        dispatch(setSubject(subject));
+        dispatch(setSubject(subject, lang));
         return postSurvey(account.accountid, postData, token)
             .then(response => response.json())
             .then(data => {
@@ -60,9 +64,9 @@ export function saveSubject(subject) {
     };
 }
 
-export function editSubject(subject) {
+export function editSubject(subject, lang) {
     return (dispatch) => {
-        dispatch(setSubject(subject));
+        dispatch(setSubject(subject, lang));
         dispatch(saveQuestion())
         .then(() => {
             dispatch(openEdit(false));

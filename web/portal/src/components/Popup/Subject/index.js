@@ -122,6 +122,7 @@ class Subject extends PureComponent {
 
     _btnClickEvent(e) {
         const { surveyID, editSubjectActions, subjectActions } = this.props;
+        const { selectedLang } = this.state;
         const msg = document.getElementById('msg');
         msg.innerHTML = '';
 
@@ -134,9 +135,9 @@ class Subject extends PureComponent {
                 msg.innerHTML = 'Please fill subject name';
             } else {
                 if (!surveyID) {
-                    subjectActions.saveSubject(subject);
+                    subjectActions.saveSubject(subject, selectedLang);
                 } else {
-                    subjectActions.editSubject(subject);
+                    subjectActions.editSubject(subject, selectedLang);
                 }
             }
         }
