@@ -1,0 +1,8 @@
+/*
+ * Style for components/Text/index.js
+ */
+
+.inputItem input[type="text"] {
+    margin: 20px;
+    width: 90%;
+}

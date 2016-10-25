@@ -1,6 +1,7 @@
 
 // bootstrap css
 // import styles from './css/main.css';
+/* eslint no-unused-vars:0 */
 require('../css/main.css');
 
 import React from 'react';
@@ -122,10 +123,22 @@ const eventer = window[eventMethod];
 const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
 eventer(messageEvent, (e) => receiveClientMessage(e), false);
 
-// Tell Client that Qustom has initialized
-window.parent.postMessage({
-    source: window.location.origin,
-    msg: 'init'
-}, '*');
+if (window.MessageChannel) {
+    const onmessage = (e) => {
+        console.log('MessageChannel from client:', e.data);
+        // e.ports[0] is channel.port2, sent from the main frame
+        window.port2 = e.ports[0];
+        window.port2.postMessage({
+            source: window.location.origin,
+            msg: 'init'
+        });
+    };
+} else {
+    // Tell Client that Qustom has initialized
+    window.parent.postMessage({
+        source: window.location.origin,
+        msg: 'init'
+    }, '*');
+}
 
 export default App;

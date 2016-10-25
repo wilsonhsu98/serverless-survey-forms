@@ -50,7 +50,7 @@
     "postcss-assets": "^4.1.0",
     "postcss-gradientfixer": "0.0.6",
     "postcss-import": "^8.0.2",
-    "postcss-loader": "^0.8.2",
+    "postcss-loader": "^0.9.1",
     "postcss-mixins": "^5.0.0",
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^3.0.0",

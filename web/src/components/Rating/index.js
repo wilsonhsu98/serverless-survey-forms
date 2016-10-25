@@ -38,8 +38,19 @@ class Rating extends PureComponent {
         this._checkDone = this._checkDone.bind(this);
     }
 
+    componentWillUpdate(prevProps) {
+        if (prevProps.paging !== this.props.paging) {
+            this.setState({
+                selected: false,
+                rating: undefined,
+                reason: false,
+                feedbackArray: []
+            });
+        }
+    }
+
     render() {
-        const { id, item } = this.props;
+        const { id, itemID, item, feedbackActions, pageDone } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
@@ -47,7 +58,8 @@ class Rating extends PureComponent {
                     text={item.label}
                     required={item.required}
                 >
-                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                    {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
+                        <Error msg={I18Next.t('error_required')} /> : ''}
                 </Question>
                 <div className={styles.ratingWrapper}>
                     <ul className={styles.ratingGrp}>

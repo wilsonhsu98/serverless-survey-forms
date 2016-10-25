@@ -30,13 +30,13 @@ class SurveyList extends PureComponent {
         const { surveys, selectedSurveys } = this.props;
         let list = [];
         surveys.forEach((item, idx) => {
-            const title = !item.count ?
-                (<a
+            const title = (
+                <a
                     className="link ut-title"
                     data-id={item.surveyid}
+                    data-num={item.count}
                     onClick={this._onClickEdit}
-                >{item.subject}</a>) :
-                (<span className="link disabled ut-title">{item.subject}</span>);
+                >{item.subject}</a>);
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>
@@ -86,8 +86,17 @@ class SurveyList extends PureComponent {
     }
 
     _onClickEdit(e) {
-        const { questionsActions } = this.props;
-        questionsActions.getQuestion(e.currentTarget.getAttribute('data-id'));
+        const { selectedUser, questionsActions } = this.props;
+        const obj = e.currentTarget;
+        if (selectedUser.hasOwnProperty('accountid')) {
+            // Admin cannot edit other designer's survey
+            questionsActions.setQuestionEditable(false);
+        } else {
+            // change string to number
+            // if the feedback number is zero, change editable to true
+            questionsActions.setQuestionEditable(!+obj.getAttribute('data-num'));
+        }
+        questionsActions.getQuestion(obj.getAttribute('data-id'));
     }
 }
 

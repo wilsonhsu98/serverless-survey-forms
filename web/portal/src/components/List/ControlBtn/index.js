@@ -13,6 +13,7 @@ class ControlBtn extends PureComponent {
     constructor() {
         super();
         this._onDeleteSurveyClick = this._onDeleteSurveyClick.bind(this);
+        this._onClearFeedbacksClick = this._onClearFeedbacksClick.bind(this);
         this._onCopySurveyClick = this._onCopySurveyClick.bind(this);
         this._onAddSurveyClick = this._onAddSurveyClick.bind(this);
         this._onPreviewSurveyClick = this._onPreviewSurveyClick.bind(this);
@@ -26,6 +27,8 @@ class ControlBtn extends PureComponent {
             { id: 'shareBtn', string: 'Share', img: 'share', func: this._onPreviewSurveyClick },
             { id: 'reportBtn', string: 'Report', img: 'report', func: this._onReportSurveyClick },
             { id: 'copyBtn', string: 'Duplicate', img: 'report', func: this._onCopySurveyClick },
+            { id: 'clearBtn', string: 'Clear feedbacks', img: 'delete',
+                func: this._onClearFeedbacksClick },
             { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteSurveyClick }
         ];
         let btns = [];
@@ -33,7 +36,7 @@ class ControlBtn extends PureComponent {
             if (selectedUser.hasOwnProperty('accountid')) {
                 // selectedUser means it is Admin mode
                 // in Admin mode, administrator can't create / duplicate survey
-                if (idx !== 0 && idx !== 3 && selectedSurveys !== '') {
+                if ((idx === 1 || idx === 2) && selectedSurveys !== '') {
                     btns.push(
                         <IconButton
                             key={idx}
@@ -70,6 +73,11 @@ class ControlBtn extends PureComponent {
     _onAddSurveyClick() {
         const { editSubjectActions } = this.props;
         editSubjectActions.openEdit(true);
+    }
+
+    _onClearFeedbacksClick() {
+        const { popupActions } = this.props;
+        popupActions.setPopup('deleteAllFeedbacks');
     }
 
     _onDeleteSurveyClick() {

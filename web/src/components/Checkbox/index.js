@@ -51,7 +51,7 @@ class Checkbox extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, item, itemID, feedbackActions, pageDone } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
@@ -59,7 +59,8 @@ class Checkbox extends PureComponent {
                     text={item.label}
                     required={item.required}
                 >
-                    {!this.props.pageDone ? <Error msg={I18Next.t('error_required')} /> : ''}
+                    {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
+                        <Error msg={I18Next.t('error_required')} /> : ''}
                 </Question>
                 <div className="checkboxGrp">
                     {this._renderCheckboxItem()}

@@ -92,7 +92,10 @@ class Privacy extends PureComponent {
                                 />
                                 {
                                     this.state.error ?
-                                        <Error msg={I18Next.t(this.state.error)} /> : ''
+                                        <Error
+                                            msg={I18Next.t(this.state.error)}
+                                            extraClass={styles.error}
+                                        /> : ''
                                 }
                             </div>
                         </div>

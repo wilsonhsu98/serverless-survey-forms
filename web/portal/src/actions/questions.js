@@ -43,11 +43,23 @@ export function setSurveyID(data) {
     };
 }
 
+export function setQuestionEditable(flag) {
+    if (flag) {
+        return {
+            type: types.SET_EDITABLE
+        };
+    }
+    return {
+        type: types.SET_NOT_EDITABLE
+    };
+}
+
 export function finishEdit() {
     return (dispatch, getState) => {
         const { selectedUser } = getState();
         dispatch(setSurveyID(''));
         dispatch(setSubject(''));
+        dispatch(setQuestionEditable(true));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
         // TODOS: temporarily remove router
@@ -308,18 +320,20 @@ export function saveQuestion() {
                         values.PLACEHOLDER_TITLE);
                 }
                 genQuestions = genQuestions.setIn([pageIdx, 'question', queIdx, 'order'], idx);
-                que.get('data').forEach((opt, optIdx) => {
-                    if (opt.get('label') === '') {
-                        genQuestions = genQuestions.setIn(
-                            [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
-                            values.OPTION_TITLE);
-                    }
-                    if (opt.has('input') && opt.get('input') === '') {
-                        genQuestions = genQuestions.setIn(
-                            [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
-                            values.PLACEHOLDER_TITLE);
-                    }
-                });
+                if (que.has('data')) {
+                    que.get('data').forEach((opt, optIdx) => {
+                        if (opt.get('label') === '') {
+                            genQuestions = genQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
+                                values.OPTION_TITLE);
+                        }
+                        if (opt.has('input') && opt.get('input') === '') {
+                            genQuestions = genQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
+                                values.PLACEHOLDER_TITLE);
+                        }
+                    });
+                }
             });
         });
         dispatch({

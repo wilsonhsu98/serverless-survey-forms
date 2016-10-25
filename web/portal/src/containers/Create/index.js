@@ -11,6 +11,7 @@ import * as EditQuestionActions from '../../actions/editQuestion';
 import * as EditPageActions from '../../actions/editPage';
 import * as OrderPageActions from '../../actions/orderPage';
 import * as PreviewActions from '../../actions/preview';
+import * as PopupActions from '../../actions/popup';
 
 import Design from '../../components/Design';
 
@@ -36,7 +37,9 @@ function mapStateToProps(state) {
         editQuestion: state.editQuestion,
         editPage: state.editPage,
         orderPage: state.orderPage,
-        surveyPolicy: state.surveyPolicy
+        surveyEditable: state.surveyEditable,
+        surveyPolicy: state.surveyPolicy,
+        selectedUser: state.selectedUser
     };
 }
 
@@ -46,7 +49,8 @@ function mapDispatchToProps(dispatch) {
         editQuestionActions: bindActionCreators(EditQuestionActions, dispatch),
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
-        previewActions: bindActionCreators(PreviewActions, dispatch)
+        previewActions: bindActionCreators(PreviewActions, dispatch),
+        popupActions: bindActionCreators(PopupActions, dispatch)
         // pushActions: bindActionCreators(push, dispatch)
     };
 }

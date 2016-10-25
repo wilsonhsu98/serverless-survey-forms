@@ -149,6 +149,8 @@ export function handleReportHeader(survey, privacy) {
                 header.push(que.input);
             }
             break;
+        case 'text':
+        case 'textarea':
         default:
         }
     });
@@ -198,6 +200,10 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                             feedbackQue.data[0].input : '');
                     }
                     break;
+                case 'text':
+                case 'textarea':
+                    body.push(feedbackQue.data[0].input || '');
+                    break;
                 default:
                 }
             } else {
@@ -225,6 +231,8 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                         body.push('');
                     }
                     break;
+                case 'text':
+                case 'textarea':
                 default:
                 }
             }
@@ -332,5 +340,43 @@ export function copySurvey() {
                 }
             })
             .catch(err => dispatch(receiveQuestionsFailure(err)));
+    };
+}
+
+export function requestDeleteAllFeedbacksFailure(err) {
+    return (dispatch) => {
+        dispatch(expiredToken());
+        dispatch({
+            type: types.DELETE_ALLFEEDBACKS_FAILURE,
+            errorMsg: err
+        });
+    };
+}
+
+export function receiveDeleteAllFeedbacksSuccess() {
+    return {
+        type: types.DELETE_ALLFEEDBACKS_SUCCESS
+    };
+}
+
+export function deleteAllFeedbacks() {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_DELETE_ALLFEEDBACKS });
+        const { selectedSurveys, token } = getState();
+        return fetch(
+            // `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/feedbacks/${selectedSurveys}`, {
+                method: 'DELETE',
+                credentials: 'same-origin',
+                headers: {
+                    authorization: token
+                }
+            })
+            .then(response => response.json())
+            .then(() => {
+                dispatch(receiveDeleteAllFeedbacksSuccess());
+                dispatch(getSurveys());
+            })
+            .catch(err => dispatch(requestDeleteAllFeedbacksFailure(err)));
     };
 }
