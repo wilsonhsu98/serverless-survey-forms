@@ -111,7 +111,7 @@ class App extends PureComponent {
 if (window.MessageChannel) {
     // Message Channel
     window.onmessage = (e) => {
-        console.log('Message Channel from Client: ', e.data);
+        console.log('Init: Message Channel from Client: ', e.data);
         // Store client prefilling info
         if (e.data) {
             store.dispatch(SurveyActions.savePrefill(e.data));
@@ -126,7 +126,7 @@ if (window.MessageChannel) {
     const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
     eventer(messageEvent, (e) => {
         if (e.origin !== e.data.source) return;
-        console.log('Post Message received from Client:  ', e.data);
+        console.log('Init: Post Message received from Client:  ', e.data);
         // Store client prefilling info
         if (e.data) {
             store.dispatch(SurveyActions.savePrefill(e.data));
