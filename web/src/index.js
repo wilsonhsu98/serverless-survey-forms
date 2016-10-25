@@ -108,37 +108,30 @@ class App extends PureComponent {
     }
 }
 
-function receiveClientMessage(e) {
-    if (e.origin !== e.data.source) return;
-    console.log('Message received from Client!:  ', e.data);
-    // Store client prefilling info
-    if (e.data) {
-        store.dispatch(SurveyActions.savePrefill(e.data));
-    }
-}
-
-// Create IE + others compatible event handler
-const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-const eventer = window[eventMethod];
-const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-eventer(messageEvent, (e) => receiveClientMessage(e), false);
-
 if (window.MessageChannel) {
+    // Message Channel
     window.onmessage = (e) => {
-        console.log('MessageChannel from client:', e.data);
+        console.log('Message Channel from Client: ', e.data);
+        // Store client prefilling info
+        if (e.data) {
+            store.dispatch(SurveyActions.savePrefill(e.data));
+        }
         // e.ports[0] is channel.port2, sent from the main frame
         window.port2 = e.ports[0];
-        window.port2.postMessage({
-            source: window.location.origin,
-            msg: 'init'
-        });
     };
 } else {
-    // Tell Client that Qustom has initialized
-    window.parent.postMessage({
-        source: window.location.origin,
-        msg: 'init'
-    }, '*');
+    // Post Message
+    const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+    const eventer = window[eventMethod];
+    const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+    eventer(messageEvent, (e) => {
+        if (e.origin !== e.data.source) return;
+        console.log('Post Message received from Client:  ', e.data);
+        // Store client prefilling info
+        if (e.data) {
+            store.dispatch(SurveyActions.savePrefill(e.data));
+        }
+    }, false);
 }
 
 export default App;

@@ -208,7 +208,7 @@ class Feedback extends PureComponent {
     }
 
     _onClose() {
-        this.props.feedbackActions.sendMsgToCient('close', {
+        this.props.feedbackActions.sendMsgToClient('close', {
             page: this.props.done ? this.props.paging + 1 : this.props.paging
         });
     }

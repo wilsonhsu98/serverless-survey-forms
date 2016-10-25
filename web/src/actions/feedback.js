@@ -64,9 +64,6 @@ export function saveFeedback() {
                 throw new Error('Bad response from server');
             }
             console.log(`POST Feedback from ${clientID}`, response);
-            // TODO: postMessage to client
-            // window.parent.postMessage(`POST Feedback from ${clientID}`,
-                // window.parent.location.origin);
         });
     };
 }
@@ -98,11 +95,9 @@ export function updateFeedback(closeWhenDone, privacyData) {
             }
             console.log(`UPDATE Feedback from ${clientID}`, response);
             if (closeWhenDone) {
-                window.parent.postMessage({
-                    source: window.location.origin,
-                    msg: 'close',
+                dispatch(sendMsgToClient('close', {
                     page: getState().paging
-                }, '*');
+                }));
             }
         });
     };
@@ -163,11 +158,9 @@ export function checkRequired(action, page) {
                     }
                 }
                 // Send 'next' msg to client
-                window.parent.postMessage({
-                    source: window.location.origin,
-                    msg: 'next',
+                dispatch(sendMsgToClient('next', {
                     page: getState().paging
-                }, '*');
+                }));
                 if (page) {
                     dispatch(surveyActions.goToPage(page));
                     dispatch(setRequired(page));
@@ -182,11 +175,9 @@ export function checkRequired(action, page) {
                     }
                 }
                 // Send 'done' msg to client
-                window.parent.postMessage({
-                    source: window.location.origin,
-                    msg: 'done',
+                dispatch(sendMsgToClient('done', {
                     page: getState().paging
-                }, '*');
+                }));
                 dispatch(surveyActions.surveyDone());
                 break;
             default:
@@ -223,20 +214,18 @@ export function checkDone(id) {
     };
 }
 
-export function sendMsgToCient(msg, extraInfo) {
+export function sendMsgToClient(msg, extraInfo) {
     return () => {
         const data = Object.assign({}, {
             source: window.location.origin,
             msg: msg
         }, extraInfo);
 
-        console.log('Send to client data: ', data);
-
         if (window.port2) {
-            console.log('Send msg to client via MessageChannel');
+            console.log('Send msg to client via MessageChannel', window.port2, data);
             window.port2.postMessage(data);
         } else {
-            console.log('Send msg to client via window.parent');
+            console.log('Send msg to client via window.parent', data);
             window.parent.postMessage(data, '*');
         }
     };
