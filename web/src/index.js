@@ -124,7 +124,7 @@ const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
 eventer(messageEvent, (e) => receiveClientMessage(e), false);
 
 if (window.MessageChannel) {
-    const onmessage = (e) => {
+    window.onmessage = (e) => {
         console.log('MessageChannel from client:', e.data);
         // e.ports[0] is channel.port2, sent from the main frame
         window.port2 = e.ports[0];
