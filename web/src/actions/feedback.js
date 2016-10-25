@@ -222,3 +222,22 @@ export function checkDone(id) {
         return done;
     };
 }
+
+export function sendMsgToCient(msg, extraInfo) {
+    return () => {
+        const data = Object.assign({}, {
+            source: window.location.origin,
+            msg: msg
+        }, extraInfo);
+
+        console.log('Send to client data: ', data);
+
+        if (window.port2) {
+            console.log('Send msg to client via MessageChannel');
+            window.port2.postMessage(data);
+        } else {
+            console.log('Send msg to client via window.parent');
+            window.parent.postMessage(data, '*');
+        }
+    };
+}

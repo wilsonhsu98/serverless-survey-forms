@@ -208,11 +208,9 @@ class Feedback extends PureComponent {
     }
 
     _onClose() {
-        window.parent.postMessage({
-            source: window.location.origin,
-            msg: 'close',
+        this.props.feedbackActions.sendMsgToCient('close', {
             page: this.props.done ? this.props.paging + 1 : this.props.paging
-        }, '*');
+        });
     }
 }
 
