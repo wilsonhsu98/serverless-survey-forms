@@ -480,10 +480,63 @@ export function getQuestion(surveyID) {
             .then(response => response.json())
             .then(data => {
                 if (data.surveyid) {
-                    dispatch(setSubject(data.subject));
-                    dispatch(setSurveyPolicy(data.survey.thankyou));
-                    dispatch(receiveQuestionsSuccess(data.survey.content));
-                    dispatch(setSurveyID(data.surveyid));
+                    const { surveyid, subject, survey, l10n } = data;
+                    if (survey.hasOwnProperty('format') && survey.format === 'v2') {
+                        // Question format v2
+                        // replace string from l10n to content
+                        const langMapping = l10n[l10n.basic];
+                        let genQuestions = Immutable.fromJS(survey.content);
+                        let seq = [];
+                        genQuestions.forEach((page, pageIdx) => {
+                            // set page description
+                            seq = [pageIdx, 'description'];
+                            genQuestions = genQuestions.setIn(
+                                seq, langMapping[genQuestions.getIn(seq)]
+                            );
+                            // handle each question
+                            page.get('question').forEach((que, queIdx) => {
+                                // set question title
+                                seq = [pageIdx, 'question', queIdx, 'label'];
+                                genQuestions = genQuestions.setIn(
+                                    seq, langMapping[genQuestions.getIn(seq)]
+                                );
+                                if (que.has('input')) {
+                                    // set question input
+                                    seq = [pageIdx, 'question', queIdx, 'input'];
+                                    genQuestions = genQuestions.setIn(
+                                        seq, langMapping[genQuestions.getIn(seq)]
+                                    );
+                                }
+                                if (que.has('data')) {
+                                    // handle each question option
+                                    que.get('data').forEach((opt, optIdx) => {
+                                        // set question option
+                                        seq = [pageIdx, 'question', queIdx,
+                                            'data', optIdx, 'label'];
+                                        genQuestions = genQuestions.setIn(
+                                            seq, langMapping[genQuestions.getIn(seq)]
+                                        );
+                                        if (opt.has('input')) {
+                                            // set question option
+                                            seq = [pageIdx, 'question', queIdx,
+                                                'data', optIdx, 'input'];
+                                            genQuestions = genQuestions.setIn(
+                                                seq, langMapping[genQuestions.getIn(seq)]
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                        dispatch(setSubject(langMapping.subject, l10n.basic));
+                        dispatch(setSurveyPolicy(survey.thankyou));
+                        dispatch(receiveQuestionsSuccess(genQuestions.toJS()));
+                    } else {
+                        dispatch(setSubject(subject));
+                        dispatch(setSurveyPolicy(survey.thankyou));
+                        dispatch(receiveQuestionsSuccess(survey.content));
+                    }
+                    dispatch(setSurveyID(surveyid));
                     // TODOS: temporarily remove router
                     // dispatch(push('/create'));
                     if (selectedUser.hasOwnProperty('accountid')) {
