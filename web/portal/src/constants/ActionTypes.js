@@ -37,6 +37,7 @@ export const INIT_SURVEY_POLICY = 'INIT_SURVEY_POLICY';
 export const UPDATE_QUESTIONS = 'UPDATE_QUESTIONS';
 export const SET_EDITABLE = 'SET_EDITABLE';
 export const SET_NOT_EDITABLE = 'SET_NOT_EDITABLE';
+export const SET_SURVEY_L10N = 'SET_SURVEY_L10N';
 
 // dropQuestion
 export const SET_DROP_QUESTION = 'SET_DROP_QUESTION';

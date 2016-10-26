@@ -278,6 +278,17 @@ export function exchangePage() {
     };
 }
 
+export function setSurveyL10n(l10n) {
+    const surveyL10n = Object.assign({}, l10n);
+    if (surveyL10n.hasOwnProperty('basic')) {
+        delete surveyL10n.basic;
+    }
+    return {
+        type: types.SET_SURVEY_L10N,
+        surveyL10n
+    };
+}
+
 export function saveQuestionsSuccess() {
     return {
         type: types.SAVE_QUESTIONS_SUCCESS
@@ -297,7 +308,7 @@ export function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
-        const { account, surveyID, subject, lang, questions,
+        const { account, surveyID, subject, lang, surveyL10n, questions,
             surveyPolicy, selectedUser, token } = getState();
         // save question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
@@ -388,6 +399,7 @@ export function saveQuestion() {
             });
         });
 
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang, [lang]: l10n });
         const postData = {
             subject: subject,
             survey: {
@@ -395,10 +407,7 @@ export function saveQuestion() {
                 content: l10nQuestions.toJS(),
                 thankyou: surveyPolicy
             },
-            l10n: {
-                basic: lang,
-                [lang]: l10n
-            }
+            l10n: newL10n
         };
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
@@ -528,6 +537,7 @@ export function getQuestion(surveyID) {
                                 }
                             });
                         });
+                        dispatch(setSurveyL10n(l10n));
                         dispatch(setSubject(langMapping.subject, l10n.basic));
                         dispatch(setSurveyPolicy(survey.thankyou));
                         dispatch(receiveQuestionsSuccess(genQuestions.toJS()));

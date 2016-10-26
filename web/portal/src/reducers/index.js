@@ -15,6 +15,7 @@
     surveyID: '',
     subject: '',
     lang: '',
+    surveyL10n: {},
     questions: [{},{},...],
     dropQuestion: { page: 1, index: 0 },
     editSubject: true/false,
@@ -49,6 +50,7 @@ import account from './account';
 import surveyID from './surveyID';
 import subject from './subject';
 import lang from './lang';
+import surveyL10n from './surveyL10n';
 import questions from './questions';
 import dropQuestion from './dropQuestion';
 import editSubject from './editSubject';
@@ -73,6 +75,7 @@ const rootReducer = combineReducers({
     surveyID,
     subject,
     lang,
+    surveyL10n,
     questions,
     dropQuestion,
     editSubject,
