@@ -346,14 +346,58 @@ export function saveQuestion() {
             type: types.UPDATE_QUESTIONS,
             questions: genQuestions.toJS()
         });
+        // Question format v2
+        // replace string to l10n key, and generate l10n json
+        // l10n needs to be reducers, record original l10n data, maybe editL10n & editLang
+        const l10n = { subject };
+        let l10nQuestions = genQuestions;
+        l10nQuestions.forEach((page, pageIdx) => {
+            // add page description
+            Object.assign(l10n, { [page.get('id')]: page.get('description') });
+            l10nQuestions = l10nQuestions.setIn([pageIdx, 'description'], page.get('id'));
+            // handle each question
+            page.get('question').forEach((que, queIdx) => {
+                // add question title
+                Object.assign(l10n, { [que.get('id')]: que.get('label') });
+                l10nQuestions = l10nQuestions.setIn(
+                    [pageIdx, 'question', queIdx, 'label'], que.get('id'));
+                if (que.has('input')) {
+                    // add question input
+                    Object.assign(l10n, { [`${que.get('id')}_INPUT`]: que.get('input') });
+                    l10nQuestions = l10nQuestions.setIn(
+                        [pageIdx, 'question', queIdx, 'input'], `${que.get('id')}_INPUT`);
+                }
+                if (que.has('data')) {
+                    // handle each question option
+                    que.get('data').forEach((opt, optIdx) => {
+                        // add question option
+                        Object.assign(l10n, { [opt.get('value')]: opt.get('label') });
+                        l10nQuestions = l10nQuestions.setIn(
+                            [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
+                            opt.get('value'));
+                        if (opt.has('input')) {
+                            // add question option
+                            Object.assign(l10n,
+                                { [`${opt.get('value')}_INPUT`]: opt.get('input') });
+                            l10nQuestions = l10nQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
+                                `${opt.get('value')}_INPUT`);
+                        }
+                    });
+                }
+            });
+        });
+
         const postData = {
             subject: subject,
             survey: {
                 format: Config.surveyFormat,
-                content: genQuestions.toJS(),
-                thankyou: surveyPolicy },
+                content: l10nQuestions.toJS(),
+                thankyou: surveyPolicy
+            },
             l10n: {
-                basic: lang
+                basic: lang,
+                [lang]: l10n
             }
         };
 

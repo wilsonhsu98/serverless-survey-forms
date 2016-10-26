@@ -39,9 +39,16 @@ export function saveSubject(subject, lang) {
         const { account, surveyPolicy, token } = getState();
         const postData = {
             subject: subject,
-            survey: { format: Config.surveyFormat, content: [], thankyou: surveyPolicy },
+            survey: {
+                format: Config.surveyFormat,
+                content: [],
+                thankyou: surveyPolicy
+            },
             l10n: {
-                basic: lang
+                basic: lang,
+                [lang]: {
+                    subject
+                }
             }
         };
 
