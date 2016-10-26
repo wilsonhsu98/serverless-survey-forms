@@ -10,6 +10,6 @@
     margin-left: 20px;
 }
 
-.textarea input[type="text"]:-ms-input-placeholder {
+.textarea:-ms-input-placeholder {
     color: #aaa;
 }

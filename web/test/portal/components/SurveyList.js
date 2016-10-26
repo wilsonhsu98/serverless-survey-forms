@@ -51,10 +51,11 @@ describe('[Portal] Testing SurveyList Component', () => {
         expect(count[1].textContent).toEqual(props.surveys[1].count);
     });
 
-    it('survey list: if survey has feedback, it cannot edit', () => {
+    it('survey list: if this survey has feedback, it cannot edit', () => {
         const title = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-title');
-        expect(title[0].classList).toMatch({ 1: 'disabled'});
-        expect(title[0].classList.length).toEqual(3);
+        expect(title[0].getAttribute('data-num')).toMatch(10);
+        expect(title[1].getAttribute('data-num')).toMatch(0);
+        expect(title[0].classList.length).toEqual(2);
         expect(title[1].classList.length).toEqual(2);
     });
 
