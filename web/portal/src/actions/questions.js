@@ -193,6 +193,7 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
 export function addPage(page) {
     const newPage = {
         page: page,
+        id: Mixins.generateQuestionID(),
         description: values.PAGE_TITLE,
         question: []
     };
@@ -207,6 +208,7 @@ export function copyPage(pageId) {
     return (dispatch, getState) => {
         const originQuestions = Immutable.fromJS(getState().questions);
         let newPage = originQuestions.get(pageId - 1);
+        newPage = newPage.set('id', Mixins.generateQuestionID());
         newPage.get('question').forEach((que, queIdx) => {
             newPage = newPage.updateIn(
                 ['question', queIdx, 'id'],
@@ -304,6 +306,10 @@ export function saveQuestion() {
         // generate order number
         let idx = 0;
         genQuestions.forEach((page, pageIdx) => {
+            // If there is no 'id', create one
+            if (!page.has('id')) {
+                genQuestions = genQuestions.setIn([pageIdx, 'id'], Mixins.generateQuestionID());
+            }
             if (page.get('description') === '') {
                 genQuestions = genQuestions.setIn([pageIdx, 'description'], values.PAGE_TITLE);
             }
