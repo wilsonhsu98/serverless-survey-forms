@@ -308,7 +308,8 @@ export function postCopiedSurvey(questions) {
         const { account, token } = getState();
         const postData = {
             subject: questions.subject,
-            survey: questions.survey
+            survey: questions.survey,
+            l10n: questions.l10n || {}
         };
 
         return postSurvey(account.accountid, postData, token)
