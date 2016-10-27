@@ -14,8 +14,9 @@
 		},
     surveyID: '',
     subject: '',
-    lang: '',
+    lang: 'en-US',
     surveyL10n: {},
+    surveyVersion: 'v2',
     questions: [{},{},...],
     dropQuestion: { page: 1, index: 0 },
     editSubject: true/false,
@@ -51,6 +52,7 @@ import surveyID from './surveyID';
 import subject from './subject';
 import lang from './lang';
 import surveyL10n from './surveyL10n';
+import surveyVersion from './surveyVersion';
 import questions from './questions';
 import dropQuestion from './dropQuestion';
 import editSubject from './editSubject';
@@ -76,6 +78,7 @@ const rootReducer = combineReducers({
     subject,
     lang,
     surveyL10n,
+    surveyVersion,
     questions,
     dropQuestion,
     editSubject,

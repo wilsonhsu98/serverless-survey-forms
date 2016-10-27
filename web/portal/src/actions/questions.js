@@ -289,6 +289,13 @@ export function setSurveyL10n(l10n) {
     };
 }
 
+export function setSurveyVersion(surveyVersion) {
+    return {
+        type: types.SET_SURVEY_VERSION,
+        surveyVersion
+    };
+}
+
 export function saveQuestionsSuccess() {
     return {
         type: types.SAVE_QUESTIONS_SUCCESS
@@ -538,11 +545,13 @@ export function getQuestion(surveyID) {
                             });
                         });
                         dispatch(setSurveyL10n(l10n));
+                        dispatch(setSurveyVersion(survey.format));
                         dispatch(setSubject(langMapping.subject, l10n.basic));
                         dispatch(setSurveyPolicy(survey.thankyou));
                         dispatch(receiveQuestionsSuccess(genQuestions.toJS()));
                     } else {
                         dispatch(setSubject(subject));
+                        dispatch(setSurveyVersion('v1'));
                         dispatch(setSurveyPolicy(survey.thankyou));
                         dispatch(receiveQuestionsSuccess(survey.content));
                     }
