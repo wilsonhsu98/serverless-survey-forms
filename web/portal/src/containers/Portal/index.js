@@ -39,14 +39,15 @@ export class Portal extends PureComponent {
     }
 
     render() {
-        const { account, loading, subject, lang, surveyID, preview, previewID,
-            selectedUser, webpage, popup,
+        const { account, loading, subject, lang, surveyID, surveyVersion,
+            preview, previewID, selectedUser, webpage, popup,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions, usersActions,
             webpageActions, surveysActions, popupActions } = this.props;
         const headProps = {
             account,
             subject,
+            surveyVersion,
             selectedUser,
             webpage,
             editSubjectActions,
@@ -135,6 +136,7 @@ function mapStateToProps(state) {
         subject: state.subject,
         lang: state.lang,
         surveyID: state.surveyID,
+        surveyVersion: state.surveyVersion,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,

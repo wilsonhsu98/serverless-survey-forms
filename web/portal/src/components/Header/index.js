@@ -22,7 +22,7 @@ class Header extends PureComponent {
     }
 
     render() {
-        const { account, subject, selectedUser, webpage } = this.props;
+        const { account, subject, surveyVersion, selectedUser, webpage } = this.props;
         const { isMenuOpen } = this.state;
         let content;
         let profile;
@@ -88,13 +88,17 @@ class Header extends PureComponent {
                                 onClick={this._changeTabClick}
                             >Build</div>
                         </div>
-                        <div className={styles.build}>
-                            <div
-                                className={classNames(classSetL10N)}
-                                data-type="l10n"
-                                onClick={this._changeTabClick}
-                            >L10N</div>
-                        </div>
+                        {
+                            surveyVersion !== 'v1' ?
+                            (<div className={styles.build}>
+                                <div
+                                    className={classNames(classSetL10N)}
+                                    data-type="l10n"
+                                    onClick={this._changeTabClick}
+                                >L10N</div>
+                            </div>)
+                            : ''
+                        }
                     </div>
                 </div>
             );
