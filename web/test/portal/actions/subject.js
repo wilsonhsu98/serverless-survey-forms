@@ -68,7 +68,8 @@ describe('[Portal] subject action', () => {
                 thankyou: surveyPolicy
             },
             l10n: {
-                basic: lang
+                basic: lang,
+                [lang]: { subject }
             }
         };
 
@@ -110,11 +111,19 @@ describe('[Portal] subject action', () => {
         const surveyID = '1111-2222-3333';
         const subject = 'Hello World';
         const lang = 'en-US';
+        const surveyVersion = Config.surveyFormat;
         const questions = [ {
                 page: 1,
+                id: '1B02QVCJ3AQFSP9829GUY',
                 description: 'I am Page 1',
                 question: []
             } ];
+        const surveyL10n = {
+            [lang]: {
+                subject,
+                '1B02QVCJ3AQFSP9829GUY': 'I am Page 1'
+            }
+        };
         const surveyPolicy = {};
         const selectedUser = {};
         const token = 'xxxxxxx';
@@ -123,22 +132,30 @@ describe('[Portal] subject action', () => {
             subject: subject,
             survey: {
                 format: Config.surveyFormat,
-                content: questions,
+                content: [{
+                    page: 1,
+                    id: '1B02QVCJ3AQFSP9829GUY',
+                    description: '1B02QVCJ3AQFSP9829GUY',
+                    question: []
+                }],
                 thankyou: surveyPolicy
             },
             l10n: {
-                basic: lang
+                basic: lang,
+                surveyL10n
             }
         };
 
-        const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
+        const store = mockStore({ account, surveyID, lang, subject, surveyL10n: {}, surveyVersion,
+            questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
             { type: types.SET_SUBJECT, subject, lang },
             { type: types.REQUEST_SAVE_QUESTION },
             {
                 type: types.UPDATE_QUESTIONS,
                 questions: questions
-            }
+            },
+            { type: types.SET_SURVEY_L10N, surveyL10n }
         ];
 
         store.dispatch(actions.editSubject(subject, lang));
