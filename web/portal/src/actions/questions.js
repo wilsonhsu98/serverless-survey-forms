@@ -315,7 +315,7 @@ export function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
-        const { account, surveyID, subject, lang, surveyL10n, questions,
+        const { account, surveyID, subject, lang, surveyL10n, surveyVersion, questions,
             surveyPolicy, selectedUser, token } = getState();
         // save question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
@@ -360,6 +360,7 @@ export function saveQuestion() {
                 }
             });
         });
+        // update survey
         dispatch({
             type: types.UPDATE_QUESTIONS,
             questions: genQuestions.toJS()
@@ -416,6 +417,12 @@ export function saveQuestion() {
             },
             l10n: newL10n
         };
+        // update survey version
+        if (surveyVersion !== Config.surveyFormat) {
+            dispatch(setSurveyVersion(Config.surveyFormat));
+        }
+        // update survey l10n
+        dispatch(setSurveyL10n(newL10n));
 
         return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
             method: 'PUT',
