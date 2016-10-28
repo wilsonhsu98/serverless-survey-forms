@@ -24,8 +24,13 @@
         color: #22727F;
         letter-spacing: -0.72px;
         padding-left: 36px;
-        &.editable:hover {
-            text-decoration: underline;
+        .line {
+            border: none;
+            height: 2px;
+        }
+        &.editable:hover .line {
+            border: 1px solid #22727F;
+            height: 0;
         }
     }
     .control {
