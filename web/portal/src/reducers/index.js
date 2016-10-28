@@ -25,6 +25,7 @@
     orderPage: [],
     surveys: [{},{},...],
     selectedSurveys: '',
+    selectedL10n: '',
     surveyEditable: true,
     surveyPolicy: {
         description: "Thanks for ...",
@@ -61,6 +62,7 @@ import editPage from './editPage';
 import orderPage from './orderPage';
 import surveys from './surveys';
 import selectedSurveys from './selectedSurveys';
+import selectedL10n from './selectedL10n';
 import surveyEditable from './surveyEditable';
 import surveyPolicy from './surveyPolicy';
 import preview from './preview';
@@ -87,6 +89,7 @@ const rootReducer = combineReducers({
     orderPage,
     surveys,
     selectedSurveys,
+    selectedL10n,
     surveyEditable,
     surveyPolicy,
     preview,

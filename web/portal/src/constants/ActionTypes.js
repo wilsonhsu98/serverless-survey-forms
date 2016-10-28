@@ -113,3 +113,7 @@ export const SET_WEBPAGE = 'SET_WEBPAGE';
 // popup
 export const SET_POPUP = 'SET_POPUP';
 export const CLOSE_POPUP = 'CLOSE_POPUP';
+
+// selected l10n
+export const ADD_SELECTED_L10N = 'ADD_SELECTED_L10N';
+export const REMOVE_SELECTED_L10N = 'REMOVE_SELECTED_L10N';

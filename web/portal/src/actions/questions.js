@@ -594,3 +594,18 @@ export function stopDropQuestion() {
         type: types.STOP_DROP_QUESTION
     };
 }
+
+export function toggleSelectedL10n(data) {
+    return (dispatch, getState) => {
+        if (getState().selectedL10n === data) {
+            dispatch({
+                type: types.REMOVE_SELECTED_L10N
+            });
+        } else {
+            dispatch({
+                type: types.ADD_SELECTED_L10N,
+                selectedL10n: data
+            });
+        }
+    };
+}
