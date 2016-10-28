@@ -515,9 +515,10 @@ export function getQuestion(surveyID) {
                         let seq = [];
                         genQuestions.forEach((page, pageIdx) => {
                             // set page description
+                            // If there is no description, use one whitespace
                             seq = [pageIdx, 'description'];
                             genQuestions = genQuestions.setIn(
-                                seq, langMapping[genQuestions.getIn(seq)]
+                                seq, langMapping[genQuestions.getIn(seq)] || ' '
                             );
                             // handle each question
                             page.get('question').forEach((que, queIdx) => {
