@@ -368,18 +368,17 @@ describe('[Portal] questions action', () => {
         const surveyL10n = {
             [lang]: {
                 subject,
-                '1B02N4NJA6FMHZFEVLJT0': values.PAGE_TITLE,
                 '1AN2AL0F9BNA7A': 'Testing question text',
                 '1AN2AL0F9BNA7A_INPUT': 'Tell us the reason why you choose this answer',
                 '1APPJND2CYA3FQEBJ3K7O': 'Dissatisfied',
                 '1APPJND2CYBHCD9V0FEBA': 'Satisfied'
             }
         };
-        const newQuestions = [Object.assign({}, questions[0], { description: values.PAGE_TITLE })];
+        const newQuestions = [Object.assign({}, questions[0], { description: ' ' })];
         const l10nQuestions = [{
             page: 1,
             id: '1B02N4NJA6FMHZFEVLJT0',
-            description: '1B02N4NJA6FMHZFEVLJT0',
+            description: ' ',
             question: [{
                 id: '1AN2AL0F9BNA7A',
                 order: 1,
@@ -404,7 +403,6 @@ describe('[Portal] questions action', () => {
                 basic: lang,
                 [lang]: {
                     subject,
-                    '1B02N4NJA6FMHZFEVLJT0': values.PAGE_TITLE,
                     '1AN2AL0F9BNA7A': 'Testing question text',
                     '1AN2AL0F9BNA7A_INPUT': 'Tell us the reason why you choose this answer',
                     '1APPJND2CYA3FQEBJ3K7O': 'Dissatisfied',

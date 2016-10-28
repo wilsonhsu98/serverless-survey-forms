@@ -329,7 +329,8 @@ export function saveQuestion() {
                 genQuestions = genQuestions.setIn([pageIdx, 'id'], Mixins.generateQuestionID());
             }
             if (page.get('description') === '') {
-                genQuestions = genQuestions.setIn([pageIdx, 'description'], values.PAGE_TITLE);
+                // If description is empty, use one whitespace for DynamoDB limitation
+                genQuestions = genQuestions.setIn([pageIdx, 'description'], ' ');
             }
             page.get('question').forEach((que, queIdx) => {
                 idx ++;
@@ -372,8 +373,10 @@ export function saveQuestion() {
         let l10nQuestions = genQuestions;
         l10nQuestions.forEach((page, pageIdx) => {
             // add page description
-            Object.assign(l10n, { [page.get('id')]: page.get('description') });
-            l10nQuestions = l10nQuestions.setIn([pageIdx, 'description'], page.get('id'));
+            if (page.get('description') !== ' ') {
+                Object.assign(l10n, { [page.get('id')]: page.get('description') });
+                l10nQuestions = l10nQuestions.setIn([pageIdx, 'description'], page.get('id'));
+            }
             // handle each question
             page.get('question').forEach((que, queIdx) => {
                 // add question title
