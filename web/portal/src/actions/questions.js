@@ -457,17 +457,15 @@ export function setSurveyPolicy(data) {
 
 export function editSurveyPolicy(flag) {
     const data = {
-        description: 'Thanks for sharing your feedback with Trend Micro.',
+        description: 'privacy_description',
         privacy: {}
     };
 
     if (flag) {
-        const label = 'If Trend Micro has a follow-up survey on the Email Scan,'
-            + ' would you like to participate?';
         const privacy = {
-            label: label,
-            terms: 'Yes, Trend Micro can reach me at this address: ',
-            input: 'Please enter your email address.'
+            label: 'privacy_label',
+            terms: 'privacy_terms',
+            input: 'privacy_input'
         };
         data.privacy = privacy;
     }

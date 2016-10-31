@@ -458,7 +458,7 @@ describe('[Portal] questions action', () => {
         const subject = 'Hello World';
         const lang = 'en-US';
         const surveyPolicy = {
-            description: 'Thanks for sharing your feedback with Trend Micro.',
+            description: 'privacy_description',
             privacy: {}
         };
         const selectedUser = {};
@@ -474,11 +474,11 @@ describe('[Portal] questions action', () => {
             {
                 type: types.SET_SURVEY_POLICY,
                 surveyPolicy: {
-                    description: 'Thanks for sharing your feedback with Trend Micro.',
+                    description: 'privacy_description',
                     privacy: {
-                        label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-                        terms: 'Yes, Trend Micro can reach me at this address: ',
-                        input: 'Please enter your email address.'
+                        label: 'privacy_label',
+                        terms: 'privacy_terms',
+                        input: 'privacy_input'
                     }
                 }
             },
