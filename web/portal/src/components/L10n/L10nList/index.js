@@ -28,15 +28,16 @@ class L10nList extends PureComponent {
     }
 
     _renderList() {
-        const { surveyL10n, selectedL10n } = this.props;
+        const { lang, surveyL10n, selectedL10n } = this.props;
         let list = [];
-        Object.keys(surveyL10n).forEach((item, idx) => {
+        Object.keys(surveyL10n).sort().forEach((item, idx) => {
+            const basic = lang === item ? ' (default)' : '';
             const language = (
                 <a
                     className="link ut-title"
                     data-id={item}
                     onClick={this._onClickEdit}
-                >{item}</a>);
+                >{item}{basic}</a>);
             const tr = (
                 <tr key={idx}>
                     <td className={styles.subject}>

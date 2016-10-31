@@ -17,7 +17,7 @@ class ControlBtn extends PureComponent {
     }
 
     render() {
-        const { selectedL10n } = this.props;
+        const { lang, selectedL10n } = this.props;
         const btnsData = [
             { id: 'importBtn', string: 'Import', img: '', func: this._onImportL10nClick },
             { id: 'exportBtn', string: 'Export', img: 'report', func: this._onExportL10nClick },
@@ -26,15 +26,17 @@ class ControlBtn extends PureComponent {
         let btns = [];
         btnsData.forEach((btn, idx) => {
             if (idx === 0 || (idx !== 0 && selectedL10n !== '')) {
-                btns.push(
-                    <IconButton
-                        key={idx}
-                        id={btn.id}
-                        string={btn.string}
-                        i18nKey={false}
-                        img={btn.img}
-                        onClick={btn.func}
-                    />);
+                if (lang !== selectedL10n || idx !== 2) {
+                    btns.push(
+                        <IconButton
+                            key={idx}
+                            id={btn.id}
+                            string={btn.string}
+                            i18nKey={false}
+                            img={btn.img}
+                            onClick={btn.func}
+                        />);
+                }
             }
         });
 
@@ -54,11 +56,11 @@ class ControlBtn extends PureComponent {
     }
 
     _onDeleteL10nClick() {
-        const { lang, selectedL10n } = this.props;
+        const { lang, selectedL10n, questionsActions } = this.props;
         if (lang === selectedL10n) {
-            console.log('You can\'t delete basic language.');
             return;
         }
+        questionsActions.deleteSelectedL10n();
     }
 }
 

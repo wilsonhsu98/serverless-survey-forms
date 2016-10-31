@@ -54,8 +54,10 @@ class Create extends PureComponent {
                     <ControlBtn
                         lang={lang}
                         selectedL10n={selectedL10n}
+                        questionsActions={questionsActions}
                     />
                     <L10nList
+                        lang={lang}
                         surveyL10n={surveyL10n}
                         selectedL10n={selectedL10n}
                         questionsActions={questionsActions}

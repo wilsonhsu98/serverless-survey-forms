@@ -26,6 +26,18 @@ export function postSurvey(accountid, postData, token) {
     });
 }
 
+export function putSurvey(accountid, surveyID, postData, token) {
+    return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token
+        },
+        body: JSON.stringify(postData)
+    });
+}
+
 export function getOneSurvey(accountid, surveyID) {
     return fetch(`${Config.baseURL}/api/v1/surveys/${accountid}/${surveyID}`, {
         method: 'GET',
@@ -427,24 +439,16 @@ export function saveQuestion() {
         // update survey l10n
         dispatch(setSurveyL10n(newL10n));
 
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
-            method: 'PUT',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: token
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.datetime) {
-                dispatch(saveQuestionsSuccess());
-            } else {
-                dispatch(saveQuestionsFailure(data));
-            }
-        })
-        .catch(err => dispatch(saveQuestionsFailure(err)));
+        return putSurvey(accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                } else {
+                    dispatch(saveQuestionsFailure(data));
+                }
+            })
+            .catch(err => dispatch(saveQuestionsFailure(err)));
     };
 }
 
@@ -605,5 +609,30 @@ export function toggleSelectedL10n(data) {
                 selectedL10n: data
             });
         }
+    };
+}
+
+export function deleteSelectedL10n() {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_DELETE_L10N });
+        const { account, surveyID, lang, surveyL10n, selectedL10n, token } = getState();
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang });
+        delete newL10n[selectedL10n];
+        const postData = {
+            l10n: newL10n
+        };
+
+        return putSurvey(account.accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                    dispatch(toggleSelectedL10n(selectedL10n));
+                    dispatch(setSurveyL10n(newL10n));
+                } else {
+                    dispatch(saveQuestionsFailure(data));
+                }
+            })
+            .catch(err => dispatch(saveQuestionsFailure(err)));
     };
 }
