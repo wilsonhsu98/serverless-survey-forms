@@ -25,8 +25,11 @@ class ControlBtn extends PureComponent {
         ];
         let btns = [];
         btnsData.forEach((btn, idx) => {
-            if (idx === 0 || (idx !== 0 && selectedL10n !== '')) {
-                if (lang !== selectedL10n || idx !== 2) {
+            if (idx === 0 || idx === 1 ||
+                (idx === 2 && selectedL10n !== '' && lang !== selectedL10n)) {
+                // btn showed conditions:
+                // if it is Export or Import
+                // if it is Delete, and selectedL10n is not equal to basic lang
                     btns.push(
                         <IconButton
                             key={idx}
@@ -37,7 +40,6 @@ class ControlBtn extends PureComponent {
                             onClick={btn.func}
                         />);
                 }
-            }
         });
 
         return (
