@@ -30,16 +30,16 @@ class ControlBtn extends PureComponent {
                 // btn showed conditions:
                 // if it is Export or Import
                 // if it is Delete, and selectedL10n is not equal to basic lang
-                    btns.push(
-                        <IconButton
-                            key={idx}
-                            id={btn.id}
-                            string={btn.string}
-                            i18nKey={false}
-                            img={btn.img}
-                            onClick={btn.func}
-                        />);
-                }
+                btns.push(
+                    <IconButton
+                        key={idx}
+                        id={btn.id}
+                        string={btn.string}
+                        i18nKey={false}
+                        img={btn.img}
+                        onClick={btn.func}
+                    />);
+            }
         });
 
         return (
@@ -50,7 +50,8 @@ class ControlBtn extends PureComponent {
     }
 
     _onImportL10nClick() {
-
+        const { popupActions } = this.props;
+        popupActions.setPopup('ImportL10n');
     }
 
     _onExportL10nClick() {

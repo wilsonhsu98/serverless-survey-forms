@@ -13,6 +13,7 @@ import Mixins from '../mixins/global';
 import { setSubject } from './subject';
 import { expiredToken } from './account';
 import { setWebpage } from './webpage';
+import { closePopup } from './popup';
 
 export function postSurvey(accountid, postData, token) {
     return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
@@ -632,7 +633,38 @@ export function deleteSelectedL10n() {
                 } else {
                     dispatch(saveQuestionsFailure(data));
                 }
+                dispatch({ type: types.RECEIVE_DELETE_L10N });
             })
-            .catch(err => dispatch(saveQuestionsFailure(err)));
+            .catch(err => {
+                dispatch(saveQuestionsFailure(err));
+                dispatch({ type: types.RECEIVE_DELETE_L10N });
+            });
+    };
+}
+
+export function importL10n(l10n) {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_IMPORT_L10N });
+        const { account, surveyID, lang, surveyL10n, token } = getState();
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang }, l10n);
+        const postData = {
+            l10n: newL10n
+        };
+        return putSurvey(account.accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                    dispatch(closePopup());
+                    dispatch(setSurveyL10n(newL10n));
+                } else {
+                    dispatch(saveQuestionsFailure(l10n));
+                }
+                dispatch({ type: types.RECEIVE_IMPORT_L10N });
+            })
+            .catch(err => {
+                dispatch(saveQuestionsFailure(err));
+                dispatch({ type: types.RECEIVE_IMPORT_L10N });
+            });
     };
 }

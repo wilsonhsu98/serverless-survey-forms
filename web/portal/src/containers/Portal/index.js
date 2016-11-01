@@ -31,6 +31,7 @@ import Unauthorize from '../../components/Popup/Unauthorize';
 import Confirm from '../../components/Popup/Confirm';
 import NoPermission from '../../components/Popup/NoPermission';
 import ExportL10n from '../../components/Popup/ExportL10n';
+import ImportL10n from '../../components/Popup/ImportL10n';
 
 export class Portal extends PureComponent {
 
@@ -79,13 +80,22 @@ export class Portal extends PureComponent {
     }
 
     _handlePopup() {
-        const { lang, surveyL10n, popup, popupActions, surveysActions } = this.props;
+        const { lang, surveyL10n, popup, popupActions,
+            surveysActions, questionsActions } = this.props;
         if (popup) {
             if (popup === 'ExportL10n') {
                 return (
                     <ExportL10n
                         lang={lang}
                         surveyL10n={surveyL10n}
+                        popupActions={popupActions}
+                    />);
+            } else if (popup === 'ImportL10n') {
+                return (
+                    <ImportL10n
+                        lang={lang}
+                        surveyL10n={surveyL10n}
+                        questionsActions={questionsActions}
                         popupActions={popupActions}
                     />);
             }
