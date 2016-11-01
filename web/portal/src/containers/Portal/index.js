@@ -30,20 +30,22 @@ import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
 import Confirm from '../../components/Popup/Confirm';
 import NoPermission from '../../components/Popup/NoPermission';
+import ExportL10n from '../../components/Popup/ExportL10n';
 
 export class Portal extends PureComponent {
 
     constructor() {
         super();
         this._checkAccountStatus = this._checkAccountStatus.bind(this);
+        this._handlePopup = this._handlePopup.bind(this);
     }
 
     render() {
         const { account, loading, subject, lang, surveyID, surveyVersion,
-            preview, previewID, selectedUser, webpage, popup,
+            preview, previewID, selectedUser, webpage,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions, usersActions,
-            webpageActions, surveysActions, popupActions } = this.props;
+            webpageActions } = this.props;
         const headProps = {
             account,
             subject,
@@ -57,7 +59,6 @@ export class Portal extends PureComponent {
         };
         const subProps = { subject, lang, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
-        const confirmProps = { popup, popupActions, surveysActions };
         const loadingView = loading ? <Loading /> : '';
         return (
             <div ref="root">
@@ -68,13 +69,33 @@ export class Portal extends PureComponent {
 
                 {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
-                {popup ? <Confirm {...confirmProps} /> : ''}
+                {this._handlePopup()}
                 {this._checkAccountStatus()}
 
                 <Footer />
                 {loadingView}
             </div>
         );
+    }
+
+    _handlePopup() {
+        const { lang, surveyL10n, popup, popupActions, surveysActions } = this.props;
+        if (popup) {
+            if (popup === 'ExportL10n') {
+                return (
+                    <ExportL10n
+                        lang={lang}
+                        surveyL10n={surveyL10n}
+                        popupActions={popupActions}
+                    />);
+            }
+            return (
+                <Confirm
+                    popup={popup}
+                    popupActions={popupActions}
+                    surveysActions={surveysActions}
+                />);
+        }
     }
 
     _checkAccountStatus() {
@@ -137,6 +158,7 @@ function mapStateToProps(state) {
         lang: state.lang,
         surveyID: state.surveyID,
         surveyVersion: state.surveyVersion,
+        surveyL10n: state.surveyL10n,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,

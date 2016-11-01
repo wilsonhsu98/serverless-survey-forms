@@ -55,6 +55,7 @@ class Create extends PureComponent {
                         lang={lang}
                         selectedL10n={selectedL10n}
                         questionsActions={questionsActions}
+                        popupActions={popupActions}
                     />
                     <L10nList
                         lang={lang}

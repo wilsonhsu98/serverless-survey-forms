@@ -19,8 +19,8 @@ class ControlBtn extends PureComponent {
     render() {
         const { lang, selectedL10n } = this.props;
         const btnsData = [
-            { id: 'importBtn', string: 'Import', img: '', func: this._onImportL10nClick },
             { id: 'exportBtn', string: 'Export', img: 'report', func: this._onExportL10nClick },
+            { id: 'importBtn', string: 'Import', img: '', func: this._onImportL10nClick },
             { id: 'delBtn', string: 'Delete', img: 'delete', func: this._onDeleteL10nClick }
         ];
         let btns = [];
@@ -52,7 +52,8 @@ class ControlBtn extends PureComponent {
     }
 
     _onExportL10nClick() {
-
+        const { popupActions } = this.props;
+        popupActions.setPopup('ExportL10n');
     }
 
     _onDeleteL10nClick() {
