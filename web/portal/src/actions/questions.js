@@ -483,7 +483,7 @@ export function editSurveyPolicy(flag) {
 
 export function receiveQuestionsSuccess(data) {
     return {
-        type: types.RECIEVE_QUESTIONS_SUCCESS,
+        type: types.RECEIVE_QUESTIONS_SUCCESS,
         questions: data
     };
 }
@@ -492,7 +492,7 @@ export function receiveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_QUESTIONS_FAILURE,
+            type: types.RECEIVE_QUESTIONS_FAILURE,
             errorMsg: err
         });
     };

@@ -511,7 +511,7 @@ describe('[Portal] questions action', () => {
         expect(
             actions.receiveQuestionsSuccess(questions)
         ).toEqual({
-            type: types.RECIEVE_QUESTIONS_SUCCESS,
+            type: types.RECEIVE_QUESTIONS_SUCCESS,
             questions
         });
     });
@@ -520,7 +520,7 @@ describe('[Portal] questions action', () => {
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
-            { type: types.RECIEVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
+            { type: types.RECEIVE_QUESTIONS_FAILURE, errorMsg: 'Error' }
         ];
 
         store.dispatch(actions.receiveQuestionsFailure('Error'));
@@ -557,7 +557,7 @@ describe('[Portal] questions action', () => {
             { type: types.SET_SUBJECT, subject, lang },
             { type: types.SET_SURVEY_VERSION, surveyVersion: 'v1' },
             { type: types.SET_SURVEY_POLICY, surveyPolicy: {} },
-            { type: types.RECIEVE_QUESTIONS_SUCCESS, questions },
+            { type: types.RECEIVE_QUESTIONS_SUCCESS, questions },
             { type: types.SET_SURVEYID, surveyID },
             { type: types.SET_WEBPAGE, webpage: 'userCreate' }
         ];

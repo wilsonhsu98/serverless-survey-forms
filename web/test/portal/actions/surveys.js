@@ -20,7 +20,7 @@ describe('[Portal] surveys action', () => {
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
-            { type: types.RECIEVE_SURVEYS_FAILURE, errorMsg: 'Error' }
+            { type: types.RECEIVE_SURVEYS_FAILURE, errorMsg: 'Error' }
         ];
 
         store.dispatch(actions.requestSurveysFailure('Error'));
@@ -31,7 +31,7 @@ describe('[Portal] surveys action', () => {
         expect(
             actions.receiveSurveysSuccess([])
         ).toEqual({
-            type: types.RECIEVE_SURVEYS_SUCCESS,
+            type: types.RECEIVE_SURVEYS_SUCCESS,
             surveys: []
         });
     });
@@ -75,7 +75,7 @@ describe('[Portal] surveys action', () => {
         const expectedActions = [
             { type: types.REMOVE_SELECTED_SURVEYS },
             { type: types.REQUEST_SURVEYS_LIST },
-            { type: types.RECIEVE_SURVEYS_SUCCESS, surveys }
+            { type: types.RECEIVE_SURVEYS_SUCCESS, surveys }
         ];
 
         return store.dispatch(actions.getSurveys())
@@ -110,7 +110,7 @@ describe('[Portal] surveys action', () => {
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
-            { type: types.RECIEVE_DELETE_SURVEYS_FAILURE, errorMsg: 'Error' }
+            { type: types.RECEIVE_DELETE_SURVEYS_FAILURE, errorMsg: 'Error' }
         ];
 
         store.dispatch(actions.requestDeleteSurveysFailure('Error'));
@@ -120,7 +120,7 @@ describe('[Portal] surveys action', () => {
     it('should create an action to delete surveys success', () => {
         expect(
             actions.receiveDeleteSurveysSuccess()
-        ).toEqual({ type: types.RECIEVE_DELETE_SURVEYS_SUCCESS });
+        ).toEqual({ type: types.RECEIVE_DELETE_SURVEYS_SUCCESS });
     });
 
     it('should create an action to delete survey', () => {
@@ -147,7 +147,7 @@ describe('[Portal] surveys action', () => {
         });
         const expectedActions = [
             { type: types.REQUEST_DELETE_SURVEYS },
-            { type: types.RECIEVE_DELETE_SURVEYS_SUCCESS },
+            { type: types.RECEIVE_DELETE_SURVEYS_SUCCESS },
             { type: types.REMOVE_SELECTED_SURVEYS },
             { type: types.REMOVE_SELECTED_SURVEYS },
             { type: types.REQUEST_SURVEYS_LIST }
@@ -162,13 +162,13 @@ describe('[Portal] surveys action', () => {
     it('should create an action to export surveys failure', () => {
         expect(
             actions.receiveReportFailure('Error')
-        ).toEqual({ type: types.RECIEVE_REPORT_FAILURE, errorMsg: 'Error' });
+        ).toEqual({ type: types.RECEIVE_REPORT_FAILURE, errorMsg: 'Error' });
     });
 
     it('should create an action to export surveys success', () => {
         expect(
             actions.receiveReportSuccess()
-        ).toEqual({ type: types.RECIEVE_REPORT_SUCCESS });
+        ).toEqual({ type: types.RECEIVE_REPORT_SUCCESS });
     });
 
     it('should create an action to handle export surveys header', () => {
@@ -434,7 +434,7 @@ describe('[Portal] surveys action', () => {
         });
         const expectedActions = [
             { type: types.REQUEST_REPORT },
-            { type: types.RECIEVE_REPORT_SUCCESS }
+            { type: types.RECEIVE_REPORT_SUCCESS }
         ];
 
         return store.dispatch(actions.exportSurvey())

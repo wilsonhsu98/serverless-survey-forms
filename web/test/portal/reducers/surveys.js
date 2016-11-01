@@ -12,7 +12,7 @@ describe('[Portal] surveys reducer', () => {
     it('should handle surveys state', () => {
         expect(
             surveys([], {
-                type: types.RECIEVE_SURVEYS_SUCCESS,
+                type: types.RECEIVE_SURVEYS_SUCCESS,
                 surveys: [
                     {
                         accountid: 'facebook-00000',

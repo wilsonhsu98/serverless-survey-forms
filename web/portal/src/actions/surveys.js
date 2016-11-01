@@ -12,7 +12,7 @@ export function requestSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_SURVEYS_FAILURE,
+            type: types.RECEIVE_SURVEYS_FAILURE,
             errorMsg: err
         });
     };
@@ -20,7 +20,7 @@ export function requestSurveysFailure(err) {
 
 export function receiveSurveysSuccess(data) {
     return {
-        type: types.RECIEVE_SURVEYS_SUCCESS,
+        type: types.RECEIVE_SURVEYS_SUCCESS,
         surveys: data
     };
 }
@@ -73,7 +73,7 @@ export function requestDeleteSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_DELETE_SURVEYS_FAILURE,
+            type: types.RECEIVE_DELETE_SURVEYS_FAILURE,
             errorMsg: err
         });
     };
@@ -81,7 +81,7 @@ export function requestDeleteSurveysFailure(err) {
 
 export function receiveDeleteSurveysSuccess() {
     return {
-        type: types.RECIEVE_DELETE_SURVEYS_SUCCESS
+        type: types.RECEIVE_DELETE_SURVEYS_SUCCESS
     };
 }
 
@@ -112,13 +112,13 @@ export function deleteSurvey() {
 
 export function receiveReportSuccess() {
     return {
-        type: types.RECIEVE_REPORT_SUCCESS
+        type: types.RECEIVE_REPORT_SUCCESS
     };
 }
 
 export function receiveReportFailure(err) {
     return {
-        type: types.RECIEVE_REPORT_FAILURE,
+        type: types.RECEIVE_REPORT_FAILURE,
         errorMsg: err
     };
 }
