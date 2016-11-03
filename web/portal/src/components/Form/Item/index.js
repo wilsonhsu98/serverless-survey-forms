@@ -90,7 +90,7 @@ class Item extends Component {
     }
 
     render() {
-        const { data, editQuestion, isDragging,
+        const { data, editQuestion, surveyEditable, isDragging,
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
         return connectDragPreview(connectDropTarget(
             <div
@@ -104,28 +104,39 @@ class Item extends Component {
                 >
                     {this._renderQuestion()}
                     <div className={`control ${styles.control}`}>
-                        {connectDragSource(
-                            <div>
-                                <IconButton
-                                    string="Move"
-                                    i18nKey={false}
-                                    img="move"
-                                    onClick={() => {}}
-                                    extraProps={{ style: { cursor: 'move' } }}
-                                />
-                            </div>
-                        )}
+                        {surveyEditable ?
+                            connectDragSource(
+                                <div>
+                                    <IconButton
+                                        string="Move"
+                                        i18nKey={false}
+                                        img="move"
+                                        onClick={() => {}}
+                                        extraProps={{ style: { cursor: 'move' } }}
+                                    />
+                                </div>
+                            ) :
+                            <IconButton
+                                string="Move"
+                                i18nKey={false}
+                                img="move"
+                                onClick={() => {}}
+                                disabled={!surveyEditable}
+                            />
+                        }
                         <IconButton
                             string="Copy"
                             i18nKey={false}
                             img="copy"
-                            onClick={this._onCopyHandle}
+                            onClick={surveyEditable ? this._onCopyHandle : () => {}}
+                            disabled={!surveyEditable}
                         />
                         <IconButton
                             string="Remove"
                             i18nKey={false}
                             img="delete"
-                            onClick={this._onDeleteHandle}
+                            onClick={surveyEditable ? this._onDeleteHandle : () => {}}
+                            disabled={!surveyEditable}
                         />
                     </div>
                 </div>
