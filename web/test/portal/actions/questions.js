@@ -52,6 +52,7 @@ describe('[Portal] questions action', () => {
         const expectedActions = [
             { type: types.SET_SURVEYID, surveyID: '' },
             { type: types.SET_SUBJECT, subject: '' },
+            { type: types.SET_EDITABLE },
             { type: types.INIT_QUESTIONS },
             { type: types.INIT_SURVEY_POLICY },
             { type: types.SET_WEBPAGE, webpage: 'index' }
@@ -516,5 +517,14 @@ describe('[Portal] questions action', () => {
         expect(
             actions.stopDropQuestion()
         ).toEqual({ type: types.STOP_DROP_QUESTION });
+    });
+
+    it('should create an action to set question editable or not', () => {
+        expect(
+            actions.setQuestionEditable(false)
+        ).toEqual({ type: types.SET_NOT_EDITABLE });
+        expect(
+            actions.setQuestionEditable(true)
+        ).toEqual({ type: types.SET_EDITABLE });
     });
 });

@@ -126,6 +126,7 @@ class Feedback extends PureComponent {
             itemID: item.id,
             key: idx,
             item: item,
+            paging: this.props.paging,
             pageDone: this.props.pageDone,
             requiredData: this.props.requiredData,
             onChangeHandle: this._onChangeHandle,
@@ -207,11 +208,9 @@ class Feedback extends PureComponent {
     }
 
     _onClose() {
-        window.parent.postMessage({
-            source: window.location.origin,
-            msg: 'close',
+        this.props.feedbackActions.sendMsgToClient('close', {
             page: this.props.done ? this.props.paging + 1 : this.props.paging
-        }, '*');
+        });
     }
 }
 
