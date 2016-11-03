@@ -62,6 +62,7 @@ class Create extends PureComponent {
                         surveyL10n={surveyL10n}
                         selectedL10n={selectedL10n}
                         questionsActions={questionsActions}
+                        popupActions={popupActions}
                     />
                 </div>
             );

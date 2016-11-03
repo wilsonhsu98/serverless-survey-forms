@@ -32,6 +32,7 @@ import Confirm from '../../components/Popup/Confirm';
 import NoPermission from '../../components/Popup/NoPermission';
 import ExportL10n from '../../components/Popup/ExportL10n';
 import ImportL10n from '../../components/Popup/ImportL10n';
+import ReImportL10n from '../../components/Popup/ReImportL10n';
 
 export class Portal extends PureComponent {
 
@@ -80,7 +81,7 @@ export class Portal extends PureComponent {
     }
 
     _handlePopup() {
-        const { lang, surveyL10n, popup, popupActions,
+        const { lang, surveyL10n, selectedL10n, popup, popupActions,
             surveysActions, questionsActions } = this.props;
         if (popup) {
             if (popup === 'ExportL10n') {
@@ -94,6 +95,15 @@ export class Portal extends PureComponent {
                 return (
                     <ImportL10n
                         lang={lang}
+                        surveyL10n={surveyL10n}
+                        questionsActions={questionsActions}
+                        popupActions={popupActions}
+                    />);
+            } else if (popup === 'ReImportL10n') {
+                return (
+                    <ReImportL10n
+                        lang={lang}
+                        selectedL10n={selectedL10n}
                         surveyL10n={surveyL10n}
                         questionsActions={questionsActions}
                         popupActions={popupActions}
@@ -172,6 +182,7 @@ function mapStateToProps(state) {
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
+        selectedL10n: state.selectedL10n,
         selectedUser: state.selectedUser,
         webpage: state.webpage,
         popup: state.popup,

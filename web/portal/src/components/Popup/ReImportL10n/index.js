@@ -7,15 +7,12 @@ import PureComponent from 'react-pure-render/component';
 
 import Mixins from '../../../mixins/global';
 import Button from '../../Button';
-import Select from '../../Select';
 
-class ImportL10n extends PureComponent {
+class ReImportL10n extends PureComponent {
 
     constructor(props) {
         super(props);
 
-        this.state = { newLang: '' };
-        this._onLanguageChange = this._onLanguageChange.bind(this);
         this._btnClickEvent = this._btnClickEvent.bind(this);
     }
 
@@ -28,30 +25,9 @@ class ImportL10n extends PureComponent {
     }
 
     render() {
-        // language options setting
-        const item = [
-            { value: 'da', label: 'Danish' },
-            { value: 'de', label: 'German' },
-            { value: 'en-AU', label: 'English (Australia)' },
-            { value: 'en-US', label: 'English (United States)' },
-            { value: 'es', label: 'Spanish' },
-            { value: 'fr', label: 'French' },
-            { value: 'fr-CA', label: 'French (Canada)' },
-            { value: 'id', label: 'Indonesian' },
-            { value: 'it', label: 'Italian' },
-            { value: 'ja', label: 'Japanese' },
-            { value: 'ko', label: 'Korean' },
-            { value: 'nb', label: 'Norwegian' },
-            { value: 'nl', label: 'Dutch' },
-            { value: 'pt', label: 'Portuguese' },
-            { value: 'ru', label: 'Russian' },
-            { value: 'sv', label: 'Swedish' },
-            { value: 'th', label: 'Thai' },
-            { value: 'tr', label: 'Turkish' },
-            { value: 'vi', label: 'Vietnamese' },
-            { value: 'zh-CN', label: 'Chinese (PRC)' },
-            { value: 'zh-HK', label: 'Chinese (Hong Kong)' },
-            { value: 'zh-TW', label: 'Chinese (Taiwan)' }];
+        const { selectedL10n, surveyL10n } = this.props;
+        const json = JSON.stringify(surveyL10n[selectedL10n]);
+
         return (
             <div className={`${styles.popup} popup`}>
                 <div className="popup_wrap">
@@ -66,15 +42,7 @@ class ImportL10n extends PureComponent {
                         <div className={`${styles.content} content`}>
                             <div className={styles.title}>Import</div>
                             <div className={styles.title}>
-                                Please choose which language you are going to save.
-                            </div>
-                            <div className={styles.select}>
-                                <Select
-                                    id="langSelect"
-                                    item={item}
-                                    onChangeHandle={this._onLanguageChange}
-                                />
-                                <div id="langMsg" className="input__msg"></div>
+                                {`You are going to save ${selectedL10n} language.`}
                             </div>
                             <div className={styles.title}>
                                 Please paste this language’s json.
@@ -83,6 +51,7 @@ class ImportL10n extends PureComponent {
                                 <textarea
                                     id="l10n"
                                     className="textarea"
+                                    defaultValue={json}
                                     rows="5"
                                 ></textarea>
                                 <div id="l10nMsg" className="input__msg"></div>
@@ -110,23 +79,10 @@ class ImportL10n extends PureComponent {
         );
     }
 
-    _onLanguageChange(e) {
-        const { surveyL10n } = this.props;
-        const value = e.currentTarget.getAttribute('data-value');
-        const msg = document.getElementById('langMsg');
-        if (surveyL10n.hasOwnProperty(value)) {
-            msg.innerHTML = 'This language already exists.';
-        } else {
-            this.setState({ newLang: value });
-            msg.innerHTML = '';
-        }
-    }
-
     _btnClickEvent(e) {
-        const { lang, surveyL10n, popupActions, questionsActions } = this.props;
+        const { lang, selectedL10n, surveyL10n, popupActions, questionsActions } = this.props;
         const type = e.currentTarget.getAttribute('data-type');
         if (type === 'save') {
-            const langMsg = document.getElementById('langMsg');
             let l10n = document.getElementById('l10n').value;
             const msg = document.getElementById('l10nMsg');
 
@@ -149,12 +105,7 @@ class ImportL10n extends PureComponent {
                             msg.innerHTML = 'There is something wrong with the key of json.';
                         } else {
                             msg.innerHTML = '';
-                            if (this.state.newLang !== '' && langMsg.innerHTML === '') {
-                                // save json format
-                                questionsActions.importL10n({ [this.state.newLang]: l10n });
-                            } else {
-                                langMsg.innerHTML = 'Incorrect language.';
-                            }
+                            questionsActions.importL10n({ [selectedL10n]: l10n });
                         }
                     } else {
                         msg.innerHTML = 'Incorrect json format.';
@@ -169,4 +120,4 @@ class ImportL10n extends PureComponent {
     }
 }
 
-export default ImportL10n;
+export default ReImportL10n;

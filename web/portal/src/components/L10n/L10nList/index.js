@@ -78,8 +78,11 @@ class L10nList extends PureComponent {
         questionsActions.toggleSelectedL10n(e.currentTarget.value);
     }
 
-    _onClickEdit() {
-
+    _onClickEdit(e) {
+        const { selectedL10n, questionsActions, popupActions } = this.props;
+        const value = e.currentTarget.getAttribute('data-id');
+        if (selectedL10n !== value) questionsActions.toggleSelectedL10n(value);
+        popupActions.setPopup('ReImportL10n');
     }
 }
 
