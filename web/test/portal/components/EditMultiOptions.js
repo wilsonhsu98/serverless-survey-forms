@@ -25,6 +25,7 @@ describe('[Portal] Testing EditMultiOptions Component', () => {
         required: false
     };
     const props = {
+        surveyEditable: true,
         editQuestion: fakeData,
         handleChangeEvent: (data) => {
             fakeData.data.push({ value: 4, label: 'radio label 4' });
