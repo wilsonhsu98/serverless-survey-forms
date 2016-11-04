@@ -301,6 +301,8 @@
     height: 20px;
     position: absolute;
     z-index: 1;
+    margin-left: -20px;
+    cursor: pointer;
 }
 
 :global .checkboxItem input[type="checkbox"] + label {
