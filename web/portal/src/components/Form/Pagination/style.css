@@ -61,4 +61,8 @@
     color: #1F8ECC;
     background-color: #FFF;
     border: none;
+    &.disabled {
+        cursor: default;
+        color: #BFBFBF;
+    }
 }

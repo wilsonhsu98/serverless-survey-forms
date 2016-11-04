@@ -44,7 +44,8 @@ describe('[Portal] Testing Confirm Component', () => {
         const content = TestUtils.renderIntoDocument(<Confirm {...popProps} />);
 
         const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
-        expect(title.textContent).toEqual('Because there are some feedback in this survey, you can\'t edit it.');
+        expect(title.textContent).toEqual('Because there are some feedback in this survey, '
+                + 'you can\'t change format. You can only modify text.');
 
         const btn = TestUtils.scryRenderedComponentsWithType(content, Button);
         expect(btn.length).toEqual(1);

@@ -5,6 +5,7 @@ import styles from './style.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { DropTarget } from 'react-dnd';
+import classNames from 'classnames';
 
 import * as types from '../../../constants/DragTypes';
 
@@ -68,7 +69,7 @@ class Pagination extends PureComponent {
     }
 
     render() {
-        const { id, data, dropQuestion, editPage, connectDropTarget } = this.props;
+        const { id, data, dropQuestion, editPage, surveyEditable, connectDropTarget } = this.props;
         const list = [];
         data.question.forEach((question, idx) => {
             list.push(this._renderQuestion(question, idx));
@@ -79,6 +80,11 @@ class Pagination extends PureComponent {
                 <DropQuestion key={data.question.length} />);
         }
         const description = editPage.page === data.page ? editPage.description : data.description;
+        const btnClass = {
+            [styles.addBtn]: true,
+            'ut-btn': true,
+            [styles.disabled]: !surveyEditable
+        };
 
         return (
             <div className={styles.page}>
@@ -101,20 +107,23 @@ class Pagination extends PureComponent {
                         <IconButton
                             i18nKey={false}
                             img="move"
-                            onClick={this._onEditPageClick}
+                            onClick={surveyEditable ? this._onEditPageClick : () => {}}
                             extraProps={{ 'data-type': 'order' }}
+                            disabled={!surveyEditable}
                         />
                         <IconButton
                             i18nKey={false}
                             img="copy"
-                            onClick={this._onEditPageClick}
+                            onClick={surveyEditable ? this._onEditPageClick : () => {}}
                             extraProps={{ 'data-type': 'copy' }}
+                            disabled={!surveyEditable}
                         />
                         <IconButton
                             i18nKey={false}
                             img="delete"
-                            onClick={this._onEditPageClick}
+                            onClick={surveyEditable ? this._onEditPageClick : () => {}}
                             extraProps={{ 'data-type': 'delete' }}
+                            disabled={!surveyEditable}
                         />
                     </div>
                 </div>
@@ -122,11 +131,9 @@ class Pagination extends PureComponent {
                     {list}
                     {connectDropTarget(
                         <button
-                            className={`${styles.addBtn} ut-btn`}
-                            onClick={this._onAddQueClick}
-                        >
-                            + Add Question
-                        </button>
+                            className={classNames(btnClass)}
+                            onClick={surveyEditable ? this._onAddQueClick : () => {}}
+                        >+ Add Question</button>
                     )}
                 </div>
             </div>
@@ -134,7 +141,7 @@ class Pagination extends PureComponent {
     }
 
     _renderQuestion(question, idx) {
-        const { data, dropQuestion, editQuestion, questionsActions,
+        const { data, dropQuestion, editQuestion, surveyEditable, questionsActions,
             editQuestionActions, moveQuestion, getQuestion } = this.props;
         const requiredProps = {
             key: idx,
@@ -143,6 +150,7 @@ class Pagination extends PureComponent {
             data: question,
             dropQuestion,
             editQuestion,
+            surveyEditable,
             questionsActions,
             editQuestionActions,
             moveQuestion,

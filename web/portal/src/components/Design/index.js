@@ -6,6 +6,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import classNames from 'classnames';
 
 import EditQuestion from '../EditPanel/EditQuestion';
 import OrderPage from '../EditPanel/OrderPage';
@@ -26,30 +27,49 @@ class Design extends PureComponent {
 
     componentDidMount() {
         // init questionnaire
-        const { questions, questionsActions } = this.props;
-        if (questions.length === 0) {
-            const page = questions.length + 1;
-            questionsActions.addPage(page);
+        const { selectedUser, questions, surveyEditable,
+            questionsActions, popupActions } = this.props;
+
+        if (surveyEditable) {
+            if (questions.length === 0) {
+                const page = questions.length + 1;
+                questionsActions.addPage(page);
+            }
+        } else {
+            if (selectedUser.hasOwnProperty('accountid')) {
+                popupActions.setPopup('notEditableAdmin');
+            } else {
+                popupActions.setPopup('notEditableSurvey');
+            }
         }
     }
 
     render() {
-        const { surveyPolicy, surveyEditable, questionsActions } = this.props;
-
+        const { selectedUser, surveyPolicy, surveyEditable, questionsActions } = this.props;
+        let edit;
+        if (!selectedUser.hasOwnProperty('accountid')) {
+            edit = this._renderEdit();
+        } else {
+            edit = (<div className={styles.notEditable} onClick={this._onNotEditableClick}></div>);
+        }
+        const btnClass = {
+            [styles.pageBtn]: true,
+            [styles.disabled]: !surveyEditable
+        };
         return (
             <div ref="root">
-                {surveyEditable ?
-                    this._renderEdit() :
-                    <div className={styles.notEditable} onClick={this._onNotEditableClick}></div>}
+                {edit}
                 <div>{this._renderPage()}</div>
 
                 <div className={styles.control}>
-                    <button className={styles.pageBtn} onClick={this._onAddPageClick}>
-                        + Add Page
-                    </button>
+                    <button
+                        className={classNames(btnClass)}
+                        onClick={surveyEditable ? this._onAddPageClick : () => {}}
+                    >+ Add Page</button>
                 </div>
 
                 <Privacy
+                    surveyEditable={surveyEditable}
                     surveyPolicy={surveyPolicy}
                     questionsActions={questionsActions}
                 />
@@ -58,7 +78,8 @@ class Design extends PureComponent {
     }
 
     _renderPage() {
-        const { questions, dropQuestion, editQuestion, editPage, orderPage, surveyID,
+        const { questions, dropQuestion, editQuestion, editPage,
+            orderPage, surveyID, surveyEditable,
             questionsActions, editQuestionActions, editPageActions,
             orderPageActions, previewActions } = this.props;
         const basicProps = {
@@ -67,6 +88,7 @@ class Design extends PureComponent {
             editQuestion,
             editPage,
             surveyID,
+            surveyEditable,
             questionsActions,
             editQuestionActions,
             editPageActions,
@@ -106,6 +128,7 @@ class Design extends PureComponent {
                 editQuestion,
                 editPage,
                 orderPage,
+                surveyEditable,
                 questionsActions,
                 editQuestionActions,
                 editPageActions,
@@ -114,6 +137,7 @@ class Design extends PureComponent {
         if (editQuestion.hasOwnProperty('id') && editQuestion.id !== '') {
             const editProps = {
                 editQuestion,
+                surveyEditable,
                 editQuestionActions,
                 questionsActions
             };
@@ -180,12 +204,8 @@ class Design extends PureComponent {
     }
 
     _onNotEditableClick() {
-        const { selectedUser, popupActions } = this.props;
-        if (selectedUser.hasOwnProperty('accountid')) {
-            popupActions.setPopup('notEditableAdmin');
-        } else {
-            popupActions.setPopup('notEditableSurvey');
-        }
+        const { popupActions } = this.props;
+        popupActions.setPopup('notEditableAdmin');
     }
 }
 

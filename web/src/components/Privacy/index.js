@@ -112,6 +112,16 @@ class Privacy extends PureComponent {
     _onToggleTerms() {
         this.setState({
             terms: !this.state.terms
+        }, () => {
+            if (this.state.terms) {
+                this.setState({
+                    error: ''
+                });
+            } else {
+                this.setState({
+                    error: 'error_agree_terms'
+                });
+            }
         });
     }
 
@@ -143,11 +153,9 @@ class Privacy extends PureComponent {
                 this.props.feedbackActions.updateFeedback(true, privacyData);
             }
             // Send 'participate' msg to client
-            window.parent.postMessage({
-                source: window.location.origin,
-                msg: 'participate',
+            this.props.feedbackActions.sendMsgToClient('participate', {
                 page: this.props.paging + 1
-            }, '*');
+            });
         }
     }
 

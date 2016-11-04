@@ -89,4 +89,15 @@
             display: block;
         }
     }
+    /* State: disabled */
+    &.disabled {
+        .placeholder {
+            background: #efefef;
+            color: #545454;
+            &:hover, &:active, &:focus {
+                background: #efefef;
+                text-shadow: none;
+            }
+        }
+    }
 }

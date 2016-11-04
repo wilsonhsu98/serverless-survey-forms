@@ -32,7 +32,8 @@ class Confirm extends PureComponent {
             deleteOneSurvey: 'Do you really want to delete this survey?',
             deleteAllFeedbacks: 'Do you really want to clear all feedbacks in this survey?',
             notEditableSurvey:
-                'Because there are some feedback in this survey, you can\'t edit it.',
+                'Because there are some feedback in this survey, '
+                + 'you can\'t change format. You can only modify text.',
             notEditableAdmin: 'You can\'t edit survey in Admin mode.'
         };
         return (<div className="ut-title">{message[popup]}</div>);
