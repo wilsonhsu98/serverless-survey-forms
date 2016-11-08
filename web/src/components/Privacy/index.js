@@ -112,6 +112,16 @@ class Privacy extends PureComponent {
     _onToggleTerms() {
         this.setState({
             terms: !this.state.terms
+        }, () => {
+            if (this.state.terms) {
+                this.setState({
+                    error: ''
+                });
+            } else {
+                this.setState({
+                    error: 'error_agree_terms'
+                });
+            }
         });
     }
 

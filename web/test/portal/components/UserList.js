@@ -14,17 +14,17 @@ describe('[Portal] Testing UserList Component', () => {
         users: [
             {
                 accountid: 'facebook-XXXXXX',
-                username: 'Mr. Cheng',
+                username: 'Miss A',
                 email: 'cheng@trend.com.tw',
                 role: 'User'
             }, {
                 accountid: 'facebook-YYYYYY',
-                username: 'Mr. Wang',
+                username: 'Mr. B',
                 email: 'wang@trend.com.tw',
                 role: 'Designer'
             }, {
                 accountid: 'facebook-ZZZZZZZ',
-                username: 'Miss Lin',
+                username: 'Mr. C',
                 email: 'lin@trend.com.tw',
                 role: 'Admin'
             }],

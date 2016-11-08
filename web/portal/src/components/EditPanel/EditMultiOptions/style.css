@@ -14,3 +14,8 @@
     width: 426px;
 }
 
+.disabled, a:hover.disabled {
+    cursor: default;
+    color: #BFBFBF;
+    text-decoration: none;
+}
