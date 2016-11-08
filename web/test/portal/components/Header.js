@@ -77,7 +77,7 @@ describe('[Portal] Testing Header Component', () => {
         expect(title.textContent).toEqual('Administration');
     });
 
-    it('header: admin mode for user\' survey list', () => {
+    it('header: admin mode for user\'s survey list', () => {
         const adminProps = Object.assign({}, props,
             {
                 selectedUser: {

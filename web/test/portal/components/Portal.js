@@ -17,6 +17,7 @@ describe('[Portal] Testing Portal Component', () => {
         token: 'xxxx',
         account: {},
         subject: '',
+        lang: 'en-US',
         surveyID: '',
         editSubject: false,
         preview: '',

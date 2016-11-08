@@ -16,5 +16,12 @@ describe('[Portal] webpage reducer', () => {
                 webpage: 'create'
             })
         ).toEqual('create');
+
+        expect(
+            webpage('', {
+                type: types.SET_WEBPAGE,
+                webpage: 'create/build'
+            })
+        ).toEqual('create/build');
     });
 });

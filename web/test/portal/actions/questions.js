@@ -619,4 +619,120 @@ describe('[Portal] questions action', () => {
             surveyVersion
         });
     });
+
+    it('should create an action to toggle SelectedL10n', () => {
+        const store = mockStore({ selectedL10n: 'en-US' });
+        store.dispatch(actions.toggleSelectedL10n('en-US'));
+        store.dispatch(actions.toggleSelectedL10n('zh-TW'));
+        expect(
+            store.getActions()
+        ).toEqual([
+            {
+                type: types.REMOVE_SELECTED_L10N
+            }, {
+                type: types.ADD_SELECTED_L10N,
+                selectedL10n: 'zh-TW'
+            }]);
+    });
+
+    it('should create an action to delete SelectedL10n', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        const subject = 'Hello';
+        const surveyID = '1111-2222-3333';
+        const lang = 'en-US';
+        const surveyL10n = {
+            'en-US': {
+                subject: 'Hello'
+            },
+            'zh-TW': {
+                subject: 'Hello'
+            }
+        };
+        const selectedL10n = 'zh-TW';
+        const token = 'xxxxxxx';
+        const surveyVersion = Config.surveyFormat;
+
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang });
+        delete newL10n[selectedL10n];
+        const postData = {
+            l10n: newL10n
+        };
+
+        nock(Config.baseURL, {
+            reqheaders: { 'authorization': token }
+        })
+        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
+        .reply(200, { datetime: Date.now() });
+
+        const store = mockStore({ account, surveyID, subject, lang, surveyL10n, surveyVersion,
+            selectedL10n, token });
+        const expectedActions = [
+            { type: types.REQUEST_DELETE_L10N },
+            { type: types.SAVE_QUESTIONS_SUCCESS },
+            { type: types.REMOVE_SELECTED_L10N },
+            {
+                type: types.SET_SURVEY_L10N,
+                surveyL10n: {
+                    'en-US': { subject: 'Hello' }
+                }
+            },
+            { type: types.RECEIVE_DELETE_L10N }
+        ];
+
+        return store.dispatch(actions.deleteSelectedL10n())
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    it('should create an action to import L10n', () => {
+        const account = {
+            accountid: 'facebook-xxxxxx',
+            username: 'Mr. Test',
+            role: 'Admin'
+        };
+        const surveyID = '1111-2222-3333';
+        const lang = 'en-US';
+        const surveyL10n = {
+            'en-US': {
+                subject: 'Hello'
+            }
+        };
+        const token = 'xxxxxxx';
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang },
+            { 'zh-TW': { subject: 'Hello' } });
+        const postData = {
+            l10n: newL10n
+        };
+
+        nock(Config.baseURL, {
+            reqheaders: { 'authorization': token }
+        })
+        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
+        .reply(200, { datetime: Date.now() });
+
+        const store = mockStore({ account, surveyID, lang, surveyL10n, token });
+        const expectedActions = [
+            { type: types.REQUEST_IMPORT_L10N },
+            { type: types.SAVE_QUESTIONS_SUCCESS },
+            { type: types.CLOSE_POPUP },
+            {
+                type: types.SET_SURVEY_L10N,
+                surveyL10n: {
+                    'en-US': { subject: 'Hello' },
+                    'zh-TW': { subject: 'Hello' }
+                }
+            },
+            { type: types.RECEIVE_IMPORT_L10N }
+        ];
+
+        return store.dispatch(actions.importL10n({ 'zh-TW': { subject: 'Hello' } }))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
 });
