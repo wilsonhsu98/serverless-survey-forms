@@ -4,12 +4,12 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import classNames from 'classnames';
 
 import Config from '../../../config';
 import Mixins from '../../../mixins/global';
 import IFrame from '../../IFrame';
 import IconButton from '../../IconButton';
-import Qustom from '../../../../../src/index';
 
 class Preview extends PureComponent {
 
@@ -50,30 +50,21 @@ class Preview extends PureComponent {
                         extraProps={{ 'data-type': btn }}
                     />);
             });
-        let qustom;
-        if (preview === 'embedded') {
-            qustom = (
-                <div className={styles.embedded}>
-                    <div className={`${styles.preview} ${styles[preview]}`}>
-                        <Qustom
-                            accountid={account.accountid}
-                            surveyid={previewID}
-                            type={type}
-                            localize_path="../../../../../assets/L10N"
-                            preview
-                        />
-                    </div>
+
+        // to prevent cache, add Date.now() to change src
+        const url = `${Config.baseURL}/feedback/index.html?v=${Date.now()}`
+            + `&accountid=${account.accountid}&surveyid=${previewID}&preview=true`;
+        const classSet = {
+            [styles.embedded]: preview === 'embedded'
+        };
+        const qustom = (
+            <div className={classNames(classSet)}>
+                <div className={`${styles.preview} ${styles[preview]}`}>
+                    <IFrame
+                        url={`${url}&type=${type}`}
+                    />
                 </div>
-            );
-        } else {
-            // to prevent cache, add Date.now() to change src
-            const url = `${Config.baseURL}/feedback/index.html?v=${Date.now()}`;
-            qustom = (<div className={`${styles.preview} ${styles[preview]}`}>
-                <IFrame
-                    url={`${url}&accountid=${account.accountid}&surveyid=${previewID}&preview=true`}
-                />
             </div>);
-        }
 
         return (
             <div className={`${styles.popup} popup`}>

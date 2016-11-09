@@ -4,6 +4,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import classNames from 'classnames';
 
 import * as values from '../../../constants/DefaultValues';
 import Mixins from '../../../mixins/global';
@@ -23,10 +24,11 @@ class EditMultiOptions extends PureComponent {
     }
 
     render() {
-        const { editQuestion } = this.props;
+        const { surveyEditable, editQuestion } = this.props;
         const data = editQuestion.data;
         let optList = [];
         const otherBtn = [];
+        let editClass = {};
 
         // Once add new question, it should add case content
         switch (editQuestion.type) {
@@ -34,11 +36,17 @@ class EditMultiOptions extends PureComponent {
         case 'checkbox':
         case 'rating':
             optList = this._renderData(data);
+            editClass = {
+                [styles.addBtn]: true,
+                link: true,
+                'ut-btn': true,
+                [styles.disabled]: !surveyEditable
+            };
             otherBtn.push(
                 <a
                     data-type="other"
-                    className={`${styles.addBtn} link ut-btn`}
-                    onClick={this._addOption}
+                    className={classNames(editClass)}
+                    onClick={surveyEditable ? this._addOption : () => {}}
                     key={1}
                 >+ Add Option</a>);
             break;
@@ -77,11 +85,17 @@ class EditMultiOptions extends PureComponent {
         }
 
         if (editQuestion.type === 'radio' || editQuestion.type === 'checkbox') {
+            editClass = {
+                [styles.otherBtn]: true,
+                link: true,
+                'ut-other': true,
+                [styles.disabled]: !surveyEditable
+            };
             // radio/checkbox have this button
             otherBtn.push(
                 <a
-                    className={`${styles.otherBtn} link ut-other`}
-                    onClick={this._addOption}
+                    className={classNames(editClass)}
+                    onClick={surveyEditable ? this._addOption : () => {}}
                     key={2}
                 >Add "Other"</a>);
         }
@@ -95,6 +109,7 @@ class EditMultiOptions extends PureComponent {
     }
 
     _renderData(data) {
+        const { surveyEditable } = this.props;
         const optList = [];
         data.forEach((opt, idx) => {
             const pros = {
@@ -102,7 +117,8 @@ class EditMultiOptions extends PureComponent {
                 data: opt,
                 onChangeHandle: this._onChangeHandle,
                 onDeleteHandle: this._onDeleteHandle,
-                moveItem: this._moveItem
+                moveItem: this._moveItem,
+                surveyEditable
             };
             optList.push(
                 <EditItem
