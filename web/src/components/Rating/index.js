@@ -33,7 +33,6 @@ class Rating extends PureComponent {
             feedbackArray: []
         };
         this._onChangeHandle = this._onChangeHandle.bind(this);
-        this._renderLabel = this._renderLabel.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
         this._checkDone = this._checkDone.bind(this);
     }
@@ -50,12 +49,12 @@ class Rating extends PureComponent {
     }
 
     render() {
-        const { id, itemID, item, feedbackActions, pageDone } = this.props;
+        const { id, itemID, item, feedbackActions, pageDone, l10n } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 >
                     {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
@@ -69,7 +68,7 @@ class Rating extends PureComponent {
                         item.input && this.state.selected ?
                             <input
                                 type="text"
-                                placeholder={item.input}
+                                placeholder={l10n[item.input] || item.input}
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
@@ -79,11 +78,11 @@ class Rating extends PureComponent {
     }
 
     _renderRatingItem() {
-        const { id, item } = this.props;
+        const { id, item, l10n } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `rating_${id}_${idx}`;
             const val = itm.value;
-            const label = itm.label;
+            const label = l10n[item.label] || itm.label;
             return (
                 <li
                     className={styles.ratingItem}
@@ -113,12 +112,6 @@ class Rating extends PureComponent {
             );
         });
         return items;
-    }
-
-    _renderLabel(item) {
-        return (
-            <li className={styles.label}>{item.label}</li>
-        );
     }
 
     _onChangeHandle(e) {

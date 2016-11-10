@@ -19,7 +19,6 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
-import $ from 'jquery';
 
 import Question from '../Question/index';
 
@@ -38,12 +37,7 @@ class Select extends PureComponent {
     }
 
     componentDidMount() {
-        $(this.refs.root).localize();
         window.addEventListener('click', this._handleDocumentClick);
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
     }
 
     componentWillUnmount() {
@@ -51,7 +45,7 @@ class Select extends PureComponent {
     }
 
     render() {
-        const { id, item } = this.props;
+        const { id, item, l10n } = this.props;
         const selectClass = {
             [styles.selectGrp]: true,
             [styles.open]: this.state.isOpen
@@ -61,7 +55,7 @@ class Select extends PureComponent {
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 />
                 <div
@@ -69,7 +63,8 @@ class Select extends PureComponent {
                     onClick={this._onToggleOpen}
                 >
                     <span className={styles.placeholder}>
-                        {selectedItem === undefined ? '--' : selectedItem.label}
+                        {selectedItem === undefined ?
+                        '--' : (l10n[item.label] || selectedItem.label)}
                     </span>
                     <div className={styles.options}>
                         <ul>
@@ -82,11 +77,11 @@ class Select extends PureComponent {
     }
 
     _renderSelectItem() {
-        const { id, item } = this.props;
+        const { id, item, l10n } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `select_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
-            const label = itm.label;
+            const label = l10n[item.label] || itm.label;
             const optClass = {
                 selectItem: true,
                 selected: this.state.selectedValue === val
