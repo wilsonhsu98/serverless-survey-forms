@@ -5,11 +5,6 @@ import backend from 'i18next-sync-fs-backend';
 
 const locale = 'en-US';
 
-function i18nBasicSetting(locale) {
-    const patch = require(`../../assets/L10N_basic/${locale}/basic.json`);
-    return patch;
-}
-
 i18n
     .use(backend)
     .init({
@@ -25,9 +20,6 @@ i18n
             suffix: '__'
         },
         load: 'currentOnly'
-    }, () => {
-        // add basic keys
-        i18n.addResourceBundle(locale, 'translation', { basic: i18nBasicSetting(locale) }, true);
-    });
+    }, () => {});
 
 module.exports = i18n;
