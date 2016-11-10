@@ -133,7 +133,7 @@ class EditQuestion extends PureComponent {
     }
 
     _renderType() {
-        const { editQuestion } = this.props;
+        const { surveyEditable, editQuestion } = this.props;
         // Once add new question, it should add a select option
         const item = [
             { value: 'radio', label: 'Radio Button' },
@@ -150,6 +150,7 @@ class EditQuestion extends PureComponent {
                         item={item}
                         selectedItem={editQuestion.type}
                         onChangeHandle={this._onTypeChange}
+                        disabled={!surveyEditable}
                     />
                 </div>
             </div>
@@ -157,9 +158,10 @@ class EditQuestion extends PureComponent {
     }
 
     _renderOptions() {
-        const { editQuestion } = this.props;
+        const { surveyEditable, editQuestion } = this.props;
         const props = {
             editQuestion,
+            surveyEditable,
             handleChangeEvent: this._handleChangeEvent
         };
         const sectionTitle = editQuestion.type === 'text' || editQuestion.type === 'textarea' ?
@@ -174,7 +176,7 @@ class EditQuestion extends PureComponent {
     }
 
     _renderAdvance() {
-        const { editQuestion } = this.props;
+        const { surveyEditable, editQuestion } = this.props;
 
         if (editQuestion.type === 'rating') {
             const flag = editQuestion.hasOwnProperty('input');
@@ -190,7 +192,8 @@ class EditQuestion extends PureComponent {
                             type="checkbox"
                             className={`${styles.input} ut-chk input`}
                             checked={flag}
-                            onChange={this._onAdvanceChangeHandle}
+                            onChange={surveyEditable ? this._onAdvanceChangeHandle : () => {}}
+                            disabled={!surveyEditable}
                         />
                         <label>
                             Show "Tell Me Why"<span>&nbsp;-&nbsp;</span>

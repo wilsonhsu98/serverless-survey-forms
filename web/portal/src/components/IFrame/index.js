@@ -1,28 +1,49 @@
 
+import styles from './style.css';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 
 class IFrame extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        this._iFrameLoaded = this._iFrameLoaded.bind(this);
+    }
+
     componentDidMount() {
-        const frameBody = ReactDOM.findDOMNode(this).contentDocument.body;
-        const el = document.createElement('div');
-        frameBody.appendChild(el);
+        const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+        const loadEvent = eventMethod === 'attachEvent' ? 'onload' : 'load';
+
+        const iframe = document.getElementById('frame');
+        iframe[eventMethod](loadEvent, this._iFrameLoaded, false);
+    }
+
+    componentWillReceiveProps() {
+        const iframe = document.getElementById('frame');
+        const frameLoad = document.getElementById('frameLoad');
+        iframe.style.display = 'none';
+        frameLoad.style.display = 'block';
     }
 
     render() {
         const { url, frameProps } = this.props;
         return (
-            <iframe
-                style={{
-                    width: '100%',
-                    height: '100%'
-                }}
-                {...frameProps}
-                src={url}
-            />
-        );
+            <div className={styles.wrap}>
+                <div id="frameLoad" className={styles.loading}></div>
+                <iframe
+                    id="frame"
+                    {...frameProps}
+                    src={url}
+                />
+            </div>);
+    }
+
+    _iFrameLoaded() {
+        const iframe = document.getElementById('frame');
+        const frameLoad = document.getElementById('frameLoad');
+        iframe.style.display = 'block';
+        frameLoad.style.display = 'none';
     }
 }
 
