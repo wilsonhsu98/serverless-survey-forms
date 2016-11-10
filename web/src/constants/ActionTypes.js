@@ -30,3 +30,5 @@ export const GO_TO_PAGE = 'GO_TO_PAGE';
 // prefill from client
 export const SAVE_PREFILL_DATA = 'SAVE_PREFILL_DATA';
 
+// l10n
+export const SET_SURVEY_L10N = 'SET_SURVEY_L10N';
