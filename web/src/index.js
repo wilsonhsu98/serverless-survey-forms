@@ -36,11 +36,6 @@ function getPromise(fetchFunc, ...extraParams) {
     });
 }
 
-function i18nBasicSetting(locale) {
-    const patch = require(`../assets/L10N_basic/${locale}/basic.json`);
-    return patch;
-}
-
 function i18nSetting(resolve, reject, locale, path) {
     I18Next
     .use(XHR)
@@ -59,8 +54,6 @@ function i18nSetting(resolve, reject, locale, path) {
         load: 'currentOnly'
     }, () => {
         resolve('i18next init');
-        // add basic keys
-        I18Next.addResourceBundle(locale, 'translation', { basic: i18nBasicSetting(locale) }, true);
         $('[data-i18n]').localize();
     });
 
