@@ -44,6 +44,7 @@ describe('[Portal] Testing Pagination Component', () => {
                 required: false
             } ]
         },
+        surveyEditable: true,
         questionsActions: {
             addQuestion: (idx) => {
                 const que = {

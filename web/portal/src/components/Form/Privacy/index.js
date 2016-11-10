@@ -17,7 +17,7 @@ class Privacy extends PureComponent {
     }
 
     render() {
-        const { surveyPolicy } = this.props;
+        const { surveyPolicy, surveyEditable } = this.props;
         const chk = surveyPolicy.privacy.hasOwnProperty('label');
 
         return (
@@ -37,7 +37,8 @@ class Privacy extends PureComponent {
                                 type="checkbox"
                                 className="ut-chk"
                                 checked={chk}
-                                onChange={this._onChangeHandle}
+                                onChange={surveyEditable ? this._onChangeHandle : () => {}}
+                                disabled={!surveyEditable}
                             />
                             <label htmlFor="chk">
                                 Let Trend Micro follow up later

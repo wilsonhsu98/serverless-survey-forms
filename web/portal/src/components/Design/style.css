@@ -20,5 +20,9 @@
         border-radius: 4px;
         font-size: 18px;
         color: #1F8ECC;
+        &.disabled {
+            cursor: default;
+            color: #BFBFBF;
+        }
     }
 }

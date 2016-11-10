@@ -30,17 +30,18 @@ class Select extends PureComponent {
     }
 
     render() {
-        const { item } = this.props;
+        const { item, disabled } = this.props;
         const selectClass = {
             [styles.selectGrp]: true,
-            [styles.open]: this.state.isOpen
+            [styles.open]: this.state.isOpen,
+            [styles.disabled]: disabled
         };
         const selectedItem = item.find((obj) => obj.value === this.state.selectedValue);
         return (
             <div
                 ref="root"
                 className={classNames(selectClass)}
-                onClick={this._onToggleOpen}
+                onClick={!disabled ? this._onToggleOpen : () => {}}
             >
                 <span className={styles.placeholder}>
                     {selectedItem === undefined ? '--' : selectedItem.label}
@@ -113,9 +114,12 @@ Select.PropTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     selectedItem: PropTypes.string,
+    disabled: PropTypes.bool,
     onChangeHandle: PropTypes.func.isRequired
 };
 
-Select.defaultProps = {};
+Select.defaultProps = {
+    disabled: false
+};
 
 export default Select;

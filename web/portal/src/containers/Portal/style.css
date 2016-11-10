@@ -301,6 +301,8 @@
     height: 20px;
     position: absolute;
     z-index: 1;
+    margin-left: -20px;
+    cursor: pointer;
 }
 
 :global .checkboxItem input[type="checkbox"] + label {
@@ -309,6 +311,7 @@
     font-size: 14px;
     color: #666;
     font-weight: normal;
+    padding-left: 10px;
 }
 
 :global .checkboxItem input[type="checkbox"]:disabled + label {
@@ -321,8 +324,9 @@
     width: 20px;
     display: inline-block;
     visibility: visible;
-    position: relative;
-    top: 5px;
+    position: absolute;
+    top: 0;
+    left: -20px;
     margin-right: 10px;
     background: resolve("component/ic_checkbox_unchecked_normal.png");
     background-size: 100%;

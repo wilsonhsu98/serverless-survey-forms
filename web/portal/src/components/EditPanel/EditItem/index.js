@@ -79,7 +79,7 @@ class EditItem extends Component {
     }
 
     render() {
-        const { id, data, onDeleteHandle, isOver,
+        const { id, data, onDeleteHandle, surveyEditable, isOver,
             connectDragPreview, connectDragSource, connectDropTarget } = this.props;
         const opacity = isOver ? 0.1 : 1;
 
@@ -98,20 +98,30 @@ class EditItem extends Component {
                         string="Delete"
                         i18nKey={false}
                         img="delete"
-                        onClick={() => onDeleteHandle(id)}
+                        onClick={surveyEditable ? () => onDeleteHandle(id) : () => {}}
+                        disabled={!surveyEditable}
                     />
                 </div>
 
-                {connectDragSource(
-                    <div>
-                        <IconButton
-                            string="Drag"
-                            i18nKey={false}
-                            img="move"
-                            onClick={() => {}}
-                        />
-                    </div>
-                )}
+                {surveyEditable ?
+                    connectDragSource(
+                        <div>
+                            <IconButton
+                                string="Drag"
+                                i18nKey={false}
+                                img="move"
+                                onClick={() => {}}
+                            />
+                        </div>
+                    ) :
+                    <IconButton
+                        string="Drag"
+                        i18nKey={false}
+                        img="move"
+                        onClick={() => {}}
+                        disabled={!surveyEditable}
+                    />
+                }
             </div>
         ));
     }
