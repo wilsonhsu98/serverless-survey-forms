@@ -45,6 +45,7 @@ function saveClientID(clientID) {
 export function saveFeedback() {
     const clientID = `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
     return (dispatch, getState) => {
+        const locale = getState().settings.locale || '';
         const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         dispatch(saveClientID(clientID));
@@ -56,7 +57,7 @@ export function saveFeedback() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                feedback: feedback
+                feedback: Object.assign({}, feedback, { locale: locale })
             })
         })
         .then((response) => {
@@ -70,15 +71,16 @@ export function saveFeedback() {
 
 export function updateFeedback(closeWhenDone, privacyData) {
     return (dispatch, getState) => {
+        const locale = getState().settings.locale || '';
         const feedback = getState().submit;
         const surveyid = getState().settings.surveyid;
         const clientID = getState().clientID;
         const submittedData = {
-            feedback: feedback
+            feedback: Object.assign({}, feedback, { locale: locale })
         };
         // Privacy data
         if (privacyData) {
-            feedback.thankyou = privacyData;
+            submittedData.feedback.thankyou = privacyData;
         }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
             method: 'PUT',

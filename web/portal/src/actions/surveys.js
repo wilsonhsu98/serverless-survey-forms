@@ -12,7 +12,7 @@ export function requestSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_SURVEYS_FAILURE,
+            type: types.RECEIVE_SURVEYS_FAILURE,
             errorMsg: err
         });
     };
@@ -20,7 +20,7 @@ export function requestSurveysFailure(err) {
 
 export function receiveSurveysSuccess(data) {
     return {
-        type: types.RECIEVE_SURVEYS_SUCCESS,
+        type: types.RECEIVE_SURVEYS_SUCCESS,
         surveys: data
     };
 }
@@ -73,7 +73,7 @@ export function requestDeleteSurveysFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_DELETE_SURVEYS_FAILURE,
+            type: types.RECEIVE_DELETE_SURVEYS_FAILURE,
             errorMsg: err
         });
     };
@@ -81,7 +81,7 @@ export function requestDeleteSurveysFailure(err) {
 
 export function receiveDeleteSurveysSuccess() {
     return {
-        type: types.RECIEVE_DELETE_SURVEYS_SUCCESS
+        type: types.RECEIVE_DELETE_SURVEYS_SUCCESS
     };
 }
 
@@ -112,41 +112,45 @@ export function deleteSurvey() {
 
 export function receiveReportSuccess() {
     return {
-        type: types.RECIEVE_REPORT_SUCCESS
+        type: types.RECEIVE_REPORT_SUCCESS
     };
 }
 
 export function receiveReportFailure(err) {
     return {
-        type: types.RECIEVE_REPORT_FAILURE,
+        type: types.RECEIVE_REPORT_FAILURE,
         errorMsg: err
     };
 }
 
-export function handleReportHeader(survey, privacy) {
-    const header = ['Client ID'];
-    survey.forEach((que) => {
-        header.push(que.label);
+function getL10n(l10n, key) {
+    return l10n[key] || key;
+}
+
+export function handleReportHeader(survey, privacy, l10n) {
+    const header = ['Client ID', 'Locale'];
+    survey.forEach((que, idx) => {
+        header.push(`Q${idx + 1}_${getL10n(l10n, que.label)}`);
         switch (que.type) {
         case 'checkbox':
             for (const opt of que.data) {
-                header.push(opt.label);
+                header.push(getL10n(l10n, opt.label));
                 if (opt.hasOwnProperty('input')) {
-                    header.push(opt.input);
+                    header.push(getL10n(l10n, opt.input));
                 }
             }
             break;
         case 'radio':
             for (const opt of que.data) {
                 if (opt.hasOwnProperty('input')) {
-                    header.push(opt.input);
+                    header.push(getL10n(l10n, opt.input));
                     break;
                 }
             }
             break;
         case 'rating':
             if (que.hasOwnProperty('input')) {
-                header.push(que.input);
+                header.push(getL10n(l10n, que.input));
             }
             break;
         case 'text':
@@ -160,11 +164,11 @@ export function handleReportHeader(survey, privacy) {
     return [header];
 }
 
-export function handleReportContent(survey, privacy, feedbackAllData) {
+export function handleReportContent(survey, privacy, feedbackAllData, l10n) {
     const content = [];
     for (const feed of feedbackAllData) {
         const data = feed.feedback;
-        const body = [`${feed.clientid}${String.fromCharCode(8)}`];
+        const body = [`${feed.clientid}${String.fromCharCode(8)}`, data.locale || ''];
         survey.forEach((que, idx) => {
             const num = idx + 1;
             const feedbackQue = data[`Q${num}`];
@@ -174,17 +178,24 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                 switch (que.type) {
                 case 'checkbox':
                     que.data.forEach((opt, optIdx) => {
-                        chk.push(feedbackQue.data[optIdx].label);
+                        if (feedbackQue.data[optIdx].label === ' ') {
+                            // user didnot choose this option
+                            chk.push(feedbackQue.data[optIdx].label);
+                        } else {
+                            chk.push(l10n[feedbackQue.data[optIdx].value] ||
+                                feedbackQue.data[optIdx].label);
+                            i ++;
+                        }
                         if (opt.hasOwnProperty('input')) {
                             chk.push(feedbackQue.data[optIdx].input);
                         }
-                        if (opt.label === feedbackQue.data[optIdx].label) i ++;
                     });
                     body.push(i.toString());
                     body.push(...chk);
                     break;
                 case 'radio':
-                    body.push(feedbackQue.data[0].label);
+                    body.push(l10n[feedbackQue.data[0].value] ||
+                        feedbackQue.data[0].label);
                     for (const opt of que.data) {
                         if (opt.hasOwnProperty('input')) {
                             body.push(feedbackQue.data[0].hasOwnProperty('input') ?
@@ -194,7 +205,8 @@ export function handleReportContent(survey, privacy, feedbackAllData) {
                     }
                     break;
                 case 'rating':
-                    body.push(feedbackQue.data[0].label);
+                    body.push(l10n[feedbackQue.data[0].value] ||
+                        feedbackQue.data[0].label);
                     if (que.hasOwnProperty('input')) {
                         body.push(feedbackQue.data[0].hasOwnProperty('input') ?
                             feedbackQue.data[0].input : '');
@@ -270,6 +282,8 @@ export function exportSurvey() {
             .then(response => response.json())
             .then(report => {
                 const survey = report.survey.content;
+                const l10n = report.hasOwnProperty('l10n') ?
+                    report.l10n[report.l10n.basic] : {};
                 const feedback = report.data;
                 const privacy = report.survey.thankyou.privacy.hasOwnProperty('label');
 
@@ -280,9 +294,9 @@ export function exportSurvey() {
 
                 Mixins.exportCSV(
                     `[Qustom]${report.subject}_${moment(Date.now()).format('YYYYMMDDHHmmss')}`,
-                    'v1',
-                    handleReportHeader(allSurvey, privacy),
-                    handleReportContent(allSurvey, privacy, feedback)
+                    'v2',
+                    handleReportHeader(allSurvey, privacy, l10n),
+                    handleReportContent(allSurvey, privacy, feedback, l10n)
                 );
                 dispatch(receiveReportSuccess());
             })
@@ -308,7 +322,8 @@ export function postCopiedSurvey(questions) {
         const { account, token } = getState();
         const postData = {
             subject: questions.subject,
-            survey: questions.survey
+            survey: questions.survey,
+            l10n: questions.l10n || {}
         };
 
         return postSurvey(account.accountid, postData, token)
@@ -364,8 +379,7 @@ export function deleteAllFeedbacks() {
         dispatch({ type: types.REQUEST_DELETE_ALLFEEDBACKS });
         const { selectedSurveys, token } = getState();
         return fetch(
-            // `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
-            `${Config.baseURL}/api/v1/feedbacks/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
                 headers: {

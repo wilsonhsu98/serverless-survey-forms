@@ -1,0 +1,18 @@
+/*
+ * Style for components/L10n/ControlBtn/index.js
+ */
+.control {
+    position: relative;
+    margin: 80px 0 0;
+    height: 32px;
+    .wrap {
+        float: right;
+        & > div {
+            margin-right: 16px;
+        }
+        &:after {
+            content: '';
+            clear: both;
+        }
+    }
+}

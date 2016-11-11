@@ -474,6 +474,7 @@
 .content {
     overflow: hidden;
     position: relative;
+    min-height: 244px;
     .content_bg {
         position: absolute;
         top: 0;

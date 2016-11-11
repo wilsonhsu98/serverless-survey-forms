@@ -26,7 +26,7 @@ function receiveSurveyFailure(err) {
 }
 
 export function fetchSurvey(accountid, surveyid) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(requestSurvey());
         return fetch(`${config.baseURL}/api/v1/surveys/${accountid}/${surveyid}`, {
             credentials: 'same-origin',
@@ -41,11 +41,14 @@ export function fetchSurvey(accountid, surveyid) {
             return response.json();
         })
         .then(data => {
-            const survey = Object.assign({}, data.survey, {
-                subject: data.subject
-            });
             if (data && data.survey) {
-                dispatch(receiveSurveySuccess(survey));
+                dispatch(receiveSurveySuccess(data.survey));
+                if (data.hasOwnProperty('l10n') && data.l10n.hasOwnProperty('basic')) {
+                    const l10n = data.l10n;
+                    const locale = getState().settings.locale;
+                    const lang = l10n.hasOwnProperty(locale) ? locale : l10n.basic;
+                    dispatch(setL10n(l10n[lang]));
+                }
                 dispatch(goToPage(1));
                 dispatch(feedbackAction.setFeedback(data.survey));
                 dispatch(feedbackAction.setRequired());
@@ -73,5 +76,12 @@ export function savePrefill(data) {
     return {
         type: types.SAVE_PREFILL_DATA,
         data
+    };
+}
+
+export function setL10n(l10n) {
+    return {
+        type: types.SET_SURVEY_L10N,
+        l10n
     };
 }

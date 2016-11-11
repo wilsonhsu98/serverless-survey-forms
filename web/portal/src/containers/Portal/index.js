@@ -30,23 +30,28 @@ import Preview from '../../components/Popup/Preview';
 import Unauthorize from '../../components/Popup/Unauthorize';
 import Confirm from '../../components/Popup/Confirm';
 import NoPermission from '../../components/Popup/NoPermission';
+import ExportL10n from '../../components/Popup/ExportL10n';
+import ImportL10n from '../../components/Popup/ImportL10n';
+import ReImportL10n from '../../components/Popup/ReImportL10n';
 
 export class Portal extends PureComponent {
 
     constructor() {
         super();
         this._checkAccountStatus = this._checkAccountStatus.bind(this);
+        this._handlePopup = this._handlePopup.bind(this);
     }
 
     render() {
-        const { account, loading, subject, surveyID, preview, previewID,
-            selectedUser, webpage, popup,
+        const { account, loading, subject, lang, surveyID, surveyVersion,
+            preview, previewID, selectedUser, webpage,
             editSubject, editSubjectActions, subjectActions,
             questionsActions, previewActions, usersActions,
-            webpageActions, surveysActions, popupActions } = this.props;
+            webpageActions } = this.props;
         const headProps = {
             account,
             subject,
+            surveyVersion,
             selectedUser,
             webpage,
             editSubjectActions,
@@ -54,9 +59,8 @@ export class Portal extends PureComponent {
             usersActions,
             webpageActions
         };
-        const subProps = { subject, surveyID, editSubjectActions, subjectActions };
+        const subProps = { subject, lang, surveyID, editSubjectActions, subjectActions };
         const preProps = { account, preview, previewID, previewActions };
-        const confirmProps = { popup, popupActions, surveysActions };
         const loadingView = loading ? <Loading /> : '';
         return (
             <div ref="root">
@@ -67,13 +71,51 @@ export class Portal extends PureComponent {
 
                 {editSubject ? <Subject {...subProps} /> : ''}
                 {preview ? <Preview {...preProps} /> : ''}
-                {popup ? <Confirm {...confirmProps} /> : ''}
+                {this._handlePopup()}
                 {this._checkAccountStatus()}
 
                 <Footer />
                 {loadingView}
             </div>
         );
+    }
+
+    _handlePopup() {
+        const { lang, surveyL10n, selectedL10n, popup, popupActions,
+            surveysActions, questionsActions } = this.props;
+        if (popup) {
+            if (popup === 'ExportL10n') {
+                return (
+                    <ExportL10n
+                        lang={lang}
+                        surveyL10n={surveyL10n}
+                        popupActions={popupActions}
+                    />);
+            } else if (popup === 'ImportL10n') {
+                return (
+                    <ImportL10n
+                        lang={lang}
+                        surveyL10n={surveyL10n}
+                        questionsActions={questionsActions}
+                        popupActions={popupActions}
+                    />);
+            } else if (popup === 'ReImportL10n') {
+                return (
+                    <ReImportL10n
+                        lang={lang}
+                        selectedL10n={selectedL10n}
+                        surveyL10n={surveyL10n}
+                        questionsActions={questionsActions}
+                        popupActions={popupActions}
+                    />);
+            }
+            return (
+                <Confirm
+                    popup={popup}
+                    popupActions={popupActions}
+                    surveysActions={surveysActions}
+                />);
+        }
     }
 
     _checkAccountStatus() {
@@ -89,6 +131,7 @@ export class Portal extends PureComponent {
 
     _checkUserLogin() {
         const { account, webpage } = this.props;
+        const webpageArray = webpage.split('/');
         const body = document.getElementsByTagName('body')[0];
 
         if (!account || !account.hasOwnProperty('accountid')) {
@@ -101,7 +144,7 @@ export class Portal extends PureComponent {
 
         // TODOS: temporarily remove router
         let children;
-        switch (webpage) {
+        switch (webpageArray[0]) {
         case 'user':
             children = <User />;
             break;
@@ -132,10 +175,14 @@ function mapStateToProps(state) {
         token: state.token,
         account: state.account,
         subject: state.subject,
+        lang: state.lang,
         surveyID: state.surveyID,
+        surveyVersion: state.surveyVersion,
+        surveyL10n: state.surveyL10n,
         editSubject: state.editSubject,
         preview: state.preview,
         previewID: state.previewID,
+        selectedL10n: state.selectedL10n,
         selectedUser: state.selectedUser,
         webpage: state.webpage,
         popup: state.popup,

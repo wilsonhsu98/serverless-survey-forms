@@ -95,6 +95,7 @@ class Pagination extends PureComponent {
                         onClick={this._onEditPageClick}
                     >
                         Page {id}:{description}
+                        <div className={styles.line}></div>
                     </div>
                     <div className={styles.control}>
                         <IconButton

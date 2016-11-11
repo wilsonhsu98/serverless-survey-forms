@@ -5,7 +5,7 @@ import * as types from '../../../portal/src/constants/ActionTypes';
 describe('[Portal] surveyPolicy reducer', () => {
     it('should handle surveyPolicy state for default value', () => {
         const init = {
-            description: 'Thanks for sharing your feedback with Trend Micro.',
+            description: 'privacy_description',
             privacy: {}
         };
         expect(
@@ -18,20 +18,20 @@ describe('[Portal] surveyPolicy reducer', () => {
             surveyPolicy({}, {
                 type: types.SET_SURVEY_POLICY,
                 surveyPolicy: {
-                    description: 'Thanks for sharing your feedback with Trend Micro.',
+                    description: 'privacy_description',
                     privacy: {
-                        input: 'Please enter your email address.',
-                        label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-                        terms: 'Yes, Trend Micro can reach me at this address: '
+                        input: 'privacy_label',
+                        label: 'privacy_terms',
+                        terms: 'privacy_input'
                     }
                 }
             })
         ).toEqual({
-            description: 'Thanks for sharing your feedback with Trend Micro.',
+            description: 'privacy_description',
             privacy: {
-                input: 'Please enter your email address.',
-                label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-                terms: 'Yes, Trend Micro can reach me at this address: '
+                input: 'privacy_label',
+                label: 'privacy_terms',
+                terms: 'privacy_input'
             }
         });
     });
@@ -43,7 +43,7 @@ describe('[Portal] surveyPolicy reducer', () => {
                 type: types.INIT_SURVEY_POLICY
             })
         ).toEqual({
-            description: 'Thanks for sharing your feedback with Trend Micro.',
+            description: 'privacy_description',
             privacy: {}
         });
     });
