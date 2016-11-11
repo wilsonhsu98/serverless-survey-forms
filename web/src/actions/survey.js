@@ -43,7 +43,7 @@ export function fetchSurvey(accountid, surveyid) {
         .then(data => {
             if (data && data.survey) {
                 dispatch(receiveSurveySuccess(data.survey));
-                if (data.l10n) {
+                if (data.hasOwnProperty('l10n') && data.l10n.hasOwnProperty('basic')) {
                     const l10n = data.l10n;
                     const locale = getState().settings.locale;
                     const lang = l10n.hasOwnProperty(locale) ? locale : l10n.basic;
