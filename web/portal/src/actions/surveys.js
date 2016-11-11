@@ -364,8 +364,7 @@ export function deleteAllFeedbacks() {
         dispatch({ type: types.REQUEST_DELETE_ALLFEEDBACKS });
         const { selectedSurveys, token } = getState();
         return fetch(
-            // `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
-            `${Config.baseURL}/api/v1/feedbacks/${selectedSurveys}`, {
+            `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
                 headers: {
