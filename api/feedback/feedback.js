@@ -6,7 +6,7 @@
 
 let docClient;
 
-module.exports = (aws => {
+module.exports = ((aws) => {
   if (!docClient && aws) {
     docClient = new aws.DynamoDB.DocumentClient();
   }
