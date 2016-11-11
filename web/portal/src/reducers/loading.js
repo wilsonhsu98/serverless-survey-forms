@@ -7,6 +7,7 @@ export default function loading(state = false, action) {
         return action.loading;
     case types.REQUEST_SET_SUBJECT:
     case types.REQUEST_SURVEYS_LIST:
+    case types.REQUEST_DELETE_ALLFEEDBACKS:
     case types.REQUEST_DELETE_SURVEYS:
     case types.REQUEST_GET_QUESTION:
     case types.REQUEST_REPORT:
@@ -22,6 +23,8 @@ export default function loading(state = false, action) {
     case types.RECEIVE_SURVEYS_FAILURE:
     case types.RECEIVE_DELETE_SURVEYS_SUCCESS:
     case types.RECEIVE_DELETE_SURVEYS_FAILURE:
+    case types.DELETE_ALLFEEDBACKS_SUCCESS:
+    case types.DELETE_ALLFEEDBACKS_FAILURE:
     case types.RECEIVE_QUESTIONS_SUCCESS:
     case types.RECEIVE_QUESTIONS_FAILURE:
     case types.RECEIVE_REPORT_SUCCESS:
