@@ -18,7 +18,6 @@ module.exports = (aws => {
         case "AccessDeniedException":
         case "UnrecognizedClientException":
           return new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
-          break;
         default:
           return new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
       }
@@ -439,7 +438,8 @@ module.exports = (aws => {
    * Response:
    * Valid parameter for batchWrite()
    */
-  const processBatchWrite = (param1, param2 = {RequestItems: {}}) => {
+  const processBatchWrite = (param1, param2) => {
+    if (!param2) param2 = {RequestItems: {}};
     Object.keys(param2.RequestItems).forEach(key => {
       if (param1.RequestItems.hasOwnProperty(key) && Array.isArray(param1.RequestItems[key])) {
         param1.RequestItems[key] = param1.RequestItems[key].concat(param2.RequestItems[key]);

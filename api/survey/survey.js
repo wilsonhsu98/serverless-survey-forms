@@ -19,7 +19,6 @@ module.exports = (aws => {
         case "AccessDeniedException":
         case "UnrecognizedClientException":
           return new Error("401 Unauthorized: Unable to access an item with error: " + JSON.stringify(err));
-          break;
         default:
           return new Error("400 Bad Request: Unable to access an item with error: " + JSON.stringify(err));
       }
