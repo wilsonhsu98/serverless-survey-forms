@@ -181,7 +181,7 @@ class Feedback extends PureComponent {
                         {
                             description ?
                                 <div className={styles.description}>
-                                    {I18Next.t(description) || description}
+                                    {I18Next.t(description, { defaultValue: description })}
                                 </div> :
                                 ''
                         }

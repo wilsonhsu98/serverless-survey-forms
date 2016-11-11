@@ -43,7 +43,7 @@ class Privacy extends PureComponent {
                                 [`${styles.question}`]: true,
                                 'ut-label': true
                             })}
-                        >{I18Next.t(info.label) || info.label}
+                        >{I18Next.t(info.label, { defaultValue: info.label })}
                         </div>
                         <div className={styles.terms}>
                             <div className={styles.topWrapper}>
@@ -58,14 +58,15 @@ class Privacy extends PureComponent {
                                             'ut-terms': true
                                         })}
                                     >
-                                    {I18Next.t(info.terms) || info.terms}
+                                    {I18Next.t(info.terms, { defaultValue: info.terms })}
                                     </label>
                                 </div>
                             </div>
                             <div className={styles.bottomWrapper}>
                                 <input
                                     type="text"
-                                    placeholder={I18Next.t(info.input) || info.input}
+                                    placeholder={
+                                        I18Next.t(info.input, { defaultValue: info.input })}
                                     value={this.state.email}
                                     onChange={this._onChange}
                                     disabled={!this.state.terms}
