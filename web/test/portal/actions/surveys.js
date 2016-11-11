@@ -591,7 +591,7 @@ describe('[Portal] surveys action', () => {
         nock(Config.baseURL, {
             reqheaders: { 'authorization': token }
         })
-        .intercept(`/api/v1/feedbacks/${selectedSurveys}`, 'DELETE')
+        .intercept(`/api/v1/mgnt/feedbacks/${selectedSurveys}`, 'DELETE')
         .reply(200, {});
 
         const store = mockStore(
