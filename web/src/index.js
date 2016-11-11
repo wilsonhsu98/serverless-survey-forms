@@ -36,7 +36,7 @@ function getPromise(fetchFunc, ...extraParams) {
     });
 }
 
-function i18nSetting(resolve, reject, locale, path) {
+function i18nSetting(resolve, reject, locale) {
     I18Next
     .use(XHR)
     .init({
@@ -45,7 +45,7 @@ function i18nSetting(resolve, reject, locale, path) {
         debug: false,
         ns: 'translation',
         backend: {
-            loadPath: `${path}/__lng__/__ns__.json`
+            loadPath: '../../assets/L10N/__lng__/__ns__.json'
         },
         interpolation: {
             prefix: '__',
@@ -73,13 +73,18 @@ class App extends PureComponent {
     constructor(props) {
         super(props);
 
-        // TODOS: change locale, maybe pass by props
-        const locale = 'en-US';
+        // set locale by parameter
+        // if no parameter, set locale by browser language
+        // navigator.userLanguage is for IE < 11
+        const locale = props.locale ||
+            navigator.languages && navigator.languages[0] ||
+            navigator.language ||
+            navigator.userLanguage;
         const settings = Object.assign({}, props, { locale: locale });
 
         store.dispatch(SettingsActions.settings(settings));
         // Localization init settings
-        getPromise(i18nSetting, locale, props.localize_path)
+        getPromise(i18nSetting, locale)
         .then(() =>
             // fetch survey from API
             store.dispatch(SurveyActions.fetchSurvey(settings.accountid, settings.surveyid))
