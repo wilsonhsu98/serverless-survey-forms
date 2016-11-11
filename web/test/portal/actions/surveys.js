@@ -215,11 +215,11 @@ describe('[Portal] surveys action', () => {
                 required: false
             }];
         expect(
-            actions.handleReportHeader(question, true)
+            actions.handleReportHeader(question, true, {})
         ).toEqual([
-            ['Client ID', 'Question 1', 'Please input the reason',
-            'Question 2', 'option A', 'option B', 'Tell me', 'Question 3', 'Why', 'Question 4', 'Question 5',
-            'Privacy email', 'Feedback time']
+            ['Client ID', 'Locale', 'Q1_Question 1', 'Please input the reason',
+            'Q2_Question 2', 'option A', 'option B', 'Tell me', 'Q3_Question 3', 'Why',
+            'Q4_Question 4', 'Q5_Question 5', 'Privacy email', 'Feedback time']
         ]);
     });
 
@@ -313,12 +313,12 @@ describe('[Portal] surveys action', () => {
             }
         }];
 
-        const result = actions.handleReportContent(question, false, feedback);
+        const result = actions.handleReportContent(question, false, feedback, {});
         result[0].pop();
         expect(
             result
         ).toEqual([
-            ['11112222\b', 'Satisfied', 'the reason', '2', 'option A',
+            ['11112222\b', '', 'Satisfied', 'the reason', '2', 'option A',
             'option B', 'option B\'s input', 'Dissatisfied', 'radio\'s input',
             'Single line input', 'Multiline input']
         ]);
@@ -377,7 +377,7 @@ describe('[Portal] surveys action', () => {
         expect(
             result
         ).toEqual([
-            ['11112222\b', '', '', '', '', '', '', '', '', '', '', '']
+            ['11112222\b', '', '', '', '', '', '', '', '', '', '', '', '']
         ]);
     });
 
