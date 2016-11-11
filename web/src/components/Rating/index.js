@@ -82,7 +82,7 @@ class Rating extends PureComponent {
         const items = item.data.map((itm, idx) => {
             const inputID = `rating_${id}_${idx}`;
             const val = itm.value;
-            const label = l10n[item.label] || itm.label;
+            const label = l10n[itm.label] || itm.label;
             return (
                 <li
                     className={styles.ratingItem}

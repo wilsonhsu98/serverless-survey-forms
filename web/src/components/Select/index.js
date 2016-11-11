@@ -81,7 +81,7 @@ class Select extends PureComponent {
         const items = item.data.map((itm, idx) => {
             const inputID = `select_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
-            const label = l10n[item.label] || itm.label;
+            const label = l10n[itm.label] || itm.label;
             const optClass = {
                 selectItem: true,
                 selected: this.state.selectedValue === val

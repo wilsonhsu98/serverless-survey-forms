@@ -66,8 +66,8 @@ class Checkbox extends PureComponent {
         const items = item.data.map((itm, idx) => {
             const inputID = `checkbox_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
-            const label = l10n[item.label] || itm.label;
-            const input = l10n[item.input] || itm.input;
+            const label = l10n[itm.label] || itm.label;
+            const input = l10n[itm.input] || itm.input;
             return (
                 <div
                     className="checkboxItem"
