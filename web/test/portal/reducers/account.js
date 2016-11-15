@@ -12,7 +12,7 @@ describe('[Portal] account reducer', () => {
     it('should handle account state', () => {
         expect(
             account({}, {
-                type: types.RECIEVE_ACCOUNT_SUCCESS,
+                type: types.RECEIVE_ACCOUNT_SUCCESS,
                 account: {
                     accountid: 'facebook-xxxxxxx',
                     role: 'Designer',

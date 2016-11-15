@@ -1,0 +1,58 @@
+/*
+ * Style for components/L10n/L10nList/index.js
+ */
+.list {
+    margin-top: 8px;
+    margin-bottom: 48px;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 0 16px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+
+    &.nodata {
+        min-height: 300px;
+    }
+}
+
+.description {
+    font-size: 18px;
+    text-align: center;
+    line-height: 300px;
+}
+
+.listTb {
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+
+    th {
+        color: #222;
+        font-weight: normal;
+        padding: 18px 8px;
+    }
+    tr {
+        border-bottom: 1px solid #BFBFBF;
+    }
+    tbody tr {
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    td{
+        padding: 14px 4px 14px 8px;
+        vertical-align: top;
+        color: #666;
+        word-wrap: break-word;
+    }
+    .subject {
+        width: 380px;
+
+        .checkboxItem {
+            margin-left: 20px;
+        }
+        .checkboxItem input[type="checkbox"] + label {
+            margin-bottom: 14px;
+        }
+    }
+}

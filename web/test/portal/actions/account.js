@@ -12,12 +12,7 @@ DomMock('<html><body></body></html>');
 const mockStore = configureStore([thunkMiddleware]);
 
 describe('[Portal] account action', () => {
-    beforeEach(() => {
-        global.window = { localStorage: {} };
-    });
-
     afterEach(() => {
-        global.window = document.defaultView;
         nock.cleanAll();
     });
 
@@ -25,7 +20,7 @@ describe('[Portal] account action', () => {
         expect(
             actions.receiveAccountFailure('Error')
         ).toEqual({
-            type: types.RECIEVE_ACCOUNT_FAILURE,
+            type: types.RECEIVE_ACCOUNT_FAILURE,
             errorMsg: 'Error'
         });
     });
@@ -39,7 +34,7 @@ describe('[Portal] account action', () => {
         expect(
             actions.receiveAccountSuccess(account)
         ).toEqual({
-            type: types.RECIEVE_ACCOUNT_SUCCESS,
+            type: types.RECEIVE_ACCOUNT_SUCCESS,
             account
         });
     });
@@ -81,7 +76,7 @@ describe('[Portal] account action', () => {
 
         const expectedActions = [
             { type: types.SET_TOKEN, token },
-            { type: types.RECIEVE_ACCOUNT_SUCCESS, account }
+            { type: types.RECEIVE_ACCOUNT_SUCCESS, account }
         ];
         const store = mockStore({});
 

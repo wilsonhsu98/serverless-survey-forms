@@ -12,7 +12,7 @@ describe('[Portal] users reducer', () => {
     it('should handle users state', () => {
         expect(
             users({}, {
-                type: types.RECIEVE_USERS_SUCCESS,
+                type: types.RECEIVE_USERS_SUCCESS,
                 users: [
                     {
                         accountid: 'facebook-XXXXXX',
@@ -69,7 +69,7 @@ describe('[Portal] users reducer', () => {
                     email: 'lin@trend.com.tw',
                     role: 'Admin'
                 }], {
-                type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
+                type: types.RECEIVE_CHANGE_ROLE_SUCCESS,
                 users: [
                     {
                         accountid: 'facebook-XXXXXX',

@@ -6,14 +6,14 @@ import { finishEdit } from './questions';
 
 export function receiveAccountSuccess(data) {
     return {
-        type: types.RECIEVE_ACCOUNT_SUCCESS,
+        type: types.RECEIVE_ACCOUNT_SUCCESS,
         account: data
     };
 }
 
 export function receiveAccountFailure(err) {
     return {
-        type: types.RECIEVE_ACCOUNT_FAILURE,
+        type: types.RECEIVE_ACCOUNT_FAILURE,
         errorMsg: err
     };
 }

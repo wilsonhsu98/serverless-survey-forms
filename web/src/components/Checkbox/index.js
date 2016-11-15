@@ -19,7 +19,6 @@ import styles from './style.css';
 
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import $ from 'jquery';
 import I18Next from 'i18next';
 
 import Question from '../Question/index';
@@ -42,21 +41,14 @@ class Checkbox extends PureComponent {
         this._feedback = this._feedback.bind(this);
         this._checkDone = this._checkDone.bind(this);
     }
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
-
-    componentDidUpdate() {
-        $(this.refs.root).localize();
-    }
 
     render() {
-        const { id, item, itemID, feedbackActions, pageDone } = this.props;
+        const { id, item, itemID, feedbackActions, pageDone, l10n } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 >
                     {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
@@ -70,12 +62,12 @@ class Checkbox extends PureComponent {
     }
 
     _renderCheckboxItem() {
-        const { id, item } = this.props;
+        const { id, item, l10n } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `checkbox_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
-            const label = itm.label;
-            const input = itm.input;
+            const label = l10n[itm.label] || itm.label;
+            const input = l10n[itm.input] || itm.input;
             return (
                 <div
                     className="checkboxItem"

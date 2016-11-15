@@ -17,11 +17,13 @@ describe('[Portal] subject action', () => {
 
     it('should create an action to set subject', () => {
         const subject = 'Hello World';
+        const lang = 'en-US';
         expect(
             actions.setSubject(subject)
         ).toEqual({
             type: types.SET_SUBJECT,
-            subject
+            subject,
+            lang
         });
     });
 
@@ -34,7 +36,6 @@ describe('[Portal] subject action', () => {
     });
 
     it('should create an action to set subject failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EDIT_SUBJECT, editSubject: false },
@@ -55,12 +56,21 @@ describe('[Portal] subject action', () => {
             role: 'Admin'
         };
         const subject = 'Hello World';
+        const lang = 'en-US';
         const surveyID = '1111-2222-3333';
         const surveyPolicy = {};
         const token = 'xxxxxxx';
         const postData = {
             subject: subject,
-            survey: { content: [], thankyou: surveyPolicy }
+            survey: {
+                format: Config.surveyFormat,
+                content: [],
+                thankyou: surveyPolicy
+            },
+            l10n: {
+                basic: lang,
+                [lang]: { subject }
+            }
         };
 
         nock(Config.baseURL, {
@@ -79,14 +89,14 @@ describe('[Portal] subject action', () => {
         });
         const expectedActions = [
             { type: types.REQUEST_SET_SUBJECT },
-            { type: types.SET_SUBJECT, subject },
+            { type: types.SET_SUBJECT, subject, lang },
             { type: types.SET_SURVEYID, surveyID },
             { type: types.EDIT_SUBJECT, editSubject: false },
             { type: types.SET_SUBJECT_SUCCESS },
             { type: types.SET_WEBPAGE, webpage: 'create' }
         ];
 
-        return store.dispatch(actions.saveSubject(subject))
+        return store.dispatch(actions.saveSubject(subject, lang))
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
@@ -100,11 +110,20 @@ describe('[Portal] subject action', () => {
         };
         const surveyID = '1111-2222-3333';
         const subject = 'Hello World';
+        const lang = 'en-US';
+        const surveyVersion = Config.surveyFormat;
         const questions = [ {
                 page: 1,
+                id: '1B02QVCJ3AQFSP9829GUY',
                 description: 'I am Page 1',
                 question: []
             } ];
+        const surveyL10n = {
+            [lang]: {
+                subject,
+                '1B02QVCJ3AQFSP9829GUY': 'I am Page 1'
+            }
+        };
         const surveyPolicy = {};
         const selectedUser = {};
         const token = 'xxxxxxx';
@@ -113,22 +132,33 @@ describe('[Portal] subject action', () => {
             subject: subject,
             survey: {
                 format: Config.surveyFormat,
-                content: questions,
+                content: [{
+                    page: 1,
+                    id: '1B02QVCJ3AQFSP9829GUY',
+                    description: '1B02QVCJ3AQFSP9829GUY',
+                    question: []
+                }],
                 thankyou: surveyPolicy
+            },
+            l10n: {
+                basic: lang,
+                surveyL10n
             }
         };
 
-        const store = mockStore({ account, surveyID, subject, questions, surveyPolicy, selectedUser, token });
+        const store = mockStore({ account, surveyID, lang, subject, surveyL10n: {}, surveyVersion,
+            questions, surveyPolicy, selectedUser, token });
         const expectedActions = [
-            { type: types.SET_SUBJECT, subject },
+            { type: types.SET_SUBJECT, subject, lang },
             { type: types.REQUEST_SAVE_QUESTION },
             {
                 type: types.UPDATE_QUESTIONS,
                 questions: questions
-            }
+            },
+            { type: types.SET_SURVEY_L10N, surveyL10n }
         ];
 
-        store.dispatch(actions.editSubject(subject));
+        store.dispatch(actions.editSubject(subject, lang));
         expect(
             store.getActions()
         ).toEqual(expectedActions);

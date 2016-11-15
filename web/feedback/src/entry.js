@@ -39,7 +39,7 @@ function initApp() {
             accountid: getParameterByName('accountid') || 'context.authorizer.principalId',
             surveyid: getParameterByName('surveyid') || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
             type: getParameterByName('type') || 'default', // type=default/embedded
-            localize_path: '../../assets/L10N',
+            locale: getParameterByName('locale') || '', // sync with product or no need
             // preview mode does not send out feedback
             preview: getParameterByName('preview') || false
         };

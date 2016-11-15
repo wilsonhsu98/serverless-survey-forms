@@ -14,6 +14,8 @@ import * as PreviewActions from '../../actions/preview';
 import * as PopupActions from '../../actions/popup';
 
 import Design from '../../components/Design';
+import ControlBtn from '../../components/L10n/ControlBtn';
+import L10nList from '../../components/L10n/L10nList';
 
 class Create extends PureComponent {
     // componentDidMount() {
@@ -24,22 +26,66 @@ class Create extends PureComponent {
     // }
 
     render() {
-        return (<Design ref="root" {...this.props} />);
+        const { surveyID, lang, questions, dropQuestion, editQuestion, editPage, orderPage,
+            selectedUser, surveyPolicy, surveyEditable, surveyL10n, selectedL10n, webpage,
+            questionsActions, editQuestionActions, editPageActions,
+            orderPageActions, previewActions, popupActions } = this.props;
+        const webpageArray = webpage.split('/');
+        const designProps = {
+            questions,
+            dropQuestion,
+            editQuestion,
+            editPage,
+            orderPage,
+            surveyID,
+            selectedUser,
+            surveyPolicy,
+            surveyEditable,
+            questionsActions,
+            editQuestionActions,
+            editPageActions,
+            orderPageActions,
+            previewActions,
+            popupActions };
+
+        if (webpageArray[1] && webpageArray[1] === 'l10n') {
+            return (
+                <div ref="root">
+                    <ControlBtn
+                        lang={lang}
+                        selectedL10n={selectedL10n}
+                        questionsActions={questionsActions}
+                        popupActions={popupActions}
+                    />
+                    <L10nList
+                        lang={lang}
+                        surveyL10n={surveyL10n}
+                        selectedL10n={selectedL10n}
+                        questionsActions={questionsActions}
+                        popupActions={popupActions}
+                    />
+                </div>
+            );
+        }
+        return (<Design ref="root" {...designProps} />);
     }
 }
 
 function mapStateToProps(state) {
     return {
-        account: state.account,
         surveyID: state.surveyID,
+        lang: state.lang,
         questions: state.questions,
+        surveyL10n: state.surveyL10n,
         dropQuestion: state.dropQuestion,
         editQuestion: state.editQuestion,
         editPage: state.editPage,
         orderPage: state.orderPage,
         surveyEditable: state.surveyEditable,
         surveyPolicy: state.surveyPolicy,
-        selectedUser: state.selectedUser
+        selectedL10n: state.selectedL10n,
+        selectedUser: state.selectedUser,
+        webpage: state.webpage
     };
 }
 

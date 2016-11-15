@@ -13,10 +13,23 @@ import Mixins from '../mixins/global';
 import { setSubject } from './subject';
 import { expiredToken } from './account';
 import { setWebpage } from './webpage';
+import { closePopup } from './popup';
 
 export function postSurvey(accountid, postData, token) {
     return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
         method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token
+        },
+        body: JSON.stringify(postData)
+    });
+}
+
+export function putSurvey(accountid, surveyID, postData, token) {
+    return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
+        method: 'PUT',
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
@@ -58,7 +71,7 @@ export function finishEdit() {
     return (dispatch, getState) => {
         const { selectedUser } = getState();
         dispatch(setSurveyID(''));
-        dispatch(setSubject(''));
+        dispatch(setSubject('', ''));
         dispatch(setQuestionEditable(true));
         dispatch({ type: types.INIT_QUESTIONS });
         dispatch({ type: types.INIT_SURVEY_POLICY });
@@ -193,6 +206,7 @@ export function exchangeQuestion(bfPage, bfIdx, afPage, afIdx, data) {
 export function addPage(page) {
     const newPage = {
         page: page,
+        id: Mixins.generateQuestionID(),
         description: values.PAGE_TITLE,
         question: []
     };
@@ -207,6 +221,7 @@ export function copyPage(pageId) {
     return (dispatch, getState) => {
         const originQuestions = Immutable.fromJS(getState().questions);
         let newPage = originQuestions.get(pageId - 1);
+        newPage = newPage.set('id', Mixins.generateQuestionID());
         newPage.get('question').forEach((que, queIdx) => {
             newPage = newPage.updateIn(
                 ['question', queIdx, 'id'],
@@ -276,6 +291,24 @@ export function exchangePage() {
     };
 }
 
+export function setSurveyL10n(l10n) {
+    const surveyL10n = Object.assign({}, l10n);
+    if (surveyL10n.hasOwnProperty('basic')) {
+        delete surveyL10n.basic;
+    }
+    return {
+        type: types.SET_SURVEY_L10N,
+        surveyL10n
+    };
+}
+
+export function setSurveyVersion(surveyVersion) {
+    return {
+        type: types.SET_SURVEY_VERSION,
+        surveyVersion
+    };
+}
+
 export function saveQuestionsSuccess() {
     return {
         type: types.SAVE_QUESTIONS_SUCCESS
@@ -295,7 +328,7 @@ export function saveQuestionsFailure(err) {
 export function saveQuestion() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_SAVE_QUESTION });
-        const { account, surveyID, subject, questions,
+        const { account, surveyID, subject, lang, surveyL10n, surveyVersion, questions,
             surveyPolicy, selectedUser, token } = getState();
         // save question by selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
@@ -304,8 +337,13 @@ export function saveQuestion() {
         // generate order number
         let idx = 0;
         genQuestions.forEach((page, pageIdx) => {
+            // If there is no 'id', create one
+            if (!page.has('id')) {
+                genQuestions = genQuestions.setIn([pageIdx, 'id'], Mixins.generateQuestionID());
+            }
             if (page.get('description') === '') {
-                genQuestions = genQuestions.setIn([pageIdx, 'description'], values.PAGE_TITLE);
+                // If description is empty, use one whitespace for DynamoDB limitation
+                genQuestions = genQuestions.setIn([pageIdx, 'description'], ' ');
             }
             page.get('question').forEach((que, queIdx) => {
                 idx ++;
@@ -336,36 +374,82 @@ export function saveQuestion() {
                 }
             });
         });
+        // update survey
         dispatch({
             type: types.UPDATE_QUESTIONS,
             questions: genQuestions.toJS()
         });
+        // Question format v2
+        // replace string to l10n key, and generate l10n json
+        // l10n needs to be reducers, record original l10n data, maybe editL10n & editLang
+        const l10n = { subject };
+        let l10nQuestions = genQuestions;
+        l10nQuestions.forEach((page, pageIdx) => {
+            // add page description
+            if (page.get('description') !== ' ') {
+                Object.assign(l10n, { [page.get('id')]: page.get('description') });
+                l10nQuestions = l10nQuestions.setIn([pageIdx, 'description'], page.get('id'));
+            }
+            // handle each question
+            page.get('question').forEach((que, queIdx) => {
+                // add question title
+                Object.assign(l10n, { [que.get('id')]: que.get('label') });
+                l10nQuestions = l10nQuestions.setIn(
+                    [pageIdx, 'question', queIdx, 'label'], que.get('id'));
+                if (que.has('input')) {
+                    // add question input
+                    Object.assign(l10n, { [`${que.get('id')}_INPUT`]: que.get('input') });
+                    l10nQuestions = l10nQuestions.setIn(
+                        [pageIdx, 'question', queIdx, 'input'], `${que.get('id')}_INPUT`);
+                }
+                if (que.has('data')) {
+                    // handle each question option
+                    que.get('data').forEach((opt, optIdx) => {
+                        // add question option
+                        Object.assign(l10n, { [opt.get('value')]: opt.get('label') });
+                        l10nQuestions = l10nQuestions.setIn(
+                            [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
+                            opt.get('value'));
+                        if (opt.has('input')) {
+                            // add question option
+                            Object.assign(l10n,
+                                { [`${opt.get('value')}_INPUT`]: opt.get('input') });
+                            l10nQuestions = l10nQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
+                                `${opt.get('value')}_INPUT`);
+                        }
+                    });
+                }
+            });
+        });
+
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang, [lang]: l10n });
         const postData = {
             subject: subject,
             survey: {
                 format: Config.surveyFormat,
-                content: genQuestions.toJS(),
-                thankyou: surveyPolicy }
-        };
-
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${surveyID}`, {
-            method: 'PUT',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: token
+                content: l10nQuestions.toJS(),
+                thankyou: surveyPolicy
             },
-            body: JSON.stringify(postData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.datetime) {
-                dispatch(saveQuestionsSuccess());
-            } else {
-                dispatch(saveQuestionsFailure(data));
-            }
-        })
-        .catch(err => dispatch(saveQuestionsFailure(err)));
+            l10n: newL10n
+        };
+        // update survey version
+        if (surveyVersion !== Config.surveyFormat) {
+            dispatch(setSurveyVersion(Config.surveyFormat));
+        }
+        // update survey l10n
+        dispatch(setSurveyL10n(newL10n));
+
+        return putSurvey(accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                } else {
+                    dispatch(saveQuestionsFailure(data));
+                }
+            })
+            .catch(err => dispatch(saveQuestionsFailure(err)));
     };
 }
 
@@ -378,17 +462,15 @@ export function setSurveyPolicy(data) {
 
 export function editSurveyPolicy(flag) {
     const data = {
-        description: 'Thanks for sharing your feedback with Trend Micro.',
+        description: 'privacy_description',
         privacy: {}
     };
 
     if (flag) {
-        const label = 'If Trend Micro has a follow-up survey on the Email Scan,'
-            + ' would you like to participate?';
         const privacy = {
-            label: label,
-            terms: 'Yes, Trend Micro can reach me at this address: ',
-            input: 'Please enter your email address.'
+            label: 'privacy_label',
+            terms: 'privacy_terms',
+            input: 'privacy_input'
         };
         data.privacy = privacy;
     }
@@ -401,7 +483,7 @@ export function editSurveyPolicy(flag) {
 
 export function receiveQuestionsSuccess(data) {
     return {
-        type: types.RECIEVE_QUESTIONS_SUCCESS,
+        type: types.RECEIVE_QUESTIONS_SUCCESS,
         questions: data
     };
 }
@@ -410,7 +492,7 @@ export function receiveQuestionsFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_QUESTIONS_FAILURE,
+            type: types.RECEIVE_QUESTIONS_FAILURE,
             errorMsg: err
         });
     };
@@ -427,10 +509,67 @@ export function getQuestion(surveyID) {
             .then(response => response.json())
             .then(data => {
                 if (data.surveyid) {
-                    dispatch(setSubject(data.subject));
-                    dispatch(setSurveyPolicy(data.survey.thankyou));
-                    dispatch(receiveQuestionsSuccess(data.survey.content));
-                    dispatch(setSurveyID(data.surveyid));
+                    const { surveyid, subject, survey, l10n } = data;
+                    if (survey.hasOwnProperty('format') && survey.format === 'v2') {
+                        // Question format v2
+                        // replace string from l10n to content
+                        const langMapping = l10n[l10n.basic];
+                        let genQuestions = Immutable.fromJS(survey.content);
+                        let seq = [];
+                        genQuestions.forEach((page, pageIdx) => {
+                            // set page description
+                            // If there is no description, use one whitespace
+                            seq = [pageIdx, 'description'];
+                            genQuestions = genQuestions.setIn(
+                                seq, langMapping[genQuestions.getIn(seq)] || ' '
+                            );
+                            // handle each question
+                            page.get('question').forEach((que, queIdx) => {
+                                // set question title
+                                seq = [pageIdx, 'question', queIdx, 'label'];
+                                genQuestions = genQuestions.setIn(
+                                    seq, langMapping[genQuestions.getIn(seq)]
+                                );
+                                if (que.has('input')) {
+                                    // set question input
+                                    seq = [pageIdx, 'question', queIdx, 'input'];
+                                    genQuestions = genQuestions.setIn(
+                                        seq, langMapping[genQuestions.getIn(seq)]
+                                    );
+                                }
+                                if (que.has('data')) {
+                                    // handle each question option
+                                    que.get('data').forEach((opt, optIdx) => {
+                                        // set question option
+                                        seq = [pageIdx, 'question', queIdx,
+                                            'data', optIdx, 'label'];
+                                        genQuestions = genQuestions.setIn(
+                                            seq, langMapping[genQuestions.getIn(seq)]
+                                        );
+                                        if (opt.has('input')) {
+                                            // set question option
+                                            seq = [pageIdx, 'question', queIdx,
+                                                'data', optIdx, 'input'];
+                                            genQuestions = genQuestions.setIn(
+                                                seq, langMapping[genQuestions.getIn(seq)]
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                        dispatch(setSurveyL10n(l10n));
+                        dispatch(setSurveyVersion(survey.format));
+                        dispatch(setSubject(langMapping.subject, l10n.basic));
+                        dispatch(setSurveyPolicy(survey.thankyou));
+                        dispatch(receiveQuestionsSuccess(genQuestions.toJS()));
+                    } else {
+                        dispatch(setSubject(subject));
+                        dispatch(setSurveyVersion('v1'));
+                        dispatch(setSurveyPolicy(survey.thankyou));
+                        dispatch(receiveQuestionsSuccess(survey.content));
+                    }
+                    dispatch(setSurveyID(surveyid));
                     // TODOS: temporarily remove router
                     // dispatch(push('/create'));
                     if (selectedUser.hasOwnProperty('accountid')) {
@@ -456,5 +595,76 @@ export function setDropQuestion(dropQuestion) {
 export function stopDropQuestion() {
     return {
         type: types.STOP_DROP_QUESTION
+    };
+}
+
+export function toggleSelectedL10n(data) {
+    return (dispatch, getState) => {
+        if (getState().selectedL10n === data) {
+            dispatch({
+                type: types.REMOVE_SELECTED_L10N
+            });
+        } else {
+            dispatch({
+                type: types.ADD_SELECTED_L10N,
+                selectedL10n: data
+            });
+        }
+    };
+}
+
+export function deleteSelectedL10n() {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_DELETE_L10N });
+        const { account, surveyID, lang, surveyL10n, selectedL10n, token } = getState();
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang });
+        delete newL10n[selectedL10n];
+        const postData = {
+            l10n: newL10n
+        };
+
+        return putSurvey(account.accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                    dispatch(toggleSelectedL10n(selectedL10n));
+                    dispatch(setSurveyL10n(newL10n));
+                } else {
+                    dispatch(saveQuestionsFailure(data));
+                }
+                dispatch({ type: types.RECEIVE_DELETE_L10N });
+            })
+            .catch(err => {
+                dispatch(saveQuestionsFailure(err));
+                dispatch({ type: types.RECEIVE_DELETE_L10N });
+            });
+    };
+}
+
+export function importL10n(l10n) {
+    return (dispatch, getState) => {
+        dispatch({ type: types.REQUEST_IMPORT_L10N });
+        const { account, surveyID, lang, surveyL10n, token } = getState();
+        const newL10n = Object.assign({}, surveyL10n, { basic: lang }, l10n);
+        const postData = {
+            l10n: newL10n
+        };
+        return putSurvey(account.accountid, surveyID, postData, token)
+            .then(response => response.json())
+            .then(data => {
+                if (data.datetime) {
+                    dispatch(saveQuestionsSuccess());
+                    dispatch(closePopup());
+                    dispatch(setSurveyL10n(newL10n));
+                } else {
+                    dispatch(saveQuestionsFailure(l10n));
+                }
+                dispatch({ type: types.RECEIVE_IMPORT_L10N });
+            })
+            .catch(err => {
+                dispatch(saveQuestionsFailure(err));
+                dispatch({ type: types.RECEIVE_IMPORT_L10N });
+            });
     };
 }
