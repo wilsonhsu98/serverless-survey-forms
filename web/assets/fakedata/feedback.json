@@ -1,5 +1,6 @@
 {
     "feedback": {
+        "locale": "en-US",
         "Q1": {
             "label": "Select title label",
             "type": "select",
@@ -83,11 +84,11 @@
                     "input": "Input of reason"
                 }
             ]
-        }
-    },
-    "thankyou": {
-        "privacy": {
-            "input": "follower@test.com"
+        },
+        "thankyou": {
+            "privacy": {
+                "input": "follower@test.com"
+            }
         }
     }
 }

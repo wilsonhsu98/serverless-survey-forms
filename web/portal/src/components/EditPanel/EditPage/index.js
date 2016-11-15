@@ -17,7 +17,6 @@ class EditPage extends PureComponent {
 
         this._btnClickEvent = this._btnClickEvent.bind(this);
         this._handleChangeEvent = this._handleChangeEvent.bind(this);
-        this._handleFocusEvent = this._handleFocusEvent.bind(this);
         this._handleEditModeClick = this._handleEditModeClick.bind(this);
     }
 
@@ -43,7 +42,7 @@ class EditPage extends PureComponent {
 
     render() {
         const { editPage } = this.props;
-
+        const description = editPage.description === ' ' ? '' : editPage.description;
         return (
             <div id="editModal" className="modalEditPanel">
                 <div id="editPanel" className="editpanel">
@@ -55,12 +54,11 @@ class EditPage extends PureComponent {
                                     <input
                                         id="pageTxt"
                                         type="text"
-                                        value={editPage.description}
+                                        value={description}
+                                        placeholder={values.PAGE_TITLE}
                                         onChange={this._handleChangeEvent}
-                                        onFocus={this._handleFocusEvent}
                                         className={`${styles.input} input input--medium`}
                                     />
-                                    <div className="input__msg js-msg"></div>
                                 </div>
                             </div>
                         </div>
@@ -90,22 +88,14 @@ class EditPage extends PureComponent {
 
     _btnClickEvent(e) {
         const { editPageActions, questionsActions } = this.props;
-        const msg = document.getElementsByClassName('js-msg')[0];
-        msg.innerHTML = '';
 
         if (e.currentTarget.getAttribute('data-type') === 'cancel') {
             editPageActions.stopEditPage();
         } else if (e.currentTarget.getAttribute('data-type') === 'save') {
-            // Error handling
-            const pageTxt = document.getElementById('pageTxt');
-            if (pageTxt.value === '') {
-                msg.innerHTML = 'Please fill page title';
-            } else {
-                // save editPage to Question
-                questionsActions.editPageTitle();
-                questionsActions.saveQuestion();
-                editPageActions.stopEditPage();
-            }
+            // save editPage to Question
+            questionsActions.editPageTitle();
+            questionsActions.saveQuestion();
+            editPageActions.stopEditPage();
         }
     }
 
@@ -113,13 +103,6 @@ class EditPage extends PureComponent {
         const { editPageActions } = this.props;
         const data = { description: e.target.value };
         editPageActions.setEditPage(data);
-    }
-
-    _handleFocusEvent(e) {
-        const target = e.target;
-        if (target.value === values.PAGE_TITLE) {
-            target.value = '';
-        }
     }
 }
 

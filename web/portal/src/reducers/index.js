@@ -14,6 +14,9 @@
 		},
     surveyID: '',
     subject: '',
+    lang: 'en-US',
+    surveyL10n: {},
+    surveyVersion: 'v2',
     questions: [{},{},...],
     dropQuestion: { page: 1, index: 0 },
     editSubject: true/false,
@@ -22,6 +25,7 @@
     orderPage: [],
     surveys: [{},{},...],
     selectedSurveys: '',
+    selectedL10n: '',
     surveyEditable: true,
     surveyPolicy: {
         description: "Thanks for ...",
@@ -35,7 +39,7 @@
     previewID: '',
     users: [],
     selectedUser: {}
-    webpage: 'index',
+    webpage: 'index', or 'create/build' or 'create/l10n
     popup: ''
  }
 **/
@@ -47,6 +51,9 @@ import token from './token';
 import account from './account';
 import surveyID from './surveyID';
 import subject from './subject';
+import lang from './lang';
+import surveyL10n from './surveyL10n';
+import surveyVersion from './surveyVersion';
 import questions from './questions';
 import dropQuestion from './dropQuestion';
 import editSubject from './editSubject';
@@ -55,6 +62,7 @@ import editPage from './editPage';
 import orderPage from './orderPage';
 import surveys from './surveys';
 import selectedSurveys from './selectedSurveys';
+import selectedL10n from './selectedL10n';
 import surveyEditable from './surveyEditable';
 import surveyPolicy from './surveyPolicy';
 import preview from './preview';
@@ -70,6 +78,9 @@ const rootReducer = combineReducers({
     account,
     surveyID,
     subject,
+    lang,
+    surveyL10n,
+    surveyVersion,
     questions,
     dropQuestion,
     editSubject,
@@ -78,6 +89,7 @@ const rootReducer = combineReducers({
     orderPage,
     surveys,
     selectedSurveys,
+    selectedL10n,
     surveyEditable,
     surveyPolicy,
     preview,

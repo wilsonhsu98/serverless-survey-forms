@@ -3,7 +3,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 // Actions
 import * as SurveyActions from '../../actions/survey';
@@ -13,10 +12,6 @@ import Feedback from '../../components/Feedback';
 import Loading from '../../components/Loading';
 
 class Survey extends PureComponent {
-
-    componentDidMount() {
-        $(this.refs.root).localize();
-    }
 
     render() {
         const { loading } = this.props;
@@ -41,7 +36,8 @@ function mapStateToProps(state) {
         requiredData: state.requiredData,
         done: state.done,
         paging: state.paging,
-        prefillData: state.prefillData
+        prefillData: state.prefillData,
+        l10n: state.l10n
     };
 }
 

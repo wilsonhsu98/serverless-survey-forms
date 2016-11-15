@@ -35,12 +35,12 @@ class Radio extends PureComponent {
     }
 
     render() {
-        const { id, itemID, item, feedbackActions, pageDone } = this.props;
+        const { id, itemID, item, feedbackActions, pageDone, l10n } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 >
                     {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
@@ -54,12 +54,12 @@ class Radio extends PureComponent {
     }
 
     _renderRadioItem() {
-        const { id, item } = this.props;
+        const { id, item, l10n } = this.props;
         const items = item.data.map((itm, idx) => {
             const inputID = `radio_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
-            const label = itm.label;
-            const input = itm.input;
+            const label = l10n[itm.label] || itm.label;
+            const input = l10n[itm.input] || itm.input;
             return (
                 <div
                     className="radioItem"

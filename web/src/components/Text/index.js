@@ -29,12 +29,12 @@ class Text extends PureComponent {
     }
 
     render() {
-        const { id, item, itemID, feedbackActions, pageDone } = this.props;
+        const { id, item, itemID, feedbackActions, pageDone, l10n } = this.props;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 >
                     {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
@@ -43,7 +43,7 @@ class Text extends PureComponent {
                 <div className={styles.inputItem}>
                     <input
                         id={`text_${id}`}
-                        placeholder={item.input}
+                        placeholder={l10n[item.input] || item.input}
                         type="text"
                         onChange={this._onChangeHandle}
                         value={this.state.input ? this.state.input : ''}

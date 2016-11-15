@@ -115,10 +115,10 @@ describe('[Portal] questions reducer', () => {
         ).toEqual(que);
     });
 
-    it('should handle questions state when recieve questions', () => {
+    it('should handle questions state when receive questions', () => {
         expect(
             questions([], {
-                type: types.RECIEVE_QUESTIONS_SUCCESS,
+                type: types.RECEIVE_QUESTIONS_SUCCESS,
                 questions: que
             })
         ).toEqual(que);

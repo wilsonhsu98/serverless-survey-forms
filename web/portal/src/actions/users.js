@@ -10,7 +10,7 @@ export function requestUsersFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
-            type: types.RECIEVE_USERS_FAILURE,
+            type: types.RECEIVE_USERS_FAILURE,
             errorMsg: err
         });
     };
@@ -18,7 +18,7 @@ export function requestUsersFailure(err) {
 
 export function receiveUsersSuccess(data) {
     return {
-        type: types.RECIEVE_USERS_SUCCESS,
+        type: types.RECEIVE_USERS_SUCCESS,
         users: data
     };
 }
@@ -44,14 +44,14 @@ export function getUsers() {
 
 export function changeUserRoleFailure(err) {
     return {
-        type: types.RECIEVE_CHANGE_ROLE_FAILURE,
+        type: types.RECEIVE_CHANGE_ROLE_FAILURE,
         errorMsg: err
     };
 }
 
 export function changeUserRoleSuccess(data) {
     return {
-        type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
+        type: types.RECEIVE_CHANGE_ROLE_SUCCESS,
         users: data
     };
 }

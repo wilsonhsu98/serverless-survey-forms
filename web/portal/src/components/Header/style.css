@@ -85,18 +85,28 @@
             text-decoration: underline;
         }
     }
-    .build {
+    .tab {
+        content: '';
         clear: both;
     }
+    .build {
+        display: table-cell;
+    }
     .status {
+        cursor: pointer;
         font-size: 20px;
         line-height: 24px;
         color: #666;
         width: 132px;
         margin-left: 40px;
         padding: 10px 0;
-        border-bottom: 4px solid #e4424e;
+        border-bottom: 4px solid rgba(228, 66, 78, 0.5);
         text-align: center;
+        &:hover, &.current {
+            color: #000;
+            border-bottom: 4px solid rgba(228, 66, 78, 1);
+        }
+        &.current { cursor: default; }
     }
 }
 

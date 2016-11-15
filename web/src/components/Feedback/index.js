@@ -8,6 +8,7 @@ import styles from './style.css';
 
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import I18Next from 'i18next';
 
 import Checkbox from '../Checkbox';
 import Radio from '../Radio';
@@ -25,6 +26,7 @@ class Feedback extends PureComponent {
         this._renderPreview = this._renderPreview.bind(this);
         this._renderEmbedded = this._renderEmbedded.bind(this);
         this._renderThankyou = this._renderThankyou.bind(this);
+        this._setLocalize = this._setLocalize.bind(this);
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onClose = this._onClose.bind(this);
     }
@@ -45,17 +47,17 @@ class Feedback extends PureComponent {
     }
 
     _renderEmbedded() {
-        const { settings, paging, surveyActions, feedbackActions, pageDone } = this.props;
-        const { subject, content } = this.props.survey;
+        const { settings, paging, survey, surveyActions, feedbackActions, pageDone } = this.props;
 
-        const currentPageContent = content[paging - 1];
+        const currentPageContent = survey.content[paging - 1];
         const { description, question } = currentPageContent;
         const list = question.map(
             (itm, idx) => this._renderQuestion(itm, idx));
+
         return (
             <div className={styles.wrap}>
                 <div className={styles.header}>
-                    <h1>{subject}</h1>
+                    <h1>{this._setLocalize('subject')}</h1>
                     <div onClick={this._onClose} className={styles.close} />
                 </div>
                 <div className={styles.container}>
@@ -63,14 +65,16 @@ class Feedback extends PureComponent {
                         <div className={styles.content}>
                         {
                             description && description !== 'Untitled Page' ?
-                                <div className={styles.description}>{description}</div> :
+                                <div className={styles.description}>
+                                    {this._setLocalize(description)}
+                                </div> :
                                 ''
                         }
                             <div>{list}</div>
                         </div>
                     </div>
                     <Pagination
-                        pages={content.length}
+                        pages={survey.content.length}
                         pageDone={pageDone}
                         currentPage={paging}
                         surveyActions={surveyActions}
@@ -84,23 +88,25 @@ class Feedback extends PureComponent {
 
     _renderPreview() {
         const { settings, paging, survey, surveyActions, feedbackActions, pageDone } = this.props;
-        const { subject, content } = survey;
 
-        const currentPageContent = content[paging - 1];
+        const currentPageContent = survey.content[paging - 1];
         const { description, question } = currentPageContent;
         const list = question.map(
             (itm, idx) => this._renderQuestion(itm, idx));
+
         return (
             <div className={styles.wrapPreview}>
                 <div className={styles.header}>
-                    <h1>{subject}</h1>
+                    <h1>{this._setLocalize('subject')}</h1>
                 </div>
                 <div className={styles.container}>
                     <div className={styles.contentScrollPreview}>
                         <div className={styles.content}>
                         {
                             description && description !== 'Untitled Page' ?
-                                <div className={styles.description}>{description}</div> :
+                                <div className={styles.description}>
+                                    {this._setLocalize(description)}
+                                </div> :
                                 ''
                         }
                             <div className={styles.feedbackPreview}>{list}</div>
@@ -108,7 +114,7 @@ class Feedback extends PureComponent {
                     </div>
                 </div>
                 <Pagination
-                    pages={content.length}
+                    pages={survey.content.length}
                     pageDone={pageDone}
                     currentPage={paging}
                     surveyActions={surveyActions}
@@ -128,6 +134,7 @@ class Feedback extends PureComponent {
             item: item,
             paging: this.props.paging,
             pageDone: this.props.pageDone,
+            l10n: this.props.l10n,
             requiredData: this.props.requiredData,
             onChangeHandle: this._onChangeHandle,
             feedbackActions: this.props.feedbackActions
@@ -173,7 +180,9 @@ class Feedback extends PureComponent {
                         <div className={styles.content}>
                         {
                             description ?
-                                <div className={styles.description}>{description}</div> :
+                                <div className={styles.description}>
+                                    {I18Next.t(description, { defaultValue: description })}
+                                </div> :
                                 ''
                         }
                             <div
@@ -200,6 +209,14 @@ class Feedback extends PureComponent {
                 </div>
             </div>
         );
+    }
+
+    _setLocalize(key) {
+        const { survey, l10n } = this.props;
+        if (key === 'subject') {
+            return l10n.subject || survey.subject;
+        }
+        return l10n[key] || key;
     }
 
     _onChangeHandle(feedback) {
