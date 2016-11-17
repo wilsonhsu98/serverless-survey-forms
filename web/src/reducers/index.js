@@ -23,6 +23,7 @@ import done from './done';
 import paging from './paging';
 import clientID from './clientID';
 import prefillData from './prefillData';
+import l10n from './l10n';
 
 const rootReducer = combineReducers({
     loading,
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
     paging,
     clientID,
     prefillData,
+    l10n,
     routing: routerReducer
 });
 

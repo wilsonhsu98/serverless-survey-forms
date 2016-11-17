@@ -15,11 +15,10 @@ describe('[Portal] users action', () => {
     });
 
     it('should create an action to get users failure', () => {
-        global.window = { localStorage: {} };
         const store = mockStore({ surveyID: '', subject: '' });
         const expectedActions = [
             { type: types.EXPIRED_TOKEN },
-            { type: types.RECIEVE_USERS_FAILURE, errorMsg: 'Error' }
+            { type: types.RECEIVE_USERS_FAILURE, errorMsg: 'Error' }
         ];
 
         store.dispatch(actions.requestUsersFailure('Error'));
@@ -47,7 +46,7 @@ describe('[Portal] users action', () => {
         expect(
             actions.receiveUsersSuccess(users)
         ).toEqual({
-            type: types.RECIEVE_USERS_SUCCESS,
+            type: types.RECEIVE_USERS_SUCCESS,
             users: users
         });
     });
@@ -81,7 +80,7 @@ describe('[Portal] users action', () => {
         const store = mockStore({ token });
         const expectedActions = [
             { type: types.REQUEST_USERS_LIST },
-            { type: types.RECIEVE_USERS_SUCCESS, users }
+            { type: types.RECEIVE_USERS_SUCCESS, users }
         ];
 
         return store.dispatch(actions.getUsers())
@@ -94,7 +93,7 @@ describe('[Portal] users action', () => {
         expect(
             actions.changeUserRoleFailure('Error')
         ).toEqual({
-            type: types.RECIEVE_CHANGE_ROLE_FAILURE,
+            type: types.RECEIVE_CHANGE_ROLE_FAILURE,
             errorMsg: 'Error'
         });
     });
@@ -120,7 +119,7 @@ describe('[Portal] users action', () => {
         expect(
             actions.changeUserRoleSuccess(users)
         ).toEqual({
-            type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
+            type: types.RECEIVE_CHANGE_ROLE_SUCCESS,
             users: users
         });
     });
@@ -156,7 +155,7 @@ describe('[Portal] users action', () => {
         const expectedActions = [
             { type: types.REQUEST_CHANGE_ROLE },
             {
-                type: types.RECIEVE_CHANGE_ROLE_SUCCESS,
+                type: types.RECEIVE_CHANGE_ROLE_SUCCESS,
                 users: [
                     {
                         accountid: 'facebook-XXXXXX',
@@ -201,7 +200,7 @@ describe('[Portal] users action', () => {
         const expectedActions = [
             { type: types.REQUEST_CHANGE_ROLE },
             {
-                type: types.RECIEVE_CHANGE_ROLE_FAILURE,
+                type: types.RECEIVE_CHANGE_ROLE_FAILURE,
                 errorMsg: 'this is the last Admin'
             }
         ];
@@ -225,7 +224,7 @@ describe('[Portal] users action', () => {
     it('should create an action to empty selected user', () => {
         const store = mockStore({});
         const expectedActions = [
-            { type: types.RECIEVE_SURVEYS_SUCCESS, surveys: [] },
+            { type: types.RECEIVE_SURVEYS_SUCCESS, surveys: [] },
             { type: types.SET_SELECTED_USER, selectedUser: {} }
         ];
         store.dispatch(actions.emptySelectedUser());

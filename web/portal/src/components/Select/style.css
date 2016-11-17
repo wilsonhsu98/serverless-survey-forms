@@ -35,6 +35,15 @@
             border: 1px solid rgba(34, 34, 34, 0.5);
         }
     }
+    &.disable .placeholder {
+        color: #222;
+        &:hover, &:active {
+            cursor: default;
+            background: #fff;
+            border: 1px solid #bbb;
+            text-shadow: none;
+        }
+    }
     .options {
         display: none;
         position: absolute;

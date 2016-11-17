@@ -59,27 +59,27 @@ describe('[Portal] loading reducer', () => {
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_SURVEYS_SUCCESS })
+            loading(true, { type: types.RECEIVE_SURVEYS_SUCCESS })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_DELETE_SURVEYS_SUCCESS })
+            loading(true, { type: types.RECEIVE_DELETE_SURVEYS_SUCCESS })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_QUESTIONS_SUCCESS })
+            loading(true, { type: types.RECEIVE_QUESTIONS_SUCCESS })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_REPORT_SUCCESS })
+            loading(true, { type: types.RECEIVE_REPORT_SUCCESS })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_USERS_SUCCESS })
+            loading(true, { type: types.RECEIVE_USERS_SUCCESS })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_CHANGE_ROLE_SUCCESS })
+            loading(true, { type: types.RECEIVE_CHANGE_ROLE_SUCCESS })
         ).toEqual(false);
 
         expect(
@@ -93,27 +93,27 @@ describe('[Portal] loading reducer', () => {
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_SURVEYS_FAILURE })
+            loading(true, { type: types.RECEIVE_SURVEYS_FAILURE })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_DELETE_SURVEYS_FAILURE })
+            loading(true, { type: types.RECEIVE_DELETE_SURVEYS_FAILURE })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_QUESTIONS_FAILURE })
+            loading(true, { type: types.RECEIVE_QUESTIONS_FAILURE })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_REPORT_FAILURE })
+            loading(true, { type: types.RECEIVE_REPORT_FAILURE })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_USERS_FAILURE })
+            loading(true, { type: types.RECEIVE_USERS_FAILURE })
         ).toEqual(false);
 
         expect(
-            loading(true, { type: types.RECIEVE_CHANGE_ROLE_FAILURE })
+            loading(true, { type: types.RECEIVE_CHANGE_ROLE_FAILURE })
         ).toEqual(false);
 
         expect(

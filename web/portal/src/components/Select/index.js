@@ -37,6 +37,7 @@ class Select extends PureComponent {
             [styles.disabled]: disabled
         };
         const selectedItem = item.find((obj) => obj.value === this.state.selectedValue);
+
         return (
             <div
                 ref="root"

@@ -28,13 +28,13 @@ class Textarea extends PureComponent {
     }
 
     render() {
-        const { id, item, itemID, feedbackActions, pageDone } = this.props;
+        const { id, item, itemID, feedbackActions, pageDone, l10n } = this.props;
         const rows = item.rows ? item.rows : 3;
         return (
             <div ref="root" className="question">
                 <Question
                     id={id}
-                    text={item.label}
+                    text={l10n[item.label] || item.label}
                     required={item.required}
                 >
                     {!feedbackActions.checkDone(itemID) && pageDone !== 'init' ?
@@ -43,7 +43,7 @@ class Textarea extends PureComponent {
                 <div>
                     <textarea
                         id={`textarea_${id}`}
-                        placeholder={item.input}
+                        placeholder={l10n[item.input] || item.input}
                         rows={rows}
                         className={styles.textarea}
                         onChange={this._onChangeHandle}

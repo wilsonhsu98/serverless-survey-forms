@@ -2,7 +2,7 @@
 import * as types from '../constants/ActionTypes';
 
 const init = {
-    description: 'Thanks for sharing your feedback with Trend Micro.',
+    description: 'privacy_description',
     privacy: {}
 };
 

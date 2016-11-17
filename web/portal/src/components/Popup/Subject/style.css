@@ -22,6 +22,9 @@
         color: #222;
         margin-bottom: 20px;
     }
+    .language {
+        margin-top: 20px;
+    }
     .input {
         width: 100%;
     }
