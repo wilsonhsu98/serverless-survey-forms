@@ -35,7 +35,7 @@ export function recordFeedback(feedback) {
     };
 }
 
-function saveClientID(clientID) {
+export function saveClientID(clientID) {
     return {
         type: types.SAVE_CLIENT_ID,
         clientID
@@ -105,14 +105,14 @@ export function updateFeedback(closeWhenDone, privacyData) {
     };
 }
 
-function setRequiredData(requiredData) {
+export function setRequiredData(requiredData) {
     return {
         type: types.SET_REQUIRED_DATA,
         requiredData
     };
 }
 
-function setPageDone(done) {
+export function setPageDone(done) {
     return {
         type: types.SET_PAGE_DONE,
         done

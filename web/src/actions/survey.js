@@ -5,20 +5,20 @@ import * as feedbackAction from './feedback';
 
 /* eslint no-use-before-define: [2, { "functions": false }] */
 
-function requestSurvey() {
+export function requestSurvey() {
     return {
         type: types.REQUEST_SURVEY
     };
 }
 
-function receiveSurveySuccess(data) {
+export function receiveSurveySuccess(data) {
     return {
         type: types.RECEIVE_SURVEY_SUCCESS,
         survey: data
     };
 }
 
-function receiveSurveyFailure(err) {
+export function receiveSurveyFailure(err) {
     return {
         type: types.RECEIVE_SURVEY_FAILURE,
         errorMsg: err
