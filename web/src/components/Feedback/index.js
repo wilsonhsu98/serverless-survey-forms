@@ -194,7 +194,6 @@ class Feedback extends PureComponent {
                             {
                                 Object.keys(privacy).length !== 0 ?
                                     <Privacy
-                                        info={privacy}
                                         settings={settings}
                                         prefillData={prefillData}
                                         paging={paging}
