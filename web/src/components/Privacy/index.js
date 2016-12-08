@@ -32,7 +32,7 @@ class Privacy extends PureComponent {
     }
 
     render() {
-        const { info, prefillData } = this.props;
+        const { prefillData } = this.props;
         return (
             <div>
             {
@@ -43,7 +43,7 @@ class Privacy extends PureComponent {
                                 [`${styles.question}`]: true,
                                 'ut-label': true
                             })}
-                        >{I18Next.t(info.label, { defaultValue: info.label })}
+                        >{I18Next.t('privacy_label')}
                         </div>
                         <div className={styles.terms}>
                             <div className={styles.topWrapper}>
@@ -58,15 +58,14 @@ class Privacy extends PureComponent {
                                             'ut-terms': true
                                         })}
                                     >
-                                    {I18Next.t(info.terms, { defaultValue: info.terms })}
+                                    {I18Next.t('privacy_terms')}
                                     </label>
                                 </div>
                             </div>
                             <div className={styles.bottomWrapper}>
                                 <input
                                     type="text"
-                                    placeholder={
-                                        I18Next.t(info.input, { defaultValue: info.input })}
+                                    placeholder={I18Next.t('privacy_input')}
                                     value={this.state.email}
                                     onChange={this._onChange}
                                     disabled={!this.state.terms}

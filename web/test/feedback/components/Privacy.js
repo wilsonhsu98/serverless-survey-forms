@@ -11,7 +11,7 @@ describe('[Feedback] Testing Privacy Component', () => {
     jsdom({ skipWindowCheck: true });
     const info = {
         label: 'If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?',
-        terms: 'Yes, Trend Micro can reach me at this address: ',
+        terms: 'Yes, Trend Micro can reach me at this address:',
         input: 'Please enter your email address.'
     };
     const prefillData = {
@@ -22,7 +22,6 @@ describe('[Feedback] Testing Privacy Component', () => {
     it('should contain correct content', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
-                info={info}
                 prefillData={prefillData}
             />
         );
@@ -36,7 +35,6 @@ describe('[Feedback] Testing Privacy Component', () => {
     it('should contain two inputs', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
-                info={info}
                 prefillData={prefillData}
             />
         );
@@ -48,7 +46,6 @@ describe('[Feedback] Testing Privacy Component', () => {
     it('should contain privacy policy url', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
-                info={info}
                 prefillData={prefillData}
             />
         );
@@ -60,7 +57,6 @@ describe('[Feedback] Testing Privacy Component', () => {
     it('should not contain privacy policy url', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
-                info={info}
                 prefillData={{
                     email: 'test@test.com'
                 }}
