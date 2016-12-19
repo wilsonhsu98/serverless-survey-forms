@@ -29,47 +29,55 @@ class UserList extends PureComponent {
     _renderList() {
         const { users } = this.props;
         let list = [];
-        users.sort((a, b) => a.username > b.username)
-            .forEach((user, idx) => {
-                const name = (
-                    <a
-                        className="link ut-name"
-                        data-id={idx}
-                        onClick={this._onNameClick}
-                    >{user.username}</a>);
-                const role = [
-                    this._generateClass('Admin', user.role),
-                    this._generateClass('Designer', user.role),
-                    this._generateClass('User', user.role)
-                ];
-                const tr = (
-                    <tr key={idx}>
-                        <td className={styles.name}>
-                            {name}
-                        </td>
-                        <td className={`${styles.role} ut-role`}>
-                            <div
-                                className={styles.roleBtn}
-                                onClick={this._onChangeRoleClick}
-                                data-id={idx}
+        users.sort((a, b) => {
+            if (a.username > b.username) {
+                return 1;
+            }
+            if (a.username < b.username) {
+                return -1;
+            }
+            return 0;
+        })
+        .forEach((user, idx) => {
+            const name = (
+                <a
+                    className="link ut-name"
+                    data-id={idx}
+                    onClick={this._onNameClick}
+                >{user.username}</a>);
+            const role = [
+                this._generateClass('Admin', user.role),
+                this._generateClass('Designer', user.role),
+                this._generateClass('User', user.role)
+            ];
+            const tr = (
+                <tr key={idx}>
+                    <td className={styles.name}>
+                        {name}
+                    </td>
+                    <td className={`${styles.role} ut-role`}>
+                        <div
+                            className={styles.roleBtn}
+                            onClick={this._onChangeRoleClick}
+                            data-id={idx}
+                        >
+                            <span className={classNames(role[0])}>
+                                admin
+                            </span>
+                            <span
+                                className={classNames(role[1])}
                             >
-                                <span className={classNames(role[0])}>
-                                    admin
-                                </span>
-                                <span
-                                    className={classNames(role[1])}
-                                >
-                                    designer
-                                </span>
-                                <span className={classNames(role[2])}>
-                                    user
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
-                );
-                list.push(tr);
-            });
+                                designer
+                            </span>
+                            <span className={classNames(role[2])}>
+                                user
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            );
+            list.push(tr);
+        });
         return (
             <table className={styles.listTb}>
                 <thead>

@@ -30,28 +30,9 @@ class ImportL10n extends PureComponent {
     render() {
         // language options setting
         const item = [
-            { value: 'da', label: 'Danish' },
-            { value: 'de', label: 'German' },
-            { value: 'en-AU', label: 'English (Australia)' },
             { value: 'en-US', label: 'English (United States)' },
-            { value: 'es', label: 'Spanish' },
-            { value: 'fr', label: 'French' },
-            { value: 'fr-CA', label: 'French (Canada)' },
-            { value: 'id', label: 'Indonesian' },
-            { value: 'it', label: 'Italian' },
-            { value: 'ja', label: 'Japanese' },
-            { value: 'ko', label: 'Korean' },
-            { value: 'nb', label: 'Norwegian' },
-            { value: 'nl', label: 'Dutch' },
-            { value: 'pt', label: 'Portuguese' },
-            { value: 'ru', label: 'Russian' },
-            { value: 'sv', label: 'Swedish' },
-            { value: 'th', label: 'Thai' },
-            { value: 'tr', label: 'Turkish' },
-            { value: 'vi', label: 'Vietnamese' },
-            { value: 'zh-CN', label: 'Chinese (PRC)' },
-            { value: 'zh-HK', label: 'Chinese (Hong Kong)' },
-            { value: 'zh-TW', label: 'Chinese (Taiwan)' }];
+            { value: 'zh-TW', label: 'Chinese (Taiwan)' }
+        ];
         return (
             <div className={`${styles.popup} popup`}>
                 <div className="popup_wrap">

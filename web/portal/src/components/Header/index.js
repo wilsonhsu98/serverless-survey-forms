@@ -19,6 +19,15 @@ class Header extends PureComponent {
         this._toggleAdminMenu = this._toggleAdminMenu.bind(this);
         this._AdminMenuClick = this._AdminMenuClick.bind(this);
         this._changeTabClick = this._changeTabClick.bind(this);
+        this._handleDocumentClick = this._handleDocumentClick.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('click', this._handleDocumentClick);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('click', this._handleDocumentClick);
     }
 
     render() {
@@ -173,13 +182,21 @@ class Header extends PureComponent {
         }
     }
 
-    _toggleAdminMenu() {
+    _toggleAdminMenu(e) {
+        e.stopPropagation();
         this.setState({
             isMenuOpen: !this.state.isMenuOpen
         });
     }
 
-    _AdminMenuClick() {
+    _handleDocumentClick() {
+        this.setState({
+            isMenuOpen: false
+        });
+    }
+
+    _AdminMenuClick(e) {
+        e.stopPropagation();
         this.props.webpageActions.setWebpage('user');
         this.setState({
             isMenuOpen: false

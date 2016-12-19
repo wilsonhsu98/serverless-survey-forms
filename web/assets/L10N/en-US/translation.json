@@ -1,6 +1,6 @@
 {
-    "title"						: "Survey form title",
-    "description"				: "Survey form description",
+    "title"                     : "Survey form title",
+    "description"               : "Survey form description",
     "prev"                      : "Prev",
     "next"                      : "Next",
     "submit"                    : "Submit",
@@ -13,5 +13,5 @@
     "privacy_description"       : "Thanks for sharing your feedback with Trend Micro.",
     "privacy_label"             : "If Trend Micro has a follow-up survey on the Email Scan, would you like to participate?",
     "privacy_terms"             : "Yes, Trend Micro can reach me at this address:",
-    "privacy_input"             : "Please enter your email address."
+    "privacy_input"             : "Type your email address"
 }

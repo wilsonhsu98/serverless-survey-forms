@@ -107,7 +107,7 @@ class EditItem extends Component {
                     connectDragSource(
                         <div>
                             <IconButton
-                                string="Drag"
+                                string="Move"
                                 i18nKey={false}
                                 img="move"
                                 onClick={() => {}}
@@ -115,7 +115,7 @@ class EditItem extends Component {
                         </div>
                     ) :
                     <IconButton
-                        string="Drag"
+                        string="Move"
                         i18nKey={false}
                         img="move"
                         onClick={() => {}}
