@@ -29,7 +29,10 @@ class ImportL10n extends PureComponent {
 
     render() {
         // language options setting
-        const item = [{ value: 'en-US', label: 'English (United States)' }];
+        const item = [
+            { value: 'en-US', label: 'English (United States)' },
+            { value: 'zh-TW', label: 'Chinese (Taiwan)' }
+        ];
         return (
             <div className={`${styles.popup} popup`}>
                 <div className="popup_wrap">
