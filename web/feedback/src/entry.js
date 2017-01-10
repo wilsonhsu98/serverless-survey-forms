@@ -41,6 +41,7 @@ function initApp() {
         const props = {
             accountid: getParameterByName('accountid') || 'context.authorizer.principalId',
             surveyid: getParameterByName('surveyid') || '759e7930-3219-11e6-b8fc-ed3df7fb1eab',
+            clientid: getParameterByName('clientid') || '',
             type: getParameterByName('type') || 'default', // type=default/embedded
             locale: locale, // sync with product or no need
             // preview mode does not send out feedback
