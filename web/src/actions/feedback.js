@@ -43,15 +43,23 @@ export function saveClientID(clientID) {
 }
 
 export function saveFeedback() {
-    const clientID = `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
     return (dispatch, getState) => {
-        const locale = getState().settings.locale || ' ';
+        const settings = getState().settings;
+        const locale = settings.locale || ' ';
         const feedback = getState().submit;
-        const surveyid = getState().settings.surveyid;
+        const surveyid = settings.surveyid;
         const productUid = getState().prefillData.product_uid || ' ';
+        let clientID = getState().clientID;
+        let method = 'PUT';
+        if (!clientID) {
+            // If clientID is empty string, generate a new clientID
+            clientID = settings.hasOwnProperty('clientid') && settings.clientid
+                ? settings.clientid : `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
         dispatch(saveClientID(clientID));
+            method = 'POST';
+        }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
-            method: 'POST',
+            method,
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
@@ -65,7 +73,7 @@ export function saveFeedback() {
             if (response.status >= 400) {
                 throw new Error('Bad response from server');
             }
-            console.log(`POST Feedback from ${clientID}`, response);
+            console.log(`${method} Feedback from ${clientID}`, response);
         });
     };
 }
