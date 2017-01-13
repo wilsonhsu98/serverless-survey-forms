@@ -55,7 +55,7 @@ export function saveFeedback() {
             // If clientID is empty string, generate a new clientID
             clientID = settings.hasOwnProperty('clientid') && settings.clientid
                 ? settings.clientid : `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
-        dispatch(saveClientID(clientID));
+            dispatch(saveClientID(clientID));
             method = 'POST';
         }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
@@ -197,11 +197,7 @@ export function checkRequired(action, page) {
                 break;
             case 'next':
                 if (!getState().settings.preview) {
-                    if (getState().paging === 1) {
-                        dispatch(saveFeedback());
-                    } else {
-                        dispatch(updateFeedback());
-                    }
+                    dispatch(saveFeedback());
                 }
                 // Send 'next' msg to client
                 dispatch(sendMsgToClient('next', {
@@ -214,11 +210,7 @@ export function checkRequired(action, page) {
                 break;
             case 'done':
                 if (!getState().settings.preview) {
-                    if (getState().paging === 1) {
-                        dispatch(saveFeedback());
-                    } else {
-                        dispatch(updateFeedback());
-                    }
+                    dispatch(saveFeedback());
                 }
                 // Send 'done' msg to client
                 dispatch(sendMsgToClient('done', {
