@@ -129,14 +129,48 @@ export function setPageDone(done) {
     };
 }
 
+function checkIsAnswered(submit, item) {
+    // refere to previous feedback data, to decide whether question is answered
+    if (submit.hasOwnProperty(`Q${item.order}`)) {
+        let flag = false;
+        switch (item.type) {
+        case 'radio':
+        case 'rating':
+        case 'select':
+            if (submit[`Q${item.order}`].data[0].label
+                && submit[`Q${item.order}`].data[0].label !== ' ') {
+                flag = true;
+            }
+            break;
+        case 'checkbox':
+            submit[`Q${item.order}`].data.forEach((opts) => {
+                if (opts.label && opts.label !== ' ') flag = true;
+            });
+            break;
+        case 'text':
+        case 'textarea':
+            if (submit[`Q${item.order}`].data[0].input
+                && submit[`Q${item.order}`].data[0].input !== ' ') {
+                flag = true;
+            }
+            break;
+        default:
+        }
+        return flag;
+    }
+    return false;
+}
+
 export function setRequired(page = 1) {
     return (dispatch, getState) => {
-        const requiredData = getState().survey.content[page - 1].question.map((item) => {
+        const { survey, submit } = getState();
+        const requiredData = survey.content[page - 1].question.map((item) => {
             const updatedItem = {};
             updatedItem.id = item.id;
             updatedItem.order = item.order;
             updatedItem.required = item.required;
-            updatedItem.done = false;
+            // make sure whether this question is answered
+            updatedItem.done = checkIsAnswered(submit, item);
             return updatedItem;
         });
         dispatch(setRequiredData(requiredData));
