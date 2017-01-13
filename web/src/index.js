@@ -83,10 +83,18 @@ class App extends PureComponent {
         store.dispatch(SettingsActions.settings(settings));
         // Localization init settings
         getPromise(i18nSetting, locale)
-        .then(() =>
+        .then(() => {
+            // check whether clientid has feedback
+            if (settings.clientid) {
+                return store.dispatch(
+                    SurveyActions.getFeeback(
+                        settings.accountid, settings.surveyid, settings.clientid
+                    )
+                );
+            }
             // fetch survey from API
-            store.dispatch(SurveyActions.fetchSurvey(settings.accountid, settings.surveyid))
-        );
+            return store.dispatch(SurveyActions.fetchSurvey(settings.accountid, settings.surveyid));
+        });
     }
 
     componentWillReceiveProps(nextProps) {
