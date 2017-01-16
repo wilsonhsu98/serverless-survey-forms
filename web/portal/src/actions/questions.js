@@ -264,15 +264,19 @@ export function editPageTitle() {
 export function deletePage(pageId) {
     return (dispatch, getState) => {
         let newQuestions = Immutable.fromJS(getState().questions);
-        newQuestions = newQuestions.delete(pageId - 1);
-        newQuestions.map((page, pageIdx) => {
-            newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
-        });
+        if (getState().questions.length === 1) {
+            alert('Survey must have at least one page.');
+        } else {
+            newQuestions = newQuestions.delete(pageId - 1);
+            newQuestions.map((page, pageIdx) => {
+                newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
+            });
 
-        dispatch({
-            type: types.DELETE_PAGE,
-            questions: newQuestions.toJS()
-        });
+            dispatch({
+                type: types.DELETE_PAGE,
+                questions: newQuestions.toJS()
+            });
+        }
     };
 }
 
