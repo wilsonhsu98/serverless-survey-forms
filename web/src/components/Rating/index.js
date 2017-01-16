@@ -26,26 +26,15 @@ class Rating extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            selected: false,
-            rating: undefined,
-            reason: false,
-            feedbackArray: []
-        };
+        // set initial states
+        this.state = this._handleState(props);
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
         this._checkDone = this._checkDone.bind(this);
     }
 
-    componentWillUpdate(prevProps) {
-        if (prevProps.paging !== this.props.paging) {
-            this.setState({
-                selected: false,
-                rating: undefined,
-                reason: false,
-                feedbackArray: []
-            });
-        }
+    componentWillReceiveProps(nextProps) {
+        this.setState(this._handleState(nextProps));
     }
 
     render() {
@@ -69,6 +58,7 @@ class Rating extends PureComponent {
                             <input
                                 type="text"
                                 placeholder={l10n[item.input] || item.input}
+                                value={this.state.reason || ''}
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
@@ -103,7 +93,7 @@ class Rating extends PureComponent {
                             name={id}
                             value={val}
                             data-label={label}
-                            checked={this.state.selected === inputID}
+                            checked={this.state.selected === val}
                             onChange={this._onChangeHandle}
                         />
                         <label htmlFor={inputID} />
@@ -121,8 +111,7 @@ class Rating extends PureComponent {
             input: this.state.reason ? this.state.reason : ' '
         }];
         this.setState({
-            selected: e.currentTarget.id,
-            rating: e.currentTarget.getAttribute('data-value'),
+            selected: e.currentTarget.getAttribute('data-value'),
             feedbackArray
         }, () => {
             const feedback = {
@@ -165,6 +154,26 @@ class Rating extends PureComponent {
             return true;
         }
         return false;
+    }
+
+    _handleState(_props) {
+        const { preData } = _props;
+        let selected;
+        let reason;
+        let feedbackArray = [];
+        if (preData && preData.data[0]) {
+            const data = preData.data[0];
+            selected = data.hasOwnProperty('label') && data.label !== ' ' ? data.value : false;
+            reason = data.hasOwnProperty('input') && data.input !== ' ' ? data.input : false;
+            if (selected) {
+                feedbackArray = [{
+                    value: selected,
+                    label: data.label,
+                    input: reason || ' '
+                }];
+            }
+        }
+        return { selected, reason, feedbackArray };
     }
 }
 

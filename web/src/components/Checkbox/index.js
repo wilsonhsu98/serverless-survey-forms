@@ -28,18 +28,16 @@ class Checkbox extends PureComponent {
 
     constructor(props) {
         super(props);
-        const state = {};
-        props.item.data.forEach((itm, idx) => {
-            const inputID = `checkbox_${props.id}_${idx}`;
-            state[inputID] = false;
-        });
-        this.state = state;
-        this.state.feedback = {};
-        this.state.selected = [];
+        // set initial states
+        this.state = this._handleState(props);
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
         this._feedback = this._feedback.bind(this);
         this._checkDone = this._checkDone.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState(this._handleState(nextProps));
     }
 
     render() {
@@ -63,6 +61,7 @@ class Checkbox extends PureComponent {
 
     _renderCheckboxItem() {
         const { id, item, l10n } = this.props;
+        const { feedback } = this.state;
         const items = item.data.map((itm, idx) => {
             const inputID = `checkbox_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
@@ -91,6 +90,10 @@ class Checkbox extends PureComponent {
                                 type="text"
                                 placeholder={input}
                                 name={val}
+                                value={
+                                    feedback[val].hasOwnProperty('input')
+                                    && feedback[val].input !== ' '
+                                    ? feedback[val].input : ''}
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
@@ -104,7 +107,6 @@ class Checkbox extends PureComponent {
         const feedback = this.state.feedback;
         const selected = this.state.selected.filter((item) =>
             item !== e.currentTarget.getAttribute('value'));
-        console.log(selected);
 
         feedback[e.currentTarget.getAttribute('value')] = {};
         if (e.currentTarget.checked) {
@@ -130,7 +132,7 @@ class Checkbox extends PureComponent {
     _onChangeInput(e) {
         const feedback = this.state.feedback;
         feedback[e.currentTarget.getAttribute('name')].input =
-            e.currentTarget.value ? e.currentTarget.value : false;
+            e.currentTarget.value ? e.currentTarget.value : ' ';
 
         this.setState({
             feedback
@@ -174,6 +176,38 @@ class Checkbox extends PureComponent {
             return true;
         }
         return false;
+    }
+
+    _handleState(_props) {
+        const { id, item, preData } = _props;
+        const state = {};
+        const feedback = {};
+        const selected = [];
+        item.data.forEach((itm, idx) => {
+            const inputID = `checkbox_${id}_${idx}`;
+            if (preData
+                && preData.data[idx].hasOwnProperty('label')
+                && preData.data[idx].label !== ' ') {
+                // If there are previous answers, set them to state
+                state[inputID] = true;
+
+                const feedbackItx = {};
+                feedbackItx.label = itm.label;
+                if (preData.data[idx].hasOwnProperty('input')
+                    && preData.data[idx].input !== ' ') {
+                    feedbackItx.input = preData.data[idx].input;
+                }
+                feedback[itm.value || itm.label] = feedbackItx;
+
+                selected.push(itm.value || itm.label);
+            } else {
+                state[inputID] = false;
+            }
+        });
+        state.feedback = feedback;
+        state.selected = selected;
+
+        return state;
     }
 }
 

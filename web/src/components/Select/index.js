@@ -27,10 +27,7 @@ class Select extends PureComponent {
     constructor(props) {
         super(props);
         // set initial states
-        this.state = {
-            isOpen: false,
-            selectedValue: ''
-        };
+        this.state = Object.assign({ isOpen: false }, this._handleState(props));
         this._onToggleOpen = this._onToggleOpen.bind(this);
         this._onClickCallback = this._onClickCallback.bind(this);
         this._handleDocumentClick = this._handleDocumentClick.bind(this);
@@ -42,6 +39,10 @@ class Select extends PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('click', this._handleDocumentClick);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState(this._handleState(nextProps));
     }
 
     render() {
@@ -136,6 +137,15 @@ class Select extends PureComponent {
         }
     }
 
+    _handleState(_props) {
+        const { preData } = _props;
+        let selectedValue;
+        if (preData && preData.data[0]) {
+            const data = preData.data[0];
+            selectedValue = data.hasOwnProperty('label') && data.label !== ' ' ? data.value : '';
+        }
+        return { selectedValue };
+    }
 }
 
 Select.PropTypes = {
