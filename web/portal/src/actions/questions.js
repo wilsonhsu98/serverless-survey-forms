@@ -147,19 +147,20 @@ export function copyQuestion(page, queId) {
         const pageIdx = page - 1;
         const originQuestions = Immutable.fromJS(questions);
         let newQuestion = originQuestions.getIn([pageIdx, 'question', queId]);
-        newQuestion.get('data').forEach((optlist, optlistIdx) => {
-            // regenerate options id
-            newQuestion = newQuestion.updateIn(
-                ['data', optlistIdx, 'value'],
-                () => Mixins.generateQuestionID()
-            );
-        });
+        if (newQuestion.has('data')) {
+            newQuestion.get('data').forEach((optlist, optlistIdx) => {
+                // regenerate options id
+                newQuestion = newQuestion.updateIn(
+                    ['data', optlistIdx, 'value'],
+                    () => Mixins.generateQuestionID()
+                );
+            });
+        }
         const newQuestions = originQuestions.updateIn(
             [pageIdx, 'question'],
             // regenerate question id
             quelist => quelist.push(newQuestion.set('id', Mixins.generateQuestionID()))
         );
-
         dispatch({
             type: types.COPY_QUESTION,
             questions: newQuestions.toJS()
@@ -229,13 +230,15 @@ export function copyPage(pageId) {
                 ['question', queIdx, 'id'],
                 () => Mixins.generateQuestionID()
             );
-            que.get('data').forEach((optlist, optlistIdx) => {
-                // regenerate options id
-                newPage = newPage.updateIn(
-                    ['question', queIdx, 'data', optlistIdx, 'value'],
-                    () => Mixins.generateQuestionID()
-                );
-            });
+            if (que.has('data')) {
+                que.get('data').forEach((optlist, optlistIdx) => {
+                    // regenerate options id
+                    newPage = newPage.updateIn(
+                        ['question', queIdx, 'data', optlistIdx, 'value'],
+                        () => Mixins.generateQuestionID()
+                    );
+                });
+            }
         });
         let newQuestions = originQuestions.push(newPage);
         newQuestions.map((page, pageIdx) => {
