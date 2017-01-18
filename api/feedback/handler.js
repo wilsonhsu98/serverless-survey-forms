@@ -31,16 +31,12 @@ module.exports.handler = (event, context, callback) => {
   switch (event.op) {
     case "getOneFeedback":
       // GET /api/v1/feedbacks/<surveyid>/<clientid>/
-      feedback.listFeedbacks({
+      feedback.getOneFeedback({
         surveyid: event.surveyid,
         clientid: event.clientid,
       }).then(response => {
-        if (event.ifModifiedSince && response.datetime && new Date(response.datetime).toUTCString() === event.ifModifiedSince) {
-          return callback("304 Not Modified", null);
-        } else {
-          response.datetime = new Date(response.datetime).toUTCString();
-          return callback(null, response);
-        }
+        response.datetime = new Date(response.datetime).toUTCString();
+        return callback(null, response);
       }).catch(err => {
         return callback(err, null);
       });
