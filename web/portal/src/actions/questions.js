@@ -147,19 +147,20 @@ export function copyQuestion(page, queId) {
         const pageIdx = page - 1;
         const originQuestions = Immutable.fromJS(questions);
         let newQuestion = originQuestions.getIn([pageIdx, 'question', queId]);
-        newQuestion.get('data').forEach((optlist, optlistIdx) => {
-            // regenerate options id
-            newQuestion = newQuestion.updateIn(
-                ['data', optlistIdx, 'value'],
-                () => Mixins.generateQuestionID()
-            );
-        });
+        if (newQuestion.has('data')) {
+            newQuestion.get('data').forEach((optlist, optlistIdx) => {
+                // regenerate options id
+                newQuestion = newQuestion.updateIn(
+                    ['data', optlistIdx, 'value'],
+                    () => Mixins.generateQuestionID()
+                );
+            });
+        }
         const newQuestions = originQuestions.updateIn(
             [pageIdx, 'question'],
             // regenerate question id
             quelist => quelist.push(newQuestion.set('id', Mixins.generateQuestionID()))
         );
-
         dispatch({
             type: types.COPY_QUESTION,
             questions: newQuestions.toJS()
@@ -229,13 +230,15 @@ export function copyPage(pageId) {
                 ['question', queIdx, 'id'],
                 () => Mixins.generateQuestionID()
             );
-            que.get('data').forEach((optlist, optlistIdx) => {
-                // regenerate options id
-                newPage = newPage.updateIn(
-                    ['question', queIdx, 'data', optlistIdx, 'value'],
-                    () => Mixins.generateQuestionID()
-                );
-            });
+            if (que.has('data')) {
+                que.get('data').forEach((optlist, optlistIdx) => {
+                    // regenerate options id
+                    newPage = newPage.updateIn(
+                        ['question', queIdx, 'data', optlistIdx, 'value'],
+                        () => Mixins.generateQuestionID()
+                    );
+                });
+            }
         });
         let newQuestions = originQuestions.push(newPage);
         newQuestions.map((page, pageIdx) => {
@@ -264,15 +267,19 @@ export function editPageTitle() {
 export function deletePage(pageId) {
     return (dispatch, getState) => {
         let newQuestions = Immutable.fromJS(getState().questions);
-        newQuestions = newQuestions.delete(pageId - 1);
-        newQuestions.map((page, pageIdx) => {
-            newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
-        });
+        if (getState().questions.length === 1) {
+            alert('Survey must have at least one page.');
+        } else {
+            newQuestions = newQuestions.delete(pageId - 1);
+            newQuestions.map((page, pageIdx) => {
+                newQuestions = newQuestions.setIn([pageIdx, 'page'], pageIdx + 1);
+            });
 
-        dispatch({
-            type: types.DELETE_PAGE,
-            questions: newQuestions.toJS()
-        });
+            dispatch({
+                type: types.DELETE_PAGE,
+                questions: newQuestions.toJS()
+            });
+        }
     };
 }
 
