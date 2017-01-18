@@ -26,12 +26,15 @@ class Radio extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            selected: false
-        };
+        // set initial states
+        this.state = this._handleState(props);
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._onChangeInput = this._onChangeInput.bind(this);
         this._checkDone = this._checkDone.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState(this._handleState(nextProps));
     }
 
     render() {
@@ -55,6 +58,8 @@ class Radio extends PureComponent {
 
     _renderRadioItem() {
         const { id, item, l10n } = this.props;
+        const { feedbackArray } = this.state;
+
         const items = item.data.map((itm, idx) => {
             const inputID = `radio_${id}_${idx}`;
             const val = itm.value ? itm.value : itm.label;
@@ -71,18 +76,22 @@ class Radio extends PureComponent {
                         name={id}
                         value={val}
                         data-label={label}
-                        checked={this.state.selected === inputID}
+                        checked={this.state.selected === val}
                         onChange={this._onChangeHandle}
                     />
                     <label htmlFor={inputID}>
                         {label}
                     </label>
                     {
-                        input && this.state.selected === inputID ?
+                        input && this.state.selected === val ?
                             <input
                                 type="text"
                                 placeholder={input}
                                 name={val}
+                                value={
+                                    feedbackArray[0].hasOwnProperty('input')
+                                    && feedbackArray[0].input !== ' '
+                                    ? feedbackArray[0].input : ''}
                                 onChange={this._onChangeInput}
                             /> : ''
                     }
@@ -100,7 +109,7 @@ class Radio extends PureComponent {
         };
         feedbackArray.push(feedbackItem);
         this.setState({
-            selected: e.currentTarget.id,
+            selected: e.currentTarget.getAttribute('value'),
             feedbackArray
         }, () => {
             const feedback = {
@@ -123,7 +132,7 @@ class Radio extends PureComponent {
         feedbackArray.map((item) => {
             const updatedItem = item;
             if (item.value === e.currentTarget.getAttribute('name')) {
-                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : false;
+                updatedItem.input = e.currentTarget.value ? e.currentTarget.value : ' ';
             }
             return updatedItem;
         });
@@ -146,6 +155,26 @@ class Radio extends PureComponent {
             return true;
         }
         return false;
+    }
+
+    _handleState(_props) {
+        const { preData } = _props;
+        let selected;
+        let feedbackArray = [];
+        if (preData && preData.data[0]) {
+            const data = preData.data[0];
+            selected = data.hasOwnProperty('label') && data.label !== ' ' ? data.value : false;
+            if (selected) {
+                feedbackArray = [{
+                    value: selected,
+                    label: data.label
+                }];
+                if (data.hasOwnProperty('input') && data.input !== ' ') {
+                    feedbackArray[0].input = data.input;
+                }
+            }
+        }
+        return { selected, feedbackArray };
     }
 }
 
