@@ -37,9 +37,6 @@
             }
         }
     }
-    .checkboxItem input[type="checkbox"]:checked + label:before {
-        margin-top: 5px;
-    }
     .whyInput {
         margin-left: -20px;
     }

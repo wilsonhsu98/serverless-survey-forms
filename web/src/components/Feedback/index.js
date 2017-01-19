@@ -47,12 +47,17 @@ class Feedback extends PureComponent {
     }
 
     _renderEmbedded() {
-        const { settings, paging, survey, surveyActions, feedbackActions, pageDone } = this.props;
+        const { settings, paging, survey, surveyActions,
+            feedbackActions, pageDone, submit } = this.props;
 
         const currentPageContent = survey.content[paging - 1];
         const { description, question } = currentPageContent;
-        const list = question.map(
-            (itm, idx) => this._renderQuestion(itm, idx));
+        const list = question.map((itm, idx) => {
+            if (submit.hasOwnProperty(`Q${itm.order}`)) {
+                return this._renderQuestion(itm, idx, submit[`Q${itm.order}`]);
+            }
+            return this._renderQuestion(itm, idx);
+        });
 
         return (
             <div className={styles.wrap}>
@@ -87,12 +92,17 @@ class Feedback extends PureComponent {
     }
 
     _renderPreview() {
-        const { settings, paging, survey, surveyActions, feedbackActions, pageDone } = this.props;
+        const { settings, paging, survey, surveyActions,
+            feedbackActions, pageDone, submit } = this.props;
 
         const currentPageContent = survey.content[paging - 1];
         const { description, question } = currentPageContent;
-        const list = question.map(
-            (itm, idx) => this._renderQuestion(itm, idx));
+        const list = question.map((itm, idx) => {
+            if (submit.hasOwnProperty(`Q${itm.order}`)) {
+                return this._renderQuestion(itm, idx, submit[`Q${itm.order}`]);
+            }
+            return this._renderQuestion(itm, idx);
+        });
 
         return (
             <div className={styles.wrapPreview}>
@@ -125,7 +135,7 @@ class Feedback extends PureComponent {
         );
     }
 
-    _renderQuestion(item, idx) {
+    _renderQuestion(item, idx, preData) {
         const requiredProps = {
             feedback: this.props.feedback,
             id: item.order,
@@ -134,6 +144,7 @@ class Feedback extends PureComponent {
             item: item,
             paging: this.props.paging,
             pageDone: this.props.pageDone,
+            preData: preData,
             l10n: this.props.l10n,
             requiredData: this.props.requiredData,
             onChangeHandle: this._onChangeHandle,

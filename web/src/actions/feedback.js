@@ -43,15 +43,23 @@ export function saveClientID(clientID) {
 }
 
 export function saveFeedback() {
-    const clientID = `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
     return (dispatch, getState) => {
-        const locale = getState().settings.locale || ' ';
+        const settings = getState().settings;
+        const locale = settings.locale || ' ';
         const feedback = getState().submit;
-        const surveyid = getState().settings.surveyid;
+        const surveyid = settings.surveyid;
         const productUid = getState().prefillData.product_uid || ' ';
-        dispatch(saveClientID(clientID));
+        let clientID = getState().clientID;
+        let method = 'PUT';
+        if (!clientID) {
+            // If clientID is empty string, generate a new clientID
+            clientID = settings.hasOwnProperty('clientid') && settings.clientid
+                ? settings.clientid : `${getRandomArbitrary(1000, 9999)}${new Date().getTime()}`;
+            dispatch(saveClientID(clientID));
+            method = 'POST';
+        }
         return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
-            method: 'POST',
+            method,
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
@@ -65,7 +73,7 @@ export function saveFeedback() {
             if (response.status >= 400) {
                 throw new Error('Bad response from server');
             }
-            console.log(`POST Feedback from ${clientID}`, response);
+            console.log(`${method} Feedback from ${clientID}`, response);
         });
     };
 }
@@ -121,14 +129,48 @@ export function setPageDone(done) {
     };
 }
 
+function checkIsAnswered(submit, item) {
+    // refere to previous feedback data, to decide whether question is answered
+    if (submit.hasOwnProperty(`Q${item.order}`)) {
+        let flag = false;
+        switch (item.type) {
+        case 'radio':
+        case 'rating':
+        case 'select':
+            if (submit[`Q${item.order}`].data[0].label
+                && submit[`Q${item.order}`].data[0].label !== ' ') {
+                flag = true;
+            }
+            break;
+        case 'checkbox':
+            submit[`Q${item.order}`].data.forEach((opts) => {
+                if (opts.label && opts.label !== ' ') flag = true;
+            });
+            break;
+        case 'text':
+        case 'textarea':
+            if (submit[`Q${item.order}`].data[0].input
+                && submit[`Q${item.order}`].data[0].input !== ' ') {
+                flag = true;
+            }
+            break;
+        default:
+        }
+        return flag;
+    }
+    return false;
+}
+
 export function setRequired(page = 1) {
     return (dispatch, getState) => {
-        const requiredData = getState().survey.content[page - 1].question.map((item) => {
+        const { survey, submit } = getState();
+        const requiredData = survey.content[page - 1].question.map((item) => {
             const updatedItem = {};
             updatedItem.id = item.id;
             updatedItem.order = item.order;
             updatedItem.required = item.required;
-            updatedItem.done = false;
+            // make sure whether this question is answered
+            updatedItem.done = checkIsAnswered(submit, item);
             return updatedItem;
         });
         dispatch(setRequiredData(requiredData));
@@ -155,11 +197,7 @@ export function checkRequired(action, page) {
                 break;
             case 'next':
                 if (!getState().settings.preview) {
-                    if (getState().paging === 1) {
-                        dispatch(saveFeedback());
-                    } else {
-                        dispatch(updateFeedback());
-                    }
+                    dispatch(saveFeedback());
                 }
                 // Send 'next' msg to client
                 dispatch(sendMsgToClient('next', {
@@ -172,11 +210,7 @@ export function checkRequired(action, page) {
                 break;
             case 'done':
                 if (!getState().settings.preview) {
-                    if (getState().paging === 1) {
-                        dispatch(saveFeedback());
-                    } else {
-                        dispatch(updateFeedback());
-                    }
+                    dispatch(saveFeedback());
                 }
                 // Send 'done' msg to client
                 dispatch(sendMsgToClient('done', {

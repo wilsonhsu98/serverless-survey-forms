@@ -8,6 +8,7 @@
     padding: 6px 13px;
     width: 90%;
     margin-left: 20px;
+    resize: none;
 }
 
 .textarea:-ms-input-placeholder {
