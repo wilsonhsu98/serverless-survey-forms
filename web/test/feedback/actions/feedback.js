@@ -172,7 +172,7 @@ describe('[Feedback] feedback action', () => {
             required: true
         }];
 
-        const store = mockStore({ survey });
+        const store = mockStore({ survey, submit: {} });
         const expectedActions = [
             { type: types.SET_REQUIRED_DATA, requiredData },
             { type: types.SET_PAGE_DONE, done: 'init' }
@@ -196,7 +196,7 @@ describe('[Feedback] feedback action', () => {
             type: "default"
         };
         const prefillData = {};
-        const store = mockStore({ requiredData, settings, prefillData });
+        const store = mockStore({ requiredData, settings, prefillData, clientID: '111-222-333' });
 
         store.dispatch(actions.checkRequired("done", 0));
         const expectedActions = [

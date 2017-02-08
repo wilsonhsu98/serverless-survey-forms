@@ -77,7 +77,7 @@ class Item extends PureComponent {
         return connectDragPreview(connectDropTarget(
             <div className={`${styles.item} ut-obj`} style={{ opacity }}>
                 <div className={styles.info}>
-                    Page {orderId}:
+                    <span className={styles.page}>Page {orderId}:</span>
                     <span className={`${styles.title} ut-title`}>{page.description}</span>
                 </div>
                 {connectDragSource(

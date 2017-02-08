@@ -115,7 +115,7 @@ describe('[Feedback] survey action', () => {
         .get(`/api/v1/surveys/${accountid}/${surveyid}`)
         .reply(200, { survey });
 
-        const store = mockStore({ settings, survey });
+        const store = mockStore({ settings, survey, submit: {} });
         const expectedActions = [
             { type: types.REQUEST_SURVEY },
             { type: types.RECEIVE_SURVEY_SUCCESS, survey },
@@ -126,6 +126,42 @@ describe('[Feedback] survey action', () => {
         ];
 
         return store.dispatch(actions.fetchSurvey(accountid, surveyid))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    it('should create an action to get one feedback', () => {
+        const settings = {
+            accountid: "facebook-xxxxxx",
+            locale: "zh-TW",
+            preview: false,
+            surveyid: "1111-2222-3333-4444",
+            type: "default"
+        };
+        const accountid = 'facebook-xxxxxx';
+        const surveyid = '1111-2222-3333-4444';
+        const clientid = '1234';
+        const feedback = {
+            surveyid,
+            accountid,
+            feedback: {},
+            datetime: Date.now()
+        };
+
+        nock(Config.baseURL)
+        .get(`/api/v1/feedbacks/${surveyid}/${clientid}`)
+        .reply(200, feedback);
+
+        const store = mockStore({ settings, survey: {}, submit: {} });
+        const expectedActions = [
+            { type: types.REQUEST_SURVEY },
+            { type: types.RECORD_FEEDBACK, feedback: {} },
+            { type: types.SAVE_CLIENT_ID, clientID: clientid },
+            { type: types.REQUEST_SURVEY }
+        ];
+
+        return store.dispatch(actions.getFeeback(accountid, surveyid, clientid))
             .then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });

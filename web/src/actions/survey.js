@@ -25,6 +25,32 @@ export function receiveSurveyFailure(err) {
     };
 }
 
+export function getFeeback(accountid, surveyid, clientid) {
+    return (dispatch) => {
+        dispatch(requestSurvey());
+        return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientid}`, {
+            credentials: 'same-origin',
+            headers: {
+                'Cache-Control': 'max-age=0'
+            }
+        })
+        .then(response => {
+            if (response.status >= 400) {
+                // It means the clientid cannot be found
+                dispatch(fetchSurvey(accountid, surveyid));
+                throw new Error('Bad response from server');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // store data to submit
+            dispatch(feedbackAction.recordFeedback(data.feedback));
+            dispatch(feedbackAction.saveClientID(clientid));
+            dispatch(fetchSurvey(accountid, surveyid));
+        });
+    };
+}
+
 export function fetchSurvey(accountid, surveyid) {
     return (dispatch, getState) => {
         dispatch(requestSurvey());

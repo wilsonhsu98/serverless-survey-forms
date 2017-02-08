@@ -21,11 +21,14 @@ class Text extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            input: false
-        };
+        // set initial states
+        this.state = this._handleState(props);
         this._onChangeHandle = this._onChangeHandle.bind(this);
         this._checkDone = this._checkDone.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState(this._handleState(nextProps));
     }
 
     render() {
@@ -81,6 +84,13 @@ class Text extends PureComponent {
             return true;
         }
         return false;
+    }
+
+    _handleState(_props) {
+        const { preData } = _props;
+        const input = preData && preData.data[0].hasOwnProperty('input')
+            && preData.data[0].input !== ' ' ? preData.data[0].input : false;
+        return { input };
     }
 
 }

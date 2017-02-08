@@ -19,10 +19,15 @@ class Privacy extends PureComponent {
         let email = '';
         if (props.prefillData && props.prefillData.email) {
             email = props.prefillData.email;
+        } else if (props.submit
+            && props.submit.hasOwnProperty('thankyou')
+            && props.submit.thankyou.hasOwnProperty('privacy')
+            && props.submit.thankyou.privacy.hasOwnProperty('input')) {
+            email = props.submit.thankyou.privacy.input;
         }
         this.state = {
             email,
-            terms: false,
+            terms: true,
             error: '',
             participate: false
         };
