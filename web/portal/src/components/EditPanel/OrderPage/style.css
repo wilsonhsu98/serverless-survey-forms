@@ -17,9 +17,16 @@
     .drag {
         float: left;
     }
+    .page {
+        display: inline-block;
+        float: left;
+        line-height: 32px;
+    }
     .title {
         display: inline-block;
+        float: left;
         width: 270px;
+        height: 32px;
         padding: 0 8px;
         border-style: solid;
         border-color: #bfbfbf;
