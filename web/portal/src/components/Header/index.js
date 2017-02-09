@@ -101,6 +101,14 @@ class Header extends PureComponent {
                             </div>)
                             : ''
                         }
+                        <div className={styles.build}>
+                            <div
+                                className={classNames(`${styles.status}`,
+                                    { [`${styles.current}`]: webpageArray[1] === 'subscriber' })}
+                                data-type="subscriber"
+                                onClick={this._changeTabClick}
+                            >Subscriber</div>
+                        </div>
                     </div>
                 </div>
             );
