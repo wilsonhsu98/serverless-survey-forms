@@ -1,0 +1,68 @@
+/*
+ * Style for components/SubscriberList/index.js
+ */
+.wrap {
+    position: relative;
+}
+.bird {
+    position: absolute;
+    top: -41px;
+    left: 24px;
+    width: 64px;
+    height: 64px;
+    background: resolve("component/img_bird_title.png") 0 0 no-repeat;
+}
+.control {
+    position: relative;
+    margin: 80px 0 0;
+    height: 32px;
+    text-align: right;
+    padding-right: 16px;
+}
+.list {
+    margin-top: 8px;
+    margin-bottom: 48px;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 0 16px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+
+    &.nodata {
+        min-height: 180px;
+    }
+}
+.description {
+    font-size: 18px;
+    text-align: center;
+    line-height: 180px;
+}
+
+.listTb {
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+
+    th {
+        color: #222;
+        font-weight: normal;
+        padding: 18px 12px;
+    }
+    tr {
+        border-bottom: 1px solid #BFBFBF;
+    }
+    tbody tr {
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    td{
+        padding: 14px 12px;
+        vertical-align: middle;
+        color: #666;
+        word-wrap: break-word;
+    }
+    .name {
+        width: 750px;
+    }
+}
