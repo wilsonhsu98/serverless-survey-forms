@@ -92,11 +92,13 @@ class SubscriberList extends PureComponent {
     }
 
     _onAddSubscriberClick() {
-
+        const { popupActions } = this.props;
+        popupActions.setPopup('addSubscriber');
     }
 
     _onDeleteSubscriberClick(e) {
-
+        const { subscribersActions } = this.props;
+        subscribersActions.deleteSubscriber(e.currentTarget.getAttribute('data-email'));
     }
 }
 
