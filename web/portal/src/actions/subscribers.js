@@ -5,7 +5,7 @@ import * as types from '../constants/ActionTypes';
 import Config from '../config';
 import { expiredToken } from './account';
 
-export function requestSubscribersFailure(err) {
+export function receiveSubscribersFailure(err) {
     return (dispatch) => {
         dispatch(expiredToken());
         dispatch({
@@ -35,13 +35,17 @@ export function getSubscribers() {
         })
         .then(response => {
             if (response.status >= 400) {
-                return [];
+                return {};
             }
-            return response;
+            return response.json();
         })
         .then(data => {
-            dispatch(receiveSubscribersSuccess(data));
+            if (data.hasOwnProperty('email')) {
+                dispatch(receiveSubscribersSuccess(data.email));
+            } else {
+                dispatch(receiveSubscribersSuccess([]));
+            }
         })
-        .catch(err => dispatch(requestSubscribersFailure(err)));
+        .catch(err => dispatch(receiveSubscribersFailure(err)));
     };
 }
