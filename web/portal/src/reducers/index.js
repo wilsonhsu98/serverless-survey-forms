@@ -38,6 +38,7 @@
     preview: 'embedded/previewPhone/previewPad/previewDesktop',
     previewID: '',
     users: [],
+    subscribers: [],
     selectedUser: {}
     webpage: 'index', or 'create/build' or 'create/l10n
     popup: ''
@@ -68,6 +69,7 @@ import surveyPolicy from './surveyPolicy';
 import preview from './preview';
 import previewID from './previewID';
 import users from './users';
+import subscribers from './subscribers';
 import selectedUser from './selectedUser';
 import webpage from './webpage';
 import popup from './popup';
@@ -95,6 +97,7 @@ const rootReducer = combineReducers({
     preview,
     previewID,
     users,
+    subscribers,
     selectedUser,
     webpage,
     popup,

@@ -37,8 +37,6 @@ class Header extends PureComponent {
         let profile;
         let menu;
         const webpageArray = webpage.split('/');
-        let classSetBuild;
-        let classSetL10N;
         switch (webpageArray[0]) {
         case 'user':
             content = (
@@ -68,14 +66,6 @@ class Header extends PureComponent {
             break;
         case 'create':
         case 'userCreate':
-            classSetBuild = {
-                [`${styles.status}`]: true,
-                [`${styles.current}`]: webpageArray.length <= 1 || webpageArray[1] === 'build'
-            };
-            classSetL10N = {
-                [`${styles.status}`]: true,
-                [`${styles.current}`]: webpageArray[1] === 'l10n'
-            };
             content = (
                 <div className={`${styles.qustom} ut-qustom`}>
                     <div
@@ -92,7 +82,9 @@ class Header extends PureComponent {
                     <div className={styles.tab}>
                         <div className={styles.build}>
                             <div
-                                className={classNames(classSetBuild)}
+                                className={classNames(`${styles.status}`,
+                                    { [`${styles.current}`]:
+                                    webpageArray.length <= 1 || webpageArray[1] === 'build' })}
                                 data-type="build"
                                 onClick={this._changeTabClick}
                             >Build</div>
@@ -101,13 +93,22 @@ class Header extends PureComponent {
                             surveyVersion !== 'v1' ?
                             (<div className={styles.build}>
                                 <div
-                                    className={classNames(classSetL10N)}
+                                    className={classNames(`${styles.status}`,
+                                        { [`${styles.current}`]: webpageArray[1] === 'l10n' })}
                                     data-type="l10n"
                                     onClick={this._changeTabClick}
                                 >L10N</div>
                             </div>)
                             : ''
                         }
+                        <div className={styles.build}>
+                            <div
+                                className={classNames(`${styles.status}`,
+                                    { [`${styles.current}`]: webpageArray[1] === 'subscriber' })}
+                                data-type="subscriber"
+                                onClick={this._changeTabClick}
+                            >Subscriber</div>
+                        </div>
                     </div>
                 </div>
             );
