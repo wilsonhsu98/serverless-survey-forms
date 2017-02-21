@@ -1,96 +1,57 @@
 {
-  "name": "feedback",
+  "name": "subscriber",
   "runtime": "nodejs4.3",
   "description": "${project} - ${stage}: ${name}",
   "customName": "$${functionName}",
   "customRole": false,
-  "handler": "feedback/handler.handler",
+  "handler": "subscriber/handler.handler",
   "timeout": 60,
   "memorySize": 512,
   "authorizer": {},
   "custom": "$${customTemplate}",
   "endpoints": [
     {
-      "path": "api/v1/feedbacks/{surveyid}/{clientid}",
-      "method": "GET",
-      "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
-      "apiKeyRequired": false,
-      "requestParameters": {},
-      "requestTemplates": {
-        "application/json": {
-          "apigw": "$${apiRequestTemplate}",
-          "surveyid": "$input.params('surveyid')",
-          "clientid": "$input.params('clientid')",
-          "op": "getOneFeedback"
-        }
-      },
-      "responses": "$${apiResponseNonCacheTemplate}"
-    },
-    {
-      "path": "api/v1/mgnt/feedbacks/{surveyid}",
+      "path": "api/v1/mgnt/subscribers/{surveyid}",
       "method": "GET",
       "type": "AWS",
       "authorizationType": "CUSTOM",
       "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {
-        "integration.request.querystring.integrationQueryParam": "method.request.querystring.startKey"
+        "integration.request.header.body-header": "method.request.header.If-Modified-Since"
       },
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
-          "surveyid": "$input.params('surveyid')",
-          "startKey": "$input.params('startKey')",
           "authAccountid": "$context.authorizer.principalId",
-          "op": "listFeedbacks"
+          "surveyid": "$input.params('surveyid')",
+          "op": "getSubscribers",
+          "ifModifiedSince": "$input.params('If-Modified-Since')"
         }
       },
-      "responses": "$${apiResponseNonCacheTemplate}"
-    },
-    {
-      "path": "api/v1/feedbacks/{surveyid}/{clientid}",
+      "responses": "$${apiResponseTemplate}"
+    }, {
+      "path": "api/v1/mgnt/subscribers/{surveyid}",
       "method": "POST",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
+      "authorizationType": "CUSTOM",
+      "authorizerFunction": "authorize",
       "apiKeyRequired": false,
       "requestParameters": {},
       "requestTemplates": {
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
+          "authAccountid": "$context.authorizer.principalId",
           "surveyid": "$input.params('surveyid')",
-          "clientid": "$input.params('clientid')",
-          "feedback": "$input.json('$.feedback')",
-          "op" : "addOneFeedback"
+          "email": "$input.json('$.email')",
+          "op": "addSubscribers"
         }
       },
       "responses": "$${apiResponseNonCacheTemplate}"
-    },
-    {
-      "path": "api/v1/feedbacks/{surveyid}/{clientid}",
+    }, {
+      "path": "api/v1/mgnt/subscribers/{surveyid}",
       "method": "PUT",
       "type": "AWS",
-      "authorizationType": "none",
-      "authorizerFunction": false,
-      "apiKeyRequired": false,
-      "requestParameters": {},
-      "requestTemplates": {
-        "application/json": {
-          "apigw": "$${apiRequestTemplate}",
-          "surveyid": "$input.params('surveyid')",
-          "clientid": "$input.params('clientid')",
-          "feedback": "$input.json('$.feedback')",
-          "op" : "updateOneFeedback"
-        }
-      },
-      "responses": "$${apiResponseNonCacheTemplate}"
-    },
-    {
-      "path": "api/v1/mgnt/feedbacks/{surveyid}/{clientid}",
-      "method": "DELETE",
-      "type": "AWS",
       "authorizationType": "CUSTOM",
       "authorizerFunction": "authorize",
       "apiKeyRequired": false,
@@ -99,15 +60,14 @@
         "application/json": {
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
-          "clientid": "$input.params('clientid')",
+          "email": "$input.json('$.email')",
           "authAccountid": "$context.authorizer.principalId",
-          "op" : "deleteFeedbacks"
+          "op": "updateSubscribers"
         }
       },
       "responses": "$${apiResponseNonCacheTemplate}"
-    },
-    {
-      "path": "api/v1/mgnt/feedbacks/{surveyid}",
+    }, {
+      "path": "api/v1/mgnt/subscribers/{surveyid}",
       "method": "DELETE",
       "type": "AWS",
       "authorizationType": "CUSTOM",
@@ -119,7 +79,7 @@
           "apigw": "$${apiRequestTemplate}",
           "surveyid": "$input.params('surveyid')",
           "authAccountid": "$context.authorizer.principalId",
-          "op": "deleteFeedbacks"
+          "op": "deleteSubscribers"
         }
       },
       "responses": "$${apiResponseNonCacheTemplate}"
@@ -131,8 +91,7 @@
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}",
     "SERVERLESS_USERTABLE": "${project}-${stage}-users",
-    "SERVERLESS_SURVEYTABLE": "${project}-${stage}-surveys",
-    "SERVERLESS_FEEDBACKTABLE": "${project}-${stage}-feedbacks",
+    "SERVERLESS_SUBSCRIBERTABLE": "${project}-${stage}-subscribers",
     "TOKEN_SECRET": "${tokenSecret}"
   },
   "vpc": {

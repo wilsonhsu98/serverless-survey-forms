@@ -4,7 +4,8 @@ let expect = require('chai').expect;
 let should = require('chai').should();
 let init = require('./init-test'),
     surveyjs = init.surveyjs,
-    feedbackjs = init.feedbackjs;
+    feedbackjs = init.feedbackjs,
+    subscriberjs = init.subscriberjs;
 
 describe("Interface to add one new survey model into data store", () => {
   describe("#addOneSurvey successfully", () => {
@@ -460,6 +461,17 @@ describe("Interface to delete one survey model from data store", () => {
       survey: surveymodel,
     };
     surveyjs.addOneSurvey(event).then(data => {
+      let event = {
+        surveyid: data.surveyid,
+        email: ["aa@aa.aa", "bb@bb.bb"],
+      };
+      return subscriberjs.addSubscribers(event).then(response => {
+        expect(response).to.not.be.null;
+        response.should.have.all.keys('datetime');
+        response.datetime.should.be.above(0);
+        return data;
+      });
+    }).then(data => {
       surveyid = data.surveyid;
 
       // Add 30 dummy feebacks
@@ -494,6 +506,10 @@ describe("Interface to delete one survey model from data store", () => {
           expect(response).to.not.be.null;
           response.should.have.keys('feedbacks');
           response.feedbacks.length.should.equal(30); // There are 30 feedbacks model in above test case.
+          return subscriberjs.getSubscribers(event);
+        }).then(response => {
+          expect(response).to.not.be.null;
+          response.should.have.keys(['surveyid', 'email', 'datetime']);
           return surveyjs.deleteOneSurvey(event);
         }).then(response => {
           expect(response).to.not.be.null;
@@ -502,6 +518,10 @@ describe("Interface to delete one survey model from data store", () => {
           expect(response).to.not.be.null;
           response.should.have.keys('feedbacks');
           response.feedbacks.length.should.equal(0); // There are 0 feedbacks model in above test case.
+          return subscriberjs.getSubscribers(event);
+        }).catch(error => {
+          expect(error).to.not.be.null;
+          error.should.match(RegExp(/Error: 404 Not Found/));
           done();
         });
       });
