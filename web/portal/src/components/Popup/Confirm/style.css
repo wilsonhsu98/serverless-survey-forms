@@ -1,0 +1,8 @@
+/*
+ * Style for components/Popup/Confirm/index.js
+ */
+
+.input__msg {
+    width: 100%;
+    margin-top: 20px;
+}

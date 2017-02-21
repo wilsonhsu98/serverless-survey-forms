@@ -1,4 +1,5 @@
 
+import styles from './style.css';
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 
@@ -34,8 +35,27 @@ class Confirm extends PureComponent {
             notEditableSurvey:
                 'Because there are some feedback in this survey, '
                 + 'you can\'t change format. You can only modify text.',
-            notEditableAdmin: 'You can\'t edit survey in Admin mode.'
+            notEditableAdmin: 'You can\'t edit survey in Admin mode.',
+            addSubscriber: 'Please fill subscriber\'s email.'
         };
+        if (popup === 'addSubscriber') {
+            return (
+                <div>
+                    <div className="ut-title">{message[popup]}</div>
+                    <div>
+                        <input
+                            id="subsInput"
+                            className={`${styles.input__msg} input input--medium`}
+                            type="text"
+                            placeholder="Type email here"
+                            onChange={this._handleInput}
+                        />
+                        <div id="msg" className="input__msg"></div>
+                    </div>
+                </div>
+            );
+        }
+
         return (<div className="ut-title">{message[popup]}</div>);
     }
 
@@ -76,19 +96,39 @@ class Confirm extends PureComponent {
     }
 
     _btnYesHandler() {
-        const { popup, popupActions, surveysActions } = this.props;
+        const { popup, subscribers, popupActions, surveysActions, subscribersActions } = this.props;
         if (popup === 'deleteOneSurvey') {
             surveysActions.deleteSurvey();
             popupActions.closePopup();
         } else if (popup === 'deleteAllFeedbacks') {
             surveysActions.deleteAllFeedbacks();
             popupActions.closePopup();
+        } else if (popup === 'addSubscriber') {
+            const subsInput = document.getElementById('subsInput').value;
+            const msg = document.getElementById('msg');
+            // eslint-disable-next-line max-len, no-useless-escape
+            const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            if (subsInput === '') {
+                msg.innerHTML = 'Please fill subscriber\'s email';
+            } else if (!emailRule.test(subsInput)) {
+                msg.innerHTML = 'Please fill valid email';
+            } else if (subscribers.indexOf(subsInput) >= 0) {
+                msg.innerHTML = 'The email is already in subscriber list';
+            } else {
+                subscribersActions.addSubscriber(subsInput);
+                popupActions.closePopup();
+            }
         }
     }
 
     _btnNoHandler() {
         const { popupActions } = this.props;
         popupActions.closePopup();
+    }
+
+    _handleInput() {
+        const msg = document.getElementById('msg');
+        if (msg.innerHTML.length) msg.innerHTML = '';
     }
 }
 

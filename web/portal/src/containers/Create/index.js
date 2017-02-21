@@ -12,10 +12,12 @@ import * as EditPageActions from '../../actions/editPage';
 import * as OrderPageActions from '../../actions/orderPage';
 import * as PreviewActions from '../../actions/preview';
 import * as PopupActions from '../../actions/popup';
+import * as SubscribersActions from '../../actions/subscribers';
 
 import Design from '../../components/Design';
 import ControlBtn from '../../components/L10n/ControlBtn';
 import L10nList from '../../components/L10n/L10nList';
+import SubscriberList from '../../components/SubscriberList';
 
 class Create extends PureComponent {
     // componentDidMount() {
@@ -27,9 +29,10 @@ class Create extends PureComponent {
 
     render() {
         const { surveyID, lang, questions, dropQuestion, editQuestion, editPage, orderPage,
-            selectedUser, surveyPolicy, surveyEditable, surveyL10n, selectedL10n, webpage,
+            selectedUser, surveyPolicy, surveyEditable, surveyL10n,
+            selectedL10n, webpage, subscribers,
             questionsActions, editQuestionActions, editPageActions,
-            orderPageActions, previewActions, popupActions } = this.props;
+            orderPageActions, previewActions, popupActions, subscribersActions } = this.props;
         const webpageArray = webpage.split('/');
         const designProps = {
             questions,
@@ -66,6 +69,16 @@ class Create extends PureComponent {
                     />
                 </div>
             );
+        } else if (webpageArray[1] && webpageArray[1] === 'subscriber') {
+            return (
+                <div ref="root">
+                    <SubscriberList
+                        subscribers={subscribers}
+                        subscribersActions={subscribersActions}
+                        popupActions={popupActions}
+                    />
+                </div>
+            );
         }
         return (<Design ref="root" {...designProps} />);
     }
@@ -85,7 +98,8 @@ function mapStateToProps(state) {
         surveyPolicy: state.surveyPolicy,
         selectedL10n: state.selectedL10n,
         selectedUser: state.selectedUser,
-        webpage: state.webpage
+        webpage: state.webpage,
+        subscribers: state.subscribers
     };
 }
 
@@ -96,7 +110,8 @@ function mapDispatchToProps(dispatch) {
         editPageActions: bindActionCreators(EditPageActions, dispatch),
         orderPageActions: bindActionCreators(OrderPageActions, dispatch),
         previewActions: bindActionCreators(PreviewActions, dispatch),
-        popupActions: bindActionCreators(PopupActions, dispatch)
+        popupActions: bindActionCreators(PopupActions, dispatch),
+        subscribersActions: bindActionCreators(SubscribersActions, dispatch)
         // pushActions: bindActionCreators(push, dispatch)
     };
 }

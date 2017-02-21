@@ -74,6 +74,7 @@ class Privacy extends PureComponent {
                                     value={this.state.email}
                                     onChange={this._onChange}
                                     disabled={!this.state.terms}
+                                    maxLength="100"
                                 />
                                 {
                                     prefillData.privacy_policy_url ?
