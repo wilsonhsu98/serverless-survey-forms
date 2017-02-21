@@ -379,7 +379,7 @@ describe("Interface to update one feedback model from data store", () => {
       it("should response successfully", done => {
         feedbackjs.updateOneFeedback(event).then(response => {
           expect(response).to.not.be.null;
-          response.should.have.all.keys(['feedback']);
+          response.should.have.all.keys(['feedback', 'datetime']);
           response.feedback.should.have.string(event.feedback);
           done();
         });
