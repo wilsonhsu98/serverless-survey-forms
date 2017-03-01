@@ -420,12 +420,20 @@ export function saveQuestion() {
                             [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
                             opt.get('value'));
                         if (opt.has('input')) {
-                            // add question option
+                            // add option input
                             Object.assign(l10n,
                                 { [`${opt.get('value')}_INPUT`]: opt.get('input') });
                             l10nQuestions = l10nQuestions.setIn(
                                 [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
                                 `${opt.get('value')}_INPUT`);
+                        }
+                        if (opt.has('example') && opt.get('example') !== '') {
+                            // add option example
+                            Object.assign(l10n,
+                                { [`${opt.get('value')}_EXAMPLE`]: opt.get('example') });
+                            l10nQuestions = l10nQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'example'],
+                                `${opt.get('value')}_EXAMPLE`);
                         }
                     });
                 }
@@ -556,9 +564,17 @@ export function getQuestion(surveyID) {
                                             seq, langMapping[genQuestions.getIn(seq)]
                                         );
                                         if (opt.has('input')) {
-                                            // set question option
+                                            // set option input
                                             seq = [pageIdx, 'question', queIdx,
                                                 'data', optIdx, 'input'];
+                                            genQuestions = genQuestions.setIn(
+                                                seq, langMapping[genQuestions.getIn(seq)]
+                                            );
+                                        }
+                                        if (opt.has('example')) {
+                                            // set option example
+                                            seq = [pageIdx, 'question', queIdx,
+                                                'data', optIdx, 'example'];
                                             genQuestions = genQuestions.setIn(
                                                 seq, langMapping[genQuestions.getIn(seq)]
                                             );

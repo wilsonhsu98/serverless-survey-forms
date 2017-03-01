@@ -168,6 +168,15 @@ class EditItem extends Component {
                     onFocus={this._handleFocusEvent}
                 />
                 <div className="input__msg js-optInput-msg"></div>
+                <input
+                    data-id={id}
+                    data-type="example"
+                    type="text"
+                    className={`${styles.longText} js-optInput-example input input--medium`}
+                    placeholder="Please type sub description"
+                    value={data.example || ''}
+                    onChange={onChangeHandle}
+                />
             </div>
         );
     }

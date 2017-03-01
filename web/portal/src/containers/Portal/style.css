@@ -78,6 +78,13 @@
     }
 }
 
+:global .subdescription {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
 :global .textarea {
     padding: 8px;
     resize: none;
