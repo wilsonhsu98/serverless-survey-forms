@@ -238,19 +238,19 @@ module.exports = (aws => {
         let datetime = Date.now();
         let params = {
           TableName: process.env.SERVERLESS_SURVEYTABLE,
-          Key:{
+          Key: {
             accountid: event.accountid,
             surveyid: event.surveyid,
           },
           UpdateExpression: "set #dt=:datetime",
-          ExpressionAttributeValues:{
+          ExpressionAttributeValues: {
             ":datetime": datetime,
           },
           ExpressionAttributeNames: {
             "#dt": "datetime",
           },
           ConditionExpression: "(attribute_exists(surveyid)) AND (attribute_exists(accountid)) ",
-          ReturnValues:"UPDATED_NEW",
+          ReturnValues: "UPDATED_NEW",
         };
 
         let updateArray = [];
@@ -310,6 +310,13 @@ module.exports = (aws => {
                   DeleteRequest: {
                     Key: {
                       accountid: event.accountid,
+                      surveyid: event.surveyid,
+                    },
+                  },
+                }],
+                [process.env.SERVERLESS_SUBSCRIBERTABLE]: [{
+                  DeleteRequest: {
+                    Key: {
                       surveyid: event.surveyid,
                     },
                   },
