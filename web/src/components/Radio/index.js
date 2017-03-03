@@ -65,6 +65,7 @@ class Radio extends PureComponent {
             const val = itm.value ? itm.value : itm.label;
             const label = l10n[itm.label] || itm.label;
             const input = l10n[itm.input] || itm.input;
+            const example = l10n[itm.example] || itm.example;
             return (
                 <div
                     className="radioItem"
@@ -95,6 +96,11 @@ class Radio extends PureComponent {
                                 onChange={this._onChangeInput}
                                 maxLength="60"
                             /> : ''
+                    }
+                    {
+                        example && this.state.selected === val ?
+                            <div className="subdescription">{example}</div>
+                            : ''
                     }
                 </div>
             );
