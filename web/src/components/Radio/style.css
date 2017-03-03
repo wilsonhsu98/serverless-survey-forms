@@ -67,6 +67,9 @@
 
 :global .radioItem input[type="text"] {
 	margin: 0 0 5px 10px;
+	font-size: 15px;
+    background-color: #fff;
+    border: 1px solid #bbb;
 	padding: 2px 5px;
     min-width: 320px;
 }
