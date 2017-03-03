@@ -74,7 +74,7 @@
 
 :global .checkboxItem input[type="text"] {
 	margin: 0 0 5px 10px;
-    font-size: 15px;
+	font-size: 15px;
     background-color: #fff;
     border: 1px solid #bbb;
     padding: 2px 5px;
@@ -83,6 +83,13 @@
 
 :global .checkboxItem input[type="text"]:-ms-input-placeholder {
     color: #aaa;
+}
+
+:global .subdescription {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
 }
 
 @media only screen and (max-width: 639px) {
