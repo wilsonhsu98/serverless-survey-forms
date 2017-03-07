@@ -115,9 +115,9 @@ class App extends PureComponent {
 if (window.MessageChannel) {
     // Message Channel
     window.onmessage = (e) => {
-        console.log('Init: Message Channel from Client: ', e.data, e.ports);
         // Prevent accidently receiving postMessage from others
-        if (e.origin !== e.data.source) return;
+        if (e.data && e.origin !== e.data.source) return;
+        console.log('Init: Message Channel from Client: ', e.data, e.ports);
         // Store client prefilling info
         if (e.ports.length > 0) { // e.ports[0] is channel.port2, sent from the main frame
             if (e.data && e.data.source) {
@@ -132,7 +132,7 @@ if (window.MessageChannel) {
     const eventer = window[eventMethod];
     const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
     eventer(messageEvent, (e) => {
-        if (e.origin !== e.data.source) return;
+        if (e.data && e.origin !== e.data.source) return;
         console.log('Init: Post Message received from Client:  ', e.data);
         // Store client prefilling info
         if (e.data) {
