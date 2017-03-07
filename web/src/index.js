@@ -115,13 +115,16 @@ class App extends PureComponent {
 if (window.MessageChannel) {
     // Message Channel
     window.onmessage = (e) => {
-        console.log('Init: Message Channel from Client: ', e.data);
+        console.log('Init: Message Channel from Client: ', e.data, e.ports);
+        // Prevent accidently receiving postMessage from others
+        if (e.origin !== e.data.source) return;
         // Store client prefilling info
-        if (e.data) {
-            store.dispatch(SurveyActions.savePrefill(e.data));
+        if (e.ports.length > 0) { // e.ports[0] is channel.port2, sent from the main frame
+            if (e.data && e.data.source) {
+                store.dispatch(SurveyActions.savePrefill(e.data));
+                window.port2 = e.ports[0];
+            }
         }
-        // e.ports[0] is channel.port2, sent from the main frame
-        window.port2 = e.ports[0];
     };
 } else {
     // Post Message
