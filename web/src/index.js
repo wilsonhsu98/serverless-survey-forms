@@ -119,7 +119,7 @@ if (window.MessageChannel) {
         if (!e ||
             !e.data ||
             !e.ports ||
-            !e.ports[0] ) {
+            !e.ports[0]) {
             console.log('Qustom: Not a valid message');
             return;
         }
