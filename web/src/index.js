@@ -112,46 +112,34 @@ class App extends PureComponent {
     }
 }
 
-if (window.MessageChannel) {
-    // Message Channel
-    window.onmessage = (e) => {
-        // Prevent accidently receiving postMessage from others
-        if (!e ||
-            !e.data ||
-            !e.ports ||
-            !e.ports[0]) {
-            console.log('Qustom: Not a valid message');
-            return;
-        }
-        if (!e.data.source ||
-            e.origin !== e.data.source) {
-            console.log('Qustom: Received Message did not come from its match source');
-            return;
-        }
-        console.log('Qustom Init: Message Channel from Client: ', e.data, e.ports[0]);
-        // Store client prefilling info
-        store.dispatch(SurveyActions.savePrefill(e.data));
+const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+eventer(messageEvent, (e) => {
+    console.log('Qustom onmessage event: ', e);
+    if (!e ||
+        !e.data) {
+        console.log('Qustom: Not a valid message', e);
+        return;
+    }
+    // Enable this when dev env issue fixed: /(^https:\/\/).+(\.trendmicro\.com$)/
+    if (!e.origin.match(/(^https:\/\/)/)) {
+        console.log('Qustom: e.origin didn\'t use https protocol', e.origin);
+        return;
+    }
+    if (!e.data.source ||
+        e.origin !== e.data.source) {
+        console.log('Qustom: Received Message did not come from its match source',
+            e.origin, e.data.source);
+        return;
+    }
+    console.log('Qustom Init: Post Message received from Client:  ', e.origin, e.data);
+    // Store client prefilling info
+    store.dispatch(SurveyActions.savePrefill(e.data));
+    // Via message channel
+    if (e.ports && e.ports[0]) {
         window.port2 = e.ports[0];
-    };
-} else {
-    // Post Message
-    const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-    const eventer = window[eventMethod];
-    const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-    eventer(messageEvent, (e) => {
-        if (!e || !e.data) {
-            console.log('Qustom: Not a valid message');
-            return;
-        }
-        if (!e.data.source ||
-            e.origin !== e.data.source) {
-            console.log('Qustom: Received Message did not come from its match source');
-            return;
-        }
-        console.log('Qustom Init: Post Message received from Client:  ', e.data);
-        // Store client prefilling info
-        store.dispatch(SurveyActions.savePrefill(e.data));
-    }, false);
-}
+    }
+}, false);
 
 export default App;
