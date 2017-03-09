@@ -98,7 +98,7 @@ class Radio extends PureComponent {
                             /> : ''
                     }
                     {
-                        example && this.state.selected === val ?
+                        example && example !== ' ' && this.state.selected === val ?
                             <div className="subdescription">{example}</div>
                             : ''
                     }

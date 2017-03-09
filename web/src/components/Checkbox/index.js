@@ -100,7 +100,7 @@ class Checkbox extends PureComponent {
                             /> : ''
                     }
                     {
-                        example && this.state[inputID] ?
+                        example && example !== ' ' && this.state[inputID] ?
                             <div className="subdescription">{example}</div>
                             : ''
                     }
