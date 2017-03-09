@@ -91,7 +91,7 @@ class Checkbox extends PureComponent {
                                 type="text"
                                 placeholder={input}
                                 name={val}
-                                value={
+                                defaultValue={
                                     feedback[val].hasOwnProperty('input')
                                     && feedback[val].input !== ' '
                                     ? feedback[val].input : ''}

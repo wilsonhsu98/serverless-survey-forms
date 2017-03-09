@@ -89,7 +89,7 @@ class Radio extends PureComponent {
                                 type="text"
                                 placeholder={input}
                                 name={val}
-                                value={
+                                defaultValue={
                                     feedbackArray[0].hasOwnProperty('input')
                                     && feedbackArray[0].input !== ' '
                                     ? feedbackArray[0].input : ''}
