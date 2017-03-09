@@ -48,8 +48,7 @@ class SurveyList extends PureComponent {
                                 checked={item.surveyid === selectedSurveys}
                                 onChange={this._toggleChange}
                             />
-                            <label></label>
-                            {title}
+                            <label>{title}</label>
                         </div>
                     </td>
                     <td className={styles.uuid}>{item.surveyid}</td>
