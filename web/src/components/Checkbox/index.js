@@ -96,7 +96,7 @@ class Checkbox extends PureComponent {
                                     && feedback[val].input !== ' '
                                     ? feedback[val].input : ''}
                                 onChange={this._onChangeInput}
-                                maxLength="60"
+                                maxLength="200"
                             /> : ''
                     }
                     {

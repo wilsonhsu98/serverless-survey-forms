@@ -94,7 +94,7 @@ class Radio extends PureComponent {
                                     && feedbackArray[0].input !== ' '
                                     ? feedbackArray[0].input : ''}
                                 onChange={this._onChangeInput}
-                                maxLength="60"
+                                maxLength="200"
                             /> : ''
                     }
                     {

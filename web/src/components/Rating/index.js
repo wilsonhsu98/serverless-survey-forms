@@ -60,7 +60,7 @@ class Rating extends PureComponent {
                                 placeholder={l10n[item.input] || item.input}
                                 defaultValue={this.state.reason || ''}
                                 onChange={this._onChangeInput}
-                                maxLength="60"
+                                maxLength="200"
                             /> : ''
                     }
                 </div>
