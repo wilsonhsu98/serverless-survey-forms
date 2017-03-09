@@ -374,10 +374,17 @@ export function saveQuestion() {
                                 [pageIdx, 'question', queIdx, 'data', optIdx, 'label'],
                                 values.OPTION_TITLE);
                         }
-                        if (opt.has('input') && opt.get('input') === '') {
+                        if (opt.has('input')
+                            && (opt.get('input') === values.PLACEHOLDER_TITLE
+                            || opt.get('input') === '')) {
                             genQuestions = genQuestions.setIn(
                                 [pageIdx, 'question', queIdx, 'data', optIdx, 'input'],
-                                values.PLACEHOLDER_TITLE);
+                                ' ');
+                        }
+                        if (opt.has('example') && opt.get('example') === '') {
+                            genQuestions = genQuestions.setIn(
+                                [pageIdx, 'question', queIdx, 'data', optIdx, 'example'],
+                                ' ');
                         }
                     });
                 }
