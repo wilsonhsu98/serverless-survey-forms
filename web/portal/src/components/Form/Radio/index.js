@@ -47,6 +47,7 @@ class Radio extends Component {
                             /> :
                             ''
                     }
+                    <div className="subdescription">{itm.example || ''}</div>
                 </div>
             );
         });

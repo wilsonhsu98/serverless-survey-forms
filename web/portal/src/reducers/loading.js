@@ -16,6 +16,9 @@ export default function loading(state = false, action) {
     case types.REQUEST_COPY_SURVEY:
     case types.REQUEST_IMPORT_L10N:
     case types.REQUEST_DELETE_L10N:
+    case types.REQUEST_SUBSCRIBERS_LIST:
+    case types.REQUEST_ADD_SUBSCRIBERS:
+    case types.REQUEST_DELETE_SUBSCRIBERS:
         return true;
     case types.SET_SUBJECT_SUCCESS:
     case types.SET_SUBJECT_FAILURE:
@@ -37,6 +40,12 @@ export default function loading(state = false, action) {
     case types.POST_COPIEDSURVEY_FAILURE:
     case types.RECEIVE_IMPORT_L10N:
     case types.RECEIVE_DELETE_L10N:
+    case types.RECEIVE_SUBSCRIBERS_SUCCESS:
+    case types.RECEIVE_SUBSCRIBERS_FAILURE:
+    case types.ADD_SUBSCRIBERS_SUCCESS:
+    case types.ADD_SUBSCRIBERS_FAILURE:
+    case types.DELETE_SUBSCRIBERS_SUCCESS:
+    case types.DELETE_SUBSCRIBERS_FAILURE:
         return false;
     default:
         return state;

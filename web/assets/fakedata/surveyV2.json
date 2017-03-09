@@ -28,7 +28,7 @@
                     "data": [
                         {"value": "1AN2ACDF3BNBC2", "label": "1AN2ACDF3BNBC2"},
                         {"value": "1AN2ACDF3BNBC3", "label": "1AN2ACDF3BNBC3"},
-                        {"value": "1AN2ACDF3BNBC4", "label": "1AN2ACDF3BNBC4", "input": "1AN2ACDF3BNBC4_INPUT"}
+                        {"value": "1AN2ACDF3BNBC4", "label": "1AN2ACDF3BNBC4", "input": "1AN2ACDF3BNBC4_INPUT", "example": "1AN2ACDF3BNBC4_EXAMPLE"}
                     ],
                     "required": false
                 },
@@ -42,7 +42,7 @@
                         {"value": "1AN2ACDFAG4CY3", "label": "1AN2ACDFAG4CY3"},
                         {"value": "1AN2ACDFAG4CY4", "label": "1AN2ACDFAG4CY4"},
                         {"value": "1AN2ACDFAG4CY5", "label": "1AN2ACDFAG4CY5"},
-                        {"value": "1AN2ACDFAG4CY6", "label": "1AN2ACDFAG4CY6", "input": "1AN2ACDFAG4CY6_INPUT"}
+                        {"value": "1AN2ACDFAG4CY6", "label": "1AN2ACDFAG4CY6", "input": "1AN2ACDFAG4CY6_INPUT", "example": "1AN2ACDFAG4CY6_EXAMPLE"}
                     ],
                     "required": true
                 }

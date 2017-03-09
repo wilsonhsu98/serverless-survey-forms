@@ -327,20 +327,20 @@ module.exports = (aws => {
         let datetime = Date.now();
         let params = {
           TableName: process.env.SERVERLESS_FEEDBACKTABLE,
-          Key:{
+          Key: {
             surveyid: event.surveyid,
             clientid: event.clientid,
           },
           UpdateExpression: "set feedback = :feedback, #dt=:datetime",
-          ExpressionAttributeValues:{
+          ExpressionAttributeValues: {
             ":feedback": event.feedback,
             ":datetime": datetime,
           },
           ExpressionAttributeNames: {
             "#dt": "datetime",
           },
-          "ConditionExpression": "(attribute_exists(surveyid)) AND (attribute_exists(clientid)) ",
-          ReturnValues:"UPDATED_NEW",
+          ConditionExpression: "(attribute_exists(surveyid)) AND (attribute_exists(clientid)) ",
+          ReturnValues: "UPDATED_NEW",
         };
         docClient.update(params, (err, data) => {
           if (err) {
@@ -355,6 +355,7 @@ module.exports = (aws => {
             // compose response
             response = {
               feedback: data.Attributes.feedback,
+              datetime: data.Attributes.datetime,
             };
             resolve(response);
           }

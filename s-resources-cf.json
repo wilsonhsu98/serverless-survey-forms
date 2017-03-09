@@ -148,6 +148,24 @@
         }
       }
     },
+    "SubscribersModelDDB": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-${stage}-subscribers",
+        "AttributeDefinitions": [{
+          "AttributeName": "surveyid",
+          "AttributeType": "S"
+        }],
+        "KeySchema": [{
+          "AttributeName": "surveyid",
+          "KeyType": "HASH"
+        }],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
+    },
     "IamRoleLambda": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -200,6 +218,14 @@
                 "", [
                   "arn:aws:dynamodb:${region}:*:table/", {
                     "Ref": "FeedbacksModelDDB"
+                  }
+                ]
+              ]
+            }, {
+              "Fn::Join": [
+                "", [
+                  "arn:aws:dynamodb:${region}:*:table/", {
+                    "Ref": "SubscribersModelDDB"
                   }
                 ]
               ]
@@ -262,6 +288,18 @@
           "", [
             "arn:aws:dynamodb:${region}:*:table/", {
               "Ref": "FeedbacksModelDDB"
+            }
+          ]
+        ]
+      }
+    },
+    "DynamoDBTableArnSubscribersModel": {
+      "Description": "ARN of the dynamodb table - ${project}-${stage}-Subscribers",
+      "Value": {
+        "Fn::Join": [
+          "", [
+            "arn:aws:dynamodb:${region}:*:table/", {
+              "Ref": "SubscribersModelDDB"
             }
           ]
         ]

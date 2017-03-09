@@ -1,7 +1,7 @@
 'use strict';
 
 let aws = require('../config/aws');
-let feedback = require('./feedback')(aws);
+let subscriber = require('./subscriber')(aws);
 let user = require('../user/user.js')(aws);
 
 module.exports.handler = (event, context, callback) => {
@@ -29,25 +29,33 @@ module.exports.handler = (event, context, callback) => {
   });
 
   switch (event.op) {
-    case "getOneFeedback":
-      // GET /api/v1/feedbacks/<surveyid>/<clientid>/
-      feedback.getOneFeedback({
-        surveyid: event.surveyid,
-        clientid: event.clientid,
+    case "getSubscribers":
+      // GET /api/v1/mgnt/subscribers/<surveyid>/
+      // Authenticated: Yes
+      authorizedJudge.then(() => {
+        return subscriber.getSubscribers({
+          surveyid: event.surveyid,
+        });
       }).then(response => {
-        return callback(null, response);
+        // A callback handler to decide return is 304 or 200.
+        if (event.ifModifiedSince && response.datetime && new Date(response.datetime).toUTCString() === event.ifModifiedSince) {
+          return callback("304 Not Modified", null);
+        } else {
+          response.datetime = new Date(response.datetime).toUTCString();
+          return callback(null, response);
+        }
       }).catch(err => {
         return callback(err, null);
       });
       break;
 
-    case "listFeedbacks":
-      // GET /api/v1/mgnt/feedbacks/<surveyid>[?startKey=<startKey>]
+    case "addSubscribers":
+      // POST /api/v1/mgnt/subscribers/<surveyid>/
       // Authenticated: Yes
       authorizedJudge.then(() => {
-        return feedback.listFeedbacks({
+        return subscriber.addSubscribers({
           surveyid: event.surveyid,
-          clientid: event.clientid,
+          email: event.email,
         });
       }).then(response => {
         return callback(null, response);
@@ -56,40 +64,27 @@ module.exports.handler = (event, context, callback) => {
       });
       break;
 
-    case "addOneFeedback":
-      // POST /api/v1/feedbacks/<surveyid>/<clientid>
-      feedback.addOneFeedback({
-        surveyid: event.surveyid,
-        clientid: event.clientid,
-        feedback: event.feedback,
-      }).then(response => {
-        return callback(null, response);
-      }).catch(err => {
-        return callback(err, null);
-      });
-      break;
-
-    case "updateOneFeedback":
-      // PUT /api/v1/feedbacks/<surveyid>/<clientid>
-      feedback.updateOneFeedback({
-        surveyid: event.surveyid,
-        clientid: event.clientid,
-        feedback: event.feedback,
-      }).then(response => {
-        return callback(null, response);
-      }).catch(err => {
-        return callback(err, null);
-      });
-      break;
-
-    case "deleteFeedbacks":
-      // DELETE /api/v1/mgnt/feedbacks/<surveyid>/<clientid>
-      // DELETE /api/v1/mgnt/feedbacks/<surveyid>
+    case "updateSubscribers":
+      // PUT /api/v1/mgnt/subscribers/<surveyid>/
       // Authenticated: Yes
       authorizedJudge.then(() => {
-        return feedback.deleteFeedbacks({
+        return subscriber.updateSubscribers({
           surveyid: event.surveyid,
-          clientid: event.clientid,
+          email: event.email,
+        });
+      }).then(response => {
+        return callback(null, response);
+      }).catch(err => {
+        return callback(err, null);
+      });
+      break;
+
+    case "deleteSubscribers":
+      // DELETE /api/v1/mgnt/subscribers/<surveyid>
+      // Authenticated: Yes
+      authorizedJudge.then(() => {
+        return subscriber.deleteSubscribers({
+          surveyid: event.surveyid,
         });
       }).then(response => {
         return callback(null, response);

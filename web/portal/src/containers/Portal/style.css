@@ -78,6 +78,13 @@
     }
 }
 
+:global .subdescription {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
 :global .textarea {
     padding: 8px;
     resize: none;
@@ -365,13 +372,20 @@
 
 /***** Global Component Radio *****/
 :global .radioGrp {
-    margin-left: 30px;
+    margin-left: 35px;
+}
+
+:global .radioItem {
+    position: relative;
 }
 
 :global .radioItem input[type="radio"] {
     opacity: 0;
-    width: 19px;
+    width: 20px;
+    position: absolute;
+    z-index: 1;
     margin-left: -20px;
+    cursor: pointer;
 }
 
 :global .radioItem input[type="radio"] + label {
@@ -380,6 +394,8 @@
     font-size: 14px;
     color: #666;
     font-weight: normal;
+    padding-left: 10px;
+    margin-top: 5px;
 }
 
 :global .radioItem input[type="radio"]:disabled + label {
@@ -392,8 +408,10 @@
     width: 20px;
     display: inline-block;
     visibility: visible;
-    position: relative;
-    top: 5px;
+    position: absolute;
+    top: 0;
+    left: -20px;
+    margin-top: 5px;
     margin-right: 10px;
     background: resolve("component/ic_radiobtn_unchecked_normal.png");
     background-size: 100%;

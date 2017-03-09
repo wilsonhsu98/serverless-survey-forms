@@ -50,6 +50,7 @@ class Text extends PureComponent {
                         type="text"
                         onChange={this._onChangeHandle}
                         value={this.state.input ? this.state.input : ''}
+                        maxLength="60"
                     />
                 </div>
             </div>

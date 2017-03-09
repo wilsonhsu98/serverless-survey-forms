@@ -51,6 +51,7 @@ class Textarea extends PureComponent {
                         className={styles.textarea}
                         onChange={this._onChangeHandle}
                         value={this.state.input ? this.state.input : ''}
+                        maxLength="200"
                     />
                 </div>
             </div>

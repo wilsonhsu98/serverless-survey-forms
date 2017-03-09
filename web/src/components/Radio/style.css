@@ -67,12 +67,22 @@
 
 :global .radioItem input[type="text"] {
 	margin: 0 0 5px 10px;
-	padding: 2px 5px;
+	font-size: 15px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 2px 5px;
     min-width: 320px;
 }
 
 :global .radioItem input[type="text"]:-ms-input-placeholder {
     color: #aaa;
+}
+
+:global .subdescription {
+    margin-left: 10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #666;
 }
 
 @media only screen and (max-width: 639px) {

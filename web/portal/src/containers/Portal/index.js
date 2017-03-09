@@ -17,6 +17,7 @@ import * as UsersActions from '../../actions/users';
 import * as WebpageActions from '../../actions/webpage';
 import * as SurveysActions from '../../actions/surveys';
 import * as PopupActions from '../../actions/popup';
+import * as SubscribersActions from '../../actions/subscribers';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -81,8 +82,8 @@ export class Portal extends PureComponent {
     }
 
     _handlePopup() {
-        const { lang, surveyL10n, selectedL10n, popup, popupActions,
-            surveysActions, questionsActions } = this.props;
+        const { lang, surveyL10n, selectedL10n, popup, subscribers, popupActions,
+            surveysActions, questionsActions, subscribersActions } = this.props;
         if (popup) {
             if (popup === 'ExportL10n') {
                 return (
@@ -112,8 +113,10 @@ export class Portal extends PureComponent {
             return (
                 <Confirm
                     popup={popup}
+                    subscribers={subscribers}
                     popupActions={popupActions}
                     surveysActions={surveysActions}
+                    subscribersActions={subscribersActions}
                 />);
         }
     }
@@ -185,6 +188,7 @@ function mapStateToProps(state) {
         selectedL10n: state.selectedL10n,
         selectedUser: state.selectedUser,
         webpage: state.webpage,
+        subscribers: state.subscribers,
         popup: state.popup,
         routing: state.routing
     };
@@ -200,7 +204,8 @@ function mapDispatchToProps(dispatch) {
         usersActions: bindActionCreators(UsersActions, dispatch),
         webpageActions: bindActionCreators(WebpageActions, dispatch),
         surveysActions: bindActionCreators(SurveysActions, dispatch),
-        popupActions: bindActionCreators(PopupActions, dispatch)
+        popupActions: bindActionCreators(PopupActions, dispatch),
+        subscribersActions: bindActionCreators(SubscribersActions, dispatch)
     };
 }
 

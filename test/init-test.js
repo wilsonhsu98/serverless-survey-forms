@@ -16,13 +16,17 @@ aws.config.update({
 let userjs = require('../api/user/user.js')(aws);
 let surveyjs = require('../api/survey/survey.js')(aws);
 let feedbackjs = require('../api/feedback/feedback.js')(aws);
+let subscriberjs = require('../api/subscriber/subscriber.js')(aws);
 
 before('Initial local DynamoDB', function(done) {
   this.timeout(10000);
   // set up necessary information
-  process.env['SERVERLESS_USERTABLE'] = 'usertable';
-  process.env['SERVERLESS_SURVEYTABLE'] = 'surveytable';
-  process.env['SERVERLESS_FEEDBACKTABLE'] = 'feedbacktable';
+  process.env = {
+    SERVERLESS_USERTABLE: "usertable",
+    SERVERLESS_SURVEYTABLE: "surveytable",
+    SERVERLESS_FEEDBACKTABLE: "feedbacktable",
+    SERVERLESS_SUBSCRIBERTABLE: "subscribertable",
+  };
 
   // Returns a standard Node.js HTTP server
   dynadb.listen(dynalitePort, err => {
@@ -118,7 +122,29 @@ before('Initial local DynamoDB', function(done) {
       });
     });
 
-    Promise.all([userTable, surveyTable, feedbackTable]).then(() => {
+    let subscriberTable = new Promise(resolve => {
+      params = {
+        TableName: process.env.SERVERLESS_SUBSCRIBERTABLE,
+        AttributeDefinitions: [{
+          AttributeName: "surveyid",
+          AttributeType: "S"
+        }],
+        KeySchema: [{
+          AttributeName: "surveyid",
+          KeyType: "HASH"
+        }],
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5
+        }
+      };
+      dynamodb.createTable(params, err => {
+        if (err) throw err;
+        resolve();
+      });
+    });
+
+    Promise.all([userTable, surveyTable, feedbackTable, subscriberTable]).then(() => {
       done();
     });
 
@@ -133,4 +159,5 @@ module.exports = {
   feedbackjs,
   surveyjs,
   userjs,
+  subscriberjs,
 };

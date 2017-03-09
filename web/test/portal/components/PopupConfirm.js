@@ -61,4 +61,15 @@ describe('[Portal] Testing Confirm Component', () => {
         const btn = TestUtils.scryRenderedComponentsWithType(content, Button);
         expect(btn.length).toEqual(1);
     });
+
+    it('confirm popup for addSubscriber', () => {
+        const popProps = Object.assign({}, props, { popup: 'addSubscriber' });
+        const content = TestUtils.renderIntoDocument(<Confirm {...popProps} />);
+
+        const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
+        expect(title.textContent).toEqual('Please fill subscriber\'s email.');
+
+        const btn = TestUtils.scryRenderedComponentsWithType(content, Button);
+        expect(btn.length).toEqual(2);
+    });
 });
