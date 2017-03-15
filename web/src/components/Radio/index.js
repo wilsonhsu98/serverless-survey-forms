@@ -89,16 +89,16 @@ class Radio extends PureComponent {
                                 type="text"
                                 placeholder={input}
                                 name={val}
-                                value={
+                                defaultValue={
                                     feedbackArray[0].hasOwnProperty('input')
                                     && feedbackArray[0].input !== ' '
                                     ? feedbackArray[0].input : ''}
                                 onChange={this._onChangeInput}
-                                maxLength="60"
+                                maxLength="200"
                             /> : ''
                     }
                     {
-                        example && this.state.selected === val ?
+                        example && example !== ' ' && this.state.selected === val ?
                             <div className="subdescription">{example}</div>
                             : ''
                     }

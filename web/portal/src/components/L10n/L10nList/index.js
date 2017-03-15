@@ -49,8 +49,7 @@ class L10nList extends PureComponent {
                                 checked={item === selectedL10n}
                                 onChange={this._toggleChange}
                             />
-                            <label></label>
-                            {language}
+                            <label>{language}</label>
                         </div>
                     </td>
                 </tr>
