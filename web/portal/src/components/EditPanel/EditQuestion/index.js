@@ -263,15 +263,6 @@ class EditQuestion extends PureComponent {
                     flag = true;
                 }
             });
-            // Check options with inputs
-            opt = $('input[type=text].js-optInput');
-            const optInput = $('input[type=text].js-optInput-input');
-            Object.keys(opt).forEach((key) => {
-                if (!isNaN(key) && (opt[key].value === '') || (optInput[key].value === '')) {
-                    $('.js-optInput-msg').eq(key).html('Please fill option or input');
-                    flag = true;
-                }
-            });
             // Check advanced input in rating
             if (editQuestion.type === 'rating'
                 && $('#chk').is(':checked')

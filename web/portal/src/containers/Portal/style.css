@@ -310,6 +310,7 @@
     z-index: 1;
     margin-left: -20px;
     cursor: pointer;
+    display: none;
 }
 
 :global .checkboxItem input[type="checkbox"] + label {
@@ -319,7 +320,9 @@
     color: #666;
     font-weight: normal;
     padding-left: 10px;
+    padding-top: 5px;
     margin-top: 5px;
+    display: block;
 }
 
 :global .checkboxItem input[type="checkbox"]:disabled + label {
@@ -386,6 +389,7 @@
     z-index: 1;
     margin-left: -20px;
     cursor: pointer;
+    display: none;
 }
 
 :global .radioItem input[type="radio"] + label {
@@ -396,6 +400,8 @@
     font-weight: normal;
     padding-left: 10px;
     margin-top: 5px;
+    padding-top: 5px;
+    display: block;
 }
 
 :global .radioItem input[type="radio"]:disabled + label {

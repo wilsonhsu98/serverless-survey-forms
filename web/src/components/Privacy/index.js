@@ -71,7 +71,7 @@ class Privacy extends PureComponent {
                                 <input
                                     type="text"
                                     placeholder={I18Next.t('privacy_input')}
-                                    value={this.state.email}
+                                    defaultValue={this.state.email}
                                     onChange={this._onChange}
                                     disabled={!this.state.terms}
                                     maxLength="100"

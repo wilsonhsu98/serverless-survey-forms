@@ -51,9 +51,6 @@
         .checkboxItem {
             margin-left: 20px;
         }
-        .checkboxItem input[type="checkbox"] + label {
-            margin-bottom: 14px;
-        }
     }
     .uuid {
         width: 220px;
