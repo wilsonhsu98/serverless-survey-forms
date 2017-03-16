@@ -42,13 +42,14 @@ class SurveyList extends PureComponent {
                     <td className={styles.subject}>
                         <div className={`${styles.checkboxItem} checkboxItem ut-list`}>
                             <input
+                                id={`survey${idx}`}
                                 type="checkbox"
                                 className={styles.checkbox}
                                 value={item.surveyid}
                                 checked={item.surveyid === selectedSurveys}
                                 onChange={this._toggleChange}
                             />
-                            <label>{title}</label>
+                            <label htmlFor={`survey${idx}`}>{title}</label>
                         </div>
                     </td>
                     <td className={styles.uuid}>{item.surveyid}</td>
