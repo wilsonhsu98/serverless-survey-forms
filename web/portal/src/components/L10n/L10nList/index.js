@@ -43,13 +43,14 @@ class L10nList extends PureComponent {
                     <td className={styles.subject}>
                         <div className={`${styles.checkboxItem} checkboxItem ut-list`}>
                             <input
+                                id={`lang${idx}`}
                                 type="checkbox"
                                 className={styles.checkbox}
                                 value={item}
                                 checked={item === selectedL10n}
                                 onChange={this._toggleChange}
                             />
-                            <label>{language}</label>
+                            <label htmlFor={`lang${idx}`}>{language}</label>
                         </div>
                     </td>
                 </tr>
