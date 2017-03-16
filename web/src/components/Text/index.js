@@ -49,8 +49,8 @@ class Text extends PureComponent {
                         placeholder={l10n[item.input] || item.input}
                         type="text"
                         onChange={this._onChangeHandle}
-                        value={this.state.input ? this.state.input : ''}
-                        maxLength="60"
+                        defaultValue={this.state.input ? this.state.input : ''}
+                        maxLength="200"
                     />
                 </div>
             </div>

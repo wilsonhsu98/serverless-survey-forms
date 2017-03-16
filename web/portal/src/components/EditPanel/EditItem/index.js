@@ -163,7 +163,7 @@ class EditItem extends Component {
                     data-type="input"
                     type="text"
                     className={`${styles.shortText} js-optInput-input input input--medium`}
-                    value={data.input}
+                    defaultValue={data.input === ' ' ? '' : data.input}
                     onChange={onChangeHandle}
                     onFocus={this._handleFocusEvent}
                 />
@@ -174,7 +174,8 @@ class EditItem extends Component {
                     type="text"
                     className={`${styles.longText} js-optInput-example input input--medium`}
                     placeholder="Please type sub description"
-                    value={data.example || ''}
+                    defaultValue={
+                        !data.hasOwnProperty('example') || data.example === ' ' ? '' : data.example}
                     onChange={onChangeHandle}
                 />
             </div>

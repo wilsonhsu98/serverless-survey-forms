@@ -91,16 +91,16 @@ class Checkbox extends PureComponent {
                                 type="text"
                                 placeholder={input}
                                 name={val}
-                                value={
+                                defaultValue={
                                     feedback[val].hasOwnProperty('input')
                                     && feedback[val].input !== ' '
                                     ? feedback[val].input : ''}
                                 onChange={this._onChangeInput}
-                                maxLength="60"
+                                maxLength="200"
                             /> : ''
                     }
                     {
-                        example && this.state[inputID] ?
+                        example && example !== ' ' && this.state[inputID] ?
                             <div className="subdescription">{example}</div>
                             : ''
                     }
