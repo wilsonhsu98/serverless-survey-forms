@@ -35,60 +35,68 @@ var webpackConfig = {
         path: path.resolve(__dirname, '../client/dist/' + folder)
     },
     module: {
-        preLoaders: [
+        rules: [
             {
                 test: /\.js?$/,
+                enforce: "pre",
                 loader: 'eslint-loader',
                 include: eslintFolder,
                 exclude: /node_modules/
-            }
-        ],
-        loaders: [
+            },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', "css-loader?modules!postcss-loader"),
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        { loader: 'css-loader', query: { modules: true, sourceMap: true } },
+                        {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function() {
+                                return [
+                                    postcssImport(),
+                                    postcssAssets({ loadPaths: ['assets/images/', 'assets/images/component/ruby/'] }),
+                                    postcssMixins,
+                                    postcssVars,
+                                    postcssNested,
+                                    postcssGradientfixer,
+                                    autoprefixer({ browsers: 'last 2 version' })
+                                ];
+                            }
+                        }
+                    }]
+                })
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
                 exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'stage-0', 'react']
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['es2015', 'stage-0', 'react']
+                    }
                 }
             },
+            { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
+            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=65000&mimetype=application/font-woff" },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=65000&mimetype=application/octet-stream]" },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=65000&mimetype=application/vnd.ms-fontobject" },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=65000&mimetype=image/svg+xml" },
             {
-                test: /\.json$/,
-                loader: 'json-loader'
-            },
-            {
-                test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=8192'
-            },
-            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/font-woff" },
-            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/octet-stream]" },
-            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=application/vnd.ms-fontobject" },
-            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=65000&mimetype=image/svg+xml" },
-            { test: require.resolve("react"), loader: "imports?shim=es5-shim/es5-shim&sham=es5-shim/es5-sham" }
+                test: require.resolve("react"),
+                loader: "imports-loader",
+                options: {
+                    shim: 'es5-shim/es5-shim',
+                    sham: 'es5-shim/es5-sham'
+                }
+            }
         ]
     },
     resolve: {
         alias: {
             JSON: path.resolve(__dirname, 'json')
         }
-    },
-    postcss: function plugins(bundler) {
-        return [
-            postcssImport({
-                addDependencyTo: bundler
-            }),
-            postcssAssets({ loadPaths: ['assets/images/', 'assets/images/component/ruby/'] }),
-            postcssMixins,
-            postcssVars,
-            postcssNested,
-            postcssGradientfixer,
-            autoprefixer({ browsers: 'last 2 version' })
-        ];
     }
 };
 
@@ -96,15 +104,13 @@ var webpackConfig = {
 if (process.env.NODE_ENV === 'production') {
     webpackConfig.devtool = "cheap-module-source-map";
     webpackConfig.plugins = [
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new ExtractTextPlugin('styles.css?[hash]', { allChunks: true }),
-        new webpack.optimize.DedupePlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new ExtractTextPlugin({filename: 'styles.css?[hash]', allChunks: true }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
+                sourceMap: true,
                 unused: true,
-                dead_code: true,
-                warnings: false
+                dead_code: true
             }
         }),
         new HtmlWebpackPlugin({
@@ -125,10 +131,9 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     webpackConfig.devtool = "cheap-module-eval-source-map";
     webpackConfig.plugins = [
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new ExtractTextPlugin("styles.css", { allChunks: true }),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new ExtractTextPlugin({filename: "styles.css", allChunks: true }),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': '"development"',
