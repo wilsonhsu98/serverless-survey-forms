@@ -49,12 +49,14 @@ var webpackConfig = {
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [
+                        // https://github.com/postcss/postcss-loader/issues/92
                         { loader: 'css-loader', query: { modules: true, sourceMap: true } },
                         {
                         loader: 'postcss-loader',
                         options: {
                             plugins: function() {
                                 return [
+                                    // https://github.com/postcss/postcss-loader/issues/92
                                     postcssImport(),
                                     postcssAssets({ loadPaths: ['assets/images/', 'assets/images/component/ruby/'] }),
                                     postcssMixins,
@@ -74,7 +76,7 @@ var webpackConfig = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['es2015', 'stage-0', 'react']
+                        presets: [['env', { 'module': false }], 'react']
                     }
                 }
             },
@@ -94,6 +96,7 @@ var webpackConfig = {
         ]
     },
     resolve: {
+        mainFields: ['jsnext:main','main'],
         alias: {
             JSON: path.resolve(__dirname, 'json')
         }
@@ -102,16 +105,11 @@ var webpackConfig = {
 
 // Plugins for different environment
 if (process.env.NODE_ENV === 'production') {
-    webpackConfig.devtool = "cheap-module-source-map";
     webpackConfig.plugins = [
         new webpack.NoEmitOnErrorsPlugin(),
         new ExtractTextPlugin({filename: 'styles.css?[hash]', allChunks: true }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                sourceMap: true,
-                unused: true,
-                dead_code: true
-            }
+            sourceMap: true
         }),
         new HtmlWebpackPlugin({
             title: 'Qustom',
