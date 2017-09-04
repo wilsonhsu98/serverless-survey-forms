@@ -195,7 +195,7 @@ class EditQuestion extends PureComponent {
                             onChange={surveyEditable ? this._onAdvanceChangeHandle : () => {}}
                             disabled={!surveyEditable}
                         />
-                        <label>
+                        <label htmlFor="chk">
                             Show "Tell Me Why"<span>&nbsp;-&nbsp;</span>
                         </label>
                         <input
