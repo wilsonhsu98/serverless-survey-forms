@@ -27,6 +27,10 @@
 
 .ratingItem :global .radioItem input[type="radio"] + label  {
     padding-left: 0;
+    &:before {
+        left: 50%;
+        margin-left: -10px;
+    }
 }
 
 .label {
