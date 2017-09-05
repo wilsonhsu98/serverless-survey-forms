@@ -54,11 +54,13 @@ class Privacy extends PureComponent {
                             <div className={styles.topWrapper}>
                                 <div className="checkboxItem">
                                     <input
+                                        id="privacy_chk"
                                         type="checkbox"
                                         checked={this.state.terms}
                                         onChange={this._onToggleTerms}
                                     />
                                     <label
+                                        htmlFor="privacy_chk"
                                         className={classNames({
                                             'ut-terms': true
                                         })}
