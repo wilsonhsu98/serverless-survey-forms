@@ -24,7 +24,7 @@ class Question extends PureComponent {
                     'ut-required': required
                 })}
             >
-                <div>{id}.</div>
+                <div>{`${id}.`}</div>
                 <div dangerouslySetInnerHTML={this._handleQuestionTitle(text)} />
                 {this.props.children}
             </div>
