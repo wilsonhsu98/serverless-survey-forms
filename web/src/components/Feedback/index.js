@@ -180,7 +180,11 @@ class Feedback extends PureComponent {
             >
                 <div className={styles.header}>
                     <h1>{subject}</h1>
-                    <div onClick={this._onClose} className={styles.close} />
+                    {
+                        settings.type === 'default' ?
+                            '' :
+                            <div onClick={this._onClose} className={styles.close} />
+                    }
                 </div>
                 <div className={styles.container}>
                     <div
