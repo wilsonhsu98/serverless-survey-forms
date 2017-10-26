@@ -22,8 +22,15 @@ class Question extends Component {
                     [`${styles.required}`]: required
                 })}
             >
-                <div>{`${id}.`}</div>
-                <div dangerouslySetInnerHTML={this._handleQuestionTitle(text)} />
+                <div
+                    title={id}
+                    className={styles.title}
+                >
+                    <div
+                        className={styles.text}
+                        dangerouslySetInnerHTML={this._handleQuestionTitle(text)}
+                    />
+                </div>
             </div>
         );
     }
