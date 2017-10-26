@@ -95,10 +95,17 @@ var webpackConfig = {
             }
         ]
     },
+    node: {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        console: true
+    },
     resolve: {
         mainFields: ['jsnext:main','main'],
         alias: {
-            JSON: path.resolve(__dirname, 'json')
+            JSON: path.resolve(__dirname, 'json'),
+            inherits$: path.resolve(__dirname, 'node_modules/inherits')
         }
     }
 };
