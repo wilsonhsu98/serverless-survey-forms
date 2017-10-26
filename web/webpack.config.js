@@ -112,6 +112,7 @@ var webpackConfig = {
 
 // Plugins for different environment
 if (process.env.NODE_ENV === 'production') {
+    webpackConfig.devtool = "cheap-module-source-map";
     webpackConfig.plugins = [
         new webpack.NoEmitOnErrorsPlugin(),
         new ExtractTextPlugin({filename: 'styles.css?[hash]', allChunks: true }),
