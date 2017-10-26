@@ -1,10 +1,12 @@
 module.exports = function(markup) {
-if (typeof document !== 'undefined') return;
+    if (typeof document !== 'undefined') return;
     const i18n = require('./i18n');
-    const jsdom = require('jsdom').jsdom;
+    const { JSDOM } = require('jsdom');
+    const jsdom = new JSDOM(markup);
+    const { window } = jsdom;
 
-    global.document = jsdom(markup || '');
-    global.window = document.defaultView;
+    global.window = window;
+    global.document = window.document;
     global.window.localStorage = {};
     global.navigator = {
         userAgent: 'node.js'

@@ -1,14 +1,13 @@
 import DomMock from '../../helpers/dom-mock';
-import jsdom from 'mocha-jsdom';
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import Privacy from '../../../src/components/Privacy';
 
 DomMock('<html><body></body></html>');
 
 describe('[Feedback] Testing Privacy Component', () => {
-    jsdom({ skipWindowCheck: true });
+
     const info = {
         label: 'If Trend Micro has a follow-up survey, would you like to participate?',
         terms: 'Yes, Trend Micro can reach me at this address:',

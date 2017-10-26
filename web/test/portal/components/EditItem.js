@@ -1,15 +1,13 @@
 import DomMock from '../../helpers/dom-mock';
 import { wrapInTestContext } from '../../helpers/dnd-test';
-import jsdom from 'mocha-jsdom';
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import EditItem from '../../../portal/src/components/EditPanel/EditItem';
 
 DomMock('<html><body></body></html>');
 
 describe('[Portal] Testing EditItem Component', () => {
-    jsdom({ skipWindowCheck: true });
 
     const props = {
         id: 0,

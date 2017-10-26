@@ -1,15 +1,13 @@
 import DomMock from '../../helpers/dom-mock';
 import { wrapInTestContext } from '../../helpers/dnd-test';
-import jsdom from 'mocha-jsdom';
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import EditQuestion from '../../../portal/src/components/EditPanel/EditQuestion';
 
 DomMock('<html><body></body></html>');
 
 describe('[Portal] Testing EditQuestion Component', () => {
-    jsdom({ skipWindowCheck: true });
 
     const fakeData = {
         id: '1AN2AL0F9BNA7A',
