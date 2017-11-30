@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import { wrapInTestContext } from '../../helpers/dnd-test';
 import expect from 'expect';
@@ -23,7 +24,7 @@ describe('[Portal] Testing EditItem Component', () => {
 
     it('edit option items: option content', () => {
         const input = TestUtils.scryRenderedDOMComponentsWithClass(contentRoot, 'ut-input');
-        expect(input[0].value).toEqual(props.data.label);
+        expect(input[0].value).toEqual(props.data.label.toString());
     });
 
     it('edit option items: drag option', () => {
@@ -31,7 +32,7 @@ describe('[Portal] Testing EditItem Component', () => {
         const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-item');
 
         // Expect opacity is 1 before drag
-        expect(component.style.opacity).toEqual(1);
+        expect(component.style.opacity).toEqual("1");
 
         const dragItem = TestUtils.findRenderedComponentWithType(contentRoot, EditItem);
         const targetItem = dragItem.decoratedComponentInstance;
@@ -39,6 +40,6 @@ describe('[Portal] Testing EditItem Component', () => {
         backend.simulateHover([targetItem.getHandlerId()]);
 
         // Expect opacity is 0.1 when hover
-        expect(component.style.opacity).toEqual(0.1);
+        expect(component.style.opacity).toEqual("0.1");
     });
 });

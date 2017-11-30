@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import expect from 'expect';
 import React from 'react';

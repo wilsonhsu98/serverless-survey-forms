@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import expect from 'expect';
 import React from 'react';
@@ -33,7 +34,7 @@ describe('[Portal] Testing Header Component', () => {
             });
         const content = TestUtils.renderIntoDocument(<Header {...normalProps} />);
         const trend = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-trend');
-        expect(trend).toExist();
+        expect(trend).toBeInstanceOf(Object);
         const qustom = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-qustom');
         expect(qustom).toEqual([]);
     });
@@ -41,7 +42,7 @@ describe('[Portal] Testing Header Component', () => {
     it('header: admin mode', () => {
         const content = TestUtils.renderIntoDocument(<Header {...props} />);
         const admin = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-admin');
-        expect(admin).toExist();
+        expect(admin).toBeInstanceOf(Object);
     });
 
     it('header: edit survey mode', () => {
@@ -54,7 +55,7 @@ describe('[Portal] Testing Header Component', () => {
         const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
         expect(trend).toEqual([]);
         const qustom = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-qustom');
-        expect(qustom).toExist();
+        expect(qustom).toBeInstanceOf(Object);
 
         const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
         expect(title.textContent).toEqual(editProps.subject);
@@ -69,7 +70,7 @@ describe('[Portal] Testing Header Component', () => {
         const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
         expect(trend).toEqual([]);
         const qustom = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-qustom');
-        expect(qustom).toExist();
+        expect(qustom).toBeInstanceOf(Object);
 
         const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
         expect(title.textContent).toEqual('Administration');
@@ -89,7 +90,7 @@ describe('[Portal] Testing Header Component', () => {
         const trend = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-trend');
         expect(trend).toEqual([]);
         const qustom = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-qustom');
-        expect(qustom).toExist();
+        expect(qustom).toBeInstanceOf(Object);
 
         const title = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-title');
         expect(title.textContent).toEqual(`${adminProps.selectedUser.username}'s Survey`);

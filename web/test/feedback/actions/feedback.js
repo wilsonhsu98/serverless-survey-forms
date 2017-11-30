@@ -1,4 +1,5 @@
 import '../../helpers/env';
+import DomMock from '../../helpers/dom-mock';
 import nock from 'nock';
 import configureStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
@@ -7,6 +8,7 @@ import * as actions from '../../../src/actions/feedback';
 import * as types from '../../../src/constants/ActionTypes';
 import Config from '../../../src/config';
 
+DomMock('<html><body></body></html>');
 const mockStore = configureStore([thunkMiddleware]);
 
 describe('[Feedback] feedback action', () => {

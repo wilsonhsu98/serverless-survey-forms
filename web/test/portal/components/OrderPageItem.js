@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import { wrapInTestContext } from '../../helpers/dnd-test';
 import expect from 'expect';
@@ -34,7 +35,7 @@ describe('[Portal] Testing OrderPage Item Component', () => {
         const component = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-obj');
 
         // Expect opacity is 1 before drag
-        expect(component.style.opacity).toEqual(1);
+        expect(component.style.opacity).toEqual("1");
 
         const dragItem = TestUtils.findRenderedComponentWithType(contentRoot, Item);
         const targetItem = dragItem.decoratedComponentInstance;
@@ -42,6 +43,6 @@ describe('[Portal] Testing OrderPage Item Component', () => {
         backend.simulateHover([targetItem.getHandlerId()]);
 
         // Expect opacity is 0.1 when hover
-        expect(component.style.opacity).toEqual(0.1);
+        expect(component.style.opacity).toEqual("0.1");
     });
 });

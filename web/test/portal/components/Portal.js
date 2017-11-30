@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import expect from 'expect';
 import React from 'react';
@@ -40,6 +41,6 @@ describe('[Portal] Testing Portal Component', () => {
             { editSubject: true });
         const content = TestUtils.renderIntoDocument(<Portal {...editProps} />);
         const subject = TestUtils.findRenderedComponentWithType(content, Subject);
-        expect(subject).toExist();
+        expect(subject).toBeInstanceOf(Object);
     });
 });

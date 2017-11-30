@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import expect from 'expect';
 import React from 'react';
@@ -36,6 +37,6 @@ describe('[Portal] Testing Form Textarea Component', () => {
         const input = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-input');
         expect(input.length).toEqual(1);
         expect(input[0].getAttribute('placeholder')).toEqual(props.data.input);
-        expect(input[0].getAttribute('rows')).toEqual(props.data.rows);
+        expect(input[0].getAttribute('rows')).toEqual(props.data.rows.toString());
     });
 });

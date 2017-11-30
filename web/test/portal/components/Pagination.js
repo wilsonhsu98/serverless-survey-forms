@@ -1,3 +1,4 @@
+import '../../helpers/env';
 import DomMock from '../../helpers/dom-mock';
 import { wrapInTestContext } from '../../helpers/dnd-test';
 import expect from 'expect';
@@ -81,8 +82,8 @@ describe('[Portal] Testing Pagination Component', () => {
 
     it('pagination edit: checked dropped position', () => {
         const item = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-dropped');
-        expect(item).toExist();
-        expect(item.children[0].className).toInclude('edit');
+        expect(item).toBeInstanceOf(Object);
+        expect(item.children[0].className).toContain('edit');
 
         const box = TestUtils.findRenderedDOMComponentWithClass(contentRoot, 'ut-box');
         const list = Array.prototype.slice.call(box.children);
