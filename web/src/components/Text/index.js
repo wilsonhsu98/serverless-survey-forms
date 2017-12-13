@@ -12,7 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PureComponent from 'react-pure-render/component';
-import I18Next from 'i18next';
+import I18Next from 'i18next/index';
 
 import Question from '../Question/index';
 import Error from '../Error';

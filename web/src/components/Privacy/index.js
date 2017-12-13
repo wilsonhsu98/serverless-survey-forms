@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import PureComponent from 'react-pure-render/component';
 import classNames from 'classnames';
 import Button from '../Button';
-import I18Next from 'i18next';
+import I18Next from 'i18next/index';
 import Error from '../Error';
 
 class Privacy extends PureComponent {
