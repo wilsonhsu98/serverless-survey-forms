@@ -22,6 +22,7 @@ describe('[Feedback] Testing Privacy Component', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
                 prefillData={prefillData}
+                onChangeHandle={()=>{}}
             />
         );
         const label = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-label');
@@ -35,6 +36,7 @@ describe('[Feedback] Testing Privacy Component', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
                 prefillData={prefillData}
+                onChangeHandle={()=>{}}
             />
         );
 
@@ -46,6 +48,7 @@ describe('[Feedback] Testing Privacy Component', () => {
         const content = TestUtils.renderIntoDocument(
             <Privacy
                 prefillData={prefillData}
+                onChangeHandle={()=>{}}
             />
         );
         const url = TestUtils.findRenderedDOMComponentWithClass(content, 'ut-privacy-policy');
@@ -59,6 +62,7 @@ describe('[Feedback] Testing Privacy Component', () => {
                 prefillData={{
                     email: 'test@test.com'
                 }}
+                onChangeHandle={()=>{}}
             />
         );
         const url = TestUtils.scryRenderedDOMComponentsWithClass(content, 'ut-privacy-policy');
