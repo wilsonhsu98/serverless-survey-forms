@@ -260,7 +260,7 @@ export function handleReportContent(survey, privacy, feedbackAllData, l10n) {
                 ''
             );
         }
-        body.push(moment(feed.datetime).format('LLL'));
+        body.push(`${moment(feed.datetime).format('YYYY/MM/DD HH:mm:ss')}${String.fromCharCode(8)}`);
 
         content.push(body);
     }
