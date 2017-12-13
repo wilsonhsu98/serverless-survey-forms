@@ -127,7 +127,7 @@ function getL10n(l10n, key) {
     return l10n[key] || key;
 }
 
-export function handleReportHeader(survey, privacy, l10n) {
+export function handleReportHeader(survey, privacy, feedbackAllData, l10n) {
     const header = ['Client ID', 'Product Uid', 'Locale'];
     survey.forEach((que, idx) => {
         header.push(`Q${idx + 1}_${getL10n(l10n, que.label)}`);
@@ -161,10 +161,20 @@ export function handleReportHeader(survey, privacy, l10n) {
     if (privacy) header.push('Privacy email');
     header.push('Feedback time');
 
-    return [header];
+    // handle customized header
+    const headData = {};
+    for (const feed of feedbackAllData) {
+        const data = feed.feedback;
+        const keyArray = Object.keys(data).filter((item) => item.indexOf('data-') === 0);
+        keyArray.forEach((item) => {
+            headData[item] = true;
+        });
+    }
+
+    return [header.concat(Object.keys(headData))];
 }
 
-export function handleReportContent(survey, privacy, feedbackAllData, l10n) {
+export function handleReportContent(survey, privacy, feedbackAllData, l10n, header) {
     const content = [];
     for (const feed of feedbackAllData) {
         const data = feed.feedback;
@@ -260,7 +270,13 @@ export function handleReportContent(survey, privacy, feedbackAllData, l10n) {
                 ''
             );
         }
-        body.push(moment(feed.datetime).format('LLL'));
+        body.push(`${moment(feed.datetime).format('YYYY/MM/DD HH:mm:ss')}${String.fromCharCode(8)}`);
+
+        // handle customized header
+        const otherHeader = header[0].slice(header[0].lastIndexOf('Feedback time') + 1);
+        otherHeader.forEach((item) => {
+            body.push(data[item] || '');
+        });
 
         content.push(body);
     }
@@ -296,11 +312,12 @@ export function exportSurvey() {
                     allSurvey = [...allSurvey, ...page.question];
                 });
 
+                const header = handleReportHeader(allSurvey, privacy, feedback, l10n);
                 Mixins.exportCSV(
                     `[Qustom]${report.subject}_${moment(Date.now()).format('YYYYMMDDHHmmss')}`,
                     'v2',
-                    handleReportHeader(allSurvey, privacy, l10n),
-                    handleReportContent(allSurvey, privacy, feedback, l10n)
+                    header,
+                    handleReportContent(allSurvey, privacy, feedback, l10n, header)
                 );
                 dispatch(receiveReportSuccess());
             })
