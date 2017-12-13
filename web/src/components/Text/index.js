@@ -97,7 +97,7 @@ class Text extends PureComponent {
 
 }
 
-Text.PropTypes = {
+Text.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

@@ -179,7 +179,7 @@ class Rating extends PureComponent {
     }
 }
 
-Rating.PropTypes = {
+Rating.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

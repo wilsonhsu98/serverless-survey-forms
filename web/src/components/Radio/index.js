@@ -186,7 +186,7 @@ class Radio extends PureComponent {
     }
 }
 
-Radio.PropTypes = {
+Radio.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

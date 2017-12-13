@@ -149,7 +149,7 @@ class Select extends PureComponent {
     }
 }
 
-Select.PropTypes = {
+Select.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

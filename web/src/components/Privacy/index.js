@@ -176,8 +176,8 @@ class Privacy extends PureComponent {
 
 }
 
-Privacy.PropTypes = {
-    item: PropTypes.object.isRequired,
+Privacy.propTypes = {
+    // item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired
 };
 

@@ -30,7 +30,7 @@ class Error extends PureComponent {
     }
 }
 
-Error.PropTypes = {
+Error.propTypes = {
     msg: PropTypes.string.isRequired,
     extraClass: PropTypes.string
 };

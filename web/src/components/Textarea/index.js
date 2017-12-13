@@ -97,7 +97,7 @@ class Textarea extends PureComponent {
     }
 }
 
-Textarea.PropTypes = {
+Textarea.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

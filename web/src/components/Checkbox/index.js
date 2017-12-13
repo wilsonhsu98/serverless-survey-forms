@@ -219,7 +219,7 @@ class Checkbox extends PureComponent {
     }
 }
 
-Checkbox.PropTypes = {
+Checkbox.propTypes = {
     id: PropTypes.number.isRequired,
     item: PropTypes.object.isRequired,
     onChangeHandle: PropTypes.func.isRequired

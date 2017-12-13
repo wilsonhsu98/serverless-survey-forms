@@ -127,7 +127,7 @@ class Pagination extends PureComponent {
     }
 }
 
-Pagination.PropTypes = {
+Pagination.propTypes = {
     pages: PropTypes.number.isRequired,
     currentPage: PropTypes.number
 };
