@@ -61,6 +61,7 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "classnames": "^2.2.5",
     "es5-shim": "^4.5.9",
     "fetch": "^1.1.0",
@@ -70,7 +71,6 @@
     "i18next-xhr-backend": "^0.6.0",
     "immutable": "^3.8.1",
     "inherits": "^2.0.3",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.0.0",
     "jquery-i18next": "^0.2.0",
     "moment": "^2.14.1",
