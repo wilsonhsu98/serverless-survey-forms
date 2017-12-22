@@ -107,7 +107,7 @@ describe('[Feedback] feedback action', () => {
             feedback: Object.assign({}, submit, { locale: settings.locale, productUid: ' ' })
         };
         nock(Config.baseURL)
-        .intercept(`/api/v1/feedbacks/${settings.surveyid}/${clientID}`, 'PUT', JSON.stringify(postData))
+        .intercept(`/api/v1/feedbacks/${settings.surveyid}/${clientID}`, 'PUT', postData)
         .reply(200, { datetime: Date.now() });
 
         const store = mockStore({ clientID, settings, submit, prefillData });
