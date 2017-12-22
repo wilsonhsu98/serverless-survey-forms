@@ -51,7 +51,6 @@
     "postcss-mixins": "^5.0.0",
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^3.1.0",
-    "react-addons-test-utils": "^15.6.2",
     "react-dnd-test-backend": "^2.5.4",
     "redux-mock-store": "^1.1.4",
     "style-loader": "^0.19.0",
