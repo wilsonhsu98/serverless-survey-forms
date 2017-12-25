@@ -531,7 +531,7 @@ describe('[Portal] surveys action', () => {
         nock(Config.baseURL, {
             reqheaders: { 'authorization': token }
         })
-        .post(`/api/v1/mgnt/surveys/${account.accountid}`, JSON.stringify(postData))
+        .post(`/api/v1/mgnt/surveys/${account.accountid}`, postData)
         .reply(200, {
             surveyid: surveyID,
             datetime: Date.now()

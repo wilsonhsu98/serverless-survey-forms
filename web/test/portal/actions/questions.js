@@ -417,7 +417,7 @@ describe('[Portal] questions action', () => {
         nock(Config.baseURL, {
             reqheaders: { 'authorization': token }
         })
-        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
+        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', postData)
         .reply(200, { datetime: Date.now() });
 
         const store = mockStore({ account, surveyID, subject, lang, surveyL10n: {}, surveyVersion,
@@ -668,7 +668,7 @@ describe('[Portal] questions action', () => {
         nock(Config.baseURL, {
             reqheaders: { 'authorization': token }
         })
-        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
+        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', postData)
         .reply(200, { datetime: Date.now() });
 
         const store = mockStore({ account, surveyID, subject, lang, surveyL10n, surveyVersion,
@@ -715,7 +715,7 @@ describe('[Portal] questions action', () => {
         nock(Config.baseURL, {
             reqheaders: { 'authorization': token }
         })
-        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', JSON.stringify(postData))
+        .intercept(`/api/v1/mgnt/surveys/${account.accountid}/${surveyID}`, 'PUT', postData)
         .reply(200, { datetime: Date.now() });
 
         const store = mockStore({ account, surveyID, lang, surveyL10n, token });

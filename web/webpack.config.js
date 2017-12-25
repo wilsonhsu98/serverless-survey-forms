@@ -105,6 +105,7 @@ var webpackConfig = {
         mainFields: ['jsnext:main','main'],
         alias: {
             JSON: path.resolve(__dirname, 'json'),
+            moment: 'moment/moment.js',
             inherits$: path.resolve(__dirname, 'node_modules/inherits')
         }
     }

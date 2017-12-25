@@ -1,5 +1,5 @@
 import * as types from '../constants/ActionTypes';
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import config from '../config';
 import * as surveyActions from './survey';
 
@@ -58,17 +58,17 @@ export function saveFeedback() {
             dispatch(saveClientID(clientID));
             method = 'POST';
         }
-        return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
+        return axios(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
             method,
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
+            data: {
                 feedback: Object.assign({}, feedback, { locale, productUid },
                     getParameterByDataPrefix())
-            })
+            }
         })
         .then((response) => {
             if (response.status >= 400) {
@@ -107,14 +107,14 @@ export function updateFeedback(closeWhenDone, privacyData) {
         if (privacyData) {
             submittedData.feedback.thankyou = privacyData;
         }
-        return fetch(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
+        return axios(`${config.baseURL}/api/v1/feedbacks/${surveyid}/${clientID}`, {
             method: 'PUT',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(submittedData)
+            data: submittedData
         })
         .then((response) => {
             if (response.status >= 400) {

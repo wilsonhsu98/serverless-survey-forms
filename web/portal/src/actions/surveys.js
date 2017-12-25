@@ -1,5 +1,5 @@
 
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import moment from 'moment';
 
 import * as types from '../constants/ActionTypes';
@@ -34,14 +34,14 @@ export function getSurveys() {
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
 
-        return fetch(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
+        return axios(`${Config.baseURL}/api/v1/mgnt/surveys/${accountid}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
                 authorization: token
             }
         })
-        .then(response => response.json())
+        .then(response => response.data)
         .then(data => {
             const surveys = data.surveys.sort((a, b) => {
                 if (a.datetime < b.datetime) return 1;
@@ -92,7 +92,7 @@ export function deleteSurvey() {
         // delete selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
-        return fetch(
+        return axios(
             `${Config.baseURL}/api/v1/mgnt/surveys/${accountid}/${selectedSurveys}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
@@ -100,7 +100,7 @@ export function deleteSurvey() {
                     authorization: token
                 }
             })
-            .then(response => response.json())
+            .then(response => response.data)
             .then(() => {
                 dispatch(receiveDeleteSurveysSuccess());
                 dispatch(toggleSelectedSurveys(selectedSurveys));
@@ -291,7 +291,7 @@ export function exportSurvey() {
         // export selected user account or user's account
         const accountid = selectedUser.hasOwnProperty('accountid') ?
             selectedUser.accountid : account.accountid;
-        return fetch(
+        return axios(
             `${Config.baseURL}/api/v1/mgnt/report/${accountid}/${selectedSurveys}`, {
                 method: 'GET',
                 credentials: 'same-origin',
@@ -299,7 +299,7 @@ export function exportSurvey() {
                     authorization: token
                 }
             })
-            .then(response => response.json())
+            .then(response => response.data)
             .then(report => {
                 const survey = report.survey.content;
                 const l10n = report.hasOwnProperty('l10n') ?
@@ -348,7 +348,7 @@ export function postCopiedSurvey(questions) {
         };
 
         return postSurvey(account.accountid, postData, token)
-            .then(response => response.json())
+            .then(response => response.data)
             .then(data => {
                 if (data.surveyid) {
                     dispatch(postCopiedSurveySuccess());
@@ -367,7 +367,7 @@ export function copySurvey() {
         const { account, selectedSurveys } = getState();
 
         return getOneSurvey(account.accountid, selectedSurveys)
-            .then(response => response.json())
+            .then(response => response.data)
             .then(data => {
                 if (data.surveyid) {
                     dispatch(postCopiedSurvey(data));
@@ -399,7 +399,7 @@ export function deleteAllFeedbacks() {
     return (dispatch, getState) => {
         dispatch({ type: types.REQUEST_DELETE_ALLFEEDBACKS });
         const { selectedSurveys, token } = getState();
-        return fetch(
+        return axios(
             `${Config.baseURL}/api/v1/mgnt/feedbacks/${selectedSurveys}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
@@ -407,7 +407,7 @@ export function deleteAllFeedbacks() {
                     authorization: token
                 }
             })
-            .then(response => response.json())
+            .then(response => response.data)
             .then(() => {
                 dispatch(receiveDeleteAllFeedbacksSuccess());
                 dispatch(getSurveys());
